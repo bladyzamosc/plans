@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gradient-start: #1A73E8;
+            --gradient-mid: #00ACC1;
+            --gradient-end: #00D2A0;
+            --accent-blue: #1A73E8;
+            --accent-cyan: #00ACC1;
+            --accent-teal: #00D2A0;
+
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-teal)) 1;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .logo-icon { width: 42px; height: 42px; }
+        .logo-text { font-size: 1.4rem; font-weight: 700; color: var(--slate-800); }
+        .logo-text .accent {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav { display: flex; gap: 2rem; align-items: center; }
+        nav a { color: var(--slate-500); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        nav a:hover { color: var(--accent-cyan); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white) !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* MAIN */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: var(--slate-500);
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* CONTACT INFO */
+        .contact-info {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .contact-info h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item-content h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item-content p {
+            font-size: 0.9rem;
+            color: var(--slate-500);
+        }
+
+        .contact-item-content a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .contact-item-content a:hover {
+            text-decoration: underline;
+        }
+
+        .response-time {
+            background: linear-gradient(135deg, rgba(0,210,160,0.1), rgba(0,172,193,0.1));
+            border: 1px solid rgba(0,210,160,0.2);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .response-time h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+            margin-bottom: 0.25rem;
+        }
+
+        .response-time p {
+            font-size: 0.85rem;
+            color: var(--slate-600);
+        }
+
+        /* CONTACT FORM */
+        .contact-form-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .contact-form-card h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--slate-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label .required {
+            color: #EF4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: var(--slate-50);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            background: var(--white);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: var(--slate-50);
+            cursor: pointer;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 16px rgba(0, 172, 193, 0.4);
+        }
+
+        .form-note {
+            font-size: 0.8rem;
+            color: var(--slate-500);
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--slate-900);
+            color: var(--slate-400);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .footer-logo-text { font-size: 1.25rem; font-weight: 700; color: var(--white); }
+        .footer-logo-text .accent { color: var(--accent-cyan); }
+        .footer-desc { font-size: 0.85rem; line-height: 1.6; }
+
+        .footer-section h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 0.6rem; }
+        .footer-section ul li a { color: var(--slate-500); text-decoration: none; font-size: 0.85rem; }
+        .footer-section ul li a:hover { color: var(--accent-cyan); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--slate-700);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--slate-600);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="nav-bar">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs>
+                    <g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g>
+                </svg>
+                <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+            </a>
+            <nav>
+                <a href="#">Szukaj</a>
+                <a href="#">Jak to dziala</a>
+                <a href="#">Dla Zarzadcai</a>
+                <a href="#" class="nav-cta">Zaloguj sie</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        <h1 class="page-title">Kontakt</h1>
+        <p class="page-subtitle">Masz pytania? Chetnie pomozemy!</p>
+
+        <div class="contact-grid">
+            <!-- CONTACT INFO -->
+            <div class="contact-info">
+                <h2>Dane kontaktowe</h2>
+
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-item-content">
+                        <h3>Email</h3>
+                        <p><a href="mailto:kontakt@workejszyn.pl">kontakt@workejszyn.pl</a></p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-item-content">
+                        <h3>Telefon</h3>
+                        <p><a href="tel:+48123456789">+48 123 456 789</a></p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-item-content">
+                        <h3>Adres</h3>
+                        <p>workejszyn.pl<br>ul. Przykladowa 123<br>00-001 Warszawa</p>
+                    </div>
+                </div>
+
+                <div class="response-time">
+                    <h4>Czas odpowiedzi</h4>
+                    <p>Staramy sie odpowiadac w ciagu 24 godzin w dni robocze.</p>
+                </div>
+            </div>
+
+            <!-- CONTACT FORM -->
+            <div class="contact-form-card">
+                <h2>Wyslij wiadomosc</h2>
+
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">Imie i nazwisko <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="Jan Kowalski" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email <span class="required">*</span></label>
+                        <input type="email" class="form-input" placeholder="jan@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Temat <span class="required">*</span></label>
+                        <select class="form-select" required>
+                            <option value="">Wybierz temat...</option>
+                            <option value="general">Pytanie ogolne</option>
+                            <option value="booking">Problem z rezerwacja</option>
+                            <option value="owner">Pytanie dla Zarzadcai</option>
+                            <option value="technical">Problem techniczny</option>
+                            <option value="partnership">Wspolpraca</option>
+                            <option value="other">Inne</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Wiadomosc <span class="required">*</span></label>
+                        <textarea class="form-input form-textarea" placeholder="Opisz swoje pytanie lub problem..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Wyslij wiadomosc</button>
+
+                    <p class="form-note">Wysylajac formularz akceptujesz nasza <a href="#">Polityke prywatnosci</a>.</p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <svg width="32" height="32" viewBox="0 0 512 512"><defs><linearGradient id="fg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#fg1)"/></g></svg>
+                    <span class="footer-logo-text">workejszyn<span class="accent">.pl</span></span>
+                </div>
+                <p class="footer-desc">Znajdz idealne miejsce do pracy zdalnej.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Dla gosci</h4>
+                <ul>
+                    <li><a href="#">Szukaj mieszkan</a></li>
+                    <li><a href="#">Jak to dziala</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Dla Zarzadcai</h4>
+                <ul>
+                    <li><a href="#">Dodaj mieszkanie</a></li>
+                    <li><a href="#">Cennik</a></li>
+                    <li><a href="#">Panel</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Informacje</h4>
+                <ul>
+                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                    <li><a href="#">Prywatnosc</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 workejszyn.pl</span>
+            <span>Made with ❤️ in Poland</span>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+

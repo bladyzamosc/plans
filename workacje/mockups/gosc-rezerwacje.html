@@ -1,0 +1,592 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Moje rezerwacje - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            background: #FFFFFF;
+            padding: 1rem 2rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #1A73E8, #00ACC1, #00D2A0) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 38px; height: 38px; }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        nav a:hover { color: #00ACC1; }
+        nav a.active { color: #00ACC1; }
+        nav a i { width: 18px; height: 18px; }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #00ACC1, #00D2A0);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* MAIN */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.9rem;
+            color: #64748B;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: #FFFFFF;
+            padding: 0.25rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            width: fit-content;
+        }
+
+        .tab {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+        }
+
+        .tab:hover:not(.active) {
+            color: #1E293B;
+        }
+
+        /* RESERVATIONS LIST */
+        .reservations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .reservation-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+            display: flex;
+            transition: box-shadow 0.2s;
+        }
+
+        .reservation-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .reservation-image {
+            width: 200px;
+            min-height: 160px;
+            background: linear-gradient(135deg, #E2E8F0, #CBD5E1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94A3B8;
+            flex-shrink: 0;
+        }
+
+        .reservation-image i { width: 32px; height: 32px; }
+
+        .reservation-content {
+            flex: 1;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .reservation-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 0.25rem;
+        }
+
+        .reservation-location {
+            font-size: 0.85rem;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .reservation-location i { width: 14px; height: 14px; }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.inquiry {
+            background: rgba(251, 146, 60, 0.1);
+            color: #F97316;
+        }
+
+        .status-badge.confirmed {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .status-badge.prepaid {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1A73E8;
+        }
+
+        .status-badge.completed {
+            background: #F1F5F9;
+            color: #64748B;
+        }
+
+        .status-badge.cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .reservation-details {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1E293B;
+        }
+
+        .reservation-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .reservation-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .reservation-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            padding: 0.5rem 1rem;
+            background: #FFFFFF;
+            color: #475569;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .btn-secondary i { width: 16px; height: 16px; }
+
+        .btn-primary {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn-primary i { width: 16px; height: 16px; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #FFFFFF;
+            border-radius: 12px;
+        }
+
+        .empty-state i {
+            width: 64px;
+            height: 64px;
+            color: #CBD5E1;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #94A3B8;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state .btn-primary {
+            display: inline-flex;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: #00ACC1;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .reservation-card {
+                flex-direction: column;
+            }
+            .reservation-image {
+                width: 100%;
+                min-height: 120px;
+            }
+            .reservation-details {
+                gap: 1rem;
+            }
+            nav a span { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="nav-bar">
+        <a href="#" class="logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <nav>
+            <a href="#"><i data-lucide="search"></i> <span>Szukaj</span></a>
+            <a href="#" class="active"><i data-lucide="calendar"></i> <span>Moje rezerwacje</span></a>
+            <a href="#"><i data-lucide="message-square"></i> <span>Wiadomosci</span></a>
+            <div class="user-menu">
+                <div class="user-avatar">JN</div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- MAIN -->
+<main>
+    <div class="page-header">
+        <h1 class="page-title">Moje rezerwacje</h1>
+        <p class="page-subtitle">Przegladaj swoje zapytania i rezerwacje</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active">Wszystkie (4)</button>
+        <button class="tab">Aktywne (2)</button>
+        <button class="tab">Historia (2)</button>
+    </div>
+
+    <!-- RESERVATIONS -->
+    <div class="reservations-list">
+        <!-- Inquiry -->
+        <div class="reservation-card">
+            <div class="reservation-image"><i data-lucide="image"></i></div>
+            <div class="reservation-content">
+                <div class="reservation-header">
+                    <div>
+                        <h3 class="reservation-title">Apartament z widokiem na morze</h3>
+                        <p class="reservation-location"><i data-lucide="map-pin"></i> Sopot, Monte Cassino</p>
+                    </div>
+                    <span class="status-badge inquiry">Zapytanie wyslane</span>
+                </div>
+                <div class="reservation-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Przyjazd</span>
+                        <span class="detail-value">15 wrz 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Wyjazd</span>
+                        <span class="detail-value">22 wrz 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Goscie</span>
+                        <span class="detail-value">2 osoby</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Czas oczekiwania</span>
+                        <span class="detail-value">2 godziny</span>
+                    </div>
+                </div>
+                <div class="reservation-footer">
+                    <span class="reservation-price">1100 zl</span>
+                    <div class="reservation-actions">
+                        <button class="btn-secondary"><i data-lucide="message-square"></i> Wiadomosc</button>
+                        <button class="btn-primary"><i data-lucide="eye"></i> Szczegoly</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmed -->
+        <div class="reservation-card">
+            <div class="reservation-image"><i data-lucide="image"></i></div>
+            <div class="reservation-content">
+                <div class="reservation-header">
+                    <div>
+                        <h3 class="reservation-title">Studio w centrum Gdanska</h3>
+                        <p class="reservation-location"><i data-lucide="map-pin"></i> Gdansk, Stare Miasto</p>
+                    </div>
+                    <span class="status-badge confirmed">Potwierdzone</span>
+                </div>
+                <div class="reservation-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Przyjazd</span>
+                        <span class="detail-value">1 paz 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Wyjazd</span>
+                        <span class="detail-value">14 paz 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Goscie</span>
+                        <span class="detail-value">2 osoby</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Do przyjazdu</span>
+                        <span class="detail-value">19 dni</span>
+                    </div>
+                </div>
+                <div class="reservation-footer">
+                    <span class="reservation-price">1700 zl</span>
+                    <div class="reservation-actions">
+                        <button class="btn-secondary"><i data-lucide="message-square"></i> Wiadomosc</button>
+                        <button class="btn-primary"><i data-lucide="eye"></i> Szczegoly</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed -->
+        <div class="reservation-card">
+            <div class="reservation-image"><i data-lucide="image"></i></div>
+            <div class="reservation-content">
+                <div class="reservation-header">
+                    <div>
+                        <h3 class="reservation-title">Loft przy plazy</h3>
+                        <p class="reservation-location"><i data-lucide="map-pin"></i> Gdynia, Orlowo</p>
+                    </div>
+                    <span class="status-badge completed">Zakonczone</span>
+                </div>
+                <div class="reservation-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Przyjazd</span>
+                        <span class="detail-value">1 wrz 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Wyjazd</span>
+                        <span class="detail-value">8 wrz 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Goscie</span>
+                        <span class="detail-value">1 osoba</span>
+                    </div>
+                </div>
+                <div class="reservation-footer">
+                    <span class="reservation-price">1200 zl</span>
+                    <div class="reservation-actions">
+                        <button class="btn-secondary"><i data-lucide="repeat"></i> Zarezerwuj ponownie</button>
+                        <button class="btn-primary"><i data-lucide="eye"></i> Szczegoly</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancelled -->
+        <div class="reservation-card">
+            <div class="reservation-image"><i data-lucide="image"></i></div>
+            <div class="reservation-content">
+                <div class="reservation-header">
+                    <div>
+                        <h3 class="reservation-title">Dom z ogrodem</h3>
+                        <p class="reservation-location"><i data-lucide="map-pin"></i> Jastarnia</p>
+                    </div>
+                    <span class="status-badge cancelled">Anulowane</span>
+                </div>
+                <div class="reservation-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Przyjazd</span>
+                        <span class="detail-value">10 sie 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Wyjazd</span>
+                        <span class="detail-value">17 sie 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Powod</span>
+                        <span class="detail-value">Anulowane przez goscia</span>
+                    </div>
+                </div>
+                <div class="reservation-footer">
+                    <span class="reservation-price" style="-webkit-text-fill-color: #94A3B8;">1800 zl</span>
+                    <div class="reservation-actions">
+                        <button class="btn-secondary"><i data-lucide="eye"></i> Szczegoly</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; 2026 workejszyn.pl &middot; <a href="#">Regulamin</a> &middot; <a href="#">Prywatnosc</a> &middot; <a href="#">Kontakt</a></p>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+

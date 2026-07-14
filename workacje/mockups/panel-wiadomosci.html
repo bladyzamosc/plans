@@ -1,0 +1,561 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Wiadomosci - Panel Zarzadcaa - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .sidebar-nav i { width: 18px; height: 18px; }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+        .sidebar-logo span { font-size: 1.25rem; font-weight: 700; color: #FFFFFF; }
+        .sidebar-logo .accent { color: #00ACC1; }
+
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.25rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .sidebar-nav a:hover { background: #1E293B; color: #FFFFFF; }
+        .sidebar-nav a.active { background: linear-gradient(135deg, #1A73E8, #00ACC1); color: #FFFFFF; }
+
+        .nav-badge {
+            background: #EF4444;
+            color: #FFFFFF;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        /* FILTERS */
+        .filters-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 0.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #94A3B8;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.625rem 1rem 0.625rem 40px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: #FFFFFF;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00ACC1;
+        }
+
+        /* MESSAGES LIST */
+        .messages-container {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        .conversation-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #F1F5F9;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .conversation-item:last-child {
+            border-bottom: none;
+        }
+
+        .conversation-item:hover {
+            background: #F8FAFC;
+        }
+
+        .conversation-item.unread {
+            background: rgba(0, 172, 193, 0.03);
+        }
+
+        .conversation-item.unread:hover {
+            background: rgba(0, 172, 193, 0.06);
+        }
+
+        .conversation-avatar {
+            width: 48px;
+            height: 48px;
+            background: #E2E8F0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .conversation-item.unread .conversation-avatar {
+            background: linear-gradient(135deg, #00ACC1, #00D2A0);
+            color: #FFFFFF;
+        }
+
+        .conversation-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .conversation-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .conversation-time {
+            font-size: 0.75rem;
+            color: #94A3B8;
+        }
+
+        .conversation-item.unread .conversation-time {
+            color: #00ACC1;
+            font-weight: 600;
+        }
+
+        .conversation-property {
+            font-size: 0.8rem;
+            color: #64748B;
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .conversation-property i {
+            width: 12px;
+            height: 12px;
+        }
+
+        .conversation-preview {
+            font-size: 0.85rem;
+            color: #64748B;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .conversation-item.unread .conversation-preview {
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .conversation-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .unread-badge {
+            width: 20px;
+            height: 20px;
+            background: #00ACC1;
+            color: #FFFFFF;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booking-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .booking-status.inquiry {
+            background: rgba(251, 146, 60, 0.1);
+            color: #F97316;
+        }
+
+        .booking-status.confirmed {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .booking-status.prepaid {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1A73E8;
+        }
+
+        .booking-status.completed {
+            background: #F1F5F9;
+            color: #64748B;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state i {
+            width: 48px;
+            height: 48px;
+            color: #CBD5E1;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #64748B;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+            color: #94A3B8;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .filters-bar { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <ul class="sidebar-nav">
+            <li><a href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i data-lucide="home"></i> Moje oferty</a></li>
+            <li><a href="#"><i data-lucide="calendar"></i> Kalendarz</a></li>
+            <li><a href="#"><i data-lucide="clipboard-list"></i> Rezerwacje</a></li>
+            <li><a href="#" class="active"><i data-lucide="message-square"></i> Wiadomosci <span class="nav-badge">3</span></a></li>
+            <li><a href="#"><i data-lucide="bar-chart-3"></i> Statystyki</a></li>
+        </ul>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Ustawienia</div>
+            <ul class="sidebar-nav">
+                <li><a href="#"><i data-lucide="user"></i> Profil</a></li>
+                <li><a href="#"><i data-lucide="settings"></i> Ustawienia</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Wiadomosci</h1>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filters-bar">
+            <div class="filter-tabs">
+                <button class="filter-tab active">Wszystkie (8)</button>
+                <button class="filter-tab">Nieprzeczytane (3)</button>
+                <button class="filter-tab">Aktywne rezerwacje (4)</button>
+            </div>
+            <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" class="search-input" placeholder="Szukaj konwersacji...">
+            </div>
+        </div>
+
+        <!-- MESSAGES LIST -->
+        <div class="messages-container">
+            <!-- Unread 1 -->
+            <div class="conversation-item unread">
+                <div class="conversation-avatar">JN</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Jan Nowak</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Apartament z widokiem - Sopot
+                    </div>
+                    <p class="conversation-preview">Dzien dobry, interesuje mnie wynajem Panstwa apartamentu na okres 15-22 wrzesnia...</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">14:32</span>
+                    <span class="unread-badge">1</span>
+                    <span class="booking-status inquiry">Zapytanie</span>
+                </div>
+            </div>
+
+            <!-- Unread 2 -->
+            <div class="conversation-item unread">
+                <div class="conversation-avatar">AZ</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Anna Zielinska</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Apartament z widokiem - Sopot
+                    </div>
+                    <p class="conversation-preview">Czy mozliwa jest wczesniejsza godzina zameldowania? Przylot mam o 10:00.</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">12:15</span>
+                    <span class="unread-badge">2</span>
+                    <span class="booking-status inquiry">Zapytanie</span>
+                </div>
+            </div>
+
+            <!-- Unread 3 -->
+            <div class="conversation-item unread">
+                <div class="conversation-avatar">TM</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Tomasz Maj</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Loft Orlowo - Gdynia
+                    </div>
+                    <p class="conversation-preview">Super, dziekuje za potwierdzenie! Do zobaczenia w piatek.</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">wczoraj</span>
+                    <span class="unread-badge">1</span>
+                    <span class="booking-status confirmed">Potwierdzone</span>
+                </div>
+            </div>
+
+            <!-- Read conversations -->
+            <div class="conversation-item">
+                <div class="conversation-avatar">MK</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Maria Kowal</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Studio w centrum - Gdansk
+                    </div>
+                    <p class="conversation-preview">Dziekuje za informacje. Przedplate przeleje dzisiaj wieczorem.</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">wczoraj</span>
+                    <span class="booking-status prepaid">Przedplata</span>
+                </div>
+            </div>
+
+            <div class="conversation-item">
+                <div class="conversation-avatar">PW</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Piotr Wisniewski</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Dom z ogrodem - Jastarnia
+                    </div>
+                    <p class="conversation-preview">Swietnie, bardzo sie cieszymy na pobyt. Mamy jeszcze pytanie o parking...</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">2 dni temu</span>
+                    <span class="booking-status prepaid">Przedplata</span>
+                </div>
+            </div>
+
+            <div class="conversation-item">
+                <div class="conversation-avatar">RB</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Robert Bak</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Dom z ogrodem - Jastarnia
+                    </div>
+                    <p class="conversation-preview">Ok, rozumiem. W takim razie potwierdzam rezerwacje na 15-29 pazdziernika.</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">3 dni temu</span>
+                    <span class="booking-status confirmed">Potwierdzone</span>
+                </div>
+            </div>
+
+            <div class="conversation-item">
+                <div class="conversation-avatar">KL</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Katarzyna Lis</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Studio w centrum - Gdansk
+                    </div>
+                    <p class="conversation-preview">Dziekujemy za goscinnosc! Pobyt byl wspanialy, na pewno wrocime.</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">5 dni temu</span>
+                    <span class="booking-status completed">Zakonczone</span>
+                </div>
+            </div>
+
+            <div class="conversation-item">
+                <div class="conversation-avatar">EW</div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">Ewa Walczak</span>
+                    </div>
+                    <div class="conversation-property">
+                        <i data-lucide="home"></i> Apartament z widokiem - Sopot
+                    </div>
+                    <p class="conversation-preview">Mieszkanie bylo swietne, widok niesamowity. Polecam!</p>
+                </div>
+                <div class="conversation-meta">
+                    <span class="conversation-time">1 tydz. temu</span>
+                    <span class="booking-status completed">Zakonczone</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

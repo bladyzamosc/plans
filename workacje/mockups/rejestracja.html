@@ -1,0 +1,428 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Zarejestruj sie - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gradient-start: #1A73E8;
+            --gradient-mid: #00ACC1;
+            --gradient-end: #00D2A0;
+            --accent-blue: #1A73E8;
+            --accent-cyan: #00ACC1;
+            --accent-teal: #00D2A0;
+
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            padding: 1.5rem 2rem;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .logo-icon { width: 42px; height: 42px; }
+        .logo-text { font-size: 1.4rem; font-weight: 700; color: var(--white); }
+        .logo-text .accent { opacity: 0.8; }
+
+        /* MAIN */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--slate-500);
+            font-size: 0.95rem;
+        }
+
+        /* TABS */
+        .auth-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--slate-100);
+            padding: 0.25rem;
+            border-radius: 10px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--slate-500);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .auth-tab.active {
+            background: var(--white);
+            color: var(--slate-800);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .auth-tab:hover:not(.active) {
+            color: var(--slate-700);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--slate-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label .required {
+            color: #EF4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--slate-50);
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.1);
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--slate-500);
+            margin-top: 0.35rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-cyan);
+            margin-top: 2px;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            color: var(--slate-600);
+            line-height: 1.5;
+        }
+
+        .checkbox-group a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 16px rgba(0, 172, 193, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border: 1px solid rgba(0,172,193,0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--slate-600);
+        }
+
+        .info-box strong {
+            color: var(--accent-teal);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.75rem 0;
+            color: var(--slate-400);
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--slate-200);
+        }
+
+        .divider span {
+            padding: 0 1rem;
+        }
+
+        .auth-switch {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--slate-600);
+        }
+
+        .auth-switch a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* reCAPTCHA placeholder */
+        .recaptcha-placeholder {
+            background: var(--slate-100);
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--slate-500);
+        }
+
+        .recaptcha-placeholder input {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem;
+                padding-top: calc(1rem + env(safe-area-inset-top));
+            }
+            main {
+                padding: 1rem;
+                align-items: flex-start;
+            }
+            .auth-card {
+                padding: 1.5rem 1.25rem;
+                border-radius: 16px;
+            }
+            .auth-header h1 {
+                font-size: 1.5rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .auth-tabs {
+                flex-direction: column;
+            }
+            footer {
+                padding: 1rem;
+                padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="#" class="logo">
+            <svg class="logo-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="rgba(255,255,255,0.8)"/></linearGradient></defs>
+                <g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g>
+            </svg>
+            <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+        </a>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Zaloz konto</h1>
+                <p>Dolacz do workejszyn.pl</p>
+            </div>
+
+            <!-- TABS -->
+            <div class="auth-tabs">
+                <button class="auth-tab active">Szukam mieszkania</button>
+                <button class="auth-tab">Jestem Zarzadcaem</button>
+            </div>
+
+            <!-- INFO FOR OWNERS -->
+            <div class="info-box">
+                <strong>Dla Zarzadcai:</strong> Po rejestracji Twoje konto zostanie zweryfikowane przez administratora. Otrzymasz email po aktywacji.
+            </div>
+
+            <form>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Imie <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="Jan" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nazwisko <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="Kowalski" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email <span class="required">*</span></label>
+                    <input type="email" class="form-input" placeholder="jan@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Telefon <span class="required">*</span></label>
+                    <input type="tel" class="form-input" placeholder="+48 600 000 000" required>
+                    <p class="form-hint">Dla Zarzadcai - bedzie widoczny w ofertach</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Haslo <span class="required">*</span></label>
+                    <input type="password" class="form-input" placeholder="Min. 8 znakow" required>
+                    <p class="form-hint">Minimum 8 znakow, w tym cyfra i duza litera</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Powtorz haslo <span class="required">*</span></label>
+                    <input type="password" class="form-input" placeholder="Powtorz haslo" required>
+                </div>
+
+                <!-- reCAPTCHA -->
+                <div class="recaptcha-placeholder">
+                    <input type="checkbox">
+                    <span>Nie jestem robotem (reCAPTCHA)</span>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">Akceptuje <a href="#">Regulamin</a> i <a href="#">Polityke prywatnosci</a></label>
+                </div>
+
+                <button type="submit" class="btn-primary">Zarejestruj sie</button>
+            </form>
+
+            <div class="divider"><span>lub</span></div>
+
+            <p class="auth-switch">
+                Masz juz konto? <a href="#">Zaloguj sie</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 workejszyn.pl · <a href="#">Regulamin</a> · <a href="#">Prywatnosc</a></p>
+    </footer>
+
+</body>
+</html>
+
+

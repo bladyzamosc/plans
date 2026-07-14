@@ -1,0 +1,1214 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Apartament Nadmorski - Jastrzebia Gora | workejszyn.pl</title>
+    <meta name="description" content="Przytulny apartament w Jastrzebiej Gorze, 850m od plazy. WiFi, taras, idealne dla pracujacych zdalnie. Od 900 PLN/tydzien.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --primary: #D97706;
+            --primary-light: #F59E0B;
+            --primary-dark: #B45309;
+            --accent: #EA580C;
+            --accent-light: #FB923C;
+            --bg-warm: #FFFBEB;
+            --bg-card: #FFFFFF;
+            --text-dark: #1C1917;
+            --text-mid: #44403C;
+            --text-light: #78716C;
+            --border: #E7E5E4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-warm);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding-top: env(safe-area-inset-top);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        /* HEADER - warm gradient */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 0.75rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .logo-text .accent { opacity: 0.85; }
+
+        /* HERO SLIDER */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            background: #292524;
+        }
+
+        .hero-slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .hero-slider img.active { opacity: 1; }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .slider-dot.active {
+            background: #FFFFFF;
+            transform: scale(1.2);
+        }
+
+        .slider-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0.5rem;
+            pointer-events: none;
+        }
+
+        .slider-arrow {
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.4);
+            border: none;
+            border-radius: 50%;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            transition: background 0.2s;
+        }
+
+        .slider-arrow:hover { background: rgba(0,0,0,0.6); }
+        .slider-arrow i { width: 20px; height: 20px; }
+
+        .slider-counter {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.5);
+            color: #FFFFFF;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .gallery-thumbs-btn {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: var(--bg-card);
+            color: var(--text-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .gallery-thumbs-btn i { width: 16px; height: 16px; }
+
+        /* MAIN */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        /* PROPERTY HEADER - card style */
+        .property-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .property-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .property-location {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .property-location i { width: 16px; height: 16px; color: var(--primary); }
+
+        .property-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, rgba(217,119,6,0.1), rgba(234,88,12,0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.35rem;
+        }
+
+        .stat-icon i { width: 18px; height: 18px; color: var(--primary); }
+
+        .stat-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-light);
+        }
+
+        /* CONTENT LAYOUT */
+        .content-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* SECTIONS - warm style */
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .section-title i { width: 22px; height: 22px; color: var(--primary); }
+
+        /* DESCRIPTION */
+        .description {
+            color: var(--text-mid);
+            font-size: 0.95rem;
+            white-space: pre-line;
+        }
+
+        .description strong { color: var(--text-dark); }
+
+        /* AMENITIES - horizontal scroll on mobile */
+        .amenity-scroll {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .amenity-scroll::-webkit-scrollbar { display: none; }
+
+        .amenity-chip {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(135deg, rgba(217,119,6,0.08), rgba(234,88,12,0.08));
+            border: 1px solid rgba(217,119,6,0.2);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-mid);
+        }
+
+        .amenity-chip i { width: 18px; height: 18px; color: var(--primary); }
+
+        .amenity-chip .value { font-weight: 600; color: var(--text-dark); }
+
+        .amenity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            background: #FAFAF9;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-mid);
+        }
+
+        .amenity-item i { width: 16px; height: 16px; color: var(--primary-light); }
+
+        /* MAP */
+        #map {
+            height: 200px;
+            border-radius: 12px;
+            z-index: 1;
+        }
+
+        .map-distances {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .distance-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: #FAFAF9;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-mid);
+        }
+
+        .distance-item i { width: 16px; height: 16px; color: var(--primary); }
+        .distance-item strong { color: var(--text-dark); }
+
+        /* OWNER CARD */
+        .owner-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .owner-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .owner-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .owner-info p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .owner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.35rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(217,119,6,0.1);
+            border-radius: 6px;
+            font-size: 0.7rem;
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+
+        .owner-badge i { width: 12px; height: 12px; }
+
+        /* BOOKING CARD */
+        .booking-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary);
+        }
+
+        .price-display {
+            text-align: center;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-from {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .price-main {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .price-main span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+
+        .price-tiers {
+            margin-top: 1rem;
+        }
+
+        .price-tier {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-tier:last-child { border-bottom: none; }
+
+        .price-tier .weeks {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+        }
+
+        .price-tier .price {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .price-tier.best {
+            background: linear-gradient(135deg, rgba(217,119,6,0.1), rgba(234,88,12,0.1));
+            margin: 0.5rem -1.5rem 0;
+            padding: 0.75rem 1.5rem;
+            border-bottom: none;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .price-tier.best .weeks {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .price-tier.best .price { color: var(--primary); }
+
+        /* CONTACT SECTION */
+        .contact-section {
+            margin-top: 1.5rem;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .contact-btn i { width: 20px; height: 20px; }
+
+        .contact-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #FFFFFF;
+            border: none;
+        }
+
+        .contact-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217,119,6,0.4);
+        }
+
+        .contact-btn.secondary {
+            background: var(--bg-card);
+            color: var(--text-dark);
+            border: 2px solid var(--border);
+        }
+
+        .contact-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .phone-direct {
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .phone-direct a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .booking-info {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+        }
+
+        .booking-info-item {
+            padding: 0.5rem;
+        }
+
+        .booking-info-item i {
+            width: 18px;
+            height: 18px;
+            color: var(--primary-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .booking-info-item .label {
+            font-size: 0.65rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .booking-info-item .value {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* MOBILE STICKY CTA */
+        .mobile-cta {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            padding: 1rem;
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            z-index: 99;
+        }
+
+        .mobile-cta-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .mobile-cta-price {
+            flex: 1;
+        }
+
+        .mobile-cta-price .price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .mobile-cta-price .period {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .mobile-cta-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .mobile-cta-btn i { width: 20px; height: 20px; }
+
+        /* FOOTER */
+        footer {
+            background: #292524;
+            color: #A8A29E;
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            padding-bottom: calc(1.5rem + 80px + env(safe-area-inset-bottom));
+        }
+
+        footer a { color: var(--primary-light); text-decoration: none; }
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .lightbox.active { display: flex; }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #FFFFFF;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close i { width: 24px; height: 24px; }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #FFFFFF;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-nav:active { background: rgba(255,255,255,0.2); }
+        .lightbox-nav.prev { left: 0.5rem; }
+        .lightbox-nav.next { right: 0.5rem; }
+        .lightbox-nav i { width: 24px; height: 24px; }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #FFFFFF;
+            font-size: 0.85rem;
+            background: rgba(0,0,0,0.5);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        /* ========== TABLET (768px+) ========== */
+        @media (min-width: 768px) {
+            header { padding: 1rem 1.5rem; }
+            .logo svg { width: 36px; height: 36px; }
+            .logo-text { font-size: 1.2rem; }
+
+            .hero-slider { aspect-ratio: 21/9; }
+
+            main { padding: 2rem 1.5rem; }
+
+            .property-card { padding: 2rem; }
+            .property-title { font-size: 1.8rem; }
+
+            .property-stats {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+            }
+
+            .stat-icon {
+                width: 44px;
+                height: 44px;
+            }
+
+            .stat-icon i { width: 22px; height: 22px; }
+            .stat-value { font-size: 1rem; }
+
+            .section { padding: 2rem; }
+
+            .amenity-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            #map { height: 250px; }
+
+            .booking-card { padding: 2rem; }
+
+            footer { padding-bottom: 1.5rem; }
+            .mobile-cta { display: none; }
+        }
+
+        /* ========== DESKTOP (1024px+) ========== */
+        @media (min-width: 1024px) {
+            header { padding: 1rem 2rem; }
+            .logo svg { width: 38px; height: 38px; }
+            .logo-text { font-size: 1.3rem; }
+
+            .hero-slider { aspect-ratio: 2.5/1; }
+
+            main { padding: 2rem; }
+
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 380px;
+                gap: 2rem;
+            }
+
+            .content-sidebar { order: 2; }
+            .content-main { order: 1; }
+
+            .property-card {
+                margin-bottom: 2rem;
+            }
+
+            .property-title { font-size: 2rem; }
+
+            .amenity-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            #map { height: 280px; }
+
+            .booking-card {
+                position: sticky;
+                top: 100px;
+            }
+        }
+
+        /* ========== LARGE DESKTOP (1200px+) ========== */
+        @media (min-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr 420px;
+            }
+        }
+
+        @media (hover: none) {
+            .contact-btn.primary:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="nav-bar">
+        <a href="/" class="logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFF"/><stop offset="100%" stop-color="rgba(255,255,255,0.8)"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+        </a>
+    </div>
+</header>
+
+<!-- HERO SLIDER -->
+<div class="hero-slider" id="heroSlider">
+    <img src="images/nadmorski/01.jpg" alt="Apartament Nadmorski" class="active">
+    <img src="images/nadmorski/02.jpg" alt="Apartament Nadmorski">
+    <img src="images/nadmorski/03.jpg" alt="Apartament Nadmorski">
+    <img src="images/nadmorski/04.jpg" alt="Apartament Nadmorski">
+    <img src="images/nadmorski/05.jpg" alt="Apartament Nadmorski">
+
+    <div class="slider-counter"><span id="sliderCurrent">1</span> / 19</div>
+
+    <div class="slider-arrows">
+        <button class="slider-arrow" onclick="prevSlide()"><i data-lucide="chevron-left"></i></button>
+        <button class="slider-arrow" onclick="nextSlide()"><i data-lucide="chevron-right"></i></button>
+    </div>
+
+    <div class="slider-nav" id="sliderNav">
+        <span class="slider-dot active"></span>
+        <span class="slider-dot"></span>
+        <span class="slider-dot"></span>
+        <span class="slider-dot"></span>
+        <span class="slider-dot"></span>
+    </div>
+
+    <button class="gallery-thumbs-btn" onclick="openLightbox(0)">
+        <i data-lucide="grid-3x3"></i>
+        Wszystkie zdjecia
+    </button>
+</div>
+
+<!-- MAIN -->
+<main>
+    <!-- PROPERTY CARD -->
+    <div class="property-card">
+        <h1 class="property-title">Apartament Nadmorski</h1>
+        <div class="property-location">
+            <i data-lucide="map-pin"></i>
+            <span>Jastrzebia Gora, ul. Podgrzybkowa 17C/1</span>
+        </div>
+
+        <div class="property-stats">
+            <div class="stat-item">
+                <div class="stat-icon"><i data-lucide="move"></i></div>
+                <div class="stat-value">27 m2</div>
+                <div class="stat-label">Powierzchnia</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><i data-lucide="users"></i></div>
+                <div class="stat-value">4</div>
+                <div class="stat-label">Osoby</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><i data-lucide="umbrella"></i></div>
+                <div class="stat-value">850m</div>
+                <div class="stat-label">Do plazy</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><i data-lucide="wifi"></i></div>
+                <div class="stat-value">WiFi</div>
+                <div class="stat-label">W cenie</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <!-- LEFT COLUMN -->
+        <div class="content-main">
+            <!-- DESCRIPTION -->
+            <div class="section">
+                <h2 class="section-title"><i data-lucide="file-text"></i> O apartamencie</h2>
+                <div class="description">Przytulny apartament w Jastrzebiej Gorze, zaledwie 850 metrow od plazy i wejscia do wawozu Lisi Jar. Idealne miejsce na workation - spokoj, natura i szybki internet.
+
+<strong>WNETRZE:</strong>
+&#8226; Salon z w pelni wyposazonym aneksem kuchennym
+&#8226; Przytulna sypialnia z wygodnym lozkiem
+&#8226; Lazienka z prysznicem
+&#8226; Bezposrednie wyjscie na taras z zielonym ogrodem
+
+<strong>W CENIE:</strong>
+WiFi, Smart TV, posciel, reczniki, miejsce parkingowe (nr 10).
+
+<strong>LOKALIZACJA:</strong>
+850m do plazy, Latarnia Morska i Rezerwat Przyrody w poblizu. Wladyslawowo - 7 km. Dogodny dojazd trasa S7 i autostrada A1.</div>
+            </div>
+
+            <!-- AMENITIES -->
+            <div class="section">
+                <h2 class="section-title"><i data-lucide="sparkles"></i> Udogodnienia</h2>
+
+                <div class="amenity-scroll">
+                    <div class="amenity-chip"><i data-lucide="wifi"></i> <span class="value">WiFi</span></div>
+                    <div class="amenity-chip"><i data-lucide="tv"></i> Smart TV</div>
+                    <div class="amenity-chip"><i data-lucide="sun"></i> Taras</div>
+                    <div class="amenity-chip"><i data-lucide="car"></i> Parking</div>
+                    <div class="amenity-chip"><i data-lucide="trees"></i> Ogrod</div>
+                    <div class="amenity-chip"><i data-lucide="flame"></i> Grill</div>
+                    <div class="amenity-chip"><i data-lucide="bike"></i> Rowery</div>
+                </div>
+
+                <div class="amenity-grid">
+                    <div class="amenity-item"><i data-lucide="refrigerator"></i> Lodowka</div>
+                    <div class="amenity-item"><i data-lucide="flame"></i> Plyta indukcyjna</div>
+                    <div class="amenity-item"><i data-lucide="zap"></i> Mikrofalowka</div>
+                    <div class="amenity-item"><i data-lucide="coffee"></i> Czajnik</div>
+                    <div class="amenity-item"><i data-lucide="droplets"></i> Prysznic</div>
+                    <div class="amenity-item"><i data-lucide="wind"></i> Suszarka</div>
+                </div>
+            </div>
+
+            <!-- MAP -->
+            <div class="section">
+                <h2 class="section-title"><i data-lucide="map"></i> Lokalizacja</h2>
+                <div id="map"></div>
+                <div class="map-distances">
+                    <div class="distance-item">
+                        <i data-lucide="umbrella"></i>
+                        <span>Plaza <strong>850m</strong></span>
+                    </div>
+                    <div class="distance-item">
+                        <i data-lucide="building-2"></i>
+                        <span>Latarnia <strong>1.2km</strong></span>
+                    </div>
+                    <div class="distance-item">
+                        <i data-lucide="store"></i>
+                        <span>Centrum <strong>1.5km</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OWNER -->
+            <div class="section">
+                <h2 class="section-title"><i data-lucide="user"></i> Zarzadca</h2>
+                <div class="owner-card">
+                    <div class="owner-avatar">IR</div>
+                    <div class="owner-info">
+                        <h4>Izabela Roeske</h4>
+                        <p>Odpowiada zwykle w ciagu kilku godzin</p>
+                        <span class="owner-badge"><i data-lucide="shield-check"></i> Zweryfikowany</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN - BOOKING -->
+        <div class="content-sidebar">
+            <div class="booking-card">
+                <div class="price-display">
+                    <div class="price-from">Cena od</div>
+                    <div class="price-main">900 zl <span>/ tydzien</span></div>
+                </div>
+
+                <div class="price-tiers">
+                    <div class="price-tier">
+                        <span class="weeks">1 tydzien</span>
+                        <span class="price">900 zl</span>
+                    </div>
+                    <div class="price-tier">
+                        <span class="weeks">2 tygodnie</span>
+                        <span class="price">1 700 zl</span>
+                    </div>
+                    <div class="price-tier">
+                        <span class="weeks">3 tygodnie</span>
+                        <span class="price">2 400 zl</span>
+                    </div>
+                    <div class="price-tier best">
+                        <span class="weeks">4+ tygodnie</span>
+                        <span class="price">3 000 zl</span>
+                    </div>
+                </div>
+
+                <div class="contact-section">
+                    <a href="tel:+48505763202" class="contact-btn primary">
+                        <i data-lucide="phone"></i>
+                        Zadzwon teraz
+                    </a>
+
+                    <a href="mailto:rezerwacje@apartamentynadmorzem.pl?subject=Zapytanie - Apartament Nadmorski" class="contact-btn secondary">
+                        <i data-lucide="mail"></i>
+                        Wyslij wiadomosc
+                    </a>
+
+                    <div class="phone-direct">
+                        <a href="tel:+48505763202">+48 505 763 202</a>
+                    </div>
+                </div>
+
+                <div class="booking-info">
+                    <div class="booking-info-item">
+                        <i data-lucide="calendar"></i>
+                        <div class="label">Min. pobyt</div>
+                        <div class="value">7 dni</div>
+                    </div>
+                    <div class="booking-info-item">
+                        <i data-lucide="clock"></i>
+                        <div class="label">Zameldowanie</div>
+                        <div class="value">15:00</div>
+                    </div>
+                    <div class="booking-info-item">
+                        <i data-lucide="log-out"></i>
+                        <div class="label">Wymeldowanie</div>
+                        <div class="value">11:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MOBILE STICKY CTA -->
+<div class="mobile-cta">
+    <div class="mobile-cta-content">
+        <div class="mobile-cta-price">
+            <div class="price">900 zl</div>
+            <div class="period">za tydzien</div>
+        </div>
+        <a href="tel:+48505763202" class="mobile-cta-btn">
+            <i data-lucide="phone"></i>
+            Zadzwon
+        </a>
+    </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()"><i data-lucide="x"></i></button>
+    <button class="lightbox-nav prev" onclick="prevImage()"><i data-lucide="chevron-left"></i></button>
+    <img id="lightbox-img" src="" alt="">
+    <button class="lightbox-nav next" onclick="nextImage()"><i data-lucide="chevron-right"></i></button>
+    <div class="lightbox-counter"><span id="lightbox-current">1</span> / <span id="lightbox-total">19</span></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>&copy; 2026 workejszyn.pl &middot; <a href="#">Regulamin</a> &middot; <a href="#">Polityka prywatnosci</a> &middot; <a href="#">Kontakt</a></p>
+</footer>
+
+<script>
+    lucide.createIcons();
+
+    // SLIDER
+    const sliderImages = [
+        'images/nadmorski/01.jpg',
+        'images/nadmorski/02.jpg',
+        'images/nadmorski/03.jpg',
+        'images/nadmorski/04.jpg',
+        'images/nadmorski/05.jpg',
+        'images/nadmorski/06.jpg',
+        'images/nadmorski/07.jpg',
+        'images/nadmorski/08.jpg',
+        'images/nadmorski/09.jpg',
+        'images/nadmorski/10.jpg',
+        'images/nadmorski/11.jpg',
+        'images/nadmorski/12.jpg',
+        'images/nadmorski/13.jpg',
+        'images/nadmorski/14.jpg',
+        'images/nadmorski/15.jpg',
+        'images/nadmorski/16.jpg',
+        'images/nadmorski/17.jpg',
+        'images/nadmorski/18.jpg',
+        'images/nadmorski/19.jpg'
+    ];
+
+    let currentSlide = 0;
+    const sliderEl = document.getElementById('heroSlider');
+    const sliderImgs = sliderEl.querySelectorAll('img');
+    const dots = document.querySelectorAll('.slider-dot');
+
+    function updateSlider() {
+        sliderImgs.forEach((img, i) => {
+            img.classList.toggle('active', i === currentSlide % 5);
+            if (i === currentSlide % 5) {
+                img.src = sliderImages[currentSlide];
+            }
+        });
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide % 5));
+        document.getElementById('sliderCurrent').textContent = currentSlide + 1;
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % sliderImages.length;
+        updateSlider();
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + sliderImages.length) % sliderImages.length;
+        updateSlider();
+    }
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+            currentSlide = i;
+            updateSlider();
+        });
+    });
+
+    // Auto-slide
+    let autoSlide = setInterval(nextSlide, 5000);
+    sliderEl.addEventListener('mouseenter', () => clearInterval(autoSlide));
+    sliderEl.addEventListener('mouseleave', () => autoSlide = setInterval(nextSlide, 5000));
+
+    // MAP
+    const map = L.map('map').setView([54.826526, 18.328054], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    L.marker([54.826526, 18.328054])
+        .addTo(map)
+        .bindPopup('<strong>Apartament Nadmorski</strong><br>ul. Podgrzybkowa 17C/1')
+        .openPopup();
+
+    // LIGHTBOX
+    const images = sliderImages;
+    let currentImage = 0;
+
+    function openLightbox(index) {
+        currentImage = index;
+        updateLightbox();
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        lucide.createIcons();
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function updateLightbox() {
+        document.getElementById('lightbox-img').src = images[currentImage];
+        document.getElementById('lightbox-current').textContent = currentImage + 1;
+        document.getElementById('lightbox-total').textContent = images.length;
+    }
+
+    function nextImage() {
+        currentImage = (currentImage + 1) % images.length;
+        updateLightbox();
+    }
+
+    function prevImage() {
+        currentImage = (currentImage - 1 + images.length) % images.length;
+        updateLightbox();
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!document.getElementById('lightbox').classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+    });
+
+    // Swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.getElementById('lightbox').addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    document.getElementById('lightbox').addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    sliderEl.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    sliderEl.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) nextSlide();
+            else prevSlide();
+        }
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) nextImage();
+            else prevImage();
+        }
+    }
+</script>
+</body>
+</html>
+

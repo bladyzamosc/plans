@@ -1,0 +1,758 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Okolica - Apartament Baltycki | workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --accent-blue: #1A73E8;
+            --accent-cyan: #00ACC1;
+            --accent-teal: #00D2A0;
+            --slate-900: #0F172A;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--slate-100);
+            color: var(--slate-700);
+            line-height: 1.5;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        /* HEADER */
+        header {
+            background: #fff;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-teal)) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--slate-100);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate-600);
+            text-decoration: none;
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h1 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--slate-900);
+        }
+
+        .header-title p {
+            font-size: 0.75rem;
+            color: var(--slate-500);
+        }
+
+        .logo-small {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            text-decoration: none;
+        }
+
+        .logo-small svg { width: 24px; height: 24px; }
+        .logo-small span { font-size: 0.8rem; font-weight: 700; color: var(--slate-700); }
+        .logo-small .accent { color: var(--accent-cyan); }
+
+        /* MAP */
+        #map {
+            height: 280px;
+            width: 100%;
+        }
+
+        /* FILTERS */
+        .filters {
+            background: #fff;
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .filters::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.5rem 0.875rem;
+            border: 1px solid var(--slate-200);
+            background: #fff;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--slate-600);
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            color: var(--accent-cyan);
+        }
+
+        .filter-btn i { width: 14px; height: 14px; }
+
+        /* POI LIST */
+        .poi-list {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+        }
+
+        .poi-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .poi-section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .poi-section-title i { width: 16px; height: 16px; }
+
+        .poi-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 1rem;
+            transition: all 0.15s;
+        }
+
+        .poi-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .poi-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.15), rgba(0,210,160,0.15));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .poi-icon i { width: 22px; height: 22px; color: var(--accent-cyan); }
+
+        .poi-icon.food { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(249,115,22,0.15)); }
+        .poi-icon.food i { color: #EF4444; }
+
+        .poi-icon.sport { background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.15)); }
+        .poi-icon.sport i { color: #22C55E; }
+
+        .poi-icon.wellness { background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(139,92,246,0.15)); }
+        .poi-icon.wellness i { color: #A855F7; }
+
+        .poi-icon.shopping { background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(99,102,241,0.15)); }
+        .poi-icon.shopping i { color: #3B82F6; }
+
+        .poi-icon.attraction { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(251,191,36,0.15)); }
+        .poi-icon.attraction i { color: #F59E0B; }
+
+        .poi-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .poi-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--slate-900);
+            margin-bottom: 0.15rem;
+        }
+
+        .poi-tags {
+            display: flex;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.35rem;
+        }
+
+        .poi-tag {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            background: var(--slate-100);
+            color: var(--slate-500);
+            border-radius: 4px;
+        }
+
+        .poi-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--slate-500);
+        }
+
+        .poi-meta i { width: 14px; height: 14px; }
+
+        .poi-distance {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-weight: 500;
+            color: var(--accent-cyan);
+        }
+
+        .poi-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            flex-shrink: 0;
+        }
+
+        .poi-action-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--slate-200);
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate-500);
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .poi-action-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .poi-action-btn i { width: 16px; height: 16px; }
+
+        .poi-discount {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        /* APARTMENT MARKER */
+        .apartment-marker {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: #fff;
+            padding: 0.35rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* POI MARKER */
+        .poi-marker {
+            background: #fff;
+            border: 2px solid var(--accent-cyan);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        /* DESKTOP */
+        @media (min-width: 768px) {
+            #map {
+                height: 350px;
+            }
+            .poi-list {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-inner">
+        <a href="baltycki.html" class="back-btn">
+            <i data-lucide="arrow-left"></i>
+        </a>
+        <div class="header-title">
+            <h1>W okolicy</h1>
+            <p>Apartament Baltycki, Tupadly</p>
+        </div>
+        <a href="index.html" class="logo-small">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+        </a>
+    </div>
+</header>
+
+<!-- MAP -->
+<div id="map"></div>
+
+<!-- FILTERS -->
+<div class="filters">
+    <button class="filter-btn active"><i data-lucide="layers"></i> Wszystko</button>
+    <button class="filter-btn"><i data-lucide="utensils"></i> Jedzenie</button>
+    <button class="filter-btn"><i data-lucide="dumbbell"></i> Sport</button>
+    <button class="filter-btn"><i data-lucide="sparkles"></i> Wellness</button>
+    <button class="filter-btn"><i data-lucide="shopping-bag"></i> Zakupy</button>
+    <button class="filter-btn"><i data-lucide="camera"></i> Atrakcje</button>
+</div>
+
+<!-- POI LIST -->
+<div class="poi-list">
+
+    <!-- JEDZENIE -->
+    <div class="poi-section">
+        <div class="poi-section-title">
+            <i data-lucide="utensils"></i> Jedzenie
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon food">
+                <i data-lucide="pizza"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Pizzeria Napoli</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Pizza</span>
+                    <span class="poi-tag">Wloska</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 450m</span>
+                    <span><i data-lucide="clock"></i> 12:00-22:00</span>
+                </div>
+                <div class="poi-discount">-10% dla gosci workejszyn.pl</div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48501234567" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon food">
+                <i data-lucide="sandwich"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Burger Bar Max</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Burgery</span>
+                    <span class="poi-tag">Amerykanska</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 680m</span>
+                    <span><i data-lucide="clock"></i> 11:00-23:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48509876543" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon food">
+                <i data-lucide="coffee"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Cafe Morska</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Kawiarnia</span>
+                    <span class="poi-tag">Sniadania</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 520m</span>
+                    <span><i data-lucide="clock"></i> 08:00-20:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48512345678" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon food">
+                <i data-lucide="fish"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Smażalnia Rybka</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Ryby</span>
+                    <span class="poi-tag">Owoce morza</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 890m</span>
+                    <span><i data-lucide="clock"></i> 10:00-21:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48518765432" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPORT -->
+    <div class="poi-section">
+        <div class="poi-section-title">
+            <i data-lucide="dumbbell"></i> Sport i rekreacja
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon sport">
+                <i data-lucide="circle-dot"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Korty Tenisowe Baltyk</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Tenis</span>
+                    <span class="poi-tag">Squash</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 1.2km</span>
+                    <span><i data-lucide="clock"></i> 08:00-22:00</span>
+                </div>
+                <div class="poi-discount">-15% na wynajem kortu</div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48505111222" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon sport">
+                <i data-lucide="bike"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Wypozyczalnia Rowerow</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Rowery</span>
+                    <span class="poi-tag">E-bike</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 350m</span>
+                    <span><i data-lucide="clock"></i> 09:00-19:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48506333444" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- WELLNESS -->
+    <div class="poi-section">
+        <div class="poi-section-title">
+            <i data-lucide="sparkles"></i> Wellness
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon wellness">
+                <i data-lucide="sparkles"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">SPA Morski Wiatr</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">SPA</span>
+                    <span class="poi-tag">Masaz</span>
+                    <span class="poi-tag">Sauna</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 1.5km</span>
+                    <span><i data-lucide="clock"></i> 10:00-21:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48507555666" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ZAKUPY -->
+    <div class="poi-section">
+        <div class="poi-section-title">
+            <i data-lucide="shopping-bag"></i> Zakupy
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon shopping">
+                <i data-lucide="shopping-cart"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Biedronka</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Sklep spozywczy</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 600m</span>
+                    <span><i data-lucide="clock"></i> 06:00-23:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon shopping">
+                <i data-lucide="pill"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Apteka Sloneczna</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Apteka</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 750m</span>
+                    <span><i data-lucide="clock"></i> 08:00-20:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48508777888" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ATRAKCJE -->
+    <div class="poi-section">
+        <div class="poi-section-title">
+            <i data-lucide="camera"></i> Atrakcje
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon attraction">
+                <i data-lucide="umbrella"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Plaza Lisi Jar</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Plaza</span>
+                    <span class="poi-tag">Zejscie na plaze</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 800m</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon attraction">
+                <i data-lucide="mountain"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Klif w Jastrzebiej Gorze</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Punkt widokowy</span>
+                    <span class="poi-tag">Spacer</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 2.1km</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="poi-card">
+            <div class="poi-icon attraction">
+                <i data-lucide="landmark"></i>
+            </div>
+            <div class="poi-content">
+                <div class="poi-name">Latarnia Morska Rozewie</div>
+                <div class="poi-tags">
+                    <span class="poi-tag">Muzeum</span>
+                    <span class="poi-tag">Punkt widokowy</span>
+                </div>
+                <div class="poi-meta">
+                    <span class="poi-distance"><i data-lucide="navigation"></i> 4.5km</span>
+                    <span><i data-lucide="clock"></i> 10:00-18:00</span>
+                </div>
+            </div>
+            <div class="poi-actions">
+                <a href="tel:+48587749230" class="poi-action-btn" title="Zadzwon">
+                    <i data-lucide="phone"></i>
+                </a>
+                <a href="#" class="poi-action-btn" title="Nawiguj">
+                    <i data-lucide="map-pin"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    lucide.createIcons();
+
+    // MAPA
+    const apartmentLat = 54.826526;
+    const apartmentLng = 18.328054;
+
+    const map = L.map('map').setView([apartmentLat, apartmentLng], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // Marker apartamentu
+    const apartmentIcon = L.divIcon({
+        className: 'custom-marker',
+        html: '<div class="apartment-marker">Apartament Baltycki</div>',
+        iconSize: [140, 30],
+        iconAnchor: [70, 30]
+    });
+
+    L.marker([apartmentLat, apartmentLng], { icon: apartmentIcon }).addTo(map);
+
+    // POI markers (losowe pozycje wokol apartamentu)
+    const pois = [
+        { name: 'Pizzeria', emoji: '🍕', lat: 54.8295, lng: 18.3320 },
+        { name: 'Burger', emoji: '🍔', lat: 54.8230, lng: 18.3350 },
+        { name: 'Kawiarnia', emoji: '☕', lat: 54.8280, lng: 18.3220 },
+        { name: 'Ryby', emoji: '🐟', lat: 54.8200, lng: 18.3200 },
+        { name: 'Tenis', emoji: '🎾', lat: 54.8350, lng: 18.3180 },
+        { name: 'Rowery', emoji: '🚲', lat: 54.8250, lng: 18.3310 },
+        { name: 'SPA', emoji: '💆', lat: 54.8380, lng: 18.3250 },
+        { name: 'Sklep', emoji: '🛒', lat: 54.8220, lng: 18.3260 },
+        { name: 'Apteka', emoji: '💊', lat: 54.8240, lng: 18.3180 },
+        { name: 'Plaza', emoji: '🏖️', lat: 54.8330, lng: 18.3350 },
+        { name: 'Klif', emoji: '🏔️', lat: 54.8420, lng: 18.3150 },
+        { name: 'Latarnia', emoji: '🏛️', lat: 54.8500, lng: 18.3400 }
+    ];
+
+    pois.forEach(poi => {
+        const poiIcon = L.divIcon({
+            className: 'custom-marker',
+            html: `<div class="poi-marker">${poi.emoji}</div>`,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+        });
+
+        L.marker([poi.lat, poi.lng], { icon: poiIcon })
+            .addTo(map)
+            .bindPopup(`<strong>${poi.name}</strong>`);
+    });
+
+    // Filtry (demo)
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>
+

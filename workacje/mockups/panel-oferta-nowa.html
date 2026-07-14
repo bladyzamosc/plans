@@ -1,0 +1,736 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dodaj oferte - Panel Zarzadcaa - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .sidebar-nav i, .back-btn i, .photo-upload-icon i, .photo-item i { width: 18px; height: 18px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+        .sidebar-logo span { font-size: 1.25rem; font-weight: 700; color: #FFFFFF; }
+        .sidebar-logo .accent { color: #00ACC1; }
+
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.25rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .sidebar-nav a:hover { background: #1E293B; color: #FFFFFF; }
+        .sidebar-nav a.active { background: linear-gradient(135deg, #1A73E8, #00ACC1); color: #FFFFFF; }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem 3rem;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-secondary {
+            padding: 0.75rem 1.25rem;
+            background: #FFFFFF;
+            color: #475569;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ACCORDION */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .accordion-item {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .accordion-header:hover {
+            background: #F8FAFC;
+        }
+
+        .accordion-item.open .accordion-header {
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .accordion-number {
+            width: 32px;
+            height: 32px;
+            background: #F1F5F9;
+            color: #64748B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .accordion-item.open .accordion-number {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+        }
+
+        .accordion-item.completed .accordion-number {
+            background: #00D2A0;
+            color: #FFFFFF;
+        }
+
+        .accordion-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .accordion-icon {
+            font-size: 1.25rem;
+            color: #94A3B8;
+            transition: transform 0.2s;
+        }
+
+        .accordion-item.open .accordion-icon {
+            transform: rotate(180deg);
+            color: #00ACC1;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 1.5rem;
+        }
+
+        .accordion-item.open .accordion-content {
+            display: block;
+        }
+
+        /* FORM ELEMENTS */
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row > * {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label .required { color: #EF4444; }
+        .form-label .hint { font-weight: 400; color: #94A3B8; }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #F8FAFC;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ACC1;
+            background: #FFFFFF;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #F8FAFC;
+        }
+
+        /* PHOTO UPLOAD */
+        .photo-upload {
+            border: 2px dashed #E2E8F0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .photo-upload:hover {
+            border-color: #00ACC1;
+            background: rgba(0,172,193,0.02);
+        }
+
+        .photo-upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .photo-upload-text { color: #64748B; }
+
+        .photo-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .photo-item {
+            width: 100px;
+            height: 75px;
+            background: #F1F5F9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94A3B8;
+            position: relative;
+        }
+
+        .photo-item.main { border: 2px solid #00ACC1; }
+
+        /* AMENITIES */
+        .amenities-section { margin-bottom: 1.5rem; }
+
+        .amenities-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .amenities-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .amenity-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .amenity-checkbox:hover { border-color: #00ACC1; }
+        .amenity-checkbox input { accent-color: #00ACC1; }
+        .amenity-checkbox label { font-size: 0.9rem; color: #475569; cursor: pointer; }
+
+        .amenity-value {
+            width: 70px;
+            padding: 0.35rem 0.5rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-left: 0.5rem;
+        }
+
+        /* PRICING TABLE */
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pricing-table th {
+            text-align: left;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748B;
+            background: #F8FAFC;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .pricing-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .pricing-table input {
+            width: 120px;
+            padding: 0.5rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            text-align: right;
+        }
+
+        /* AVAILABILITY */
+        .availability-row {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            padding: 1rem;
+            background: #F8FAFC;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .availability-row .form-group { margin: 0; flex: 1; }
+
+        .add-link {
+            color: #00ACC1;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* POLICY OPTIONS */
+        .policy-option {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+
+        .policy-option:hover { border-color: #00ACC1; }
+        .policy-option.selected { border-color: #00ACC1; background: rgba(0,172,193,0.03); }
+        .policy-option input { accent-color: #00ACC1; margin-top: 2px; }
+        .policy-option h4 { font-size: 0.95rem; color: #1E293B; margin-bottom: 0.25rem; }
+        .policy-option p { font-size: 0.85rem; color: #64748B; }
+
+        /* MAP */
+        .map-placeholder {
+            height: 200px;
+            background: #F1F5F9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94A3B8;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <ul class="sidebar-nav">
+            <li><a href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+            <li><a href="#" class="active"><i data-lucide="home"></i> Moje oferty</a></li>
+            <li><a href="#"><i data-lucide="calendar"></i> Kalendarz</a></li>
+            <li><a href="#"><i data-lucide="clipboard-list"></i> Rezerwacje</a></li>
+            <li><a href="#"><i data-lucide="message-square"></i> Wiadomosci</a></li>
+            <li><a href="#"><i data-lucide="bar-chart-3"></i> Statystyki</a></li>
+        </ul>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Ustawienia</div>
+            <ul class="sidebar-nav">
+                <li><a href="#"><i data-lucide="user"></i> Profil</a></li>
+                <li><a href="#"><i data-lucide="settings"></i> Ustawienia</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn"><i data-lucide="arrow-left"></i></button>
+                <h1 class="page-title">Dodaj nowa oferte</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary">Zapisz draft</button>
+                <button class="btn-primary">Publikuj oferte</button>
+            </div>
+        </div>
+
+        <!-- ACCORDION -->
+        <div class="accordion">
+
+            <!-- 1. PODSTAWOWE -->
+            <div class="accordion-item open">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="accordion-title">
+                        <div class="accordion-number">1</div>
+                        <span class="accordion-label">Podstawowe informacje</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="form-group">
+                        <label class="form-label">Tytul oferty <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="np. Apartament z widokiem na morze">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Opis <span class="required">*</span></label>
+                        <textarea class="form-input form-textarea" placeholder="Opisz swoje mieszkanie..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Sypialnie <span class="required">*</span></label>
+                            <select class="form-select"><option>1</option><option selected>2</option><option>3</option><option>4+</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Lazienki <span class="required">*</span></label>
+                            <select class="form-select"><option selected>1</option><option>2</option><option>3+</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Powierzchnia (m²) <span class="required">*</span></label>
+                            <input type="number" class="form-input" placeholder="65">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Max gosci <span class="required">*</span></label>
+                            <select class="form-select"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6+</option></select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Typ kuchni</label>
+                            <select class="form-select"><option>Aneks kuchenny</option><option>Osobna kuchnia</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Minimalny pobyt <span class="hint">(dni)</span></label>
+                            <input type="number" class="form-input" value="7">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. LOKALIZACJA -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="accordion-title">
+                        <div class="accordion-number">2</div>
+                        <span class="accordion-label">Lokalizacja</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Miasto <span class="required">*</span></label>
+                            <input type="text" class="form-input" placeholder="np. Sopot">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Adres <span class="required">*</span></label>
+                            <input type="text" class="form-input" placeholder="np. ul. Monte Cassino 15/3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Wskaż na mapie</label>
+                        <div class="map-placeholder"><i data-lucide="map-pin" style="margin-right:8px"></i> Kliknij aby ustawic pinezke</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. UDOGODNIENIA -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="accordion-title">
+                        <div class="accordion-number">3</div>
+                        <span class="accordion-label">Udogodnienia</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="amenities-section">
+                        <div class="amenities-title"><i data-lucide="briefcase" style="width:14px;height:14px;display:inline;margin-right:6px"></i> Do pracy</div>
+                        <div class="amenities-grid">
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Internet</label><input type="number" class="amenity-value" value="300"><span style="color:#94A3B8;font-size:0.8rem">Mbps</span></div>
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Biurko</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox"><label>Krzeslo ergonomiczne</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox"><label>Monitor</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Cicha okolica</label></div>
+                        </div>
+                    </div>
+                    <div class="amenities-section">
+                        <div class="amenities-title"><i data-lucide="sofa" style="width:14px;height:14px;display:inline;margin-right:6px"></i> Komfort</div>
+                        <div class="amenities-grid">
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Klimatyzacja</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox"><label>Zmywarka</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Pralka</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Smart TV</label></div>
+                        </div>
+                    </div>
+                    <div class="amenities-section">
+                        <div class="amenities-title"><i data-lucide="sparkles" style="width:14px;height:14px;display:inline;margin-right:6px"></i> Dodatkowe</div>
+                        <div class="amenities-grid">
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Balkon</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Parking</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox"><label>Winda</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox"><label>Zwierzeta OK</label></div>
+                            <div class="amenity-checkbox"><input type="checkbox" checked><label>Plaza</label><input type="number" class="amenity-value" value="200"><span style="color:#94A3B8;font-size:0.8rem">m</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. ZDJĘCIA -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="accordion-title">
+                        <div class="accordion-number">4</div>
+                        <span class="accordion-label">Zdjecia</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="photo-upload">
+                        <div class="photo-upload-icon"><i data-lucide="upload" style="width:32px;height:32px"></i></div>
+                        <div class="photo-upload-text">Przeciagnij zdjecia lub kliknij (max 10)</div>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-item main"><i data-lucide="image"></i> 1</div>
+                        <div class="photo-item"><i data-lucide="image"></i> 2</div>
+                        <div class="photo-item"><i data-lucide="image"></i> 3</div>
+                        <div class="photo-item"><i data-lucide="plus"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. CENNIK -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="accordion-title">
+                        <div class="accordion-number">5</div>
+                        <span class="accordion-label">Cennik</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <table class="pricing-table">
+                        <thead><tr><th>Okres</th><th>Cena</th><th>Za dzien</th></tr></thead>
+                        <tbody>
+                            <tr><td>1 tydzien</td><td><input type="number" value="1100"> zl</td><td style="color:#64748B">~157 zl</td></tr>
+                            <tr><td>2 tygodnie</td><td><input type="number" value="2000"> zl</td><td style="color:#64748B">~143 zl</td></tr>
+                            <tr><td>3 tygodnie</td><td><input type="number" value="2900"> zl</td><td style="color:#64748B">~138 zl</td></tr>
+                            <tr><td>4+ tygodnie</td><td><input type="number" value="3800"> zl</td><td style="color:#64748B">~136 zl</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 6. DOSTĘPNOŚĆ -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="accordion-title">
+                        <div class="accordion-number">6</div>
+                        <span class="accordion-label">Dostepnosc</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <p style="color:#64748B;margin-bottom:1rem;font-size:0.9rem">Okresl kiedy mieszkanie jest dostepne na workacje.</p>
+                    <div class="availability-row">
+                        <div class="form-group">
+                            <label class="form-label">Od</label>
+                            <input type="date" class="form-input" value="2026-09-01">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Do</label>
+                            <input type="date" class="form-input" value="2027-06-14">
+                        </div>
+                        <button class="btn-secondary">Usun</button>
+                    </div>
+                    <div class="add-link">+ Dodaj okres</div>
+                    <div class="form-group" style="margin-top:1.5rem">
+                        <label class="form-label">Import iCal <span class="hint">(opcjonalnie)</span></label>
+                        <input type="url" class="form-input" placeholder="https://calendar.google.com/...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. POLITYKA -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="accordion-title">
+                        <div class="accordion-number">7</div>
+                        <span class="accordion-label">Polityka anulowania</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="accordion-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="policy-option selected">
+                        <input type="radio" name="policy" checked>
+                        <div><h4>Elastyczna</h4><p>Bezplatne anulowanie do 24h przed przyjazdem.</p></div>
+                    </div>
+                    <div class="policy-option">
+                        <input type="radio" name="policy">
+                        <div><h4>Umiarkowana</h4><p>Bezplatne do 5 dni przed, potem 50%.</p></div>
+                    </div>
+                    <div class="policy-option">
+                        <input type="radio" name="policy">
+                        <div><h4>Sztywna</h4><p>Bezplatne do 14 dni przed, potem 100%.</p></div>
+                    </div>
+                    <div class="policy-option">
+                        <input type="radio" name="policy">
+                        <div><h4>Wlasna</h4><p>Opisz swoje zasady ponizej.</p></div>
+                    </div>
+                    <div class="form-group" style="margin-top:1rem">
+                        <label class="form-label">Wlasne zasady</label>
+                        <textarea class="form-input form-textarea" placeholder="Opisz swoje zasady..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

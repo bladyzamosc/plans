@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Pitch Deck - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --gradient-1: #1A73E8;
+            --gradient-2: #00ACC1;
+            --gradient-3: #00D2A0;
+            --text-dark: #0F172A;
+            --text-mid: #334155;
+            --text-light: #64748B;
+            --bg: #0F172A;
+            --card: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--card);
+        }
+
+        /* SLIDES CONTAINER */
+        .slides {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            min-height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .slide-content {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* SLIDE 1: TITLE */
+        .slide-title {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+        }
+
+        .slide-title .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .slide-title .logo svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        .slide-title .logo span {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .slide-title .logo .accent {
+            opacity: 0.8;
+        }
+
+        .slide-title h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .slide-title p {
+            font-size: 22px;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* SLIDE DARK */
+        .slide-dark {
+            background: var(--bg);
+        }
+
+        .slide-dark h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-dark h3 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 24px;
+        }
+
+        .slide-dark p {
+            font-size: 20px;
+            color: rgba(255,255,255,0.7);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* SLIDE LIGHT */
+        .slide-light {
+            background: #F8FAFC;
+            color: var(--text-dark);
+        }
+
+        .slide-light h2 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-light p {
+            font-size: 20px;
+            color: var(--text-mid);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* PROBLEM LIST */
+        .problem-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .problem-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border-left: 4px solid #EF4444;
+        }
+
+        .problem-item .icon {
+            font-size: 24px;
+        }
+
+        .problem-item .text {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.5;
+        }
+
+        /* SOLUTION LIST */
+        .solution-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .solution-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px 24px;
+            background: rgba(0,210,160,0.1);
+            border-radius: 12px;
+            border-left: 4px solid var(--gradient-3);
+        }
+
+        .solution-item .icon {
+            font-size: 24px;
+        }
+
+        .solution-item .text {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.5;
+        }
+
+        /* COMPARISON */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .comparison-box {
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .comparison-box.old {
+            background: rgba(239,68,68,0.1);
+            border: 2px solid rgba(239,68,68,0.3);
+        }
+
+        .comparison-box.new {
+            background: rgba(0,210,160,0.1);
+            border: 2px solid rgba(0,210,160,0.3);
+        }
+
+        .comparison-box .label {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .comparison-box .price {
+            font-size: 48px;
+            font-weight: 800;
+        }
+
+        .comparison-box.old .price {
+            color: #EF4444;
+        }
+
+        .comparison-box.new .price {
+            color: var(--gradient-3);
+        }
+
+        .comparison-box .desc {
+            font-size: 16px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 8px;
+        }
+
+        /* FEATURES GRID */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 30px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .feature-card .icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin: 0;
+        }
+
+        /* SCREENSHOT */
+        .screenshot-container {
+            max-width: 700px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .screenshot-container img {
+            width: 100%;
+            display: block;
+        }
+
+        .screenshot-browser {
+            background: #1E293B;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-dot.red { background: #EF4444; }
+        .browser-dot.yellow { background: #F59E0B; }
+        .browser-dot.green { background: #22C55E; }
+
+        .browser-url {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-left: 12px;
+        }
+
+        /* NEXT STEPS */
+        .next-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .next-step {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .next-step .number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .next-step .text {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* CTA */
+        .cta-box {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 40px auto 0;
+        }
+
+        .cta-box h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .cta-box p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 24px;
+        }
+
+        .cta-box .buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .cta-btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .cta-btn.primary {
+            background: #fff;
+            color: var(--gradient-1);
+        }
+
+        .cta-btn.secondary {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* NAVIGATION */
+        .nav-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-hint i {
+            width: 18px;
+            height: 18px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            padding: 8px 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-link {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            padding: 8px 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        .back-link i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 24px;
+            }
+
+            .slide-title h1 {
+                font-size: 28px;
+            }
+
+            .slide-title p {
+                font-size: 16px;
+            }
+
+            .slide-title .logo span {
+                font-size: 32px;
+            }
+
+            .slide-title .logo svg {
+                width: 50px;
+                height: 50px;
+            }
+
+            .slide-dark h2, .slide-light h2 {
+                font-size: 28px;
+            }
+
+            .slide-dark p, .slide-light p {
+                font-size: 16px;
+            }
+
+            .problem-item, .solution-item {
+                padding: 16px;
+            }
+
+            .problem-item .text, .solution-item .text {
+                font-size: 15px;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-box .price {
+                font-size: 36px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-box .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">
+    <i data-lucide="arrow-left"></i>
+    Dokumentacja
+</a>
+
+<div class="slide-counter">
+    <span id="currentSlide">1</span> / 7
+</div>
+
+<div class="nav-hint">
+    <i data-lucide="chevron-down"></i>
+    Przewin w dol
+</div>
+
+<div class="slides" id="slides">
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide slide-title">
+        <div class="slide-content">
+            <div class="logo">
+                <svg viewBox="0 0 512 512">
+                    <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="rgba(255,255,255,0.8)"/></linearGradient></defs>
+                    <g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g>
+                </svg>
+                <span>workejszyn<span class="accent">.pl</span></span>
+            </div>
+            <h1>Wiecej rezerwacji poza sezonem.<br>Zero prowizji. Zero pracy.</h1>
+            <p>Portal dla zarzadcow mieszkan w kurortach, laczacy ich z pracownikami zdalnymi szukajacymi workation.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PROBLEM -->
+    <div class="slide slide-dark">
+        <div class="slide-content">
+            <h2>Problem</h2>
+            <div class="problem-list">
+                <div class="problem-item">
+                    <span class="icon">📉</span>
+                    <span class="text"><strong>Poza sezonem mieszkania stoja puste.</strong> Wrzesien-Czerwiec to martwy okres - zero przychodu, same koszty.</span>
+                </div>
+                <div class="problem-item">
+                    <span class="icon">💸</span>
+                    <span class="text"><strong>Booking i Airbnb biora 15-20% prowizji.</strong> Przy dlugich pobytach to ogromna strata.</span>
+                </div>
+                <div class="problem-item">
+                    <span class="icon">🌐</span>
+                    <span class="text"><strong>Wlasna strona jest slaba.</strong> Nieaktualna, nieresponsywna, nie widac jej w Google.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: SOLUTION -->
+    <div class="slide slide-dark">
+        <div class="slide-content">
+            <h2>Rozwiazanie</h2>
+            <div class="solution-list">
+                <div class="solution-item">
+                    <span class="icon">🎯</span>
+                    <span class="text"><strong>Portal dla pracy zdalnej.</strong> Trafiamy do ludzi, ktorzy szukaja mieszkan na 1-8 tygodni - poza sezonem.</span>
+                </div>
+                <div class="solution-item">
+                    <span class="icon">🆓</span>
+                    <span class="text"><strong>Zero prowizji.</strong> Bezposredni kontakt z gosciem. Zadnych oplat od rezerwacji.</span>
+                </div>
+                <div class="solution-item">
+                    <span class="icon">✨</span>
+                    <span class="text"><strong>Ladna, nowoczesna strona.</strong> Twoje mieszkanie wyglada profesjonalnie - bez zadnego wysilku z Twojej strony.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: COMPARISON -->
+    <div class="slide slide-dark">
+        <div class="slide-content">
+            <h2>Ile oszczedzasz?</h2>
+            <p>Przy rezerwacji za 3000 zl/miesiac:</p>
+            <div class="comparison">
+                <div class="comparison-box old">
+                    <div class="label">Booking.com</div>
+                    <div class="price">-450 zl</div>
+                    <div class="desc">15% prowizji od kazdej rezerwacji</div>
+                </div>
+                <div class="comparison-box new">
+                    <div class="label">workejszyn.pl</div>
+                    <div class="price">0 zl</div>
+                    <div class="desc">Zero prowizji - teraz i na start</div>
+                </div>
+            </div>
+            <p style="margin-top: 40px; font-size: 18px; color: rgba(255,255,255,0.6);">
+                Jedna rezerwacja z Bookingu kosztuje Cie wiecej niz rok u nas (gdy wprowadzimy oplaty).
+            </p>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: FEATURES -->
+    <div class="slide slide-dark">
+        <div class="slide-content">
+            <h2>Co dostajesz?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🏠</div>
+                    <h4>Ladna oferta</h4>
+                    <p>Twoje mieszkanie wyglada profesjonalnie na kazdym urzadzeniu</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h4>Statystyki</h4>
+                    <p>Ile osob ogladalo, skad przyszly, ile zapytan</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📅</div>
+                    <h4>Kalendarz</h4>
+                    <p>Synchronizacja z Booking, Airbnb - jeden widok</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎨</div>
+                    <h4>Sharing Kit</h4>
+                    <p>Gotowe grafiki na FB, Insta, QR code do druku</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📍</div>
+                    <h4>Przewodnik</h4>
+                    <p>Strona /okolica dla gosci - restauracje, atrakcje</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">💬</div>
+                    <h4>Wsparcie</h4>
+                    <p>Pomagam Ci z wszystkim - zero pracy dla Ciebie</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: SCREENSHOT -->
+    <div class="slide slide-dark">
+        <div class="slide-content">
+            <h2>Tak wyglada Twoja oferta</h2>
+            <div class="screenshot-container">
+                <div class="screenshot-browser">
+                    <span class="browser-dot red"></span>
+                    <span class="browser-dot yellow"></span>
+                    <span class="browser-dot green"></span>
+                    <span class="browser-url">workejszyn.pl/apartament-baltycki</span>
+                </div>
+                <img src="images/baltycki/01.jpg" alt="Przyklad oferty">
+            </div>
+            <p style="margin-top: 30px; color: rgba(255,255,255,0.6);">
+                Zdjecia, opisy, ceny - wszystko zaciagam z Twojej obecnej strony. Zero pracy dla Ciebie.
+            </p>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: NEXT STEPS -->
+    <div class="slide slide-dark">
+        <div class="slide-content">
+            <h2>Co dalej?</h2>
+            <div class="next-steps">
+                <div class="next-step">
+                    <span class="number">1</span>
+                    <span class="text">Dajesz mi OK - wpisuje Twoje mieszkania</span>
+                </div>
+                <div class="next-step">
+                    <span class="number">2</span>
+                    <span class="text">Sprawdzasz i poprawiasz co trzeba</span>
+                </div>
+                <div class="next-step">
+                    <span class="number">3</span>
+                    <span class="text">Pomagam Ci wrzucic pierwszy post na FB</span>
+                </div>
+                <div class="next-step">
+                    <span class="number">4</span>
+                    <span class="text">Czekamy na pierwsze zapytania</span>
+                </div>
+            </div>
+
+            <div class="cta-box">
+                <h3>Zaczynamy?</h3>
+                <p>Zero ryzyka. Zero kosztow. Zero pracy.</p>
+                <div class="buttons">
+                    <a href="baltycki.html" class="cta-btn primary">Zobacz przyklad oferty</a>
+                    <a href="sharing-kit.html" class="cta-btn secondary">Zobacz Sharing Kit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+
+    // Update slide counter
+    const slides = document.getElementById('slides');
+    const counter = document.getElementById('currentSlide');
+    const totalSlides = document.querySelectorAll('.slide').length;
+
+    slides.addEventListener('scroll', () => {
+        const scrollTop = slides.scrollTop;
+        const slideHeight = window.innerHeight;
+        const current = Math.round(scrollTop / slideHeight) + 1;
+        counter.textContent = current;
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const slideHeight = window.innerHeight;
+        if (e.key === 'ArrowDown' || e.key === ' ') {
+            e.preventDefault();
+            slides.scrollBy({ top: slideHeight, behavior: 'smooth' });
+        }
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            slides.scrollBy({ top: -slideHeight, behavior: 'smooth' });
+        }
+    });
+</script>
+</body>
+</html>

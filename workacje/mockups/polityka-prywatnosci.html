@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polityka prywatności | workejszyn.pl</title>
+    <meta name="description" content="Polityka prywatności portalu workejszyn.pl - informacje o przetwarzaniu danych osobowych zgodnie z RODO.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #1A73E8, #00ACC1, #00D2A0) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            padding: 48px 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            opacity: 0.9;
+        }
+
+        /* MAIN */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* DOCUMENT */
+        .legal-document {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .legal-meta {
+            display: flex;
+            gap: 24px;
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        .legal-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legal-meta i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* TOC */
+        .toc {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .toc h3 {
+            font-size: 14px;
+            color: #64748B;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toc ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            color: #1A73E8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        /* SECTIONS */
+        .legal-section {
+            margin-bottom: 32px;
+        }
+
+        .legal-section h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .legal-section h2:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .legal-section p {
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #334155;
+        }
+
+        .legal-section ol, .legal-section ul {
+            margin: 12px 0 12px 24px;
+        }
+
+        .legal-section li {
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #334155;
+        }
+
+        .legal-section strong {
+            color: #0F172A;
+        }
+
+        /* DATA TABLE */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .data-table th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .data-table td {
+            color: #334155;
+        }
+
+        /* HIGHLIGHT BOX */
+        .legal-highlight {
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-left: 4px solid #00ACC1;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .legal-highlight p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* RIGHTS BOX */
+        .rights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .right-item {
+            background: #F8FAFC;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .right-item h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .right-item h4 i {
+            width: 18px;
+            height: 18px;
+            color: #00ACC1;
+        }
+
+        .right-item p {
+            font-size: 13px;
+            color: #64748B;
+            margin: 0;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 32px 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #00ACC1;
+            text-decoration: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        @media (max-width: 600px) {
+            .legal-document {
+                padding: 24px;
+            }
+            .legal-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .rights-grid {
+                grid-template-columns: 1fr;
+            }
+            .data-table {
+                font-size: 12px;
+            }
+            .data-table th, .data-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav class="nav-bar">
+            <a href="strona-glowna.html" class="logo">
+                <svg viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="10" fill="url(#grad)"/>
+                    <path d="M12 28V18L20 12L28 18V28H22V22H18V28H12Z" fill="white"/>
+                    <circle cx="20" cy="17" r="2" fill="#00D2A0"/>
+                    <defs>
+                        <linearGradient id="grad" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#1A73E8"/>
+                            <stop offset="100%" stop-color="#00ACC1"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="logo-text">work<span class="accent">ejszyn</span>.pl</span>
+            </a>
+            <div class="nav-links">
+                <a href="wyszukiwarka.html">Szukaj</a>
+                <a href="jak-to-dziala.html">Jak to działa</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="logowanie.html" class="btn-login">Zaloguj się</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Polityka prywatności</h1>
+        <p>Informacje o przetwarzaniu danych osobowych</p>
+    </div>
+
+    <main>
+        <div class="legal-document">
+            <div class="legal-meta">
+                <span><i data-lucide="calendar"></i> Wersja: 1.0</span>
+                <span><i data-lucide="clock"></i> Data: 1 lipca 2026</span>
+                <span><i data-lucide="shield"></i> Zgodność: RODO</span>
+            </div>
+
+            <!-- TOC -->
+            <nav class="toc">
+                <h3>Spis treści</h3>
+                <ol>
+                    <li><a href="#administrator">Administrator danych</a></li>
+                    <li><a href="#dane">Jakie dane zbieramy</a></li>
+                    <li><a href="#cele">Cele przetwarzania</a></li>
+                    <li><a href="#podstawy">Podstawy prawne</a></li>
+                    <li><a href="#odbiorcy">Odbiorcy danych</a></li>
+                    <li><a href="#okres">Okres przechowywania</a></li>
+                    <li><a href="#prawa">Twoje prawa</a></li>
+                    <li><a href="#cookies">Pliki cookies</a></li>
+                    <li><a href="#zmiany">Zmiany polityki</a></li>
+                    <li><a href="#kontakt">Kontakt</a></li>
+                </ol>
+            </nav>
+
+            <!-- SECTIONS -->
+            <section id="administrator" class="legal-section">
+                <h2>§1. Administrator danych</h2>
+                <p>Administratorem Twoich danych osobowych jest:</p>
+                <p><strong>workejszyn.pl</strong><br>
+                Email: kontakt@workejszyn.pl</p>
+                <p>W sprawach związanych z ochroną danych osobowych możesz kontaktować się pod adresem: <strong>dane@workejszyn.pl</strong></p>
+            </section>
+
+            <section id="dane" class="legal-section">
+                <h2>§2. Jakie dane zbieramy</h2>
+                <p>Przetwarzamy następujące kategorie danych:</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Kategoria</th>
+                            <th>Przykłady danych</th>
+                            <th>Źródło</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dane rejestracyjne</td>
+                            <td>Imię, email, hasło (zaszyfrowane)</td>
+                            <td>Formularz rejestracji</td>
+                        </tr>
+                        <tr>
+                            <td>Dane profilowe</td>
+                            <td>Numer telefonu, zdjęcie (opcjonalnie)</td>
+                            <td>Ustawienia konta</td>
+                        </tr>
+                        <tr>
+                            <td>Dane ofert</td>
+                            <td>Adres mieszkania, zdjęcia, opis</td>
+                            <td>Formularz oferty</td>
+                        </tr>
+                        <tr>
+                            <td>Dane komunikacji</td>
+                            <td>Treść wiadomości między użytkownikami</td>
+                            <td>System wiadomości</td>
+                        </tr>
+                        <tr>
+                            <td>Dane techniczne</td>
+                            <td>Adres IP, przeglądarka, system</td>
+                            <td>Automatycznie</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="legal-highlight">
+                    <p><strong>Nie zbieramy:</strong> danych płatniczych (karty, konta bankowe), numeru PESEL, danych wrażliwych (zdrowie, przekonania, orientacja).</p>
+                </div>
+            </section>
+
+            <section id="cele" class="legal-section">
+                <h2>§3. Cele przetwarzania</h2>
+                <p>Twoje dane przetwarzamy w następujących celach:</p>
+                <ol>
+                    <li><strong>Świadczenie usług</strong> - prowadzenie konta, wyświetlanie ofert, obsługa zapytań</li>
+                    <li><strong>Komunikacja</strong> - odpowiedzi na pytania, powiadomienia o rezerwacjach</li>
+                    <li><strong>Bezpieczeństwo</strong> - wykrywanie nadużyć, ochrona przed spamem</li>
+                    <li><strong>Analityka</strong> - ulepszanie portalu, statystyki (zanonimizowane)</li>
+                    <li><strong>Marketing</strong> - newsletter (tylko za zgodą), informacje o nowościach</li>
+                </ol>
+            </section>
+
+            <section id="podstawy" class="legal-section">
+                <h2>§4. Podstawy prawne</h2>
+                <p>Przetwarzamy dane na podstawie:</p>
+                <ul>
+                    <li><strong>Art. 6 ust. 1 lit. b RODO</strong> - wykonanie umowy (świadczenie usług)</li>
+                    <li><strong>Art. 6 ust. 1 lit. a RODO</strong> - zgoda (marketing, newsletter)</li>
+                    <li><strong>Art. 6 ust. 1 lit. f RODO</strong> - uzasadniony interes (analityka, bezpieczeństwo)</li>
+                    <li><strong>Art. 6 ust. 1 lit. c RODO</strong> - obowiązek prawny (rachunkowość)</li>
+                </ul>
+            </section>
+
+            <section id="odbiorcy" class="legal-section">
+                <h2>§5. Odbiorcy danych</h2>
+                <p>Twoje dane mogą być przekazywane:</p>
+                <ul>
+                    <li><strong>Innym użytkownikom</strong> - dane kontaktowe zarządcy widoczne dla gości (i odwrotnie)</li>
+                    <li><strong>Dostawcom usług</strong> - hosting, email, analityka (umowy powierzenia)</li>
+                    <li><strong>Organom państwowym</strong> - na żądanie zgodne z prawem</li>
+                </ul>
+                <p>Nie sprzedajemy danych osobowych podmiotom trzecim. Nie przekazujemy danych poza Europejski Obszar Gospodarczy.</p>
+            </section>
+
+            <section id="okres" class="legal-section">
+                <h2>§6. Okres przechowywania</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Dane</th>
+                            <th>Okres</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dane konta</td>
+                            <td>Do usunięcia konta + 30 dni</td>
+                        </tr>
+                        <tr>
+                            <td>Historia wiadomości</td>
+                            <td>12 miesięcy od ostatniej aktywności</td>
+                        </tr>
+                        <tr>
+                            <td>Logi techniczne</td>
+                            <td>90 dni</td>
+                        </tr>
+                        <tr>
+                            <td>Dane rozliczeniowe</td>
+                            <td>5 lat (wymóg księgowy)</td>
+                        </tr>
+                        <tr>
+                            <td>Zgody marketingowe</td>
+                            <td>Do wycofania zgody</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="prawa" class="legal-section">
+                <h2>§7. Twoje prawa</h2>
+                <p>Zgodnie z RODO przysługują Ci następujące prawa:</p>
+
+                <div class="rights-grid">
+                    <div class="right-item">
+                        <h4><i data-lucide="eye"></i> Dostęp</h4>
+                        <p>Możesz uzyskać kopię swoich danych</p>
+                    </div>
+                    <div class="right-item">
+                        <h4><i data-lucide="edit-3"></i> Sprostowanie</h4>
+                        <p>Możesz poprawić błędne dane</p>
+                    </div>
+                    <div class="right-item">
+                        <h4><i data-lucide="trash-2"></i> Usunięcie</h4>
+                        <p>Możesz żądać usunięcia danych</p>
+                    </div>
+                    <div class="right-item">
+                        <h4><i data-lucide="pause"></i> Ograniczenie</h4>
+                        <p>Możesz ograniczyć przetwarzanie</p>
+                    </div>
+                    <div class="right-item">
+                        <h4><i data-lucide="download"></i> Przenoszenie</h4>
+                        <p>Możesz pobrać dane w formacie CSV</p>
+                    </div>
+                    <div class="right-item">
+                        <h4><i data-lucide="x-circle"></i> Sprzeciw</h4>
+                        <p>Możesz sprzeciwić się marketingowi</p>
+                    </div>
+                </div>
+
+                <p>Aby skorzystać z praw, napisz na <strong>dane@workejszyn.pl</strong> lub skorzystaj z ustawień konta.</p>
+                <p>Masz również prawo złożyć skargę do <strong>Prezesa UODO</strong> (ul. Stawki 2, 00-193 Warszawa).</p>
+            </section>
+
+            <section id="cookies" class="legal-section">
+                <h2>§8. Pliki cookies</h2>
+                <p>Używamy plików cookies do:</p>
+                <ul>
+                    <li><strong>Niezbędnych</strong> - logowanie, bezpieczeństwo, preferencje</li>
+                    <li><strong>Analitycznych</strong> - statystyki odwiedzin (Google Analytics - zanonimizowane IP)</li>
+                    <li><strong>Funkcjonalnych</strong> - zapamiętanie filtrów, języka</li>
+                </ul>
+
+                <p>Możesz zarządzać cookies w ustawieniach przeglądarki. Wyłączenie cookies niezbędnych może uniemożliwić korzystanie z niektórych funkcji.</p>
+
+                <div class="legal-highlight">
+                    <p><strong>Nie używamy:</strong> cookies reklamowych, śledzących ani profilujących.</p>
+                </div>
+            </section>
+
+            <section id="zmiany" class="legal-section">
+                <h2>§9. Zmiany polityki</h2>
+                <ol>
+                    <li>Polityka może być aktualizowana w związku ze zmianami prawa lub usług.</li>
+                    <li>O istotnych zmianach poinformujemy emailem z 14-dniowym wyprzedzeniem.</li>
+                    <li>Aktualna wersja jest zawsze dostępna na tej stronie.</li>
+                </ol>
+            </section>
+
+            <section id="kontakt" class="legal-section">
+                <h2>§10. Kontakt</h2>
+                <p>W sprawach związanych z prywatnością i danymi osobowymi:</p>
+                <ul>
+                    <li>Email: <strong>dane@workejszyn.pl</strong></li>
+                    <li>Formularz: <a href="kontakt.html">workejszyn.pl/kontakt</a></li>
+                </ul>
+                <p>Odpowiadamy na zapytania w ciągu 30 dni (zgodnie z RODO).</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 workejszyn.pl | <a href="regulamin.html">Regulamin</a> | <a href="faq.html">FAQ</a></p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

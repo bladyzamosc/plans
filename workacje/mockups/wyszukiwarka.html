@@ -1,0 +1,1292 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Szukaj mieszkan - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .property-info i, .filter-section-title i { width: 14px; height: 14px; display: inline; }
+        .map-toggle i, .search-input-icon i { width: 16px; height: 16px; }
+        :root {
+            --gradient-start: #1A73E8;
+            --gradient-mid: #00ACC1;
+            --gradient-end: #00D2A0;
+            --accent-blue: #1A73E8;
+            --accent-cyan: #00ACC1;
+            --accent-teal: #00D2A0;
+            --accent-sky: #38BDF8;
+
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-teal)) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .logo-icon { width: 38px; height: 38px; }
+        .logo-text { font-size: 1.3rem; font-weight: 700; color: var(--slate-800); }
+        .logo-text .accent {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav { display: flex; gap: 2rem; align-items: center; }
+        nav a { color: var(--slate-500); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        nav a:hover { color: var(--accent-cyan); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white) !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* SEARCH BAR */
+        .search-bar {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .search-bar-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: var(--slate-50);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            background: var(--white);
+        }
+
+        .search-input-icon {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-400);
+        }
+
+        .search-date {
+            width: 140px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: var(--slate-50);
+        }
+
+        .search-date:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .search-guests {
+            width: 130px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: var(--slate-50);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        /* MAIN LAYOUT */
+        .main-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        /* SIDEBAR FILTERS */
+        .filters-sidebar {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        .filters-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--slate-800);
+        }
+
+        .filters-clear {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--slate-700);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            background: var(--slate-50);
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        /* PRICE RANGE */
+        .price-range {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .price-input {
+            flex: 1;
+            padding: 0.625rem 0.5rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .price-separator {
+            color: var(--slate-400);
+        }
+
+        /* CHECKBOXES */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-cyan);
+        }
+
+        .checkbox-item label {
+            font-size: 0.85rem;
+            color: var(--slate-600);
+            cursor: pointer;
+        }
+
+        .filter-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 1.25rem 0 0.75rem;
+        }
+
+        .filter-section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* RESULTS */
+        .results-section {
+            min-height: 100vh;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-count {
+            font-size: 1rem;
+            color: var(--slate-600);
+        }
+
+        .results-count strong {
+            color: var(--slate-800);
+        }
+
+        .results-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: var(--white);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.25rem;
+            background: var(--slate-100);
+            padding: 0.25rem;
+            border-radius: 8px;
+        }
+
+        .view-btn {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .view-btn.active {
+            background: var(--white);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .map-toggle {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--slate-200);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .map-toggle:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* PROPERTY GRID */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .property-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .property-image {
+            height: 160px;
+            background: linear-gradient(135deg, var(--slate-200), var(--slate-300));
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate-400);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            padding: 0.25rem 0.625rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .property-badge.new {
+            background: var(--accent-teal);
+        }
+
+        .property-content {
+            padding: 1rem;
+        }
+
+        .property-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--slate-900);
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .property-location {
+            color: var(--slate-500);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-tags {
+            display: flex;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .property-tag {
+            background: linear-gradient(135deg, rgba(0,210,160,0.1), rgba(0,172,193,0.1));
+            color: var(--accent-teal);
+            padding: 0.2rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+
+        .property-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--slate-100);
+        }
+
+        .property-price {
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .property-price span {
+            font-size: 0.75rem;
+            font-weight: 400;
+            -webkit-text-fill-color: var(--slate-500);
+        }
+
+        .property-info {
+            display: flex;
+            gap: 0.5rem;
+            color: var(--slate-500);
+            font-size: 0.75rem;
+        }
+
+        /* MAP VIEW */
+        .map-container {
+            display: none;
+            height: 400px;
+            background: var(--slate-100);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate-400);
+            position: relative;
+        }
+
+        .map-container.visible {
+            display: flex;
+        }
+
+        .map-pins {
+            position: absolute;
+            inset: 0;
+        }
+
+        .map-pin {
+            position: absolute;
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transform: translate(-50%, -100%);
+        }
+
+        .map-pin::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--accent-cyan);
+        }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--slate-200);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--slate-600);
+        }
+
+        .page-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            border: none;
+        }
+
+        .page-btn.nav {
+            width: auto;
+            padding: 0 1rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--slate-900);
+            color: var(--slate-400);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .footer-logo-text { font-size: 1.25rem; font-weight: 700; color: var(--white); }
+        .footer-logo-text .accent { color: var(--accent-cyan); }
+        .footer-desc { font-size: 0.85rem; line-height: 1.6; }
+
+        .footer-section h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 0.6rem; }
+        .footer-section ul li a { color: var(--slate-500); text-decoration: none; font-size: 0.85rem; }
+        .footer-section ul li a:hover { color: var(--accent-cyan); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--slate-700);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--slate-600);
+        }
+
+        /* RESPONSIVE - DESKTOP */
+        @media (max-width: 1100px) {
+            .properties-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* TABLET */
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            .filters-sidebar {
+                position: relative;
+                top: 0;
+                display: none;
+            }
+            .filters-sidebar.mobile-open {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 200;
+                border-radius: 0;
+                overflow-y: auto;
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+            }
+            .search-bar-inner {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .search-input-wrapper {
+                flex: 1 1 100%;
+            }
+            .search-date {
+                flex: 1;
+                min-width: 0;
+            }
+            .search-guests {
+                width: auto;
+                flex: 1;
+            }
+            nav {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+            .mobile-filter-btn {
+                display: flex !important;
+            }
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            header {
+                padding: 0.75rem 1rem;
+                padding-top: calc(0.75rem + env(safe-area-inset-top));
+            }
+            .search-bar {
+                padding: 0.75rem 1rem;
+            }
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .property-image {
+                height: 200px;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            footer {
+                padding: 2rem 1rem;
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+            }
+            .results-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            .results-controls {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .sort-select {
+                flex: 1;
+            }
+            .pagination {
+                flex-wrap: wrap;
+            }
+            .page-btn.nav {
+                flex: 1 1 100%;
+                order: 1;
+            }
+        }
+
+        /* Mobile buttons (hidden by default) */
+        .mobile-menu-btn,
+        .mobile-filter-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--slate-700);
+        }
+
+        .mobile-filter-btn {
+            width: auto;
+            padding: 0.5rem 1rem;
+            background: var(--white);
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            gap: 0.5rem;
+        }
+
+        .filters-close {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--slate-100);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .filters-sidebar.mobile-open .filters-close {
+            display: block;
+        }
+
+        @media (max-width: 900px) {
+            .filters-close {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="nav-bar">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs>
+                    <g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g>
+                </svg>
+                <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+            </a>
+            <nav>
+                <a href="#">Szukaj</a>
+                <a href="#">Jak to dziala</a>
+                <a href="#">Dla Zarzadcai</a>
+                <a href="#" class="nav-cta">Zaloguj sie</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- SEARCH BAR -->
+    <div class="search-bar">
+        <div class="search-bar-inner">
+            <div class="search-input-wrapper">
+                <span class="search-input-icon"><i data-lucide="search"></i></span>
+                <input type="text" class="search-input" placeholder="Gdzie chcesz pracowac?" value="Sopot">
+            </div>
+            <input type="date" class="search-date" value="2026-09-01">
+            <input type="date" class="search-date" value="2026-09-14">
+            <select class="search-guests">
+                <option>2 osoby</option>
+                <option>1 osoba</option>
+                <option>3 osoby</option>
+                <option>4+ osob</option>
+            </select>
+            <button class="search-btn">Szukaj</button>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-layout">
+        <!-- FILTERS SIDEBAR -->
+        <aside class="filters-sidebar">
+            <div class="filters-header">
+                <h2 class="filters-title">Filtry</h2>
+                <a class="filters-clear">Wyczysc</a>
+            </div>
+
+            <!-- PRICE -->
+            <div class="filter-group">
+                <label class="filter-label">Cena za tydzien</label>
+                <div class="price-range">
+                    <input type="number" class="price-input" placeholder="Od" value="500">
+                    <span class="price-separator">-</span>
+                    <input type="number" class="price-input" placeholder="Do" value="2000">
+                    <span style="font-size: 0.8rem; color: var(--slate-500);">zl</span>
+                </div>
+            </div>
+
+            <!-- ROOMS -->
+            <div class="filter-group">
+                <label class="filter-label">Min. sypialnie</label>
+                <select class="filter-input">
+                    <option value="">Dowolna</option>
+                    <option value="1">1+</option>
+                    <option value="2" selected>2+</option>
+                    <option value="3">3+</option>
+                </select>
+            </div>
+
+            <!-- BATHROOMS -->
+            <div class="filter-group">
+                <label class="filter-label">Min. lazienki</label>
+                <select class="filter-input">
+                    <option value="">Dowolna</option>
+                    <option value="1" selected>1+</option>
+                    <option value="2">2+</option>
+                </select>
+            </div>
+
+            <!-- AMENITIES - WORK -->
+            <div class="filter-group">
+                <div class="filter-section-title"><i data-lucide="briefcase"></i> Do pracy</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="wifi100" checked>
+                        <label for="wifi100">WiFi > 100 Mbps</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="desk" checked>
+                        <label for="desk">Biurko</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="chair">
+                        <label for="chair">Krzeslo ergonomiczne</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="monitor">
+                        <label for="monitor">Monitor zewnetrzny</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="quiet">
+                        <label for="quiet">Cicha okolica</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AMENITIES - COMFORT -->
+            <div class="filter-group">
+                <div class="filter-section-title"><i data-lucide="sofa"></i> Komfort</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ac">
+                        <label for="ac">Klimatyzacja</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dishwasher">
+                        <label for="dishwasher">Zmywarka</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="washer">
+                        <label for="washer">Pralka</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tv">
+                        <label for="tv">TV</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AMENITIES - PRACTICAL -->
+            <div class="filter-group">
+                <div class="filter-section-title"><i data-lucide="sparkles"></i> Dodatkowe</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="parking">
+                        <label for="parking">Parking</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pets">
+                        <label for="pets">Zwierzeta OK</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="balcony">
+                        <label for="balcony">Balkon / Taras</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="elevator">
+                        <label for="elevator">Winda</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KITCHEN -->
+            <div class="filter-group">
+                <label class="filter-label">Kuchnia</label>
+                <select class="filter-input">
+                    <option value="">Dowolna</option>
+                    <option value="separate">Osobna</option>
+                    <option value="kitchenette">Aneks kuchenny</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- RESULTS -->
+        <section class="results-section">
+            <div class="results-header">
+                <div class="results-count">
+                    Znaleziono <strong>24 mieszkania</strong> w Sopocie
+                </div>
+                <div class="results-controls">
+                    <select class="sort-select">
+                        <option>Sortuj: Najnowsze</option>
+                        <option>Cena: rosnaco</option>
+                        <option>Cena: malejaco</option>
+                    </select>
+                    <div class="view-toggle">
+                        <button class="view-btn active" title="Siatka">▦</button>
+                        <button class="view-btn" title="Lista">☰</button>
+                    </div>
+                    <button class="map-toggle" onclick="document.querySelector('.map-container').classList.toggle('visible')">
+                        <i data-lucide="map"></i> Mapa
+                    </button>
+                </div>
+            </div>
+
+            <!-- MAP -->
+            <div class="map-container">
+                <div class="map-pins">
+                    <div class="map-pin" style="top: 30%; left: 40%;">1100 zl</div>
+                    <div class="map-pin" style="top: 45%; left: 55%;">850 zl</div>
+                    <div class="map-pin" style="top: 60%; left: 35%;">1200 zl</div>
+                    <div class="map-pin" style="top: 25%; left: 65%;">950 zl</div>
+                    <div class="map-pin" style="top: 70%; left: 50%;">1050 zl</div>
+                </div>
+                Mapa OpenStreetMap
+            </div>
+
+            <!-- PROPERTIES GRID -->
+            <div class="properties-grid">
+                <!-- Card 1 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge">Wyroznienie</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Apartament z widokiem na morze</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Monte Cassino</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 300 Mbps</span>
+                            <span class="property-tag">Biurko</span>
+                            <span class="property-tag">Monitor</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">1100 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>2 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>4 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Studio w centrum</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Centrum</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 150 Mbps</span>
+                            <span class="property-tag">Biurko</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">850 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>1 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>2 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Loft przy plazy</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Kamienny Potok</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 500 Mbps</span>
+                            <span class="property-tag">Cicho</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">1200 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>2 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>3 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Apartament z balkonem</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Dolny</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 100 Mbps</span>
+                            <span class="property-tag">Balkon</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">950 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>2 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>4 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Mieszkanie z widokiem na las</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Gorny</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 200 Mbps</span>
+                            <span class="property-tag">Parking</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">1050 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>3 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>5 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Kawalerka blisko SKM</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Centrum</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 100 Mbps</span>
+                            <span class="property-tag">Biurko</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">700 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>1 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>2 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Przestronne 3 pokoje</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Przylesie</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 250 Mbps</span>
+                            <span class="property-tag">Ogrod</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">1400 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>3 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>6 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Apartament przy molo</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Poludnie</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 300 Mbps</span>
+                            <span class="property-tag">Widok</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">1350 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>2 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>4 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Nowoczesne studio</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Centrum</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 200 Mbps</span>
+                            <span class="property-tag">AC</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">900 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>1 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>2 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 10 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Dom z tarasem</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Gorny</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 150 Mbps</span>
+                            <span class="property-tag">Taras</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">1600 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>3 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>5 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 11 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Mieszkanie dla rodziny</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Brodwino</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 100 Mbps</span>
+                            <span class="property-tag">Parking</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">1100 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>2 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>4 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 12 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <span class="property-badge new">Nowe</span>
+                        Zdjecie
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Przytulna kawalerka</h3>
+                        <p class="property-location"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Dolny</p>
+                        <div class="property-tags">
+                            <span class="property-tag">WiFi 100 Mbps</span>
+                            <span class="property-tag">Cicho</span>
+                        </div>
+                        <div class="property-footer">
+                            <div class="property-price">750 zl <span>/ tydz</span></div>
+                            <div class="property-info">
+                                <span>1 <i data-lucide="bed-double" style="width:12px;height:12px;display:inline"></i></span>
+                                <span>2 <i data-lucide="users" style="width:12px;height:12px;display:inline"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="pagination">
+                <button class="page-btn nav">← Poprzednia</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn nav">Nastepna →</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <svg width="32" height="32" viewBox="0 0 512 512"><defs><linearGradient id="fg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#fg1)"/></g></svg>
+                    <span class="footer-logo-text">workejszyn<span class="accent">.pl</span></span>
+                </div>
+                <p class="footer-desc">Znajdz idealne miejsce do pracy zdalnej.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Dla gosci</h4>
+                <ul>
+                    <li><a href="#">Szukaj mieszkan</a></li>
+                    <li><a href="#">Jak to dziala</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Dla Zarzadcai</h4>
+                <ul>
+                    <li><a href="#">Dodaj mieszkanie</a></li>
+                    <li><a href="#">Cennik</a></li>
+                    <li><a href="#">Panel</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Informacje</h4>
+                <ul>
+                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                    <li><a href="#">Prywatnosc</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 workejszyn.pl</span>
+            <span>Made with ❤️ in Poland</span>
+        </div>
+    </footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+

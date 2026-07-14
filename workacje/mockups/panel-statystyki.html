@@ -1,0 +1,729 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Statystyki - Panel Zarzadcaa - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .sidebar-nav i { width: 18px; height: 18px; }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+        .sidebar-logo span { font-size: 1.25rem; font-weight: 700; color: #FFFFFF; }
+        .sidebar-logo .accent { color: #00ACC1; }
+
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.25rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .sidebar-nav a:hover { background: #1E293B; color: #FFFFFF; }
+        .sidebar-nav a.active { background: linear-gradient(135deg, #1A73E8, #00ACC1); color: #FFFFFF; }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .period-selector {
+            display: flex;
+            gap: 0.5rem;
+            background: #FFFFFF;
+            padding: 0.25rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .period-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .period-btn.active {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i { width: 22px; height: 22px; }
+
+        .stat-icon.blue { background: rgba(26, 115, 232, 0.1); color: #1A73E8; }
+        .stat-icon.cyan { background: rgba(0, 172, 193, 0.1); color: #00ACC1; }
+        .stat-icon.teal { background: rgba(0, 210, 160, 0.1); color: #00D2A0; }
+        .stat-icon.orange { background: rgba(251, 146, 60, 0.1); color: #F97316; }
+
+        .stat-trend {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-trend i { width: 14px; height: 14px; }
+
+        .stat-trend.up {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .stat-trend.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        /* CHARTS ROW */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: #64748B;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* BAR CHART */
+        .bar-chart {
+            height: 220px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 0.5rem;
+            padding-top: 1rem;
+        }
+
+        .bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 40px;
+            background: linear-gradient(180deg, #00ACC1, #00D2A0);
+            border-radius: 4px 4px 0 0;
+            min-height: 4px;
+        }
+
+        .bar-label {
+            font-size: 0.7rem;
+            color: #94A3B8;
+        }
+
+        /* DONUT CHART */
+        .donut-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .donut {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #1A73E8 0% 42%,
+                #00ACC1 42% 67%,
+                #00D2A0 67% 85%,
+                #F97316 85% 100%
+            );
+            position: relative;
+        }
+
+        .donut::after {
+            content: "";
+            position: absolute;
+            inset: 35px;
+            background: #FFFFFF;
+            border-radius: 50%;
+        }
+
+        .donut-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .donut-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .donut-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .donut-legend-value {
+            margin-left: auto;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        /* TABLES ROW */
+        .tables-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .table-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .table-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .mini-table {
+            width: 100%;
+        }
+
+        .mini-table tr {
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .mini-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .mini-table td {
+            padding: 0.875rem 0;
+            font-size: 0.9rem;
+        }
+
+        .property-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .property-thumb {
+            width: 40px;
+            height: 30px;
+            background: #E2E8F0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .property-thumb i { width: 16px; height: 16px; color: #94A3B8; }
+
+        .property-name {
+            font-weight: 500;
+            color: #1E293B;
+        }
+
+        .property-location {
+            font-size: 0.75rem;
+            color: #94A3B8;
+        }
+
+        .views-cell {
+            text-align: right;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .views-cell span {
+            font-weight: 400;
+            color: #94A3B8;
+            font-size: 0.8rem;
+        }
+
+        .conversion-cell {
+            text-align: right;
+        }
+
+        .conversion-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .conversion-badge.high {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .conversion-badge.medium {
+            background: rgba(0, 172, 193, 0.1);
+            color: #00ACC1;
+        }
+
+        .conversion-badge.low {
+            background: rgba(251, 146, 60, 0.1);
+            color: #F97316;
+        }
+
+        /* REVENUE TABLE */
+        .revenue-row td:last-child {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .revenue-positive { color: #00D2A0; }
+        .revenue-total {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-row { grid-template-columns: 1fr; }
+            .tables-row { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .page-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <ul class="sidebar-nav">
+            <li><a href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i data-lucide="home"></i> Moje oferty</a></li>
+            <li><a href="#"><i data-lucide="calendar"></i> Kalendarz</a></li>
+            <li><a href="#"><i data-lucide="clipboard-list"></i> Rezerwacje</a></li>
+            <li><a href="#"><i data-lucide="message-square"></i> Wiadomosci</a></li>
+            <li><a href="#" class="active"><i data-lucide="bar-chart-3"></i> Statystyki</a></li>
+        </ul>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Ustawienia</div>
+            <ul class="sidebar-nav">
+                <li><a href="#"><i data-lucide="user"></i> Profil</a></li>
+                <li><a href="#"><i data-lucide="settings"></i> Ustawienia</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Statystyki</h1>
+            <div class="period-selector">
+                <button class="period-btn">7 dni</button>
+                <button class="period-btn active">30 dni</button>
+                <button class="period-btn">90 dni</button>
+                <button class="period-btn">Rok</button>
+            </div>
+        </div>
+
+        <!-- STATS CARDS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon cyan"><i data-lucide="eye"></i></div>
+                    <span class="stat-trend up"><i data-lucide="trending-up"></i> +18%</span>
+                </div>
+                <div class="stat-value">2,847</div>
+                <div class="stat-label">Wyswietlen ofert</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon orange"><i data-lucide="message-square"></i></div>
+                    <span class="stat-trend up"><i data-lucide="trending-up"></i> +24%</span>
+                </div>
+                <div class="stat-value">18</div>
+                <div class="stat-label">Zapytan o rezerwacje</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon teal"><i data-lucide="check-circle"></i></div>
+                    <span class="stat-trend up"><i data-lucide="trending-up"></i> +12%</span>
+                </div>
+                <div class="stat-value">12</div>
+                <div class="stat-label">Potwierdzonych rezerwacji</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon blue"><i data-lucide="wallet"></i></div>
+                    <span class="stat-trend up"><i data-lucide="trending-up"></i> +32%</span>
+                </div>
+                <div class="stat-value">14,200 zl</div>
+                <div class="stat-label">Przychod</div>
+            </div>
+        </div>
+
+        <!-- CHARTS -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Wyswietlenia w czasie</h3>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-dot" style="background:#00ACC1"></span> Wyswietlenia</span>
+                    </div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-group"><div class="bar" style="height: 45%"></div><span class="bar-label">1 wrz</span></div>
+                    <div class="bar-group"><div class="bar" style="height: 62%"></div><span class="bar-label">5</span></div>
+                    <div class="bar-group"><div class="bar" style="height: 38%"></div><span class="bar-label">9</span></div>
+                    <div class="bar-group"><div class="bar" style="height: 75%"></div><span class="bar-label">13</span></div>
+                    <div class="bar-group"><div class="bar" style="height: 52%"></div><span class="bar-label">17</span></div>
+                    <div class="bar-group"><div class="bar" style="height: 88%"></div><span class="bar-label">21</span></div>
+                    <div class="bar-group"><div class="bar" style="height: 95%"></div><span class="bar-label">25</span></div>
+                    <div class="bar-group"><div class="bar" style="height: 78%"></div><span class="bar-label">29</span></div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Status rezerwacji</h3>
+                </div>
+                <div class="donut-container">
+                    <div class="donut"></div>
+                    <div class="donut-legend">
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#1A73E8"></span>
+                            Zakonczone
+                            <span class="donut-legend-value">42%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#00ACC1"></span>
+                            Potwierdzone
+                            <span class="donut-legend-value">25%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#00D2A0"></span>
+                            Przedplaty
+                            <span class="donut-legend-value">18%</span>
+                        </div>
+                        <div class="donut-legend-item">
+                            <span class="donut-legend-dot" style="background:#F97316"></span>
+                            Zapytania
+                            <span class="donut-legend-value">15%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLES -->
+        <div class="tables-row">
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Najpopularniejsze oferty</h3>
+                </div>
+                <table class="mini-table">
+                    <tr>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Apartament z widokiem</div>
+                                    <div class="property-location">Sopot</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="views-cell">1,245 <span>wyswietlen</span></td>
+                        <td class="conversion-cell"><span class="conversion-badge high">8.2%</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Studio w centrum</div>
+                                    <div class="property-location">Gdansk</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="views-cell">892 <span>wyswietlen</span></td>
+                        <td class="conversion-cell"><span class="conversion-badge medium">5.4%</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Dom z ogrodem</div>
+                                    <div class="property-location">Jastarnia</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="views-cell">478 <span>wyswietlen</span></td>
+                        <td class="conversion-cell"><span class="conversion-badge medium">4.8%</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Loft Orlowo</div>
+                                    <div class="property-location">Gdynia</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="views-cell">232 <span>wyswietlen</span></td>
+                        <td class="conversion-cell"><span class="conversion-badge low">2.1%</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Przychody wg mieszkan</h3>
+                </div>
+                <table class="mini-table">
+                    <tr class="revenue-row">
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Apartament z widokiem</div>
+                                    <div class="property-location">3 rezerwacje</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="revenue-positive">5,200 zl</td>
+                    </tr>
+                    <tr class="revenue-row">
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Dom z ogrodem</div>
+                                    <div class="property-location">2 rezerwacje</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="revenue-positive">5,000 zl</td>
+                    </tr>
+                    <tr class="revenue-row">
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Studio w centrum</div>
+                                    <div class="property-location">2 rezerwacje</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="revenue-positive">2,550 zl</td>
+                    </tr>
+                    <tr class="revenue-row">
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Loft Orlowo</div>
+                                    <div class="property-location">1 rezerwacja</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="revenue-positive">1,450 zl</td>
+                    </tr>
+                    <tr class="revenue-row" style="border-top: 2px solid #E2E8F0">
+                        <td><strong>Razem</strong></td>
+                        <td class="revenue-total">14,200 zl</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

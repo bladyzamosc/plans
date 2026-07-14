@@ -1,0 +1,1171 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin Dashboard - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* LAYOUT */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+
+        .sidebar-logo span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .sidebar-logo .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-badge {
+            font-size: 0.6rem;
+            background: #DC2626;
+            color: #FFFFFF;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255,255,255,0.05);
+            color: #FFFFFF;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.2), rgba(0, 172, 193, 0.2));
+            color: #00ACC1;
+        }
+
+        .sidebar-link i { width: 20px; height: 20px; }
+
+        .sidebar-link .badge {
+            margin-left: auto;
+            background: #EF4444;
+            color: #FFFFFF;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+        }
+
+        .admin-avatar {
+            width: 36px;
+            height: 36px;
+            background: #DC2626;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .admin-info {
+            flex: 1;
+        }
+
+        .admin-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .admin-role {
+            font-size: 0.7rem;
+            color: #64748B;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-top: 0.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-secondary {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            color: #64748B;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .btn-secondary i { width: 16px; height: 16px; }
+
+        /* KPI CARDS */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kpi-icon i { width: 20px; height: 20px; }
+
+        .kpi-icon.blue { background: rgba(26, 115, 232, 0.1); color: #1A73E8; }
+        .kpi-icon.cyan { background: rgba(0, 172, 193, 0.1); color: #00ACC1; }
+        .kpi-icon.green { background: rgba(0, 210, 160, 0.1); color: #00D2A0; }
+        .kpi-icon.orange { background: rgba(251, 146, 60, 0.1); color: #F97316; }
+
+        .kpi-trend {
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .kpi-trend.up { color: #00D2A0; }
+        .kpi-trend.down { color: #EF4444; }
+        .kpi-trend i { width: 12px; height: 12px; }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.25rem;
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        /* CHARTS ROW */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .chart-filter {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.75rem;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 6px;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .filter-btn.active {
+            background: #0F172A;
+            color: #FFFFFF;
+            border-color: #0F172A;
+        }
+
+        /* PLACEHOLDER CHART */
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(180deg, rgba(0, 172, 193, 0.05) 0%, rgba(0, 172, 193, 0.02) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 1rem;
+        }
+
+        .chart-bar {
+            width: 30px;
+            background: linear-gradient(180deg, #1A73E8, #00ACC1);
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* USER TYPE STATS */
+        .user-type-stats {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .user-type-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.75rem;
+        }
+
+        .user-type-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .breakdown-item {
+            text-align: center;
+        }
+
+        .breakdown-label {
+            display: block;
+            font-size: 0.7rem;
+            color: #94A3B8;
+            margin-bottom: 0.15rem;
+        }
+
+        .breakdown-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .mini-trend {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .mini-trend.up { color: #00D2A0; }
+        .mini-trend.down { color: #EF4444; }
+
+        /* MINI CHART */
+        .mini-chart-placeholder {
+            height: 100px;
+            background: linear-gradient(180deg, rgba(0, 172, 193, 0.05) 0%, rgba(0, 172, 193, 0.02) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 0.75rem;
+        }
+
+        .mini-chart-placeholder .chart-bar {
+            width: 20px;
+        }
+
+        /* THREE COL LAYOUTS */
+        .charts-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .tables-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        /* RANK BADGES */
+        .rank-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: #E2E8F0;
+            color: #64748B;
+            flex-shrink: 0;
+        }
+
+        .rank-badge.gold {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: #FFFFFF;
+        }
+
+        .rank-badge.silver {
+            background: linear-gradient(135deg, #9CA3AF, #6B7280);
+            color: #FFFFFF;
+        }
+
+        .rank-badge.bronze {
+            background: linear-gradient(135deg, #D97706, #92400E);
+            color: #FFFFFF;
+        }
+
+        .revenue {
+            color: #00D2A0;
+        }
+
+        /* TABLES ROW */
+        .tables-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .table-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .table-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .table-link {
+            font-size: 0.8rem;
+            color: #00ACC1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .table-link:hover { text-decoration: underline; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.85rem 1.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-cell-avatar {
+            width: 32px;
+            height: 32px;
+            background: #E2E8F0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 0.75rem;
+        }
+
+        .user-cell-info strong {
+            display: block;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .user-cell-info span {
+            font-size: 0.75rem;
+            color: #94A3B8;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .status-pill.active {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .status-pill.pending {
+            background: rgba(251, 146, 60, 0.1);
+            color: #F97316;
+        }
+
+        .status-pill.inactive {
+            background: #F1F5F9;
+            color: #64748B;
+        }
+
+        .status-pill i { width: 10px; height: 10px; }
+
+        /* ALERT BANNER */
+        .alert-banner {
+            background: rgba(251, 146, 60, 0.1);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            background: #F97316;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            flex-shrink: 0;
+        }
+
+        .alert-icon i { width: 20px; height: 20px; }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.15rem;
+        }
+
+        .alert-text {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        .alert-action {
+            padding: 0.5rem 1rem;
+            background: #F97316;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        @media (max-width: 1200px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-row, .tables-row { grid-template-columns: 1fr; }
+            .charts-row.three-col, .tables-row.three-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+            <span class="admin-badge">ADMIN</span>
+        </a>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Przeglad</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="activity"></i>
+                    Aktywnosc
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Zarzadzanie</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="users"></i>
+                    Uzytkownicy
+                    <span class="badge">3</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="home"></i>
+                    Oferty
+                    <span class="badge">5</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="calendar-check"></i>
+                    Rezerwacje
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="tag"></i>
+                    Tagi / Amenities
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Raporty</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="bar-chart-2"></i>
+                    Statystyki
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="file-text"></i>
+                    Raporty
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">System</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="settings"></i>
+                    Ustawienia
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="shield"></i>
+                    Logi audytu
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="admin-user">
+                <div class="admin-avatar">AS</div>
+                <div class="admin-info">
+                    <div class="admin-name">Adam Superadmin</div>
+                    <div class="admin-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Przegladag platformy workejszyn.pl</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary">
+                    <i data-lucide="download"></i>
+                    Eksportuj
+                </button>
+                <button class="btn-secondary">
+                    <i data-lucide="refresh-cw"></i>
+                    Odswiez
+                </button>
+            </div>
+        </div>
+
+        <!-- ALERT -->
+        <div class="alert-banner">
+            <div class="alert-icon">
+                <i data-lucide="alert-triangle"></i>
+            </div>
+            <div class="alert-content">
+                <div class="alert-title">5 ofert czeka na moderacje</div>
+                <div class="alert-text">Nowe oferty wymagaja zatwierdzenia przed publikacja</div>
+            </div>
+            <button class="alert-action">Przejrzyj oferty</button>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon blue"><i data-lucide="users"></i></div>
+                    <span class="kpi-trend up"><i data-lucide="trending-up"></i> +12%</span>
+                </div>
+                <div class="kpi-value">2,847</div>
+                <div class="kpi-label">Zarejestrowani uzytkownicy</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon cyan"><i data-lucide="home"></i></div>
+                    <span class="kpi-trend up"><i data-lucide="trending-up"></i> +8%</span>
+                </div>
+                <div class="kpi-value">156</div>
+                <div class="kpi-label">Aktywne oferty</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon green"><i data-lucide="calendar-check"></i></div>
+                    <span class="kpi-trend up"><i data-lucide="trending-up"></i> +24%</span>
+                </div>
+                <div class="kpi-value">89</div>
+                <div class="kpi-label">Rezerwacje (30 dni)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-icon orange"><i data-lucide="eye"></i></div>
+                    <span class="kpi-trend down"><i data-lucide="trending-down"></i> -3%</span>
+                </div>
+                <div class="kpi-value">45.2k</div>
+                <div class="kpi-label">Odslony (30 dni)</div>
+            </div>
+        </div>
+
+        <!-- CHARTS ROW 1 -->
+        <div class="charts-row three-col">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Goscie</h3>
+                </div>
+                <div class="user-type-stats">
+                    <div class="user-type-number">2,415</div>
+                    <div class="user-type-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Aktywni</span>
+                            <span class="breakdown-value">2,102</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Pending</span>
+                            <span class="breakdown-value">313</span>
+                        </div>
+                    </div>
+                    <div class="mini-trend up">+18% vs poprz. miesiac</div>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Zarzadcae</h3>
+                </div>
+                <div class="user-type-stats">
+                    <div class="user-type-number">423</div>
+                    <div class="user-type-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Aktywni</span>
+                            <span class="breakdown-value">398</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Bez ofert</span>
+                            <span class="breakdown-value">25</span>
+                        </div>
+                    </div>
+                    <div class="mini-trend up">+8% vs poprz. miesiac</div>
+                </div>
+            </div>
+            <div class="chart-card small">
+                <div class="chart-header">
+                    <h3 class="chart-title">Rezerwacje (30 dni)</h3>
+                </div>
+                <div class="mini-chart-placeholder">
+                    <div class="chart-bar" style="height: 40%"></div>
+                    <div class="chart-bar" style="height: 65%"></div>
+                    <div class="chart-bar" style="height: 80%"></div>
+                    <div class="chart-bar" style="height: 55%"></div>
+                    <div class="chart-bar" style="height: 90%"></div>
+                    <div class="chart-bar" style="height: 70%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP RANKINGS -->
+        <div class="tables-row three-col">
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Top Zarzadcae (oferty)</h3>
+                    <a href="#" class="table-link">Wszyscy</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Zarzadca</th>
+                            <th>Oferty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge gold">1</div>
+                                    <div class="user-cell-info">
+                                        <strong>Anna Kowalska</strong>
+                                        <span>Sopot, Gdansk</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>12</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge silver">2</div>
+                                    <div class="user-cell-info">
+                                        <strong>Pawel Nowak</strong>
+                                        <span>Gdynia</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>8</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge bronze">3</div>
+                                    <div class="user-cell-info">
+                                        <strong>Maria Zielinska</strong>
+                                        <span>Hel, Jastarnia</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>6</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge">4</div>
+                                    <div class="user-cell-info">
+                                        <strong>Jan Wisniewski</strong>
+                                        <span>Sopot</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>5</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge">5</div>
+                                    <div class="user-cell-info">
+                                        <strong>Ewa Kaminska</strong>
+                                        <span>Gdansk</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>4</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Top Zarzadcae (przychody)</h3>
+                    <a href="#" class="table-link">Wszyscy</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Zarzadca</th>
+                            <th>Przychod</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge gold">1</div>
+                                    <div class="user-cell-info">
+                                        <strong>Anna Kowalska</strong>
+                                        <span>12 rezerwacji</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong class="revenue">89 400 zl</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge silver">2</div>
+                                    <div class="user-cell-info">
+                                        <strong>Maria Zielinska</strong>
+                                        <span>9 rezerwacji</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong class="revenue">67 200 zl</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge bronze">3</div>
+                                    <div class="user-cell-info">
+                                        <strong>Pawel Nowak</strong>
+                                        <span>8 rezerwacji</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong class="revenue">52 800 zl</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge">4</div>
+                                    <div class="user-cell-info">
+                                        <strong>Tomasz Krol</strong>
+                                        <span>6 rezerwacji</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong class="revenue">41 500 zl</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge">5</div>
+                                    <div class="user-cell-info">
+                                        <strong>Jan Wisniewski</strong>
+                                        <span>5 rezerwacji</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong class="revenue">38 200 zl</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Top mieszkania</h3>
+                    <a href="#" class="table-link">Wszystkie</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mieszkanie</th>
+                            <th>Rez.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge gold">1</div>
+                                    <div class="user-cell-info">
+                                        <strong>Apartament z widokiem</strong>
+                                        <span>Sopot</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>18</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge silver">2</div>
+                                    <div class="user-cell-info">
+                                        <strong>Studio w centrum</strong>
+                                        <span>Gdansk</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>14</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge bronze">3</div>
+                                    <div class="user-cell-info">
+                                        <strong>Loft przy plazy</strong>
+                                        <span>Gdynia</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>11</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge">4</div>
+                                    <div class="user-cell-info">
+                                        <strong>Dom z ogrodem</strong>
+                                        <span>Jastarnia</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>9</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="rank-badge">5</div>
+                                    <div class="user-cell-info">
+                                        <strong>Penthouse</strong>
+                                        <span>Sopot</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><strong>7</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BOTTOM TABLES -->
+        <div class="tables-row" style="margin-top: 1.25rem;">
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Nowi uzytkownicy</h3>
+                    <a href="#" class="table-link">Zobacz wszystkich</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Uzytkownik</th>
+                            <th>Rola</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="user-cell-avatar">MK</div>
+                                    <div class="user-cell-info">
+                                        <strong>Maria Kowalczyk</strong>
+                                        <span>maria@email.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Gosc</td>
+                            <td><span class="status-pill pending"><i data-lucide="clock"></i> Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="user-cell-avatar">JN</div>
+                                    <div class="user-cell-info">
+                                        <strong>Jan Nowak</strong>
+                                        <span>jan@email.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Zarzadca</td>
+                            <td><span class="status-pill active"><i data-lucide="check"></i> Aktywny</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="user-cell-avatar">AW</div>
+                                    <div class="user-cell-info">
+                                        <strong>Anna Wisniewska</strong>
+                                        <span>anna@email.com</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Gosc</td>
+                            <td><span class="status-pill active"><i data-lucide="check"></i> Aktywny</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Ostatnie rezerwacje</h3>
+                    <a href="#" class="table-link">Zobacz wszystkie</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Oferta</th>
+                            <th>Gosc</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Apartament Sopot</td>
+                            <td>Jan N.</td>
+                            <td><span class="status-pill pending">Zapytanie</span></td>
+                        </tr>
+                        <tr>
+                            <td>Studio Gdansk</td>
+                            <td>Maria K.</td>
+                            <td><span class="status-pill active">Potwierdzone</span></td>
+                        </tr>
+                        <tr>
+                            <td>Loft Gdynia</td>
+                            <td>Pawel W.</td>
+                            <td><span class="status-pill inactive">Zakonczone</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

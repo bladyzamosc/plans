@@ -1,0 +1,846 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Uzytkownicy - Admin - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* LAYOUT */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+
+        .sidebar-logo span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .sidebar-logo .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-badge {
+            font-size: 0.6rem;
+            background: #DC2626;
+            color: #FFFFFF;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255,255,255,0.05);
+            color: #FFFFFF;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.2), rgba(0, 172, 193, 0.2));
+            color: #00ACC1;
+        }
+
+        .sidebar-link i { width: 20px; height: 20px; }
+
+        .sidebar-link .badge {
+            margin-left: auto;
+            background: #EF4444;
+            color: #FFFFFF;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-top: 0.25rem;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.25rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary i { width: 18px; height: 18px; }
+
+        /* FILTERS BAR */
+        .filters-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #FFFFFF;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #00ACC1;
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: #94A3B8;
+        }
+
+        .filter-select {
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: #FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #00ACC1;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 0;
+        }
+
+        .tab {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.15s;
+        }
+
+        .tab:hover {
+            color: #1E293B;
+        }
+
+        .tab.active {
+            color: #00ACC1;
+            border-bottom-color: #00ACC1;
+        }
+
+        .tab .count {
+            background: #F1F5F9;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .tab.active .count {
+            background: rgba(0, 172, 193, 0.1);
+            color: #00ACC1;
+        }
+
+        /* TABLE */
+        .table-container {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        td {
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tr:hover td {
+            background: #F8FAFC;
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .user-avatar.owner {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+        }
+
+        .user-avatar.admin {
+            background: #DC2626;
+            color: #FFFFFF;
+        }
+
+        .user-info strong {
+            display: block;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .user-info span {
+            font-size: 0.8rem;
+            color: #94A3B8;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .role-badge.guest {
+            background: #F1F5F9;
+            color: #64748B;
+        }
+
+        .role-badge.owner {
+            background: rgba(0, 172, 193, 0.1);
+            color: #00ACC1;
+        }
+
+        .role-badge.admin {
+            background: rgba(220, 38, 38, 0.1);
+            color: #DC2626;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .status-pill.active {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .status-pill.pending {
+            background: rgba(251, 146, 60, 0.1);
+            color: #F97316;
+        }
+
+        .status-pill.inactive {
+            background: #F1F5F9;
+            color: #64748B;
+        }
+
+        .status-pill i { width: 12px; height: 12px; }
+
+        .stats-cell {
+            font-size: 0.85rem;
+        }
+
+        .stats-cell strong {
+            color: #1E293B;
+        }
+
+        .stats-cell span {
+            color: #94A3B8;
+            font-size: 0.75rem;
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748B;
+            transition: all 0.15s;
+        }
+
+        .btn-icon:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .btn-icon.danger:hover {
+            border-color: #DC2626;
+            color: #DC2626;
+        }
+
+        .btn-icon i { width: 16px; height: 16px; }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .pagination-info {
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.85rem;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: inherit;
+            color: #64748B;
+            transition: all 0.15s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: #0F172A;
+            color: #FFFFFF;
+            border-color: #0F172A;
+        }
+
+        /* BULK ACTIONS */
+        .bulk-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: #0F172A;
+            color: #FFFFFF;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .bulk-actions .selected-count {
+            font-size: 0.85rem;
+        }
+
+        .bulk-actions .bulk-btn {
+            padding: 0.4rem 0.75rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: #FFFFFF;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .bulk-actions .bulk-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .bulk-actions .bulk-btn i { width: 14px; height: 14px; }
+
+        .bulk-actions .close-bulk {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: #94A3B8;
+            cursor: pointer;
+        }
+
+        .bulk-actions .close-bulk:hover {
+            color: #FFFFFF;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #00ACC1;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1200px) {
+            .filters-bar { flex-direction: column; }
+            .search-box { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+            <span class="admin-badge">ADMIN</span>
+        </a>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Przeglad</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Zarzadzanie</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active">
+                    <i data-lucide="users"></i>
+                    Uzytkownicy
+                    <span class="badge">3</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="home"></i>
+                    Oferty
+                    <span class="badge">5</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="calendar-check"></i>
+                    Rezerwacje
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="tag"></i>
+                    Tagi / Amenities
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">System</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="settings"></i>
+                    Ustawienia
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Uzytkownicy</h1>
+                <p class="page-subtitle">Zarzadzaj uzytkownikami platformy</p>
+            </div>
+            <button class="btn-primary">
+                <i data-lucide="user-plus"></i>
+                Dodaj uzytkownika
+            </button>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active">Wszyscy <span class="count">2,847</span></button>
+            <button class="tab">Goscie <span class="count">2,415</span></button>
+            <button class="tab">Zarzadcae <span class="count">423</span></button>
+            <button class="tab">Admini <span class="count">3</span></button>
+            <button class="tab">Pending <span class="count">313</span></button>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filters-bar">
+            <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Szukaj po imieniu, emailu, telefonie...">
+            </div>
+            <select class="filter-select">
+                <option>Status: Wszystkie</option>
+                <option>Aktywny</option>
+                <option>Pending</option>
+                <option>Nieaktywny</option>
+            </select>
+            <select class="filter-select">
+                <option>Sortuj: Najnowsi</option>
+                <option>Najstarsi</option>
+                <option>Alfabetycznie</option>
+                <option>Ostatnio aktywni</option>
+            </select>
+        </div>
+
+        <!-- BULK ACTIONS (shown when items selected) -->
+        <div class="bulk-actions" style="display: none;">
+            <span class="selected-count">3 zaznaczonych</span>
+            <button class="bulk-btn"><i data-lucide="mail"></i> Wyslij email</button>
+            <button class="bulk-btn"><i data-lucide="check"></i> Aktywuj</button>
+            <button class="bulk-btn"><i data-lucide="ban"></i> Dezaktywuj</button>
+            <button class="close-bulk"><i data-lucide="x"></i></button>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 40px;"><input type="checkbox"></th>
+                        <th>Uzytkownik</th>
+                        <th>Rola</th>
+                        <th>Status</th>
+                        <th>Statystyki</th>
+                        <th>Dolaczyl</th>
+                        <th style="width: 120px;">Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar admin">AS</div>
+                                <div class="user-info">
+                                    <strong>Adam Superadmin</strong>
+                                    <span>adam@workejszyn.pl</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge admin">Admin</span></td>
+                        <td><span class="status-pill active"><i data-lucide="check"></i> Aktywny</span></td>
+                        <td class="stats-cell">-</td>
+                        <td>1 sty 2026</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-icon"><i data-lucide="eye"></i></button>
+                                <button class="btn-icon"><i data-lucide="pencil"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar owner">AK</div>
+                                <div class="user-info">
+                                    <strong>Anna Kowalska</strong>
+                                    <span>anna.kowalska@email.com</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge owner">Zarzadca</span></td>
+                        <td><span class="status-pill active"><i data-lucide="check"></i> Aktywny</span></td>
+                        <td class="stats-cell">
+                            <strong>12</strong> <span>ofert</span> &middot;
+                            <strong>89k</strong> <span>przychod</span>
+                        </td>
+                        <td>15 mar 2026</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-icon"><i data-lucide="eye"></i></button>
+                                <button class="btn-icon"><i data-lucide="pencil"></i></button>
+                                <button class="btn-icon danger"><i data-lucide="ban"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar owner">PN</div>
+                                <div class="user-info">
+                                    <strong>Pawel Nowak</strong>
+                                    <span>pawel.nowak@email.com</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge owner">Zarzadca</span></td>
+                        <td><span class="status-pill active"><i data-lucide="check"></i> Aktywny</span></td>
+                        <td class="stats-cell">
+                            <strong>8</strong> <span>ofert</span> &middot;
+                            <strong>53k</strong> <span>przychod</span>
+                        </td>
+                        <td>22 mar 2026</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-icon"><i data-lucide="eye"></i></button>
+                                <button class="btn-icon"><i data-lucide="pencil"></i></button>
+                                <button class="btn-icon danger"><i data-lucide="ban"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">JN</div>
+                                <div class="user-info">
+                                    <strong>Jan Nowak</strong>
+                                    <span>jan.nowak@email.com</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge guest">Gosc</span></td>
+                        <td><span class="status-pill active"><i data-lucide="check"></i> Aktywny</span></td>
+                        <td class="stats-cell">
+                            <strong>3</strong> <span>rezerwacje</span>
+                        </td>
+                        <td>5 kwi 2026</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-icon"><i data-lucide="eye"></i></button>
+                                <button class="btn-icon"><i data-lucide="pencil"></i></button>
+                                <button class="btn-icon danger"><i data-lucide="ban"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">MK</div>
+                                <div class="user-info">
+                                    <strong>Maria Kowalczyk</strong>
+                                    <span>maria.k@email.com</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge guest">Gosc</span></td>
+                        <td><span class="status-pill pending"><i data-lucide="clock"></i> Pending</span></td>
+                        <td class="stats-cell">
+                            <strong>1</strong> <span>zapytanie</span>
+                        </td>
+                        <td>10 lip 2026</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-icon"><i data-lucide="eye"></i></button>
+                                <button class="btn-icon"><i data-lucide="pencil"></i></button>
+                                <button class="btn-icon danger"><i data-lucide="trash-2"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">AW</div>
+                                <div class="user-info">
+                                    <strong>Anna Wisniewska</strong>
+                                    <span>a.wisniewska@email.com</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge guest">Gosc</span></td>
+                        <td><span class="status-pill inactive"><i data-lucide="pause"></i> Nieaktywny</span></td>
+                        <td class="stats-cell">
+                            <strong>0</strong> <span>rezerwacji</span>
+                        </td>
+                        <td>1 lut 2026</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-icon"><i data-lucide="eye"></i></button>
+                                <button class="btn-icon"><i data-lucide="pencil"></i></button>
+                                <button class="btn-icon danger"><i data-lucide="trash-2"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- PAGINATION -->
+            <div class="pagination">
+                <span class="pagination-info">Wyswietlono 1-6 z 2,847 uzytkownikow</span>
+                <div class="pagination-buttons">
+                    <button class="pagination-btn" disabled>&laquo; Poprz.</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">...</button>
+                    <button class="pagination-btn">475</button>
+                    <button class="pagination-btn">Nast. &raquo;</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

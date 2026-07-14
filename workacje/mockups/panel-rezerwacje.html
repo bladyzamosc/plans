@@ -1,0 +1,719 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Rezerwacje - Panel Zarzadcaa - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .sidebar-nav i, .search-box i, .property-thumb i, .page-btn i {
+            width: 18px;
+            height: 18px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+        .sidebar-logo span { font-size: 1.25rem; font-weight: 700; color: #FFFFFF; }
+        .sidebar-logo .accent { color: #00ACC1; }
+
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.25rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .sidebar-nav a:hover { background: #1E293B; color: #FFFFFF; }
+        .sidebar-nav a.active { background: linear-gradient(135deg, #1A73E8, #00ACC1); color: #FFFFFF; }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem 3rem;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        /* FILTERS */
+        .filters-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-tabs {
+            display: flex;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 0.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: #FFFFFF;
+        }
+
+        .search-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: #FFFFFF;
+            width: 250px;
+        }
+
+        /* TABLE */
+        .table-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 1rem 1.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: #F8FAFC;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .data-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:hover {
+            background: #F8FAFC;
+        }
+
+        .data-table th,
+        .data-table td {
+            white-space: nowrap;
+        }
+
+        /* GUEST CELL */
+        .guest-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .guest-avatar {
+            width: 40px;
+            height: 40px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 0.85rem;
+        }
+
+        .guest-name {
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .guest-contact {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        /* PROPERTY CELL */
+        .property-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .property-thumb {
+            width: 50px;
+            height: 38px;
+            background: #E2E8F0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94A3B8;
+            font-size: 0.7rem;
+        }
+
+        .property-name {
+            font-weight: 500;
+            color: #1E293B;
+        }
+
+        .property-location {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        /* DATES */
+        .dates-cell {
+            color: #475569;
+        }
+
+        .dates-nights {
+            font-size: 0.8rem;
+            color: #94A3B8;
+        }
+
+        /* STATUS */
+        .status-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.inquiry {
+            background: rgba(251, 146, 60, 0.1);
+            color: #F97316;
+        }
+
+        .status-badge.confirmed {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .status-badge.prepaid {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1A73E8;
+        }
+
+        .status-badge.rejected {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .status-badge.expired {
+            background: #F1F5F9;
+            color: #94A3B8;
+        }
+
+        .status-badge.cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .status-badge.completed {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        /* PRICE */
+        .price-cell {
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        /* ACTIONS */
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 0.875rem;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .action-btn:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+        }
+
+        .action-btn.danger {
+            color: #EF4444;
+        }
+
+        .action-btn.danger:hover {
+            border-color: #EF4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* TABLE FOOTER */
+        .table-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .table-info {
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        .page-btn:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+        }
+
+        @media (max-width: 1200px) {
+            .data-table th:nth-child(5),
+            .data-table td:nth-child(5) { display: none; }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .filters-bar { flex-direction: column; align-items: stretch; }
+            .search-input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <ul class="sidebar-nav">
+            <li><a href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i data-lucide="home"></i> Moje oferty</a></li>
+            <li><a href="#"><i data-lucide="calendar"></i> Kalendarz</a></li>
+            <li><a href="#" class="active"><i data-lucide="clipboard-list"></i> Rezerwacje</a></li>
+            <li><a href="#"><i data-lucide="message-square"></i> Wiadomosci</a></li>
+            <li><a href="#"><i data-lucide="bar-chart-3"></i> Statystyki</a></li>
+        </ul>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Ustawienia</div>
+            <ul class="sidebar-nav">
+                <li><a href="#"><i data-lucide="user"></i> Profil</a></li>
+                <li><a href="#"><i data-lucide="settings"></i> Ustawienia</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Rezerwacje</h1>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filters-bar">
+            <div class="filter-tabs">
+                <button class="filter-tab active">Wszystkie (12)</button>
+                <button class="filter-tab">Zapytania (4)</button>
+                <button class="filter-tab">Potwierdzone (5)</button>
+                <button class="filter-tab">Przedplaty (2)</button>
+                <button class="filter-tab">Zakonczone (1)</button>
+            </div>
+            <select class="filter-select">
+                <option>Wszystkie mieszkania</option>
+                <option>Apartament Sopot</option>
+                <option>Studio Gdansk</option>
+                <option>Dom Jastarnia</option>
+            </select>
+            <div class="search-box" style="position: relative;">
+                <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94A3B8;"></i>
+                <input type="text" class="search-input" style="padding-left: 40px;" placeholder="Szukaj goscia...">
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Gosc</th>
+                        <th>Mieszkanie</th>
+                        <th>Termin</th>
+                        <th>Status</th>
+                        <th>Cena</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="guest-cell">
+                                <div class="guest-avatar">JN</div>
+                                <div>
+                                    <div class="guest-name">Jan Nowak</div>
+                                    <div class="guest-contact">jan@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Apartament z widokiem</div>
+                                    <div class="property-location">Sopot</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dates-cell">15-22 wrz 2026</div>
+                            <div class="dates-nights">7 nocy</div>
+                        </td>
+                        <td><span class="status-badge inquiry">Zapytanie</span></td>
+                        <td class="price-cell">1100 zl</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="action-btn primary">Potwierdz</button>
+                                <button class="action-btn danger">Odrzuc</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="guest-cell">
+                                <div class="guest-avatar">MK</div>
+                                <div>
+                                    <div class="guest-name">Maria Kowal</div>
+                                    <div class="guest-contact">maria@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Studio w centrum</div>
+                                    <div class="property-location">Gdansk</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dates-cell">1-14 paz 2026</div>
+                            <div class="dates-nights">14 nocy</div>
+                        </td>
+                        <td><span class="status-badge confirmed">Potwierdzone</span></td>
+                        <td class="price-cell">1700 zl</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="action-btn">Przedplata</button>
+                                <button class="action-btn">Wiadomosc</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="guest-cell">
+                                <div class="guest-avatar">PW</div>
+                                <div>
+                                    <div class="guest-name">Piotr Wisniewski</div>
+                                    <div class="guest-contact">piotr@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Dom z ogrodem</div>
+                                    <div class="property-location">Jastarnia</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dates-cell">20-27 wrz 2026</div>
+                            <div class="dates-nights">7 nocy</div>
+                        </td>
+                        <td><span class="status-badge prepaid">Przedplata</span></td>
+                        <td class="price-cell">1800 zl</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="action-btn">Wiadomosc</button>
+                                <button class="action-btn danger">Anuluj</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="guest-cell">
+                                <div class="guest-avatar">AZ</div>
+                                <div>
+                                    <div class="guest-name">Anna Zielinska</div>
+                                    <div class="guest-contact">anna.z@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Apartament z widokiem</div>
+                                    <div class="property-location">Sopot</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dates-cell">5-12 paz 2026</div>
+                            <div class="dates-nights">7 nocy</div>
+                        </td>
+                        <td><span class="status-badge inquiry">Zapytanie</span></td>
+                        <td class="price-cell">1100 zl</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="action-btn primary">Potwierdz</button>
+                                <button class="action-btn danger">Odrzuc</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="guest-cell">
+                                <div class="guest-avatar">TM</div>
+                                <div>
+                                    <div class="guest-name">Tomasz Maj</div>
+                                    <div class="guest-contact">tomasz@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Loft Orlowo</div>
+                                    <div class="property-location">Gdynia</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dates-cell">1-8 wrz 2026</div>
+                            <div class="dates-nights">7 nocy</div>
+                        </td>
+                        <td><span class="status-badge completed">Zakonczone</span></td>
+                        <td class="price-cell">1200 zl</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="action-btn">Szczegoly</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="guest-cell">
+                                <div class="guest-avatar">KL</div>
+                                <div>
+                                    <div class="guest-name">Katarzyna Lis</div>
+                                    <div class="guest-contact">kasia@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Studio w centrum</div>
+                                    <div class="property-location">Gdansk</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dates-cell">10-17 wrz 2026</div>
+                            <div class="dates-nights">7 nocy</div>
+                        </td>
+                        <td><span class="status-badge expired">Wygaslo</span></td>
+                        <td class="price-cell">850 zl</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="action-btn">Szczegoly</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="guest-cell">
+                                <div class="guest-avatar">RB</div>
+                                <div>
+                                    <div class="guest-name">Robert Bak</div>
+                                    <div class="guest-contact">robert@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-cell">
+                                <div class="property-thumb"><i data-lucide="image"></i></div>
+                                <div>
+                                    <div class="property-name">Dom z ogrodem</div>
+                                    <div class="property-location">Jastarnia</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dates-cell">15-29 paz 2026</div>
+                            <div class="dates-nights">14 nocy</div>
+                        </td>
+                        <td><span class="status-badge confirmed">Potwierdzone</span></td>
+                        <td class="price-cell">3200 zl</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="action-btn">Przedplata</button>
+                                <button class="action-btn">Wiadomosc</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="table-footer">
+                <div class="table-info">Pokazano 7 z 12 rezerwacji</div>
+                <div class="pagination">
+                    <button class="page-btn"><i data-lucide="chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn"><i data-lucide="chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

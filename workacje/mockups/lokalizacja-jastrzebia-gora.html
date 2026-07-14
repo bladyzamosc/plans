@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workation w Jastrzębiej Górze - mieszkania do pracy zdalnej | workejszyn.pl</title>
+    <meta name="description" content="Jastrzębia Góra to idealne miejsce na workation. Klify, cisza, szybki internet. Znajdź mieszkanie do pracy zdalnej nad morzem.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #1A73E8, #00ACC1, #00D2A0) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: #00ACC1; }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            height: 50vh;
+            min-height: 350px;
+            background: linear-gradient(135deg, rgba(26,115,232,0.9), rgba(0,172,193,0.85)),
+                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .number {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .hero-stat .label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            background: #fff;
+            padding: 12px 20px;
+            font-size: 13px;
+            color: #64748B;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .breadcrumb a {
+            color: #00ACC1;
+            text-decoration: none;
+        }
+
+        .breadcrumb span { margin: 0 8px; }
+
+        /* MAIN CONTENT */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 20px;
+        }
+
+        /* INTRO SECTION */
+        .intro-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 48px;
+        }
+
+        .intro-text h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0F172A;
+        }
+
+        .intro-text p {
+            color: #64748B;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .intro-text ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .intro-text li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .intro-text li i {
+            width: 20px;
+            height: 20px;
+            color: #00D2A0;
+        }
+
+        .intro-map {
+            border-radius: 16px;
+            overflow: hidden;
+            height: 300px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        #map { height: 100%; width: 100%; }
+
+        /* WHY HERE */
+        .why-section {
+            margin-bottom: 48px;
+        }
+
+        .why-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .why-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .why-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .why-icon i {
+            width: 28px;
+            height: 28px;
+            color: #00ACC1;
+        }
+
+        .why-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #0F172A;
+        }
+
+        .why-card p {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        /* PRACTICAL INFO */
+        .practical-section {
+            background: #fff;
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 48px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .practical-section h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .practical-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .practical-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .practical-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .practical-icon i {
+            width: 20px;
+            height: 20px;
+            color: #fff;
+        }
+
+        .practical-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #0F172A;
+        }
+
+        .practical-info p {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        /* WEATHER BOX */
+        .weather-section {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 48px;
+            color: #fff;
+        }
+
+        .weather-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .weather-month {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .weather-month .month {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .weather-month .temp {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .weather-month .desc {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .weather-note {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        /* APARTMENTS SECTION */
+        .apartments-section {
+            margin-bottom: 48px;
+        }
+
+        .apartments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .apartments-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .apartments-count {
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        .apartments-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .apartment-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .apartment-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .apartment-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .apartment-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #00D2A0, #00ACC1);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .apartment-content {
+            padding: 16px;
+        }
+
+        .apartment-content h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .apartment-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+            color: #64748B;
+            margin-bottom: 12px;
+        }
+
+        .apartment-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .apartment-meta i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .apartment-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-top: 12px;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .apartment-price .price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00ACC1;
+        }
+
+        .apartment-price .period {
+            font-size: 12px;
+            color: #94A3B8;
+        }
+
+        .view-all-btn {
+            display: block;
+            text-align: center;
+            margin-top: 24px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .view-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,172,193,0.3);
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(26,115,232,0.05), rgba(0,172,193,0.05));
+            border: 2px solid rgba(0,172,193,0.2);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .cta-section h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .cta-section p {
+            color: #64748B;
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .cta-secondary {
+            padding: 14px 32px;
+            background: #fff;
+            color: #1A73E8;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            border: 2px solid #E2E8F0;
+        }
+
+        /* OTHER LOCATIONS */
+        .other-locations {
+            margin-bottom: 48px;
+        }
+
+        .other-locations h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .location-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #0F172A;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .location-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .location-link i {
+            width: 20px;
+            height: 20px;
+            color: #00ACC1;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 48px 20px 24px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer-links h4 {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover { color: #00ACC1; }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid #1E293B;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .mobile-menu-btn { display: none; }
+        }
+
+        @media (max-width: 900px) {
+            .intro-section { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: repeat(2, 1fr); }
+            .practical-grid { grid-template-columns: repeat(2, 1fr); }
+            .weather-grid { grid-template-columns: repeat(2, 1fr); }
+            .apartments-grid { grid-template-columns: repeat(2, 1fr); }
+            .locations-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .hero { height: 40vh; min-height: 300px; }
+            .hero-stats { gap: 20px; }
+            .why-grid { grid-template-columns: 1fr; }
+            .practical-grid { grid-template-columns: 1fr; }
+            .weather-grid { grid-template-columns: 1fr 1fr; }
+            .apartments-grid { grid-template-columns: 1fr; }
+            .locations-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; gap: 24px; }
+            .cta-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav class="nav-bar">
+            <a href="strona-glowna.html" class="logo">
+                <svg viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="10" fill="url(#grad)"/>
+                    <path d="M12 28V18L20 12L28 18V28H22V22H18V28H12Z" fill="white"/>
+                    <circle cx="20" cy="17" r="2" fill="#00D2A0"/>
+                    <defs>
+                        <linearGradient id="grad" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#1A73E8"/>
+                            <stop offset="100%" stop-color="#00ACC1"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="logo-text">work<span class="accent">ejszyn</span>.pl</span>
+            </a>
+            <div class="nav-links">
+                <a href="wyszukiwarka.html">Szukaj</a>
+                <a href="jak-to-dziala.html">Jak to działa</a>
+                <a href="blog.html">Blog</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="logowanie.html" class="btn-login">Zaloguj się</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i data-lucide="map-pin"></i>
+                Półwysep Helski
+            </div>
+            <h1>Workation w Jastrzębiej Górze</h1>
+            <p>Klify, cisza, szybki internet. Idealne miejsce do pracy zdalnej poza sezonem.</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="number">2</span>
+                    <span class="label">mieszkania</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="number">100+</span>
+                    <span class="label">Mb/s internet</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="number">150m</span>
+                    <span class="label">do plaży</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="strona-glowna.html">Strona główna</a>
+        <span>›</span>
+        <a href="wyszukiwarka.html">Lokalizacje</a>
+        <span>›</span>
+        Jastrzębia Góra
+    </div>
+
+    <main>
+        <!-- INTRO -->
+        <section class="intro-section">
+            <div class="intro-text">
+                <h2>Dlaczego Jastrzębia Góra?</h2>
+                <p>Jastrzębia Góra to kameralna miejscowość na samym końcu polskiego wybrzeża. Słynie z malowniczych klifów, spokoju i świeżego powietrza. Poza sezonem to oaza ciszy — idealna do skupionej pracy.</p>
+                <p>Miejscowość oferuje wszystko, czego potrzebujesz: sklepy, restauracje, aptekę, a jednocześnie jest wystarczająco mała, by uniknąć miejskiego zgiełku.</p>
+                <ul>
+                    <li><i data-lucide="wifi"></i> Stabilne łącza światłowodowe 100-300 Mb/s</li>
+                    <li><i data-lucide="volume-x"></i> Cisza poza sezonem (wrzesień-maj)</li>
+                    <li><i data-lucide="trees"></i> Klify, lasy, ścieżki spacerowe</li>
+                    <li><i data-lucide="clock"></i> 1.5h od Gdańska, 2h od Gdyni</li>
+                </ul>
+            </div>
+            <div class="intro-map">
+                <div id="map"></div>
+            </div>
+        </section>
+
+        <!-- WHY HERE -->
+        <section class="why-section">
+            <h2>Co sprawia, że to idealne miejsce na workation?</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon"><i data-lucide="wifi"></i></div>
+                    <h3>Szybki internet</h3>
+                    <p>Światłowód w większości mieszkań. Videocalle bez lagów.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i data-lucide="wind"></i></div>
+                    <h3>Świeże powietrze</h3>
+                    <p>Jod, ozon, las sosnowy. Lepszy fokus i sen.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i data-lucide="wallet"></i></div>
+                    <h3>Niskie ceny</h3>
+                    <p>Poza sezonem nawet 60% taniej niż latem.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i data-lucide="sunset"></i></div>
+                    <h3>Zachody słońca</h3>
+                    <p>Najpiękniejsze w Polsce. Codziennie po pracy.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRACTICAL INFO -->
+        <section class="practical-section">
+            <h2>Praktyczne informacje</h2>
+            <div class="practical-grid">
+                <div class="practical-item">
+                    <div class="practical-icon"><i data-lucide="shopping-cart"></i></div>
+                    <div class="practical-info">
+                        <h4>Sklepy</h4>
+                        <p>Biedronka, Żabka, lokalne sklepy. Czynne cały rok.</p>
+                    </div>
+                </div>
+                <div class="practical-item">
+                    <div class="practical-icon"><i data-lucide="utensils"></i></div>
+                    <div class="practical-info">
+                        <h4>Restauracje</h4>
+                        <p>5+ otwartych poza sezonem. Ryby, pizza, kebab.</p>
+                    </div>
+                </div>
+                <div class="practical-item">
+                    <div class="practical-icon"><i data-lucide="pill"></i></div>
+                    <div class="practical-info">
+                        <h4>Apteka</h4>
+                        <p>Apteka przy ul. Głównej. Przychodnia we Władysławowie (5 km).</p>
+                    </div>
+                </div>
+                <div class="practical-item">
+                    <div class="practical-icon"><i data-lucide="coffee"></i></div>
+                    <div class="practical-info">
+                        <h4>Kawiarnie</h4>
+                        <p>2-3 otwarte cały rok. Dobra kawa, Wi-Fi.</p>
+                    </div>
+                </div>
+                <div class="practical-item">
+                    <div class="practical-icon"><i data-lucide="car"></i></div>
+                    <div class="practical-info">
+                        <h4>Dojazd</h4>
+                        <p>Auto lub PKS z Gdyni. Parking darmowy poza sezonem.</p>
+                    </div>
+                </div>
+                <div class="practical-item">
+                    <div class="practical-icon"><i data-lucide="landmark"></i></div>
+                    <div class="practical-info">
+                        <h4>Bankomat</h4>
+                        <p>2 bankomaty w centrum. Większość miejsc przyjmuje karty.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WEATHER -->
+        <section class="weather-section">
+            <h2>Pogoda poza sezonem</h2>
+            <div class="weather-grid">
+                <div class="weather-month">
+                    <div class="month">Wrzesień</div>
+                    <div class="temp">15-18°C</div>
+                    <div class="desc">Babiego lata</div>
+                </div>
+                <div class="weather-month">
+                    <div class="month">Październik</div>
+                    <div class="temp">10-14°C</div>
+                    <div class="desc">Złota jesień</div>
+                </div>
+                <div class="weather-month">
+                    <div class="month">Listopad</div>
+                    <div class="temp">5-9°C</div>
+                    <div class="desc">Spacery w wietrze</div>
+                </div>
+                <div class="weather-month">
+                    <div class="month">Marzec-Kwiecień</div>
+                    <div class="temp">6-12°C</div>
+                    <div class="desc">Wiosenne przebudzenie</div>
+                </div>
+            </div>
+            <div class="weather-note">
+                💡 <strong>Tip:</strong> Najlepszy okres na workation to wrzesień-październik (ciepło, pusto) oraz marzec-maj (dłuższe dni, mniej turystów).
+            </div>
+        </section>
+
+        <!-- APARTMENTS -->
+        <section class="apartments-section">
+            <div class="apartments-header">
+                <h2>Mieszkania w Jastrzębiej Górze</h2>
+                <span class="apartments-count">2 oferty</span>
+            </div>
+            <div class="apartments-grid">
+                <a href="baltycki.html" class="apartment-card">
+                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600')">
+                        <span class="apartment-badge">Workation Ready</span>
+                    </div>
+                    <div class="apartment-content">
+                        <h3>Apartament Bałtycki</h3>
+                        <div class="apartment-meta">
+                            <span><i data-lucide="maximize"></i> 45 m²</span>
+                            <span><i data-lucide="users"></i> 2-4 os.</span>
+                            <span><i data-lucide="wifi"></i> 100 Mb/s</span>
+                        </div>
+                        <div class="apartment-price">
+                            <span class="price">2 800 zł</span>
+                            <span class="period">/ tydzień</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="nadmorski.html" class="apartment-card">
+                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600')">
+                        <span class="apartment-badge">Workation Ready</span>
+                    </div>
+                    <div class="apartment-content">
+                        <h3>Apartament Nadmorski</h3>
+                        <div class="apartment-meta">
+                            <span><i data-lucide="maximize"></i> 27 m²</span>
+                            <span><i data-lucide="users"></i> 2 os.</span>
+                            <span><i data-lucide="wifi"></i> 100 Mb/s</span>
+                        </div>
+                        <div class="apartment-price">
+                            <span class="price">2 100 zł</span>
+                            <span class="period">/ tydzień</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="apartment-card" style="opacity: 0.6; pointer-events: none;">
+                    <div class="apartment-image" style="background: linear-gradient(135deg, #E2E8F0, #CBD5E1); display: flex; align-items: center; justify-content: center;">
+                        <span style="color: #64748B; font-size: 14px;">Więcej wkrótce...</span>
+                    </div>
+                    <div class="apartment-content">
+                        <h3>Twoje mieszkanie?</h3>
+                        <div class="apartment-meta">
+                            <span>Dodaj ofertę za darmo</span>
+                        </div>
+                        <div class="apartment-price">
+                            <span class="price" style="color: #64748B;">0 zł</span>
+                            <span class="period">/ start</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="wyszukiwarka.html?lokalizacja=jastrzebia-gora" class="view-all-btn">
+                Zobacz wszystkie mieszkania w Jastrzębiej Górze
+            </a>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <h2>Zarządzasz mieszkaniem w Jastrzębiej Górze?</h2>
+            <p>Dołącz do workejszyn.pl i docieraj do pracowników zdalnych szukających spokojnego miejsca do pracy.</p>
+            <div class="cta-buttons">
+                <a href="rejestracja.html" class="cta-primary">Dodaj mieszkanie za darmo</a>
+                <a href="jak-to-dziala.html" class="cta-secondary">Jak to działa?</a>
+            </div>
+        </section>
+
+        <!-- OTHER LOCATIONS -->
+        <section class="other-locations">
+            <h2>Inne lokalizacje na workation</h2>
+            <div class="locations-grid">
+                <a href="#" class="location-link">
+                    <i data-lucide="map-pin"></i>
+                    Władysławowo
+                </a>
+                <a href="#" class="location-link">
+                    <i data-lucide="map-pin"></i>
+                    Hel
+                </a>
+                <a href="#" class="location-link">
+                    <i data-lucide="map-pin"></i>
+                    Sopot
+                </a>
+                <a href="#" class="location-link">
+                    <i data-lucide="map-pin"></i>
+                    Gdańsk
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>workejszyn.pl</h3>
+                <p>Platforma łącząca pracowników zdalnych z mieszkaniami w polskich kurortach. Praca z widokiem na morze.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Dla gości</h4>
+                <a href="wyszukiwarka.html">Szukaj mieszkania</a>
+                <a href="jak-to-dziala.html">Jak to działa</a>
+                <a href="blog.html">Blog</a>
+            </div>
+            <div class="footer-links">
+                <h4>Dla zarządców</h4>
+                <a href="rejestracja.html">Dodaj mieszkanie</a>
+                <a href="jak-to-dziala.html">Korzyści</a>
+                <a href="kontakt.html">Kontakt</a>
+            </div>
+            <div class="footer-links">
+                <h4>Lokalizacje</h4>
+                <a href="#">Jastrzębia Góra</a>
+                <a href="#">Władysławowo</a>
+                <a href="#">Hel</a>
+                <a href="#">Sopot</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 workejszyn.pl — Wszystkie prawa zastrzeżone
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Initialize map
+        const map = L.map('map').setView([54.8372, 18.3194], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Add markers for apartments
+        const apartments = [
+            { lat: 54.8372, lng: 18.3194, name: 'Apartament Bałtycki' },
+            { lat: 54.8365, lng: 18.3210, name: 'Apartament Nadmorski' }
+        ];
+
+        apartments.forEach(apt => {
+            L.marker([apt.lat, apt.lng])
+                .addTo(map)
+                .bindPopup(`<strong>${apt.name}</strong>`);
+        });
+    </script>
+</body>
+</html>

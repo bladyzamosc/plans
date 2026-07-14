@@ -1,0 +1,602 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Kalendarz - Panel Zarzadcaa - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .sidebar-nav i { width: 18px; height: 18px; }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+        .sidebar-logo span { font-size: 1.25rem; font-weight: 700; color: #FFFFFF; }
+        .sidebar-logo .accent { color: #00ACC1; }
+
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.25rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .sidebar-nav a:hover { background: #1E293B; color: #FFFFFF; }
+        .sidebar-nav a.active { background: linear-gradient(135deg, #1A73E8, #00ACC1); color: #FFFFFF; }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1rem;
+            background: #FFFFFF;
+            color: #475569;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        /* CALENDAR CONTROLS */
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .month-nav-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .month-nav-btn:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .month-nav-btn i { width: 18px; height: 18px; }
+
+        .current-month {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1E293B;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .today-btn {
+            padding: 0.5rem 1rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .today-btn:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .property-filter {
+            padding: 0.625rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: #FFFFFF;
+            min-width: 200px;
+        }
+
+        /* CALENDAR CONTAINER */
+        .calendar-container {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        /* CALENDAR HEADER */
+        .calendar-header {
+            display: grid;
+            grid-template-columns: 180px repeat(7, 1fr);
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .calendar-header-cell {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+        }
+
+        .calendar-header-cell:first-child {
+            text-align: left;
+            border-right: 1px solid #E2E8F0;
+        }
+
+        /* CALENDAR BODY */
+        .calendar-row {
+            display: grid;
+            grid-template-columns: 180px repeat(7, 1fr);
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .calendar-row:last-child {
+            border-bottom: none;
+        }
+
+        .property-label {
+            padding: 1rem;
+            border-right: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .property-thumb {
+            width: 40px;
+            height: 30px;
+            background: #E2E8F0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .property-thumb i { width: 16px; height: 16px; color: #94A3B8; }
+
+        .property-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1E293B;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .calendar-cell {
+            padding: 0.5rem;
+            min-height: 70px;
+            border-right: 1px solid #F1F5F9;
+            position: relative;
+        }
+
+        .calendar-cell:last-child {
+            border-right: none;
+        }
+
+        .cell-date {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            margin-bottom: 0.25rem;
+        }
+
+        .cell-date.today {
+            color: #00ACC1;
+            font-weight: 600;
+        }
+
+        /* BOOKING BLOCKS */
+        .booking-block {
+            padding: 0.35rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .booking-block.confirmed {
+            background: rgba(0, 210, 160, 0.15);
+            color: #00D2A0;
+            border-left: 3px solid #00D2A0;
+        }
+
+        .booking-block.prepaid {
+            background: rgba(26, 115, 232, 0.15);
+            color: #1A73E8;
+            border-left: 3px solid #1A73E8;
+        }
+
+        .booking-block.inquiry {
+            background: rgba(251, 146, 60, 0.15);
+            color: #F97316;
+            border-left: 3px solid #F97316;
+        }
+
+        .booking-block.external {
+            background: rgba(148, 163, 184, 0.15);
+            color: #64748B;
+            border-left: 3px solid #94A3B8;
+        }
+
+        .booking-block:hover {
+            opacity: 0.8;
+        }
+
+        /* AVAILABILITY */
+        .cell-available {
+            background: rgba(56, 189, 248, 0.08);
+        }
+
+        .cell-blocked {
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* LEGEND */
+        .calendar-legend {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #E2E8F0;
+            background: #F8FAFC;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-dot.confirmed { background: #00D2A0; }
+        .legend-dot.prepaid { background: #1A73E8; }
+        .legend-dot.inquiry { background: #F97316; }
+        .legend-dot.external { background: #94A3B8; }
+        .legend-dot.available { background: rgba(56, 189, 248, 0.4); }
+
+        /* ICAL SYNC INFO */
+        .sync-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 172, 193, 0.05);
+            border: 1px solid rgba(0, 172, 193, 0.2);
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .sync-info i { width: 20px; height: 20px; color: #00ACC1; }
+
+        .sync-info-text {
+            flex: 1;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .sync-info-text strong { color: #1E293B; }
+
+        .sync-info-btn {
+            padding: 0.5rem 1rem;
+            background: #00ACC1;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        @media (max-width: 1200px) {
+            .calendar-header,
+            .calendar-row {
+                grid-template-columns: 140px repeat(7, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .calendar-controls { flex-direction: column; align-items: stretch; }
+            .property-filter { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <ul class="sidebar-nav">
+            <li><a href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i data-lucide="home"></i> Moje oferty</a></li>
+            <li><a href="#" class="active"><i data-lucide="calendar"></i> Kalendarz</a></li>
+            <li><a href="#"><i data-lucide="clipboard-list"></i> Rezerwacje</a></li>
+            <li><a href="#"><i data-lucide="message-square"></i> Wiadomosci</a></li>
+            <li><a href="#"><i data-lucide="bar-chart-3"></i> Statystyki</a></li>
+        </ul>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Ustawienia</div>
+            <ul class="sidebar-nav">
+                <li><a href="#"><i data-lucide="user"></i> Profil</a></li>
+                <li><a href="#"><i data-lucide="settings"></i> Ustawienia</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Kalendarz</h1>
+            <div class="header-actions">
+                <button class="btn-secondary"><i data-lucide="download" style="width:16px;height:16px"></i> Eksportuj iCal</button>
+                <button class="btn-secondary"><i data-lucide="upload" style="width:16px;height:16px"></i> Importuj</button>
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="calendar-controls">
+            <div class="month-nav">
+                <button class="month-nav-btn"><i data-lucide="chevron-left"></i></button>
+                <span class="current-month">Wrzesien 2026</span>
+                <button class="month-nav-btn"><i data-lucide="chevron-right"></i></button>
+                <button class="today-btn">Dzis</button>
+            </div>
+            <select class="property-filter">
+                <option>Wszystkie mieszkania</option>
+                <option>Apartament z widokiem - Sopot</option>
+                <option>Studio w centrum - Gdansk</option>
+                <option>Dom z ogrodem - Jastarnia</option>
+                <option>Loft Orlowo - Gdynia</option>
+            </select>
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <div class="calendar-header-cell">Mieszkanie</div>
+                <div class="calendar-header-cell">Pon<br><span style="font-weight:400">14</span></div>
+                <div class="calendar-header-cell">Wt<br><span style="font-weight:400">15</span></div>
+                <div class="calendar-header-cell">Sr<br><span style="font-weight:400">16</span></div>
+                <div class="calendar-header-cell">Cz<br><span style="font-weight:400">17</span></div>
+                <div class="calendar-header-cell">Pt<br><span style="font-weight:400">18</span></div>
+                <div class="calendar-header-cell">Sb<br><span style="font-weight:400">19</span></div>
+                <div class="calendar-header-cell">Nd<br><span style="font-weight:400">20</span></div>
+            </div>
+
+            <!-- Property 1 -->
+            <div class="calendar-row">
+                <div class="property-label">
+                    <div class="property-thumb"><i data-lucide="image"></i></div>
+                    <span class="property-name">Apartament z widokiem</span>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block confirmed">Jan N.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block confirmed">Jan N.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block confirmed">Jan N.</div>
+                </div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell">
+                    <div class="booking-block inquiry">Anna Z.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block inquiry">Anna Z.</div>
+                </div>
+            </div>
+
+            <!-- Property 2 -->
+            <div class="calendar-row">
+                <div class="property-label">
+                    <div class="property-thumb"><i data-lucide="image"></i></div>
+                    <span class="property-name">Studio w centrum</span>
+                </div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell">
+                    <div class="booking-block prepaid">Maria K.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block prepaid">Maria K.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block prepaid">Maria K.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block prepaid">Maria K.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block prepaid">Maria K.</div>
+                </div>
+            </div>
+
+            <!-- Property 3 -->
+            <div class="calendar-row">
+                <div class="property-label">
+                    <div class="property-thumb"><i data-lucide="image"></i></div>
+                    <span class="property-name">Dom z ogrodem</span>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block external">Booking</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block external">Booking</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block external">Booking</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block external">Booking</div>
+                </div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+            </div>
+
+            <!-- Property 4 -->
+            <div class="calendar-row">
+                <div class="property-label">
+                    <div class="property-thumb"><i data-lucide="image"></i></div>
+                    <span class="property-name">Loft Orlowo</span>
+                </div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell cell-available"></div>
+                <div class="calendar-cell">
+                    <div class="booking-block confirmed">Piotr W.</div>
+                </div>
+                <div class="calendar-cell">
+                    <div class="booking-block confirmed">Piotr W.</div>
+                </div>
+            </div>
+
+            <!-- LEGEND -->
+            <div class="calendar-legend">
+                <div class="legend-item"><div class="legend-dot confirmed"></div> Potwierdzone</div>
+                <div class="legend-item"><div class="legend-dot prepaid"></div> Przedplata</div>
+                <div class="legend-item"><div class="legend-dot inquiry"></div> Zapytanie</div>
+                <div class="legend-item"><div class="legend-dot external"></div> Zewnetrzne (iCal)</div>
+                <div class="legend-item"><div class="legend-dot available"></div> Dostepne</div>
+            </div>
+        </div>
+
+        <!-- SYNC INFO -->
+        <div class="sync-info">
+            <i data-lucide="refresh-cw"></i>
+            <div class="sync-info-text">
+                <strong>Synchronizacja iCal</strong><br>
+                Ostatnia synchronizacja: dzis, 14:32. Polaczone: Booking.com (Dom z ogrodem)
+            </div>
+            <button class="sync-info-btn">Synchronizuj teraz</button>
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

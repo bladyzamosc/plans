@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Jak przekonac szefa do pracy zdalnej z innego miasta | workejszyn.pl</title>
+    <meta name="description" content="Sprawdzone argumenty i strategia rozmowy, ktora zwiekszy Twoje szanse na zgode na prace zdalna z dowolnego miejsca w Polsce.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --gradient-1: #1A73E8;
+            --gradient-2: #00ACC1;
+            --gradient-3: #00D2A0;
+            --text-dark: #0F172A;
+            --text-mid: #334155;
+            --text-light: #64748B;
+            --bg: #F8FAFC;
+            --card: #FFFFFF;
+            --border: #E2E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.8;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        header {
+            background: var(--card);
+            padding: 1rem 1.5rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--gradient-1), var(--gradient-2), var(--gradient-3)) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover { color: var(--gradient-2); }
+        .back-link i { width: 18px; height: 18px; }
+
+        /* ARTICLE */
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .article-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: rgba(0,210,160,0.1);
+            color: var(--gradient-3);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .article-excerpt {
+            font-size: 1.15rem;
+            color: var(--text-mid);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .article-meta i { width: 16px; height: 16px; }
+
+        /* CONTENT */
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 2.5rem 0 1rem;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .article-content p {
+            color: var(--text-mid);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 0 0 1.5rem 1.5rem;
+            color: var(--text-mid);
+        }
+
+        .article-content li {
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        .article-content strong {
+            color: var(--text-dark);
+        }
+
+        .article-content blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(0,172,193,0.08), rgba(0,210,160,0.08));
+            border-left: 4px solid var(--gradient-2);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-mid);
+        }
+
+        .tip-box {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        .tip-box-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .tip-box-title i {
+            width: 20px;
+            height: 20px;
+            color: var(--gradient-2);
+        }
+
+        .tip-box ul {
+            margin: 0 0 0 1.25rem;
+        }
+
+        /* CTA */
+        .article-cta {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            border-radius: 16px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .article-cta h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-cta p {
+            opacity: 0.9;
+            margin-bottom: 1.25rem;
+        }
+
+        .article-cta a {
+            display: inline-block;
+            padding: 0.85rem 1.75rem;
+            background: #FFFFFF;
+            color: var(--gradient-1);
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .article-cta a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        /* SHARE */
+        .article-share {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .article-share span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .share-btn:hover { transform: scale(1.1); }
+        .share-btn i { width: 18px; height: 18px; }
+        .share-btn.facebook { background: #1877F2; }
+        .share-btn.linkedin { background: #0A66C2; }
+        .share-btn.twitter { background: #1DA1F2; }
+
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer a { color: var(--gradient-2); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .article-title { font-size: 1.75rem; }
+            article { padding: 2rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-bar">
+        <a href="strona-glowna.html" class="logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <a href="blog.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Blog
+        </a>
+    </div>
+</header>
+
+<article>
+    <div class="article-header">
+        <span class="article-category">Poradnik</span>
+        <h1 class="article-title">Jak przekonac szefa do pracy zdalnej z innego miasta</h1>
+        <p class="article-excerpt">
+            Chcesz wyjechac na miesiac nad morze, ale boisz sie reakcji przelozonego? Oto sprawdzone argumenty i strategia rozmowy, ktora zwiekszy Twoje szanse na "tak".
+        </p>
+        <div class="article-meta">
+            <span><i data-lucide="calendar"></i> 8 lipca 2026</span>
+            <span><i data-lucide="clock"></i> 5 min czytania</span>
+            <span><i data-lucide="user"></i> Redakcja workejszyn.pl</span>
+        </div>
+    </div>
+
+    <div class="article-content">
+        <p>
+            Praca zdalna to juz standard w wielu firmach. Ale czy mozesz pracowac z <strong>dowolnego miejsca</strong>? Wiele osob marzy o miesiecznym wyjedzie nad morze lub w gory, ale boi sie poruszyc temat z szefem. Niepotrzebnie - wystarczy odpowiednie przygotowanie.
+        </p>
+
+        <h2>Dlaczego szefowie sie boja?</h2>
+
+        <p>
+            Zanim przejdziemy do argumentow, warto zrozumiec obawy drugiej strony. Najczesciej sa to:
+        </p>
+
+        <ul>
+            <li><strong>Spadek produktywnosci</strong> - "Bedziesz caly czas na plazy zamiast pracowac"</li>
+            <li><strong>Problemy z komunikacja</strong> - "A co jak bede Cie potrzebowal?"</li>
+            <li><strong>Kwestie prawne</strong> - "Czy mozemy tak w ogole?"</li>
+            <li><strong>Precedens</strong> - "A co jak wszyscy beda chcieli?"</li>
+        </ul>
+
+        <p>
+            Twoje zadanie: rozwiazac kazda z tych obaw <strong>zanim</strong> zostanie wypowiedziana.
+        </p>
+
+        <h2>Przygotuj sie przed rozmowa</h2>
+
+        <h3>1. Zbierz dowody swojej efektywnosci</h3>
+
+        <p>
+            Przygotuj konkretne dane pokazujace, ze praca zdalna nie wplywa negatywnie na Twoja wydajnosc. Moze to byc:
+        </p>
+
+        <ul>
+            <li>Lista zamknietych projektow w ostatnich miesiacach</li>
+            <li>Pozytywne opinie klientow lub wspolpracownikow</li>
+            <li>Porownanie KPI z okresu biurowego vs. zdalnego</li>
+        </ul>
+
+        <h3>2. Zaplanuj logistyke</h3>
+
+        <p>
+            Pokaz, ze przemyslales wszystkie szczegoly:
+        </p>
+
+        <ul>
+            <li><strong>Internet:</strong> "Mieszkanie ma lacze 300 Mbps, szybsze niz w biurze"</li>
+            <li><strong>Strefa czasowa:</strong> "Pozostaje w tej samej strefie, zadnych zmian"</li>
+            <li><strong>Dostepnosc:</strong> "Bede dostepny w standardowych godzinach pracy"</li>
+            <li><strong>Spotkania:</strong> "Wszystkie spotkania online jak dotychczas"</li>
+        </ul>
+
+        <div class="tip-box">
+            <div class="tip-box-title">
+                <i data-lucide="lightbulb"></i>
+                Pro tip
+            </div>
+            <p>
+                Zaproponuj <strong>okres probny</strong> - np. 2 tygodnie. To zmniejsza ryzyko dla szefa i daje Ci szanse udowodnic, ze to dziala.
+            </p>
+        </div>
+
+        <h2>Argumenty, ktore dzialaja</h2>
+
+        <blockquote>
+            "Badania pokazuja, ze pracownicy zdalni sa srednio o 13% bardziej produktywni. Zmiana otoczenia dodatkowo pobudza kreatywnosc."
+        </blockquote>
+
+        <h3>Argument 1: Produktywnosc</h3>
+        <p>
+            "Pracujac z nowego miejsca, nie mam rozproszen domowych. Zero gosci, zero prania, zero 'tylko wstawie zmywarke'. Czysta praca."
+        </p>
+
+        <h3>Argument 2: Work-life balance</h3>
+        <p>
+            "Wyjazd pozwoli mi naladowac baterie. Wrocze zmotywowany i z nowa energia. To inwestycja w moja dlugoteminowa efektywnosc."
+        </p>
+
+        <h3>Argument 3: Lojalnosc</h3>
+        <p>
+            "Firmy, ktore oferuja taka elastycznosc, maja nizszą rotacje pracownikow. To dla mnie wazne i doceniam, ze moge o tym rozmawiac."
+        </p>
+
+        <h3>Argument 4: Zero dodatkowych kosztow</h3>
+        <p>
+            "Dla firmy nic sie nie zmienia - te same narzedzia, te same procesy. Dodatkowy koszt: zero."
+        </p>
+
+        <h2>Jak poprowadzic rozmowe</h2>
+
+        <ol>
+            <li><strong>Wybierz odpowiedni moment</strong> - nie w piatek o 17:00, nie w srodku kryzysu projektowego</li>
+            <li><strong>Zacznij od kontekstu</strong> - "Chcialbym porozmawiac o czyms, co moze byc korzystne dla nas obu..."</li>
+            <li><strong>Przedstaw plan</strong> - konkretne daty, miejsce, warunki pracy</li>
+            <li><strong>Odpowiedz na obawy</strong> - zanim zostana wypowiedziane</li>
+            <li><strong>Zaproponuj kompromis</strong> - okres probny, raportowanie, dodatkowe spotkania</li>
+        </ol>
+
+        <h2>Co jesli uslyszysz "nie"?</h2>
+
+        <p>
+            Nie traktuj tego jako koniec rozmowy. Zapytaj:
+        </p>
+
+        <ul>
+            <li>"Co musialoby sie zmienic, zebys mogl sie zgodzic?"</li>
+            <li>"Czy moglibysmy wrocic do tematu za 3 miesiace?"</li>
+            <li>"Czy krotsza wersja - np. tydzien - bylaby mozliwa?"</li>
+        </ul>
+
+        <p>
+            Pamietaj: odmowa dzis nie oznacza odmowy na zawsze. Buduj track record, pokazuj efekty pracy zdalnej i wracaj do tematu.
+        </p>
+
+        <div class="article-cta">
+            <h3>Gotowy na workation?</h3>
+            <p>Znajdz idealne mieszkanie z szybkim internetem</p>
+            <a href="wyszukiwarka.html">Przegladaj oferty</a>
+        </div>
+
+        <div class="article-share">
+            <span>Udostepnij:</span>
+            <a href="#" class="share-btn facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" class="share-btn linkedin"><i data-lucide="linkedin"></i></a>
+            <a href="#" class="share-btn twitter"><i data-lucide="twitter"></i></a>
+        </div>
+    </div>
+</article>
+
+<footer>
+    <p>&copy; 2026 workejszyn.pl &middot; <a href="blog.html">Blog</a> &middot; <a href="strona-glowna.html">Strona glowna</a></p>
+</footer>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

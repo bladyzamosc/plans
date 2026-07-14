@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartament Bałtycki - Jastrzębia Góra | Dwupoziomowy apartament nad morzem</title>
+    <meta name="description" content="Elegancki, dwupoziomowy apartament w Jastrzębiej Górze, 800m od plaży przez Lisi Jar. 2 sypialnie, 2 łazienki, 5 osób. Sprawdź dostępność!">
+    <meta name="keywords" content="apartament Jastrzębia Góra, nocleg nad morzem, wynajem Bałtyk, wakacje Półwysep Helski, Kaszuby">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Apartament Bałtycki - Jastrzębia Góra">
+    <meta property="og:description" content="Elegancki apartament 800m od plaży. Idealne miejsce na wypoczynek nad Bałtykiem.">
+    <meta property="og:image" content="images/main.jpg">
+    <meta property="og:url" content="https://apartament-baltycki.pl">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%231e3a5f'/><text y='68' x='50%' text-anchor='middle' font-family='Arial' font-weight='bold' font-size='42' fill='%2360a5fa'>AB</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons - Lucide -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Swiper Slider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="translations.js"></script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">Apartament <span>Bałtycki</span></a>
+            <nav class="nav">
+                <a href="#apartament" data-i18n="nav.apartament">Apartament</a>
+                <a href="#galeria" data-i18n="nav.galeria">Galeria</a>
+                <a href="#lokalizacja" data-i18n="nav.lokalizacja">Lokalizacja</a>
+                <a href="#gastronomia" data-i18n="nav.gdziejesc">Gdzie zjeść</a>
+                <a href="#region" data-i18n="nav.region">Region</a>
+                <a href="#kontakt" class="nav-cta" data-i18n="nav.kontakt">Kontakt</a>
+            </nav>
+            <div class="lang-switcher">
+                <button class="lang-current" id="langToggle">
+                    <img src="https://flagcdn.com/w40/pl.png" alt="PL" class="lang-flag">
+                    <span class="lang-code">PL</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <a href="#" class="lang-option active" data-lang="pl"><img src="https://flagcdn.com/w40/pl.png" alt="PL" class="lang-flag"> Polski</a>
+                    <a href="#" class="lang-option" data-lang="en"><img src="https://flagcdn.com/w40/gb.png" alt="EN" class="lang-flag"> English</a>
+                    <a href="#" class="lang-option" data-lang="de"><img src="https://flagcdn.com/w40/de.png" alt="DE" class="lang-flag"> Deutsch</a>
+                    <a href="#" class="lang-option" data-lang="cs"><img src="https://flagcdn.com/w40/cz.png" alt="CZ" class="lang-flag"> Čeština</a>
+                    <a href="#" class="lang-option" data-lang="sk"><img src="https://flagcdn.com/w40/sk.png" alt="SK" class="lang-flag"> Slovenčina</a>
+                    <a href="#" class="lang-option" data-lang="uk"><img src="https://flagcdn.com/w40/ua.png" alt="UA" class="lang-flag"> Українська</a>
+                </div>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose">
+            <i data-lucide="x"></i>
+        </button>
+        <nav class="mobile-nav">
+            <a href="#apartament" data-i18n="nav.apartament">Apartament</a>
+            <a href="#galeria" data-i18n="nav.galeria">Galeria</a>
+            <a href="#lokalizacja" data-i18n="nav.lokalizacja">Lokalizacja</a>
+            <a href="#gastronomia" data-i18n="nav.gdziejesc">Gdzie zjeść</a>
+            <a href="#region" data-i18n="nav.region">Region</a>
+            <a href="#kontakt" data-i18n="nav.kontakt">Kontakt</a>
+        </nav>
+        <div class="mobile-lang">
+            <p>Język / Language</p>
+            <div class="mobile-lang-options">
+                <a href="#" class="lang-option active" data-lang="pl"><img src="https://flagcdn.com/w40/pl.png" alt="PL" class="lang-flag"> PL</a>
+                <a href="#" class="lang-option" data-lang="en"><img src="https://flagcdn.com/w40/gb.png" alt="EN" class="lang-flag"> EN</a>
+                <a href="#" class="lang-option" data-lang="de"><img src="https://flagcdn.com/w40/de.png" alt="DE" class="lang-flag"> DE</a>
+                <a href="#" class="lang-option" data-lang="cs"><img src="https://flagcdn.com/w40/cz.png" alt="CZ" class="lang-flag"> CZ</a>
+                <a href="#" class="lang-option" data-lang="sk"><img src="https://flagcdn.com/w40/sk.png" alt="SK" class="lang-flag"> SK</a>
+                <a href="#" class="lang-option" data-lang="uk"><img src="https://flagcdn.com/w40/ua.png" alt="UA" class="lang-flag"> UA</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-slideshow">
+            <div class="hero-slide active" style="background-image: url('images/main.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/1.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/2.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/6.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/8.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/17.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/18.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/19.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/20.jpg')"></div>
+            <div class="hero-slide" style="background-image: url('images/gallery/21.jpg')"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i data-lucide="map-pin"></i>
+                <span data-i18n="hero.badge">Jastrzębia Góra • Półwysep Helski • Kaszuby</span>
+            </div>
+            <h1 class="hero-title"><span data-i18n="hero.title1">Apartament</span><br><span data-i18n="hero.title2">Bałtycki</span></h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Dwupoziomowy apartament w sercu nadmorskiego kurortu. Cisza, komfort i bliskość natury.</p>
+
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <i data-lucide="layers"></i>
+                    <span data-i18n="hero.features.levels">2 poziomy</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="ruler"></i>
+                    <span>55 m²</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="bed"></i>
+                    <span data-i18n="hero.features.bedrooms">2 sypialnie</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="users"></i>
+                    <span data-i18n="hero.features.guests">do 5 osób</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="waves"></i>
+                    <span data-i18n="hero.features.beach">800m do plaży</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-lucide="car"></i>
+                    <span data-i18n="hero.features.parking">Parking gratis</span>
+                </div>
+            </div>
+
+            <div class="hero-for-whom">
+                <span><i data-lucide="heart"></i> <span data-i18n="hero.forWhom.couples">Pary</span></span>
+                <span><i data-lucide="users"></i> <span data-i18n="hero.forWhom.families">Rodziny z dziećmi</span></span>
+                <span><i data-lucide="briefcase"></i> <span data-i18n="hero.forWhom.workation">Workation</span></span>
+                <span><i data-lucide="users"></i> <span data-i18n="hero.forWhom.friends">Grupy znajomych</span></span>
+            </div>
+
+            <div class="hero-actions">
+                <a href="#kontakt" class="btn btn-primary">
+                    <i data-lucide="phone"></i>
+                    <span data-i18n="hero.cta">Zarezerwuj pobyt</span>
+                </a>
+                <a href="#galeria" class="btn btn-secondary">
+                    <i data-lucide="images"></i>
+                    <span data-i18n="hero.ctaSecondary">Zobacz zdjęcia</span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span data-i18n="hero.scroll">Przewiń w dół</span>
+            <i data-lucide="chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- O APARTAMENCIE -->
+    <section class="section" id="apartament">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="about.title">O apartamencie</h2>
+                <p data-i18n="about.subtitle">Przestrzeń stworzona z myślą o Twoim komforcie</p>
+            </div>
+
+            <div class="about-layout">
+                <div class="about-text">
+                    <p data-i18n="about.description"><strong>Apartament Bałtycki</strong> to eleganckie, dwupoziomowe mieszkanie położone w spokojnej części Jastrzębiej Góry. Idealne miejsce zarówno na rodzinne wakacje, romantyczny wypad we dwoje, jak i wyjazd ze znajomymi.</p>
+
+                    <div class="about-levels">
+                        <div class="level">
+                            <h4><i data-lucide="arrow-up"></i> <span data-i18n="about.upperLevel">Górny poziom — strefa nocna</span></h4>
+                            <p data-i18n="about.upperLevelDesc">Dwie przytulne sypialnie (małżeńska z łóżkiem 160×200 oraz twin z dwoma łóżkami 90×200) i łazienka z kabiną prysznicową. Idealna przestrzeń do regeneracji po całym dniu.</p>
+                        </div>
+                        <div class="level">
+                            <h4><i data-lucide="arrow-down"></i> <span data-i18n="about.lowerLevel">Dolny poziom — strefa dzienna</span></h4>
+                            <p data-i18n="about.lowerLevelDesc">Przestronny salon z rozkładaną sofą i Smart TV, w pełni wyposażony aneks kuchenny, druga łazienka z wanną i pralką, oraz słoneczny balkon z meblami ogrodowymi.</p>
+                        </div>
+                    </div>
+
+                    <p data-i18n="about.beachInfo">Do malowniczej plaży przez słynny Lisi Jar — leśny wąwóz z drewnianymi schodami — dotrzesz w zaledwie 10 minut spaceru. W okolicy znajdziesz restauracje, sklepy i kawiarnie.</p>
+
+                    <div class="about-ideal">
+                        <h4 data-i18n="about.forWhomTitle">Dla kogo jest ten apartament?</h4>
+                        <ul>
+                            <li><i data-lucide="heart"></i> <strong data-i18n="about.forCouples">Pary</strong> — <span data-i18n="about.forCouplesDesc">romantyczne wieczory na balkonie, spacery po klifach</span></li>
+                            <li><i data-lucide="baby"></i> <strong data-i18n="about.forFamilies">Rodziny z dziećmi</strong> — <span data-i18n="about.forFamiliesDesc">bezpieczna okolica, blisko plaży, pełna kuchnia</span></li>
+                            <li><i data-lucide="laptop"></i> <strong data-i18n="about.forRemote">Praca zdalna</strong> — <span data-i18n="about.forRemoteDesc">szybkie Wi-Fi, biurko, cisza i spokój</span></li>
+                            <li><i data-lucide="users"></i> <strong data-i18n="about.forFriends">Grupy znajomych</strong> — <span data-i18n="about.forFriendsDesc">2 sypialnie + sofa, wspólne gotowanie</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="about-details">
+                    <div class="detail-item">
+                        <i data-lucide="ruler"></i>
+                        <span class="detail-label" data-i18n="about.details.area">Powierzchnia</span>
+                        <span class="detail-value">55 m²</span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="bed"></i>
+                        <span class="detail-label" data-i18n="about.details.bedrooms">Sypialnie</span>
+                        <span class="detail-value" data-i18n="about.details.bedroomsValue">2 (małżeńska + twin)</span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="bath"></i>
+                        <span class="detail-label" data-i18n="about.details.bathrooms">Łazienki</span>
+                        <span class="detail-value" data-i18n="about.details.bathroomsValue">2 (wanna + prysznic)</span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="users"></i>
+                        <span class="detail-label" data-i18n="about.details.maxGuests">Maksymalnie</span>
+                        <span class="detail-value" data-i18n="about.details.maxGuestsValue">5 osób</span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="car"></i>
+                        <span class="detail-label" data-i18n="about.details.parking">Parking</span>
+                        <span class="detail-value" data-i18n="about.details.parkingValue">Gratis (miejsce nr 3)</span>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="waves"></i>
+                        <span class="detail-label" data-i18n="about.details.toBeach">Do plaży</span>
+                        <span class="detail-value">800m (Lisi Jar)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UDOGODNIENIA -->
+    <section class="section section-alt" id="udogodnienia">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="amenities.title">Co znajdziesz w apartamencie</h2>
+                <p data-i18n="amenities.subtitle">Pełne wyposażenie dla Twojego komfortu</p>
+            </div>
+
+            <div class="amenities-grid">
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="wifi"></i>
+                    </div>
+                    <h3 data-i18n="amenities.wifi">Wi-Fi 300 Mb/s</h3>
+                    <p data-i18n="amenities.wifiDesc">Światłowód, idealne do pracy i streamingu</p>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="tv"></i>
+                    </div>
+                    <h3 data-i18n="amenities.tv">Smart TV</h3>
+                    <p data-i18n="amenities.tvDesc">Netflix, HBO Max, YouTube</p>
+                    <div class="amenity-badges">
+                        <span class="streaming-badge netflix">N</span>
+                        <span class="streaming-badge hbo">HBO</span>
+                        <span class="streaming-badge youtube">▶</span>
+                    </div>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="utensils"></i>
+                    </div>
+                    <h3 data-i18n="amenities.kitchen">Pełna kuchnia</h3>
+                    <p data-i18n="amenities.kitchenDesc">Lodówka, zmywarka, płyta indukcyjna</p>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="washing-machine"></i>
+                    </div>
+                    <h3 data-i18n="amenities.washer">Pralka i odkurzacz</h3>
+                    <p data-i18n="amenities.washerDesc">Pralka w łazience + odkurzacz do dyspozycji</p>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="bath"></i>
+                    </div>
+                    <h3 data-i18n="amenities.bath">Wanna i prysznic</h3>
+                    <p data-i18n="amenities.bathDesc">Dwie łazienki do dyspozycji</p>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="sun"></i>
+                    </div>
+                    <h3 data-i18n="amenities.balcony">Balkon</h3>
+                    <p data-i18n="amenities.balconyDesc">Z meblami ogrodowymi</p>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="car"></i>
+                    </div>
+                    <h3 data-i18n="amenities.parking">Parking</h3>
+                    <p data-i18n="amenities.parkingDesc">Dedykowane miejsce nr 3 gratis</p>
+                </div>
+                <div class="amenity-card">
+                    <div class="amenity-icon">
+                        <i data-lucide="coffee"></i>
+                    </div>
+                    <h3 data-i18n="amenities.coffee">Kawa i herbata</h3>
+                    <p data-i18n="amenities.coffeeDesc">Czajnik i podstawowe produkty</p>
+                </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section class="section" id="galeria">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="gallery.title">Galeria</h2>
+                <p data-i18n="gallery.subtitle">Zobacz jak wygląda apartament</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item gallery-item-large">
+                    <img src="images/main.jpg" alt="Apartament Bałtycki">
+                    <div class="gallery-caption">Apartament Bałtycki</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/1.jpg" alt="Salon">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/2.jpg" alt="Salon">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/3.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/4.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item gallery-item-wide">
+                    <img src="images/gallery/5.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/6.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/7.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/8.jpg" alt="Sypialnia">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/9.jpg" alt="Sypialnia">
+                </div>
+                <div class="gallery-item gallery-item-wide">
+                    <img src="images/gallery/10.jpg" alt="Łazienka">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/11.jpg" alt="Łazienka">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/12.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/13.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/14.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item gallery-item-wide">
+                    <img src="images/gallery/15.jpg" alt="Balkon">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/16.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/17.jpg" alt="Wnętrze">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/18.jpg" alt="Detale">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/19.jpg" alt="Detale">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/20.jpg" alt="Widok">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery/21.jpg" alt="Widok">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOKALIZACJA -->
+    <section class="section section-alt" id="lokalizacja">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="location.title">Lokalizacja</h2>
+                <p data-i18n="location.subtitle">Podgrzybkowa 17c/2, Tupadły (Jastrzębia Góra)</p>
+            </div>
+
+            <div class="location-layout">
+                <div class="location-map-main">
+                    <div id="mainMap"></div>
+                </div>
+                <div class="location-info">
+                    <div class="location-address">
+                        <h3 data-i18n="location.address">Adres</h3>
+                        <p>
+                            <strong>Podgrzybkowa 17c/2</strong><br>
+                            84-104 Jastrzębia Góra (Tupadły)<br>
+                            powiat pucki, woj. pomorskie
+                        </p>
+                    </div>
+                    <div class="location-nearby">
+                        <h3 data-i18n="location.nearby">W pobliżu</h3>
+                        <ul>
+                            <li><i data-lucide="sunset"></i> <span data-i18n="location.poi.lighthouse">Latarnia morska</span> — 600m</li>
+                            <li><i data-lucide="trees"></i> Lisi Jar (<span data-i18n="location.poi.beachAccess">zejście na plażę</span>) — 600m</li>
+                            <li><i data-lucide="compass"></i> <span data-i18n="location.poi.cape">Przylądek Rozewie</span> — 800m</li>
+                            <li><i data-lucide="sparkles"></i> SPA Primavera — 800m</li>
+                            <li><i data-lucide="pizza"></i> Pizza Portofino — 1.4km</li>
+                            <li><i data-lucide="utensils"></i> <span data-i18n="location.poi.restaurants">Restauracje, kebab</span> — 1.5-2km</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGION - KASZUBY -->
+    <section class="section" id="region">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="region.title">Jastrzębia Góra i Kaszuby</h2>
+                <p data-i18n="region.subtitle">Odkryj piękno polskiego wybrzeża i regionu</p>
+            </div>
+
+            <div class="region-content">
+                <div class="region-text">
+                    <h3>Jastrzębia Góra</h3>
+                    <p data-i18n="region.jastrzebiaDesc">Malownicza miejscowość na Półwyspie Helskim, słynąca z najwyższych klifów na polskim wybrzeżu (do 40m). Idealne miejsce dla miłośników natury, długich spacerów i morskiego spokoju. Piaszczyste plaże, sosnowe lasy i jodowe powietrze regenerują ciało i umysł.</p>
+
+                    <h3 data-i18n="region.kashubia">Kaszuby</h3>
+                    <p data-i18n="region.kashubiaDesc">Region o bogatej kulturze i tradycjach. Kaszubi to jedyna uznana mniejszość etniczna w Polsce z własnym językiem. Spróbuj lokalnych specjałów: czernina (zupa z krwi), prażuchy (ziemniaki), kaszubski piernik. Odkryj urokliwe wioski z charakterystycznymi podcieniowymi domami.</p>
+
+                    <h3 data-i18n="region.attractionsTitle">Atrakcje w regionie</h3>
+                    <div class="region-attractions">
+                        <div class="attraction-category">
+                            <h4><i data-lucide="compass"></i> <span data-i18n="region.natureViews">Natura i widoki</span></h4>
+                            <ul>
+                                <li><strong>Lisi Jar</strong> — <span data-i18n="region.lisiJarDesc">malowniczy wąwóz, 800m</span></li>
+                                <li><strong>Klif Jastrzębiej Góry</strong> — <span data-i18n="region.cliffsDesc">najwyższe klify w Polsce, 1km</span></li>
+                                <li><strong>Latarnia Rozewie</strong> — <span data-i18n="region.lighthouseDesc">najstarsza latarnia, 2.5km</span></li>
+                                <li><strong>Rezerwat Przylądek Rozewia</strong> — <span data-i18n="region.capeDesc">punkt widokowy, 3km</span></li>
+                                <li><strong>Mierzeja Helska</strong> — <span data-i18n="region.helSpitDesc">unikalna formacja, 10km</span></li>
+                            </ul>
+                        </div>
+                        <div class="attraction-category">
+                            <h4><i data-lucide="building-2"></i> <span data-i18n="region.citiesTowns">Miasta i miasteczka</span></h4>
+                            <ul>
+                                <li><strong>Władysławowo</strong> — <span data-i18n="region.wladDesc">port rybacki, restauracje, 5km</span></li>
+                                <li><strong>Hel</strong> — <span data-i18n="region.helDesc">fokarium, latarnia, plaże, 25km</span></li>
+                                <li><strong>Puck</strong> — <span data-i18n="region.puckDesc">zabytkowe centrum, 20km</span></li>
+                                <li><strong>Sopot</strong> — <span data-i18n="region.sopotDesc">molo, Monte Cassino, 45km</span></li>
+                                <li><strong>Gdańsk</strong> — <span data-i18n="region.gdanskDesc">Stare Miasto, Neptun, 75km</span></li>
+                            </ul>
+                        </div>
+                        <div class="attraction-category">
+                            <h4><i data-lucide="ticket"></i> <span data-i18n="region.familyAttractions">Atrakcje dla rodzin</span></h4>
+                            <ul>
+                                <li><strong>Fokarium Hel</strong> — <span data-i18n="region.sealariumDesc">foki szare, 25km</span></li>
+                                <li><strong>Oceanarium Gdynia</strong> — <span data-i18n="region.aquariumDesc">akwaria, 50km</span></li>
+                                <li><strong>Park Linowy Władysławowo</strong> — <span data-i18n="region.ropeParkDesc">dla dzieci, 5km</span></li>
+                                <li><strong>Muzeum Emigracji Gdynia</strong> — <span data-i18n="region.museumDesc">interaktywne, 50km</span></li>
+                            </ul>
+                        </div>
+                        <div class="attraction-category">
+                            <h4><i data-lucide="bike"></i> <span data-i18n="region.activities">Aktywności</span></h4>
+                            <ul>
+                                <li><strong data-i18n="region.bikeTrail">Trasa rowerowa R10</strong> — <span data-i18n="region.bikeTrailDesc">wzdłuż wybrzeża</span></li>
+                                <li><strong data-i18n="region.cliffTrails">Szlaki klifowe</strong> — <span data-i18n="region.cliffTrailsDesc">piesze wycieczki</span></li>
+                                <li><strong>Windsurfing/kitesurfing</strong> — Puck, Hel</li>
+                                <li><strong data-i18n="region.bikeRental">Wypożyczalnie rowerów</strong> — <span data-i18n="region.bikeRentalDesc">w okolicy</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="region-sidebar">
+                    <div class="region-image">
+                        <img src="images/okolica/Jastrzębia_Góra_-_beach.jpg" alt="Plaża w Jastrzębiej Górze">
+                    </div>
+                    <div class="region-quick-facts">
+                        <h4 data-i18n="region.quickFacts">Szybkie fakty</h4>
+                        <ul>
+                            <li><i data-lucide="sun"></i> <strong data-i18n="region.season">Sezon:</strong> <span data-i18n="region.seasonValue">czerwiec–sierpień</span></li>
+                            <li><i data-lucide="cloud-sun"></i> <strong data-i18n="region.offSeason">Poza sezonem:</strong> <span data-i18n="region.offSeasonValue">maj, wrzesień (spokój!)</span></li>
+                            <li><i data-lucide="thermometer"></i> <strong data-i18n="region.waterTemp">Temp. wody:</strong> <span data-i18n="region.waterTempValue">18–22°C latem</span></li>
+                            <li><i data-lucide="wind"></i> <strong data-i18n="region.climate">Klimat:</strong> <span data-i18n="region.climateValue">morski, jodowy</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GDZIE ZJEŚĆ -->
+    <section class="section section-alt" id="gastronomia">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="restaurants.title">Gdzie zjeść</h2>
+                <p data-i18n="restaurants.subtitle">Najlepsze restauracje w okolicy według Google</p>
+            </div>
+
+            <div class="restaurants-grid">
+                <div class="restaurant-card" data-lat="54.83061605499631" data-lng="18.30768489983855">
+                    <div class="restaurant-category">🍕 Pizza</div>
+                    <h3>Pizza Portofino</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="score">4.8</span>
+                    </div>
+                    <p data-i18n="restaurants.portofinoDesc">Najlepsza pizza w okolicy. Włoskie przepisy, świeże składniki, piec opałowy.</p>
+                    <span class="restaurant-phone"><i data-lucide="phone"></i> <a href="tel:+48587396996">58 739 69 96</a></span>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 1.4 km</span>
+                </div>
+
+                <div class="restaurant-card" data-lat="54.831565389799835" data-lng="18.30650181932112">
+                    <div class="restaurant-category">🥙 Kebab</div>
+                    <h3>Kebson Kebab Felipe</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="score">4.7</span>
+                    </div>
+                    <p data-i18n="restaurants.kebsonDesc">Kultowy kebab w Jastrzębiej Górze. Duże porcje, świeże składniki, rewelacyjne sosy.</p>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 1.5 km</span>
+                </div>
+
+                <div class="restaurant-card" data-lat="54.83347794825832" data-lng="18.29850543861065">
+                    <div class="restaurant-category">🍽️ Restauracja</div>
+                    <h3>Kredens</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="score">4.6</span>
+                    </div>
+                    <p data-i18n="restaurants.kredensDesc">Elegancka kuchnia polska z nowoczesnym twistem. Świeże ryby i lokalne produkty.</p>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 2 km</span>
+                </div>
+
+                <div class="restaurant-card" data-lat="54.833261671336714" data-lng="18.303011549737032">
+                    <div class="restaurant-category">🐟 Ryby</div>
+                    <h3>U Rybaka</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="score">4.6</span>
+                    </div>
+                    <p data-i18n="restaurants.rybakaDesc">Świeże ryby prosto z kutra. Smażone, grillowane — tradycyjne smaki Bałtyku.</p>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 1.8 km</span>
+                </div>
+
+                <div class="restaurant-card" data-lat="54.83347794825832" data-lng="18.29850543861065">
+                    <div class="restaurant-category">🍽️ Restauracja</div>
+                    <h3>Papaj</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="score">4.5</span>
+                    </div>
+                    <p data-i18n="restaurants.papajDesc">Kultowa pizza, znana od lat. Ciasto na cienkim spodzie, świeże składniki.</p>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 2 km</span>
+                </div>
+
+                <div class="restaurant-card" data-lat="54.83351994531128" data-lng="18.30610734046284">
+                    <div class="restaurant-category">🥃 Whisky</div>
+                    <h3>Dom Whisky</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="score">4.9</span>
+                    </div>
+                    <p data-i18n="restaurants.whiskyDesc">Ponad 1000 whisky z całego świata. Degustacje, wykłady, niesamowita atmosfera.</p>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 1.6 km</span>
+                </div>
+
+                <div class="restaurant-card" data-lat="54.8298853331511" data-lng="18.332161484408825">
+                    <div class="restaurant-category">🍔 Burger & Grill</div>
+                    <h3>Gryza</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="score">4.8</span>
+                    </div>
+                    <p data-i18n="restaurants.gryzaDesc">Rewelacyjne burgery i dania z grilla. Lokalne składniki, craftowe piwa.</p>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 500 m</span>
+                </div>
+
+                <div class="restaurant-card" data-lat="54.82888729518458" data-lng="18.326419512174176">
+                    <div class="restaurant-category">🍴 Restauracja</div>
+                    <h3>Nóż Widelec Łyżka</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="score">4.7</span>
+                    </div>
+                    <p data-i18n="restaurants.nwlDesc">Kuchnia polska i europejska. Przytulne wnętrze, domowa atmosfera.</p>
+                    <span class="restaurant-distance"><i data-lucide="map-pin"></i> 300 m</span>
+                </div>
+            </div>
+
+            <p class="restaurants-note">
+                <i data-lucide="info"></i>
+                <span data-i18n="restaurants.note">Oceny i odległości orientacyjne. Sprawdź aktualne godziny otwarcia w Google Maps.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- JAK DOJECHAĆ -->
+    <section class="section section-alt" id="dojazd">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="transport.title">Jak dojechać</h2>
+                <p data-i18n="transport.subtitle">Jastrzębia Góra jest łatwo dostępna z całej Polski</p>
+            </div>
+
+            <div class="transport-section-title">
+                <h3><i data-lucide="flag"></i> Z Polski</h3>
+            </div>
+            <div class="transport-grid">
+                <div class="transport-card">
+                    <div class="transport-city">Władysławowo</div>
+                    <div class="transport-distance">5 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~10 min</span>
+                    </div>
+                    <p class="transport-route">Droga przez Chłapowo</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Gdańsk</div>
+                    <div class="transport-distance">75 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~1.5h</span>
+                    </div>
+                    <p class="transport-route">S6 → zjazd Władysławowo</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Warszawa</div>
+                    <div class="transport-distance">340 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~4h</span>
+                    </div>
+                    <p class="transport-route">A2 → A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Poznań</div>
+                    <div class="transport-distance">310 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~3.5h</span>
+                    </div>
+                    <p class="transport-route">S5 → A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Wrocław</div>
+                    <div class="transport-distance">430 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~5h</span>
+                    </div>
+                    <p class="transport-route">A4 → A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Łódź</div>
+                    <div class="transport-distance">320 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~4h</span>
+                    </div>
+                    <p class="transport-route">A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Kraków</div>
+                    <div class="transport-distance">550 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~6h</span>
+                    </div>
+                    <p class="transport-route">A4 → A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Katowice</div>
+                    <div class="transport-distance">480 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~5.5h</span>
+                    </div>
+                    <p class="transport-route">A4 → A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Lublin</div>
+                    <div class="transport-distance">450 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~5.5h</span>
+                    </div>
+                    <p class="transport-route">S17 → A2 → A1 → S6</p>
+                </div>
+            </div>
+
+            <div class="transport-section-title">
+                <h3><i data-lucide="globe"></i> Z zagranicy</h3>
+            </div>
+            <div class="transport-grid transport-grid-abroad">
+                <div class="transport-card">
+                    <div class="transport-city">Praga <img src="https://flagcdn.com/w20/cz.png" alt="CZ" class="city-flag"></div>
+                    <div class="transport-distance">650 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~7h</span>
+                    </div>
+                    <p class="transport-route">D11 → A4 → A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Bratysława <img src="https://flagcdn.com/w20/sk.png" alt="SK" class="city-flag"></div>
+                    <div class="transport-distance">700 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~7.5h</span>
+                    </div>
+                    <p class="transport-route">D2 → A4 → A1 → S6</p>
+                </div>
+                <div class="transport-card">
+                    <div class="transport-city">Berlin <img src="https://flagcdn.com/w20/de.png" alt="DE" class="city-flag"></div>
+                    <div class="transport-distance">450 km</div>
+                    <div class="transport-time">
+                        <i data-lucide="car"></i>
+                        <span>~5h</span>
+                    </div>
+                    <p class="transport-route">A11 → A6 → S6</p>
+                </div>
+            </div>
+
+            <div class="transport-note">
+                <i data-lucide="train"></i>
+                <p><strong data-i18n="transport.publicTransport">Komunikacja publiczna:</strong> <span data-i18n="transport.publicTransportDesc">Pociąg do Władysławowa, następnie autobus lub taxi (5km do Jastrzębiej Góry)</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- KONTAKT -->
+    <section class="section section-contact" id="kontakt">
+        <div class="container">
+            <div class="section-header section-header-light">
+                <h2 data-i18n="contact.title">Zarezerwuj pobyt</h2>
+                <p data-i18n="contact.subtitle">Skontaktuj się z nami — odpowiadamy szybko</p>
+            </div>
+
+            <div class="contact-layout">
+                <div class="contact-methods">
+                    <a href="tel:+48505763202" class="contact-card">
+                        <i data-lucide="phone"></i>
+                        <div>
+                            <h3>Telefon</h3>
+                            <p>+48 505 763 202</p>
+                        </div>
+                    </a>
+                    <a href="mailto:rezerwacje@wynajemapartamentow.com" class="contact-card">
+                        <i data-lucide="mail"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>rezerwacje@wynajemapartamentow.com</p>
+                        </div>
+                    </a>
+                    <a href="https://wa.me/48505763202" class="contact-card" target="_blank">
+                        <i data-lucide="message-circle"></i>
+                        <div>
+                            <h3>WhatsApp</h3>
+                            <p>+48 505 763 202</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="contact-info">
+                    <p data-i18n="contact.availability">Apartament dostępny przez cały rok. Zapytaj o wolne terminy i cenę.</p>
+                    <p class="contact-hours"><i data-lucide="clock"></i> <span data-i18n="contact.responseHours">Odpowiadamy: 9:00 – 21:00</span></p>
+                </div>
+
+                <div class="contact-group-info">
+                    <i data-lucide="users"></i>
+                    <div>
+                        <h4 data-i18n="contact.largerGroupTitle">Większa grupa? Nawet 20 osób!</h4>
+                        <p data-i18n="contact.largerGroupDesc">W zasięgu ręki mamy mieszkania sąsiadów. Zadzwoń — zorganizujemy noclegi dla całej grupy!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">Apartament Bałtycki</span>
+                    <p>Jastrzębia Góra, Pomorze</p>
+                </div>
+                <div class="footer-contact">
+                    <p>+48 505 763 202</p>
+                    <p>rezerwacje@wynajemapartamentow.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Apartament Bałtycki</p>
+                <p><span data-i18n="footer.createdBy">Stronę stworzył:</span> <a href="mailto:bladyzamosc@gmail.com">bladyzamosc@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose"><i data-lucide="x"></i></button>
+        <button class="lightbox-prev" id="lightboxPrev"><i data-lucide="chevron-left"></i></button>
+        <button class="lightbox-next" id="lightboxNext"><i data-lucide="chevron-right"></i></button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightboxImage">
+        </div>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script data-goatcounter="https://apartament-baltycki.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

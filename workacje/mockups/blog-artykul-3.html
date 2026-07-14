@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Off-season nad morzem - dlaczego wrzesien to idealny czas | workejszyn.pl</title>
+    <meta name="description" content="Puste plaze, nizsze ceny, lepsza pogoda niz myslisz. Odkryj dlaczego wrzesien i pazdziernik to najlepszy czas na workation nad Baltykiem.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --gradient-1: #1A73E8;
+            --gradient-2: #00ACC1;
+            --gradient-3: #00D2A0;
+            --text-dark: #0F172A;
+            --text-mid: #334155;
+            --text-light: #64748B;
+            --bg: #F8FAFC;
+            --card: #FFFFFF;
+            --border: #E2E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        header {
+            background: var(--card);
+            padding: 1rem 1.5rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--gradient-1), var(--gradient-2), var(--gradient-3)) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover { color: var(--gradient-2); }
+        .back-link i { width: 18px; height: 18px; }
+
+        /* HERO IMAGE */
+        .article-hero {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .article-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: rgba(26,115,232,0.1);
+            color: var(--gradient-1);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .article-excerpt {
+            font-size: 1.15rem;
+            color: var(--text-mid);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .article-meta i { width: 16px; height: 16px; }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 2.5rem 0 1rem;
+        }
+
+        .article-content p {
+            color: var(--text-mid);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .article-content ul {
+            margin: 0 0 1.5rem 1.5rem;
+            color: var(--text-mid);
+        }
+
+        .article-content li {
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        .article-content strong {
+            color: var(--text-dark);
+        }
+
+        .article-content blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(0,172,193,0.08), rgba(0,210,160,0.08));
+            border-left: 4px solid var(--gradient-2);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-mid);
+        }
+
+        /* COMPARISON TABLE */
+        .comparison-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            color: #FFFFFF;
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .highlight {
+            background: rgba(0,210,160,0.1);
+            font-weight: 600;
+            color: var(--gradient-3);
+        }
+
+        /* BENEFITS GRID */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-card {
+            padding: 1.25rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .benefit-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-icon i {
+            width: 20px;
+            height: 20px;
+            color: var(--gradient-2);
+        }
+
+        .benefit-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .benefit-card p {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* WEATHER BOX */
+        .weather-box {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-radius: 16px;
+        }
+
+        .weather-box h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            color: #92400E;
+            margin-bottom: 1rem;
+        }
+
+        .weather-box h3 i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .weather-months {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .weather-month {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .weather-month .name {
+            font-weight: 600;
+            color: #92400E;
+            margin-bottom: 0.5rem;
+        }
+
+        .weather-month .temp {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #B45309;
+        }
+
+        .weather-month .desc {
+            font-size: 0.8rem;
+            color: #A16207;
+        }
+
+        .article-cta {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            border-radius: 16px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .article-cta h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-cta p {
+            opacity: 0.9;
+            margin-bottom: 1.25rem;
+            color: #FFFFFF;
+        }
+
+        .article-cta a {
+            display: inline-block;
+            padding: 0.85rem 1.75rem;
+            background: #FFFFFF;
+            color: var(--gradient-1);
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .article-share {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .article-share span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .share-btn i { width: 18px; height: 18px; }
+        .share-btn.facebook { background: #1877F2; }
+        .share-btn.linkedin { background: #0A66C2; }
+        .share-btn.twitter { background: #1DA1F2; }
+
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer a { color: var(--gradient-2); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .article-title { font-size: 1.75rem; }
+            article { padding: 2rem 1rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .weather-months { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-bar">
+        <a href="strona-glowna.html" class="logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <a href="blog.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Blog
+        </a>
+    </div>
+</header>
+
+<img src="images/nadmorski/02.jpg" alt="Plaza poza sezonem" class="article-hero">
+
+<article>
+    <div class="article-header">
+        <span class="article-category">Miejsca</span>
+        <h1 class="article-title">Off-season nad morzem - dlaczego wrzesien to idealny czas</h1>
+        <p class="article-excerpt">
+            Puste plaze, nizsze ceny, lepsza pogoda niz myslisz. Odkryj, dlaczego coraz wiecej osob wybiera polskie wybrzeze we wrzesniu i pazdzierniku.
+        </p>
+        <div class="article-meta">
+            <span><i data-lucide="calendar"></i> 2 lipca 2026</span>
+            <span><i data-lucide="clock"></i> 6 min czytania</span>
+            <span><i data-lucide="user"></i> Redakcja workejszyn.pl</span>
+        </div>
+    </div>
+
+    <div class="article-content">
+        <p>
+            Lipiec i sierpien nad Baltykiem to <strong>tlok, kolejki i ceny z kosmosu</strong>. Ale juz od polowy wrzesnia wszystko sie zmienia. Turysci znikaja, ceny spadaja, a pogoda? Jest lepsza niz myslisz.
+        </p>
+
+        <blockquote>
+            "Wrzesien nad morzem to najlepiej strzezony sekret. Pracuje z widokiem na pusta plaze, a wieczorem ide na spacer - sama."
+            <br><small>- Marta, 34 lata, UX designer</small>
+        </blockquote>
+
+        <h2>Ceny: nawet 50% taniej</h2>
+
+        <p>
+            Roznica w cenach miedzy szczytem sezonu a wrzesniem jest ogromna. Oto porownanie dla typowego apartamentu 2-pokojowego w Jastrzebiej Gorze:
+        </p>
+
+        <table class="comparison-table">
+            <tr>
+                <th>Okres</th>
+                <th>Cena za tydzien</th>
+                <th>Roznica</th>
+            </tr>
+            <tr>
+                <td>Lipiec / Sierpien</td>
+                <td>2 500 - 3 500 zl</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Wrzesien</td>
+                <td>1 200 - 1 800 zl</td>
+                <td class="highlight">-50%</td>
+            </tr>
+            <tr>
+                <td>Pazdziernik - Listopad</td>
+                <td>900 - 1 400 zl</td>
+                <td class="highlight">-60%</td>
+            </tr>
+        </table>
+
+        <p>
+            Przy pobycie miesiecznym roznica moze wyniesc <strong>nawet 6 000 - 8 000 zl</strong>. To pieniadze na paliwo, jedzenie i atrakcje.
+        </p>
+
+        <h2>Pogoda: lepiej niz myslisz</h2>
+
+        <div class="weather-box">
+            <h3><i data-lucide="sun"></i> Srednie temperatury nad Baltykiem</h3>
+            <div class="weather-months">
+                <div class="weather-month">
+                    <div class="name">Wrzesien</div>
+                    <div class="temp">14-18°C</div>
+                    <div class="desc">Sloneczne dni, chlodne wieczory</div>
+                </div>
+                <div class="weather-month">
+                    <div class="name">Pazdziernik</div>
+                    <div class="temp">9-14°C</div>
+                    <div class="desc">Zlota polska jesien</div>
+                </div>
+                <div class="weather-month">
+                    <div class="name">Listopad</div>
+                    <div class="temp">4-8°C</div>
+                    <div class="desc">Wietrzny, ale klimatyczny</div>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            Wrzesniowa pogoda jest idealna do pracy - nie jest az tak goraco, zeby nie dalo sie skupic, ale wystarczajaco cieplo na popofudniowy spacer po plazy. A "babie lato" w drugiej polowie wrzesnia to czesto najladniejsze dni w roku.
+        </p>
+
+        <h2>Korzysci poza sezonem</h2>
+
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon"><i data-lucide="users"></i></div>
+                <h4>Puste plaze</h4>
+                <p>Zadnych tlumow. Mozesz pracowac z laptop na kocu bez walki o miejsce.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><i data-lucide="volume-x"></i></div>
+                <h4>Cisza</h4>
+                <p>Koniec z muzyka z barku i krzykami dzieci. Idealne warunki do skupienia.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><i data-lucide="utensils"></i></div>
+                <h4>Restauracje bez kolejek</h4>
+                <p>Stolik od reki, kelner ma czas, jedzenie nie jest "z tasmy".</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon"><i data-lucide="car"></i></div>
+                <h4>Darmowe parkingi</h4>
+                <p>W sezonie platne i pelne. Poza - puste i darmowe.</p>
+            </div>
+        </div>
+
+        <h2>Co dziala poza sezonem?</h2>
+
+        <p>
+            Czesta obawa: "Ale wszystko bedzie zamkniete!". Nieprawda. Owszem, niektore budki z goframi znikna, ale:
+        </p>
+
+        <ul>
+            <li><strong>Restauracje i kawiarnie</strong> - wiekszosc dziala caly rok</li>
+            <li><strong>Sklepy</strong> - Biedronka i Lidl nie zamykaja na zime</li>
+            <li><strong>Atrakcje</strong> - latarnie morskie, muzea, szlaki piesze - wszystko otwarte</li>
+            <li><strong>Spa i wellness</strong> - dzialaja, czesto z promocjami</li>
+            <li><strong>Transport</strong> - autobusy i pociagi kursuja normalnie</li>
+        </ul>
+
+        <p>
+            Jedyne co naprawde znika: tlum turystow i absurdalne ceny.
+        </p>
+
+        <h2>Dla kogo off-season?</h2>
+
+        <p>
+            Workation poza sezonem to idealny wybor jesli:
+        </p>
+
+        <ul>
+            <li>Pracujesz zdalnie i szukasz <strong>ciszy do skupienia</strong></li>
+            <li>Masz elastyczny grafik i mozesz jechac <strong>kiedy chcesz</strong></li>
+            <li>Cenisz <strong>oszczednosci</strong> - roznica w cenach jest realna</li>
+            <li>Lubisz <strong>nature bez tlumu</strong> - spacery, bieganie, rowery</li>
+            <li>Preferujesz <strong>lokalny klimat</strong> nad turystyczny chaos</li>
+        </ul>
+
+        <blockquote>
+            "W pazdzierniku pracowalem z Helu. Codziennie bieganie po plazy o 7 rano - sam. Zero turystow, tylko foki i mewy. Najlepszy miesiac w roku."
+            <br><small>- Piotr, 29 lat, programista</small>
+        </blockquote>
+
+        <h2>Na co uwazac?</h2>
+
+        <p>
+            Kilka rzeczy do przemyslenia:
+        </p>
+
+        <ul>
+            <li><strong>Ogrzewanie</strong> - upewnij sie, ze mieszkanie jest ogrzewane i koszt jest w cenie</li>
+            <li><strong>Pogoda</strong> - zabierz kurtke i polar, wieczory bywaja chlodne</li>
+            <li><strong>Krotsze dni</strong> - od pazdziernika robi sie ciemno ok. 17:00</li>
+            <li><strong>Niektore lokale zamkniete</strong> - sprawdz co dziala w okreslonym terminie</li>
+        </ul>
+
+        <div class="article-cta">
+            <h3>Gotowy na workation poza sezonem?</h3>
+            <p>Znajdz mieszkanie z ogrzewaniem i szybkim internetem</p>
+            <a href="wyszukiwarka.html">Przegladaj oferty</a>
+        </div>
+
+        <div class="article-share">
+            <span>Udostepnij:</span>
+            <a href="#" class="share-btn facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" class="share-btn linkedin"><i data-lucide="linkedin"></i></a>
+            <a href="#" class="share-btn twitter"><i data-lucide="twitter"></i></a>
+        </div>
+    </div>
+</article>
+
+<footer>
+    <p>&copy; 2026 workejszyn.pl &middot; <a href="blog.html">Blog</a> &middot; <a href="strona-glowna.html">Strona glowna</a></p>
+</footer>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

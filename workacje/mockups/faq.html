@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Najczęściej zadawane pytania | workejszyn.pl</title>
+    <meta name="description" content="Odpowiedzi na najczęściej zadawane pytania dotyczące workation, wynajmu mieszkań i korzystania z portalu workejszyn.pl.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #1A73E8, #00ACC1, #00D2A0) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: #00ACC1; }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            padding: 48px 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* MAIN */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* TAB NAVIGATION */
+        .faq-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .faq-tab {
+            padding: 10px 20px;
+            background: #fff;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748B;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .faq-tab:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .faq-tab.active {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        /* FAQ SECTION */
+        .faq-section {
+            margin-bottom: 40px;
+        }
+
+        .faq-section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0F172A;
+        }
+
+        .faq-section-title i {
+            width: 28px;
+            height: 28px;
+            color: #00ACC1;
+        }
+
+        /* ACCORDION */
+        .faq-item {
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px 24px;
+            background: none;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .faq-question span {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0F172A;
+            flex: 1;
+            padding-right: 16px;
+        }
+
+        .faq-question i {
+            width: 20px;
+            height: 20px;
+            color: #94A3B8;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+            color: #00ACC1;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 24px 20px;
+            font-size: 14px;
+            color: #64748B;
+            line-height: 1.7;
+        }
+
+        .faq-answer-content ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .faq-answer-content li {
+            margin-bottom: 6px;
+        }
+
+        .faq-answer-content strong {
+            color: #334155;
+        }
+
+        /* CONTACT BOX */
+        .contact-box {
+            background: linear-gradient(135deg, rgba(26,115,232,0.08), rgba(0,172,193,0.08));
+            border: 2px solid rgba(0,172,193,0.2);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        .contact-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-box p {
+            color: #64748B;
+            margin-bottom: 20px;
+        }
+
+        .contact-box a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .contact-box a i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 32px 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #00ACC1;
+            text-decoration: none;
+        }
+
+        /* RESPONSIVE */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        @media (max-width: 600px) {
+            .faq-tabs {
+                flex-direction: column;
+            }
+            .faq-tab {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav class="nav-bar">
+            <a href="strona-glowna.html" class="logo">
+                <svg viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="10" fill="url(#grad)"/>
+                    <path d="M12 28V18L20 12L28 18V28H22V22H18V28H12Z" fill="white"/>
+                    <circle cx="20" cy="17" r="2" fill="#00D2A0"/>
+                    <defs>
+                        <linearGradient id="grad" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#1A73E8"/>
+                            <stop offset="100%" stop-color="#00ACC1"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="logo-text">work<span class="accent">ejszyn</span>.pl</span>
+            </a>
+            <div class="nav-links">
+                <a href="wyszukiwarka.html">Szukaj</a>
+                <a href="jak-to-dziala.html">Jak to działa</a>
+                <a href="blog.html">Blog</a>
+                <a href="kontakt.html">Kontakt</a>
+                <a href="logowanie.html" class="btn-login">Zaloguj się</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Najczęściej zadawane pytania</h1>
+        <p>Znajdź odpowiedzi na pytania o workation, wynajem i korzystanie z portalu</p>
+    </div>
+
+    <main>
+        <!-- TABS -->
+        <div class="faq-tabs">
+            <button class="faq-tab active" data-category="all">Wszystkie</button>
+            <button class="faq-tab" data-category="gosc">Dla gości</button>
+            <button class="faq-tab" data-category="zarzadca">Dla zarządców</button>
+            <button class="faq-tab" data-category="portal">O portalu</button>
+        </div>
+
+        <!-- DLA GOŚCI -->
+        <section class="faq-section" data-category="gosc">
+            <h2 class="faq-section-title">
+                <i data-lucide="user"></i>
+                Dla gości
+            </h2>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Czym jest workation?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <strong>Workation = work + vacation.</strong> To praca zdalna z atrakcyjnego miejsca - nad morzem, w górach, za granicą. Zamiast siedzieć w domu, pracujesz z mieszkania z widokiem na plażę. Po pracy - spacer, świeże powietrze, zmiana otoczenia. Wszystko czego potrzebujesz to laptop i dobry internet.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Na jak długo mogę wynająć mieszkanie?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Nasze mieszkania oferują elastyczny wynajem od <strong>1 do 8 tygodni</strong>. Im dłużej zostajesz, tym lepsza cena za tydzień. Typowe okresy:
+                        <ul>
+                            <li>1 tydzień - idealne na "próbę" workation</li>
+                            <li>2 tygodnie - popularny wybór</li>
+                            <li>3-4 tygodnie - najlepsza wartość</li>
+                            <li>5-8 tygodni - dla doświadczonych remote workers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Czy internet jest wystarczająco szybki do pracy?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Tak! Każde mieszkanie z oznaczeniem <strong>"Workation Ready"</strong> ma zweryfikowany internet min. 50 Mb/s (zazwyczaj 100-300 Mb/s światłowód). W opisie oferty zawsze podajemy dokładną prędkość. Większość mieszkań ma też backup LTE na wypadek awarii.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Co zawiera mieszkanie "Workation Ready"?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Mieszkanie z certyfikatem "Workation Ready" gwarantuje:
+                        <ul>
+                            <li><strong>Biurko</strong> - wygodne miejsce do pracy</li>
+                            <li><strong>Krzesło ergonomiczne</strong> - nie fotel plażowy</li>
+                            <li><strong>Internet 50+ Mb/s</strong> - zweryfikowana prędkość</li>
+                            <li><strong>Cisza</strong> - bez hałaśliwych sąsiadów</li>
+                            <li><strong>Pełne wyposażenie</strong> - kuchnia, pralka, żelazko</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Jak wygląda rezerwacja?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <ol>
+                            <li><strong>Znajdź mieszkanie</strong> - przeglądaj oferty, filtruj po lokalizacji i terminach</li>
+                            <li><strong>Wyślij zapytanie</strong> - kliknij "Zapytaj o dostępność" i opisz swoje potrzeby</li>
+                            <li><strong>Ustal szczegóły</strong> - zarządca odpowie w ciągu 24h, dogadajcie terminy i cenę</li>
+                            <li><strong>Potwierdź</strong> - wpłać zaliczkę bezpośrednio do zarządcy</li>
+                            <li><strong>Przyjedź i pracuj!</strong></li>
+                        </ol>
+                        <p style="margin-top: 12px;">Płatności odbywają się bezpośrednio między Tobą a zarządcą - nie pobieramy prowizji od gości.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Czy muszę podpisywać umowę najmu?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Nie. Wynajem krótkoterminowy (do 30 dni) nie wymaga formalnej umowy najmu ani meldunku. Wystarczy potwierdzenie rezerwacji i dowód wpłaty. To tak jak rezerwacja hotelu czy Airbnb - proste i bezproblemowe.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DLA ZARZĄDCÓW -->
+        <section class="faq-section" data-category="zarzadca">
+            <h2 class="faq-section-title">
+                <i data-lucide="home"></i>
+                Dla zarządców
+            </h2>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Ile kosztuje dodanie mieszkania?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <strong>Faza startowa (2026-2027): BEZPŁATNIE.</strong> Chcemy zbudować bazę mieszkań i zebrać feedback. Później:
+                        <ul>
+                            <li>1 mieszkanie - zawsze darmowe</li>
+                            <li>2-10 mieszkań - 19 zł/mieszkanie/miesiąc</li>
+                            <li>11-30 mieszkań - 14 zł/mieszkanie/miesiąc</li>
+                            <li>31+ mieszkań - 9 zł/mieszkanie/miesiąc</li>
+                        </ul>
+                        <p style="margin-top: 12px;">Bez prowizji od rezerwacji. Płacisz tylko abonament.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Jak dodać mieszkanie do portalu?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <ol>
+                            <li><strong>Zarejestruj się</strong> jako zarządca</li>
+                            <li><strong>Dodaj ofertę</strong> - zdjęcia, opis, cennik, dostępność</li>
+                            <li><strong>Zweryfikuj internet</strong> - wykonaj test prędkości</li>
+                            <li><strong>Opublikuj</strong> - oferta trafia do wyszukiwarki</li>
+                        </ol>
+                        <p style="margin-top: 12px;">Cały proces zajmuje ok. 15 minut. Możemy też pomóc - wyślij link do Twojej oferty na innym portalu, a my przeniesiemy dane.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Czy mogę zarządzać wieloma mieszkaniami?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Tak! Portal jest stworzony z myślą o zarządcach wielu nieruchomości. W panelu masz:
+                        <ul>
+                            <li>Listę wszystkich mieszkań w jednym miejscu</li>
+                            <li>Wspólny kalendarz dostępności</li>
+                            <li>Zbiorczą skrzynkę wiadomości</li>
+                            <li>Statystyki dla każdej oferty</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Jak obsługuję rezerwacje?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Gdy gość wyśle zapytanie, otrzymasz powiadomienie email + w panelu. Odpowiadasz przez wewnętrzną wiadomość lub podajesz telefon. Płatności ustalasz bezpośrednio z gościem - przelew, BLIK, gotówka - jak wolisz. My nie pośredniczymy w płatnościach.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Czy pobieram prowizję od rezerwacji?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <strong>NIE.</strong> To nas odróżnia od Booking czy Airbnb. Nie pobieramy prowizji od rezerwacji - ani od Ciebie, ani od gościa. Zarabiamy tylko na opcjonalnym abonamencie (dla większych zarządców) i promocji ofert.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- O PORTALU -->
+        <section class="faq-section" data-category="portal">
+            <h2 class="faq-section-title">
+                <i data-lucide="info"></i>
+                O portalu
+            </h2>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Czym workejszyn.pl różni się od Booking/Airbnb?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <ul>
+                            <li><strong>Specjalizacja</strong> - tylko mieszkania do pracy zdalnej (z biurkiem, szybkim internetem, ciszą)</li>
+                            <li><strong>Sezon</strong> - skupiamy się na off-season (wrzesień-maj), gdy ceny są niższe</li>
+                            <li><strong>Brak prowizji</strong> - zarządcy nie płacą 15-20% od każdej rezerwacji</li>
+                            <li><strong>Elastyczne terminy</strong> - 1-8 tygodni, nie tylko weekendy</li>
+                            <li><strong>Polskie kurorty</strong> - morze, góry, jeziora - blisko i tanio</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Kto stoi za projektem?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        workejszyn.pl to projekt powstały z pasji do pracy zdalnej i polskiego wybrzeża. Sami pracujemy zdalnie i wiemy, jak trudno znaleźć mieszkanie z dobrym internetem i warunkami do pracy. Stworzyliśmy portal, jakiego sami szukaliśmy.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Jakie lokalizacje obsługujecie?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Startujemy od <strong>polskiego wybrzeża</strong> - Półwysep Helski, Trójmiasto, Kołobrzeg. Docelowo planujemy:
+                        <ul>
+                            <li>Góry - Zakopane, Karpacz, Wisła</li>
+                            <li>Jeziora - Mazury, Kaszuby</li>
+                            <li>Miasta - Kraków, Wrocław, Poznań</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Czy moje dane są bezpieczne?</span>
+                    <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Tak. Stosujemy szyfrowanie SSL, nie przechowujemy danych płatniczych (płatności idą bezpośrednio do zarządcy), a Twoje dane osobowe przetwarzamy zgodnie z RODO. Szczegóły znajdziesz w <a href="polityka-prywatnosci.html">Polityce prywatności</a>.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT BOX -->
+        <div class="contact-box">
+            <h3>Nie znalazłeś odpowiedzi?</h3>
+            <p>Napisz do nas - odpowiadamy w ciągu 24 godzin</p>
+            <a href="kontakt.html">
+                <i data-lucide="mail"></i>
+                Skontaktuj się
+            </a>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 workejszyn.pl | <a href="regulamin.html">Regulamin</a> | <a href="polityka-prywatnosci.html">Polityka prywatności</a></p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasOpen = item.classList.contains('open');
+
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+                // Toggle clicked
+                if (!wasOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+
+        // Tab filtering
+        document.querySelectorAll('.faq-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.dataset.category;
+
+                // Update active tab
+                document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Filter sections
+                document.querySelectorAll('.faq-section').forEach(section => {
+                    if (category === 'all' || section.dataset.category === category) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,991 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>workejszyn.pl - Mieszkania na workation w Polsce</title>
+    <meta name="description" content="Znajdź idealne mieszkanie na workation nad polskim morzem. Szybki internet, biurko do pracy, cisza - wszystko czego potrzebujesz do pracy zdalnej.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HEADER */
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #1A73E8, #00ACC1, #00D2A0) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: #00ACC1; }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748B;
+        }
+
+        .mobile-menu-btn i { width: 24px; height: 24px; }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%2300ACC1" stroke-width="0.5" opacity="0.1"/></svg>') repeat;
+            background-size: 100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #00ACC1, #00D2A0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: #94A3B8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* SEARCH BOX */
+        .search-box {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .search-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .search-field label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .search-field input,
+        .search-field select {
+            padding: 0.75rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .search-field input:focus,
+        .search-field select:focus {
+            outline: none;
+            border-color: #00ACC1;
+        }
+
+        .btn-search {
+            padding: 0.85rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .btn-search i { width: 18px; height: 18px; }
+
+        /* MAIN */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* SECTION */
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .section-link {
+            font-size: 0.85rem;
+            color: #00ACC1;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .section-link i { width: 16px; height: 16px; }
+
+        /* FEATURED CARDS */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .property-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .property-card-image {
+            position: relative;
+            aspect-ratio: 16/10;
+        }
+
+        .property-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-card-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: linear-gradient(135deg, #F97316, #F59E0B);
+            color: #FFFFFF;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .property-card-badge i { width: 12px; height: 12px; }
+
+        .property-card-content {
+            padding: 1rem;
+        }
+
+        .property-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 0.25rem;
+        }
+
+        .property-card-location {
+            font-size: 0.8rem;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .property-card-location i { width: 14px; height: 14px; }
+
+        .property-card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            color: #64748B;
+            background: #F8FAFC;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .feature-tag i { width: 12px; height: 12px; color: #00ACC1; }
+
+        .property-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.75rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .property-card-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .property-card-price span {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #64748B;
+        }
+
+        .property-card-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .property-card-rating i { width: 14px; height: 14px; color: #F59E0B; fill: #F59E0B; }
+
+        /* CITIES */
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .city-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+
+        .city-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .city-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .city-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0.85rem;
+        }
+
+        .city-card-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .city-card-count {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .how-it-works h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0F172A;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0, 172, 193, 0.1), rgba(0, 210, 160, 0.1));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+        }
+
+        .step-icon i { width: 28px; height: 28px; color: #00ACC1; }
+
+        .step h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.35rem;
+        }
+
+        .step p {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        /* WHY WORKACJE */
+        .why-section {
+            margin-bottom: 3rem;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .why-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .why-card-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1), rgba(0, 172, 193, 0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .why-card-icon i { width: 22px; height: 22px; color: #1A73E8; }
+
+        .why-card h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.25rem;
+        }
+
+        .why-card p {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            border-radius: 16px;
+            padding: 2rem 1.25rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-section p {
+            font-size: 0.9rem;
+            color: #94A3B8;
+            margin-bottom: 1.25rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #00ACC1, #00D2A0);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .cta-btn i { width: 18px; height: 18px; }
+
+        /* FOOTER */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover { color: #00ACC1; }
+
+        .footer-bottom {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .footer-bottom a { color: #00ACC1; text-decoration: none; }
+
+        /* ========== TABLET (768px+) ========== */
+        @media (min-width: 768px) {
+            header { padding: 1rem 1.5rem; }
+            .logo svg { width: 36px; height: 36px; }
+            .logo-text { font-size: 1.2rem; }
+
+            .nav-links { display: flex; }
+            .mobile-menu-btn { display: none; }
+
+            .hero { padding: 3.5rem 1.5rem; }
+            .hero h1 { font-size: 2.25rem; }
+            .hero p { font-size: 1.05rem; }
+
+            .search-box { padding: 1.25rem; }
+            .search-form {
+                flex-direction: row;
+                align-items: flex-end;
+            }
+            .search-field { flex: 1; }
+            .btn-search { width: auto; padding: 0.85rem 1.5rem; }
+
+            main { padding: 2.5rem 1.5rem; }
+
+            .section-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .featured-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.25rem;
+            }
+
+            .cities-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* ========== DESKTOP (1024px+) ========== */
+        @media (min-width: 1024px) {
+            header { padding: 1rem 2rem; }
+            .logo svg { width: 38px; height: 38px; }
+            .logo-text { font-size: 1.3rem; }
+
+            .hero { padding: 4.5rem 2rem; }
+            .hero h1 { font-size: 2.75rem; }
+            .hero p { font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+            .search-box {
+                padding: 1.5rem;
+                border-radius: 16px;
+                max-width: 900px;
+                margin: 0 auto;
+            }
+
+            main { padding: 3rem 2rem; }
+
+            .section-title { font-size: 1.5rem; }
+
+            .featured-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+
+            .property-card-content { padding: 1.25rem; }
+
+            .how-it-works { padding: 2.5rem; border-radius: 16px; }
+            .how-it-works h2 { font-size: 1.5rem; }
+            .step-icon { width: 64px; height: 64px; }
+            .step-icon i { width: 32px; height: 32px; }
+
+            .cta-section {
+                padding: 3rem 2rem;
+                border-radius: 20px;
+            }
+            .cta-section h2 { font-size: 1.5rem; }
+
+            footer { padding: 3rem 2rem; }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .property-card:hover {
+                transform: none;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            }
+            .city-card:hover img {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="nav-bar">
+        <a href="/" class="logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="#">Jak to dziala</a>
+            <a href="#">Dla Zarzadcai</a>
+            <a href="#" class="btn-login">Zaloguj sie</a>
+        </nav>
+        <button class="mobile-menu-btn">
+            <i data-lucide="menu"></i>
+        </button>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Znajdz idealne miejsce na <span>workation</span></h1>
+        <p>Mieszkania z szybkim internetem i przestrzenia do pracy nad polskim morzem</p>
+
+        <div class="search-box">
+            <form class="search-form">
+                <div class="search-field">
+                    <label>Gdzie?</label>
+                    <select>
+                        <option>Wybierz miasto</option>
+                        <option>Sopot</option>
+                        <option>Gdansk</option>
+                        <option>Gdynia</option>
+                        <option>Jastarnia</option>
+                        <option>Hel</option>
+                    </select>
+                </div>
+                <div class="search-field">
+                    <label>Kiedy?</label>
+                    <input type="text" placeholder="Wybierz daty">
+                </div>
+                <div class="search-field">
+                    <label>Goscie</label>
+                    <select>
+                        <option>1 osoba</option>
+                        <option>2 osoby</option>
+                        <option>3 osoby</option>
+                        <option>4+ osob</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-search">
+                    <i data-lucide="search"></i>
+                    <span>Szukaj</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN -->
+<main>
+    <!-- FEATURED -->
+    <section>
+        <div class="section-header">
+            <h2 class="section-title">Wyrozone oferty</h2>
+            <a href="#" class="section-link">Zobacz wszystkie <i data-lucide="arrow-right"></i></a>
+        </div>
+
+        <div class="featured-grid">
+            <article class="property-card">
+                <div class="property-card-image">
+                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop" alt="Apartament">
+                    <span class="property-card-badge"><i data-lucide="star"></i> Wyrozone</span>
+                </div>
+                <div class="property-card-content">
+                    <h3 class="property-card-title">Apartament z widokiem na morze</h3>
+                    <div class="property-card-location">
+                        <i data-lucide="map-pin"></i>
+                        Sopot, ul. Bohaterow Monte Cassino
+                    </div>
+                    <div class="property-card-features">
+                        <span class="feature-tag"><i data-lucide="wifi"></i> 300 Mbps</span>
+                        <span class="feature-tag"><i data-lucide="monitor"></i> Biurko</span>
+                        <span class="feature-tag"><i data-lucide="umbrella"></i> 200m do plazy</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-price">2 800 zl <span>/ tydzien</span></div>
+                        <div class="property-card-rating"><i data-lucide="star"></i> 4.9</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="property-card">
+                <div class="property-card-image">
+                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop" alt="Studio">
+                    <span class="property-card-badge"><i data-lucide="star"></i> Wyrozone</span>
+                </div>
+                <div class="property-card-content">
+                    <h3 class="property-card-title">Nowoczesne studio w centrum</h3>
+                    <div class="property-card-location">
+                        <i data-lucide="map-pin"></i>
+                        Gdansk, ul. Dluga
+                    </div>
+                    <div class="property-card-features">
+                        <span class="feature-tag"><i data-lucide="wifi"></i> 500 Mbps</span>
+                        <span class="feature-tag"><i data-lucide="monitor"></i> 2 monitory</span>
+                        <span class="feature-tag"><i data-lucide="coffee"></i> Ekspres</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-price">2 200 zl <span>/ tydzien</span></div>
+                        <div class="property-card-rating"><i data-lucide="star"></i> 4.8</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="property-card">
+                <div class="property-card-image">
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop" alt="Loft">
+                </div>
+                <div class="property-card-content">
+                    <h3 class="property-card-title">Przestronny loft przy plazy</h3>
+                    <div class="property-card-location">
+                        <i data-lucide="map-pin"></i>
+                        Gdynia, ul. Swietojanska
+                    </div>
+                    <div class="property-card-features">
+                        <span class="feature-tag"><i data-lucide="wifi"></i> 250 Mbps</span>
+                        <span class="feature-tag"><i data-lucide="monitor"></i> Biurko</span>
+                        <span class="feature-tag"><i data-lucide="sun"></i> Balkon</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-price">3 100 zl <span>/ tydzien</span></div>
+                        <div class="property-card-rating"><i data-lucide="star"></i> 4.7</div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- CITIES -->
+    <section>
+        <div class="section-header">
+            <h2 class="section-title">Popularne lokalizacje</h2>
+        </div>
+
+        <div class="cities-grid">
+            <div class="city-card">
+                <img src="https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?w=400&h=300&fit=crop" alt="Sopot">
+                <div class="city-card-overlay">
+                    <span class="city-card-name">Sopot</span>
+                    <span class="city-card-count">24 oferty</span>
+                </div>
+            </div>
+            <div class="city-card">
+                <img src="https://images.unsplash.com/photo-1607427293702-036707e88776?w=400&h=300&fit=crop" alt="Gdansk">
+                <div class="city-card-overlay">
+                    <span class="city-card-name">Gdansk</span>
+                    <span class="city-card-count">38 ofert</span>
+                </div>
+            </div>
+            <div class="city-card">
+                <img src="https://images.unsplash.com/photo-1597933437229-4f1e03e05a9e?w=400&h=300&fit=crop" alt="Gdynia">
+                <div class="city-card-overlay">
+                    <span class="city-card-name">Gdynia</span>
+                    <span class="city-card-count">19 ofert</span>
+                </div>
+            </div>
+            <div class="city-card">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop" alt="Hel">
+                <div class="city-card-overlay">
+                    <span class="city-card-name">Polwysep Helski</span>
+                    <span class="city-card-count">12 ofert</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+        <h2>Jak to dziala?</h2>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-icon"><i data-lucide="search"></i></div>
+                <h3>Znajdz miejsce</h3>
+                <p>Przegladaj oferty z szybkim internetem i przestrzenia do pracy</p>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i data-lucide="calendar"></i></div>
+                <h3>Zarezerwuj termin</h3>
+                <p>Wyslij zapytanie i umow sie bezposrednio z Zarzadcaem</p>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i data-lucide="laptop"></i></div>
+                <h3>Pracuj i wypoczywaj</h3>
+                <p>Ciesz sie produktywna praca i czasem nad morzem</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY WORKACJE -->
+    <section class="why-section">
+        <div class="section-header">
+            <h2 class="section-title">Dlaczego workejszyn.pl?</h2>
+        </div>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-card-icon"><i data-lucide="wifi"></i></div>
+                <div>
+                    <h3>Zweryfikowany internet</h3>
+                    <p>Kazda oferta ma sprawdzona predkosc internetu - bez niespodzianek</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <div class="why-card-icon"><i data-lucide="monitor"></i></div>
+                <div>
+                    <h3>Przestrzen do pracy</h3>
+                    <p>Biurko, krzeslo, dobre oswietlenie - wszystko gotowe do pracy</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <div class="why-card-icon"><i data-lucide="calendar"></i></div>
+                <div>
+                    <h3>Dlugie pobyty</h3>
+                    <p>Specjalne ceny na pobyty tygodniowe i miesieczne</p>
+                </div>
+            </div>
+            <div class="why-card">
+                <div class="why-card-icon"><i data-lucide="message-circle"></i></div>
+                <div>
+                    <h3>Bezposredni kontakt</h3>
+                    <p>Rozmawiasz bezposrednio z Zarzadcaem, bez posrednikow</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Masz mieszkanie nad morzem?</h2>
+        <p>Dolacz do workejszyn.pl i zarabiaj wynajmujac osobom pracujacym zdalnie</p>
+        <a href="#" class="cta-btn">
+            <i data-lucide="home"></i>
+            Dodaj swoja oferte
+        </a>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>workejszyn.pl</h4>
+                <a href="#">O nas</a>
+                <a href="#">Jak to dziala</a>
+                <a href="#">Kontakt</a>
+            </div>
+            <div class="footer-section">
+                <h4>Dla gosci</h4>
+                <a href="#">Szukaj mieszkan</a>
+                <a href="#">Popularne miasta</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Dla Zarzadcai</h4>
+                <a href="#">Dodaj oferte</a>
+                <a href="#">Jak zaczac</a>
+                <a href="#">Cennik</a>
+            </div>
+            <div class="footer-section">
+                <h4>Prawne</h4>
+                <a href="#">Regulamin</a>
+                <a href="#">Polityka prywatnosci</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 workejszyn.pl. Wszystkie prawa zastrzezone.</p>
+        </div>
+    </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+

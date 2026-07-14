@@ -1,0 +1,686 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jak to dziala - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gradient-start: #1A73E8;
+            --gradient-mid: #00ACC1;
+            --gradient-end: #00D2A0;
+            --accent-blue: #1A73E8;
+            --accent-cyan: #00ACC1;
+            --accent-teal: #00D2A0;
+
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-teal)) 1;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .logo-icon { width: 42px; height: 42px; }
+        .logo-text { font-size: 1.4rem; font-weight: 700; color: var(--slate-800); }
+        .logo-text .accent {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav { display: flex; gap: 2rem; align-items: center; }
+        nav a { color: var(--slate-500); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        nav a:hover { color: var(--accent-cyan); }
+        nav a.active { color: var(--accent-cyan); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white) !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* MAIN */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* SECTION TABS */
+        .section-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-tab {
+            padding: 0.875rem 1.5rem;
+            background: var(--white);
+            border: 2px solid var(--slate-200);
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--slate-600);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .section-tab:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .section-tab.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-color: transparent;
+            color: var(--white);
+        }
+
+        /* STEPS SECTION */
+        .steps-section {
+            margin-bottom: 4rem;
+        }
+
+        .steps-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .step-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .step-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin: 0.5rem auto 1rem;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--slate-500);
+            line-height: 1.6;
+        }
+
+        /* FOR OWNERS SECTION */
+        .owners-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .owners-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .owners-subtitle {
+            text-align: center;
+            color: var(--slate-500);
+            margin-bottom: 2.5rem;
+        }
+
+        .owners-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .owner-step {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--slate-50);
+            border-radius: 12px;
+        }
+
+        .owner-step-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+            color: var(--white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .owner-step-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .owner-step-content p {
+            font-size: 0.85rem;
+            color: var(--slate-500);
+        }
+
+        .owners-cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 16px rgba(0, 172, 193, 0.4);
+        }
+
+        /* FAQ SECTION */
+        .faq-section {
+            margin-bottom: 3rem;
+        }
+
+        .faq-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            color: var(--accent-cyan);
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            color: var(--slate-400);
+            transition: transform 0.2s;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+            color: var(--accent-cyan);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.25rem;
+            font-size: 0.95rem;
+            color: var(--slate-600);
+            line-height: 1.7;
+            display: none;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            background: linear-gradient(135deg, var(--slate-800), var(--slate-900));
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta-section h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-section p {
+            color: var(--slate-400);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid var(--slate-600);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--slate-900);
+            color: var(--slate-400);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .footer-logo-text { font-size: 1.25rem; font-weight: 700; color: var(--white); }
+        .footer-logo-text .accent { color: var(--accent-cyan); }
+        .footer-desc { font-size: 0.85rem; line-height: 1.6; }
+
+        .footer-section h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 0.6rem; }
+        .footer-section ul li a { color: var(--slate-500); text-decoration: none; font-size: 0.85rem; }
+        .footer-section ul li a:hover { color: var(--accent-cyan); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--slate-700);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--slate-600);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .owners-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .cta-buttons {
+                flex-direction: column;
+            }
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="nav-bar">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs>
+                    <g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g>
+                </svg>
+                <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+            </a>
+            <nav>
+                <a href="#">Szukaj</a>
+                <a href="#" class="active">Jak to dziala</a>
+                <a href="#">Dla Zarzadcai</a>
+                <a href="#" class="nav-cta">Zaloguj sie</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Jak dziala workejszyn.pl?</h1>
+        <p>Prosty sposob na znalezienie idealnego miejsca do pracy zdalnej lub wynajecie swojego mieszkania poza sezonem.</p>
+    </section>
+
+    <!-- MAIN -->
+    <main>
+        <!-- TABS -->
+        <div class="section-tabs">
+            <button class="section-tab active">Dla gosci</button>
+            <button class="section-tab">Dla Zarzadcai</button>
+        </div>
+
+        <!-- FOR GUESTS -->
+        <section class="steps-section">
+            <h2 class="steps-title">Jak znalezc mieszkanie na workation?</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🔍</div>
+                    <h3 class="step-title">Szukaj</h3>
+                    <p class="step-desc">Wybierz lokalizacje, daty i liczbę gosci. Filtruj po szybkosci internetu, biurku i innych udogodnieniach.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">💬</div>
+                    <h3 class="step-title">Kontaktuj sie</h3>
+                    <p class="step-desc">Wyslij zapytanie do Zarzadcaa. Ustal szczegoly, zadawaj pytania i potwirdz dostepnosc terminu.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🏠</div>
+                    <h3 class="step-title">Rezerwuj i pracuj</h3>
+                    <p class="step-desc">Po potwierdzeniu przez Zarzadcaa rozlicz sie bezposrednio. Zamieszkaj i pracuj z widokiem!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOR OWNERS -->
+        <section class="owners-section">
+            <h2 class="owners-title">Jak dodac swoje mieszkanie?</h2>
+            <p class="owners-subtitle">Wynajmij mieszkanie w kurorcie poza sezonem turystycznym</p>
+
+            <div class="owners-grid">
+                <div class="owner-step">
+                    <div class="owner-step-number">1</div>
+                    <div class="owner-step-content">
+                        <h4>Zaloz konto</h4>
+                        <p>Zarejestruj sie jako Zarzadca. Twoje konto zostanie aktywowane przez administratora.</p>
+                    </div>
+                </div>
+                <div class="owner-step">
+                    <div class="owner-step-number">2</div>
+                    <div class="owner-step-content">
+                        <h4>Dodaj oferte</h4>
+                        <p>Wypelnij formularz - dodaj zdjecia, opis, udogodnienia i cennik tygodniowy.</p>
+                    </div>
+                </div>
+                <div class="owner-step">
+                    <div class="owner-step-number">3</div>
+                    <div class="owner-step-content">
+                        <h4>Ustaw dostepnosc</h4>
+                        <p>Okresl kiedy mieszkanie jest dostepne. Zsynchronizuj kalendarz z innymi portalami.</p>
+                    </div>
+                </div>
+                <div class="owner-step">
+                    <div class="owner-step-number">4</div>
+                    <div class="owner-step-content">
+                        <h4>Odpowiadaj na zapytania</h4>
+                        <p>Otrzymuj zapytania od gosci, potwierdzaj rezerwacje i rozliczaj sie bezposrednio.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="owners-cta">
+                <a href="#" class="btn-primary">Dodaj swoje mieszkanie</a>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section">
+            <h2 class="faq-title">Czesto zadawane pytania</h2>
+
+            <div class="faq-list">
+                <div class="faq-item open">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Czym workejszyn.pl rozni sie od Booking czy Airbnb?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        workejszyn.pl skupia sie na wynajmach tygodniowych dla osob pracujacych zdalnie. Nie pobieramy prowizji od rezerwacji - placisz bezposrednio Zarzadcaowi. Wszystkie mieszkania maja zweryfikowane udogodnienia do pracy (szybki internet, biurko, cicha okolica).
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Jaki jest minimalny okres wynajmu?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Minimalny okres wynajmu ustala Zarzadca dla kazdego mieszkania indywidualnie. Zazwyczaj jest to tydzien (7 dni), ale niektore oferty moga miec inne wymagania.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Jak dziala platnosc?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Platnosci odbywaja sie bezposrednio miedzy gosciem a Zarzadcaem - przelewem, gotowka lub w inny ustalony sposob. workejszyn.pl nie posredniczy w platnosciach, dzieki czemu nie doliczamy prowizji.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Co jesli Zarzadca nie odpowiada na zapytanie?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Jesli Zarzadca nie odpowie w ciagu 24 godzin, zapytanie automatycznie wygasa. Mozesz wtedy wyslac zapytanie do innego mieszkania lub skontaktowac sie z Zarzadcaem telefonicznie.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Czy moge anulowac rezerwacje?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Zasady anulowania ustala Zarzadca i sa opisane na stronie kazdego mieszkania. Najczesciej spotykane to: elastyczna (do 24h przed), umiarkowana (do 5 dni przed) lub sztywna (do 14 dni przed). W razie watpliwosci skontaktuj sie z Zarzadcaem.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Ile kosztuje dodanie oferty jako Zarzadca?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Obecnie dodawanie ofert jest bezplatne. W przyszlosci planujemy wprowadzenie abonamentu miesiecznego oraz platnych wyroznie ofert w wynikach wyszukiwania.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <h2>Gotowy na workation?</h2>
+            <p>Znajdz idealne miejsce do pracy zdalnej lub dodaj swoje mieszkanie.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Szukaj mieszkan</a>
+                <a href="#" class="btn-secondary">Dodaj oferte</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <svg width="32" height="32" viewBox="0 0 512 512"><defs><linearGradient id="fg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#fg1)"/></g></svg>
+                    <span class="footer-logo-text">workejszyn<span class="accent">.pl</span></span>
+                </div>
+                <p class="footer-desc">Znajdz idealne miejsce do pracy zdalnej.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Dla gosci</h4>
+                <ul>
+                    <li><a href="#">Szukaj mieszkan</a></li>
+                    <li><a href="#">Jak to dziala</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Dla Zarzadcai</h4>
+                <ul>
+                    <li><a href="#">Dodaj mieszkanie</a></li>
+                    <li><a href="#">Cennik</a></li>
+                    <li><a href="#">Panel</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Informacje</h4>
+                <ul>
+                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                    <li><a href="#">Prywatnosc</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 workejszyn.pl</span>
+            <span>Made with ❤️ in Poland</span>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+

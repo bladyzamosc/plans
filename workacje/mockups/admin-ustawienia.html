@@ -1,0 +1,849 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ustawienia - Admin - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+
+        .sidebar-logo span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .sidebar-logo .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-badge {
+            font-size: 0.6rem;
+            background: #DC2626;
+            color: #FFFFFF;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255,255,255,0.05);
+            color: #FFFFFF;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.2), rgba(0, 172, 193, 0.2));
+            color: #00ACC1;
+        }
+
+        .sidebar-link i { width: 20px; height: 20px; }
+
+        /* MAIN */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+            max-width: 900px;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-top: 0.25rem;
+        }
+
+        /* SETTINGS SECTIONS */
+        .settings-section {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .settings-header i {
+            width: 22px;
+            height: 22px;
+            color: #00ACC1;
+        }
+
+        .settings-header-text h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .settings-header-text p {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        .settings-body {
+            padding: 1.5rem;
+        }
+
+        /* FORM ELEMENTS */
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .setting-row:first-child {
+            padding-top: 0;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 0.15rem;
+        }
+
+        .setting-info p {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        .setting-control {
+            min-width: 200px;
+            text-align: right;
+        }
+
+        /* Toggle */
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            display: inline-block;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #E2E8F0;
+            border-radius: 26px;
+            transition: 0.2s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            transition: 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        /* Input */
+        .form-input {
+            padding: 0.6rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            width: 200px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ACC1;
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.1);
+        }
+
+        /* Select */
+        .form-select {
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            background: #FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+            cursor: pointer;
+            appearance: none;
+            min-width: 200px;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #00ACC1;
+        }
+
+        /* Input with unit */
+        .input-with-unit {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-with-unit .form-input {
+            width: 100px;
+        }
+
+        .input-unit {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary i { width: 16px; height: 16px; }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .btn-secondary i { width: 16px; height: 16px; }
+
+        .btn-danger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: #FFFFFF;
+            border: 1px solid #DC2626;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #DC2626;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+            color: #FFFFFF;
+        }
+
+        .btn-danger i { width: 16px; height: 16px; }
+
+        /* Color preview */
+        .color-preview {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 2px solid #E2E8F0;
+        }
+
+        .color-input {
+            width: 120px;
+        }
+
+        /* Status indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-dot.green { background: #00D2A0; }
+        .status-dot.yellow { background: #F97316; }
+        .status-dot.red { background: #DC2626; }
+
+        /* Section footer */
+        .settings-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: #F8FAFC;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        /* Info box */
+        .info-box {
+            background: rgba(0, 172, 193, 0.05);
+            border: 1px solid rgba(0, 172, 193, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .info-box i {
+            width: 20px;
+            height: 20px;
+            color: #00ACC1;
+            flex-shrink: 0;
+        }
+
+        .info-box p {
+            font-size: 0.8rem;
+            color: #475569;
+        }
+
+        /* Textarea */
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #00ACC1;
+        }
+
+        /* Full width setting */
+        .setting-row.full-width {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .setting-row.full-width .setting-control {
+            width: 100%;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+            <span class="admin-badge">ADMIN</span>
+        </a>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Przeglad</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Zarzadzanie</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="users"></i>
+                    Uzytkownicy
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="home"></i>
+                    Oferty
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="calendar-check"></i>
+                    Rezerwacje
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="tag"></i>
+                    Tagi / Amenities
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">System</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active">
+                    <i data-lucide="settings"></i>
+                    Ustawienia
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Ustawienia</h1>
+            <p class="page-subtitle">Konfiguracja platformy workejszyn.pl</p>
+        </div>
+
+        <!-- GENERAL -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i data-lucide="globe"></i>
+                <div class="settings-header-text">
+                    <h2>Ogolne</h2>
+                    <p>Podstawowe ustawienia platformy</p>
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Tryb konserwacji</h4>
+                        <p>Wylacz dostep do strony dla uzytkownikow</p>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Rejestracja nowych uzytkownikow</h4>
+                        <p>Pozwol na tworzenie nowych kont</p>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Domyslny jezyk</h4>
+                        <p>Jezyk dla nowych uzytkownikow</p>
+                    </div>
+                    <div class="setting-control">
+                        <select class="form-select">
+                            <option selected>Polski (PL)</option>
+                            <option>English (EN)</option>
+                            <option>Deutsch (DE)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOOKINGS -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i data-lucide="calendar"></i>
+                <div class="settings-header-text">
+                    <h2>Rezerwacje</h2>
+                    <p>Ustawienia procesu rezerwacji</p>
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Czas na odpowiedz Zarzadcaa</h4>
+                        <p>Po tym czasie zapytanie wygasa (EXPIRED)</p>
+                    </div>
+                    <div class="setting-control">
+                        <div class="input-with-unit">
+                            <input type="number" class="form-input" value="24">
+                            <span class="input-unit">godzin</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Minimalny pobyt</h4>
+                        <p>Domyslna minimalna liczba dni dla nowych ofert</p>
+                    </div>
+                    <div class="setting-control">
+                        <div class="input-with-unit">
+                            <input type="number" class="form-input" value="7">
+                            <span class="input-unit">dni</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Domyslna godzina zameldowania</h4>
+                        <p>Dla nowych ofert</p>
+                    </div>
+                    <div class="setting-control">
+                        <input type="time" class="form-input" value="15:00">
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Domyslna godzina wymeldowania</h4>
+                        <p>Dla nowych ofert</p>
+                    </div>
+                    <div class="setting-control">
+                        <input type="time" class="form-input" value="11:00">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURED -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i data-lucide="star"></i>
+                <div class="settings-header-text">
+                    <h2>Wyroznienia</h2>
+                    <p>Ustawienia wyroznionych ofert</p>
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Maksymalna liczba wyroznionych ofert</h4>
+                        <p>Na stronie glownej</p>
+                    </div>
+                    <div class="setting-control">
+                        <input type="number" class="form-input" value="12">
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Czas trwania wyroznienia</h4>
+                        <p>Domyslny okres dla nowych wyrocznien</p>
+                    </div>
+                    <div class="setting-control">
+                        <div class="input-with-unit">
+                            <input type="number" class="form-input" value="30">
+                            <span class="input-unit">dni</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i data-lucide="mail"></i>
+                <div class="settings-header-text">
+                    <h2>E-mail</h2>
+                    <p>Konfiguracja wysylki e-maili</p>
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Adres nadawcy</h4>
+                        <p>Wyswietlany w wysylanych e-mailach</p>
+                    </div>
+                    <div class="setting-control">
+                        <input type="email" class="form-input" value="kontakt@workejszyn.pl">
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Status SMTP</h4>
+                        <p>Polaczenie z serwerem e-mail</p>
+                    </div>
+                    <div class="setting-control">
+                        <span class="status-indicator">
+                            <span class="status-dot green"></span>
+                            Polaczony
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button class="btn-secondary">
+                    <i data-lucide="send"></i>
+                    Wyslij testowy e-mail
+                </button>
+            </div>
+        </div>
+
+        <!-- ICAL SYNC -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i data-lucide="refresh-cw"></i>
+                <div class="settings-header-text">
+                    <h2>Synchronizacja iCal</h2>
+                    <p>Import kalendarzy zewnetrznych</p>
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Automatyczna synchronizacja</h4>
+                        <p>Pobieraj dane z zewnetrznych kalendarzy</p>
+                    </div>
+                    <div class="setting-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Czestotliwosc synchronizacji</h4>
+                        <p>Jak czesto pobierac dane</p>
+                    </div>
+                    <div class="setting-control">
+                        <select class="form-select">
+                            <option>Co 15 minut</option>
+                            <option>Co 30 minut</option>
+                            <option selected>Co godzine</option>
+                            <option>Co 6 godzin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Ostatnia synchronizacja</h4>
+                        <p>Status ostatniego uruchomienia</p>
+                    </div>
+                    <div class="setting-control">
+                        <span class="status-indicator">
+                            <span class="status-dot green"></span>
+                            12 lip 2026, 14:35 (156 kalendarzy)
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button class="btn-secondary">
+                    <i data-lucide="play"></i>
+                    Uruchom synchronizacje teraz
+                </button>
+            </div>
+        </div>
+
+        <!-- SEO -->
+        <div class="settings-section">
+            <div class="settings-header">
+                <i data-lucide="search"></i>
+                <div class="settings-header-text">
+                    <h2>SEO</h2>
+                    <p>Optymalizacja dla wyszukiwarek</p>
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-row full-width">
+                    <div class="setting-info">
+                        <h4>Tytul strony (meta title)</h4>
+                        <p>Wyswietlany w wynikach wyszukiwania</p>
+                    </div>
+                    <div class="setting-control">
+                        <input type="text" class="form-input" style="width: 100%;" value="workejszyn.pl - Mieszkania na workation w Polsce">
+                    </div>
+                </div>
+                <div class="setting-row full-width">
+                    <div class="setting-info">
+                        <h4>Opis strony (meta description)</h4>
+                        <p>Krotki opis w wynikach wyszukiwania</p>
+                    </div>
+                    <div class="setting-control">
+                        <textarea class="form-textarea">Znajdz idealne mieszkanie na workation nad polskim morzem. Szybki internet, biurko do pracy, cisza - wszystko czego potrzebujesz do pracy zdalnej.</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button class="btn-primary">
+                    <i data-lucide="save"></i>
+                    Zapisz zmiany
+                </button>
+            </div>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="settings-section" style="border: 1px solid #FECACA;">
+            <div class="settings-header" style="background: #FEF2F2;">
+                <i data-lucide="alert-triangle" style="color: #DC2626;"></i>
+                <div class="settings-header-text">
+                    <h2 style="color: #DC2626;">Strefa zagrozen</h2>
+                    <p>Niebezpieczne operacje systemowe</p>
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Wyczysc cache</h4>
+                        <p>Usun wszystkie dane z pamieci podrecznej</p>
+                    </div>
+                    <div class="setting-control">
+                        <button class="btn-danger">
+                            <i data-lucide="trash-2"></i>
+                            Wyczysc cache
+                        </button>
+                    </div>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Reindeksuj wyszukiwarke</h4>
+                        <p>Przebuduj indeks wyszukiwania ofert</p>
+                    </div>
+                    <div class="setting-control">
+                        <button class="btn-danger">
+                            <i data-lucide="database"></i>
+                            Reindeksuj
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

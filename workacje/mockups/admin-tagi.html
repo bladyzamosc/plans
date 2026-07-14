@@ -1,0 +1,1011 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Tagi / Amenities - Admin - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+
+        .sidebar-logo span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .sidebar-logo .accent {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-badge {
+            font-size: 0.6rem;
+            background: #DC2626;
+            color: #FFFFFF;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255,255,255,0.05);
+            color: #FFFFFF;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.2), rgba(0, 172, 193, 0.2));
+            color: #00ACC1;
+        }
+
+        .sidebar-link i { width: 20px; height: 20px; }
+
+        /* MAIN */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-top: 0.25rem;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.25rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary i { width: 18px; height: 18px; }
+
+        /* CATEGORY TABS */
+        .category-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            padding: 0.6rem 1rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.15s;
+        }
+
+        .category-tab:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border-color: transparent;
+        }
+
+        .category-tab i { width: 16px; height: 16px; }
+
+        .category-tab .count {
+            background: rgba(255,255,255,0.2);
+            padding: 0.1rem 0.4rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+        }
+
+        .category-tab:not(.active) .count {
+            background: #F1F5F9;
+        }
+
+        /* TAGS GRID */
+        .tags-section {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+
+        .tags-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .tags-header-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tags-header-title i {
+            width: 20px;
+            height: 20px;
+            color: #00ACC1;
+        }
+
+        .search-small {
+            position: relative;
+            width: 250px;
+        }
+
+        .search-small input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.25rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+
+        .search-small input:focus {
+            outline: none;
+            border-color: #00ACC1;
+        }
+
+        .search-small i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            color: #94A3B8;
+        }
+
+        .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .tag-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.15s;
+        }
+
+        .tag-card:hover {
+            border-color: #00ACC1;
+            box-shadow: 0 4px 12px rgba(0, 172, 193, 0.1);
+        }
+
+        .tag-card.inactive {
+            opacity: 0.6;
+            background: #F8FAFC;
+        }
+
+        .tag-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tag-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgba(0, 172, 193, 0.1), rgba(0, 210, 160, 0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .tag-icon.with-value {
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1), rgba(0, 172, 193, 0.1));
+        }
+
+        .tag-info {
+            flex: 1;
+        }
+
+        .tag-code {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #94A3B8;
+            font-family: monospace;
+            background: #F1F5F9;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .tag-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-top: 0.25rem;
+        }
+
+        .tag-card-actions {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .btn-icon-sm {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #94A3B8;
+            transition: all 0.15s;
+        }
+
+        .btn-icon-sm:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .btn-icon-sm.danger:hover {
+            border-color: #DC2626;
+            color: #DC2626;
+        }
+
+        .btn-icon-sm i { width: 14px; height: 14px; }
+
+        .tag-translations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .translation-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            background: #F1F5F9;
+            border-radius: 4px;
+            color: #64748B;
+        }
+
+        .translation-badge .lang {
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .tag-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #94A3B8;
+            padding-top: 0.75rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .tag-usage {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .tag-usage i { width: 12px; height: 12px; }
+
+        .tag-value-info {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #1A73E8;
+        }
+
+        .tag-value-info i { width: 12px; height: 12px; }
+
+        /* STATUS */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-dot.active { background: #00D2A0; }
+        .status-dot.inactive { background: #94A3B8; }
+
+        /* MODAL PREVIEW */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: #FFFFFF;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #F1F5F9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748B;
+        }
+
+        .modal-close:hover {
+            background: #E2E8F0;
+        }
+
+        .modal-close i { width: 18px; height: 18px; }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ACC1;
+            box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-hint {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            margin-top: 0.35rem;
+        }
+
+        .translations-section {
+            background: #F8FAFC;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .translations-section h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.75rem;
+        }
+
+        .translation-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .translation-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .translation-lang {
+            width: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748B;
+        }
+
+        .translation-input {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+
+        .translation-input:focus {
+            outline: none;
+            border-color: #00ACC1;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: #00ACC1;
+        }
+
+        .form-checkbox label {
+            font-size: 0.85rem;
+            color: #1E293B;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        .btn-secondary {
+            padding: 0.7rem 1.25rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+            <span class="admin-badge">ADMIN</span>
+        </a>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Przeglad</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Zarzadzanie</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="users"></i>
+                    Uzytkownicy
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="home"></i>
+                    Oferty
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="calendar-check"></i>
+                    Rezerwacje
+                </a>
+                <a href="#" class="sidebar-link active">
+                    <i data-lucide="tag"></i>
+                    Tagi / Amenities
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">System</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i data-lucide="settings"></i>
+                    Ustawienia
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Tagi / Amenities</h1>
+                <p class="page-subtitle">Zarzadzaj slownikiem udogodnien dla mieszkan</p>
+            </div>
+            <button class="btn-primary">
+                <i data-lucide="plus"></i>
+                Dodaj tag
+            </button>
+        </div>
+
+        <!-- CATEGORY TABS -->
+        <div class="category-tabs">
+            <button class="category-tab active">
+                <i data-lucide="layers"></i>
+                Wszystkie
+                <span class="count">24</span>
+            </button>
+            <button class="category-tab">
+                <i data-lucide="home"></i>
+                Mieszkanie
+                <span class="count">8</span>
+            </button>
+            <button class="category-tab">
+                <i data-lucide="briefcase"></i>
+                Praca
+                <span class="count">6</span>
+            </button>
+            <button class="category-tab">
+                <i data-lucide="sparkles"></i>
+                Komfort
+                <span class="count">5</span>
+            </button>
+            <button class="category-tab">
+                <i data-lucide="wrench"></i>
+                Praktyczne
+                <span class="count">5</span>
+            </button>
+        </div>
+
+        <!-- TAGS SECTION -->
+        <div class="tags-section">
+            <div class="tags-header">
+                <h2 class="tags-header-title">
+                    <i data-lucide="tag"></i>
+                    Lista tagow
+                </h2>
+                <div class="search-small">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Szukaj tagu...">
+                </div>
+            </div>
+
+            <div class="tags-grid">
+                <!-- Tag with value -->
+                <div class="tag-card">
+                    <div class="tag-card-header">
+                        <div class="tag-icon with-value">
+                            <i data-lucide="wifi"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">WIFI_SPEED</span>
+                            <div class="tag-name">Predkosc internetu</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Predkosc internetu</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Internet speed</span>
+                        <span class="translation-badge"><span class="lang">DE</span> Internetgeschw.</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 142 ofert</span>
+                        <span class="tag-value-info"><i data-lucide="hash"></i> Wymaga wartosci (Mbps)</span>
+                    </div>
+                </div>
+
+                <!-- Regular tag -->
+                <div class="tag-card">
+                    <div class="tag-card-header">
+                        <div class="tag-icon">
+                            <i data-lucide="sun"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">BALCONY</span>
+                            <div class="tag-name">Balkon</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Balkon</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Balcony</span>
+                        <span class="translation-badge"><span class="lang">DE</span> Balkon</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 98 ofert</span>
+                        <span><span class="status-dot active"></span> Aktywny</span>
+                    </div>
+                </div>
+
+                <!-- Tag with value -->
+                <div class="tag-card">
+                    <div class="tag-card-header">
+                        <div class="tag-icon with-value">
+                            <i data-lucide="umbrella"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">BEACH_DISTANCE</span>
+                            <div class="tag-name">Odleglosc od plazy</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Odl. od plazy</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Beach distance</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 87 ofert</span>
+                        <span class="tag-value-info"><i data-lucide="hash"></i> Wymaga wartosci (m)</span>
+                    </div>
+                </div>
+
+                <!-- Regular tag -->
+                <div class="tag-card">
+                    <div class="tag-card-header">
+                        <div class="tag-icon">
+                            <i data-lucide="monitor"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">DESK</span>
+                            <div class="tag-name">Biurko do pracy</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Biurko do pracy</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Work desk</span>
+                        <span class="translation-badge"><span class="lang">DE</span> Schreibtisch</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 134 ofert</span>
+                        <span><span class="status-dot active"></span> Aktywny</span>
+                    </div>
+                </div>
+
+                <!-- Regular tag -->
+                <div class="tag-card">
+                    <div class="tag-card-header">
+                        <div class="tag-icon">
+                            <i data-lucide="armchair"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">ERGONOMIC_CHAIR</span>
+                            <div class="tag-name">Krzeslo ergonomiczne</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Krzeslo ergon.</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Ergonomic chair</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 76 ofert</span>
+                        <span><span class="status-dot active"></span> Aktywny</span>
+                    </div>
+                </div>
+
+                <!-- Inactive tag -->
+                <div class="tag-card inactive">
+                    <div class="tag-card-header">
+                        <div class="tag-icon">
+                            <i data-lucide="car"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">PARKING</span>
+                            <div class="tag-name">Parking</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Parking</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Parking</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 45 ofert</span>
+                        <span><span class="status-dot inactive"></span> Nieaktywny</span>
+                    </div>
+                </div>
+
+                <!-- Regular tag -->
+                <div class="tag-card">
+                    <div class="tag-card-header">
+                        <div class="tag-icon">
+                            <i data-lucide="wind"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">AC</span>
+                            <div class="tag-name">Klimatyzacja</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Klimatyzacja</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Air conditioning</span>
+                        <span class="translation-badge"><span class="lang">DE</span> Klimaanlage</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 112 ofert</span>
+                        <span><span class="status-dot active"></span> Aktywny</span>
+                    </div>
+                </div>
+
+                <!-- Regular tag -->
+                <div class="tag-card">
+                    <div class="tag-card-header">
+                        <div class="tag-icon">
+                            <i data-lucide="dog"></i>
+                        </div>
+                        <div class="tag-info">
+                            <span class="tag-code">PETS_OK</span>
+                            <div class="tag-name">Zwierzeta dozwolone</div>
+                        </div>
+                        <div class="tag-card-actions">
+                            <button class="btn-icon-sm"><i data-lucide="pencil"></i></button>
+                            <button class="btn-icon-sm danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <div class="tag-translations">
+                        <span class="translation-badge"><span class="lang">PL</span> Zwierzeta OK</span>
+                        <span class="translation-badge"><span class="lang">EN</span> Pets allowed</span>
+                    </div>
+                    <div class="tag-meta">
+                        <span class="tag-usage"><i data-lucide="home"></i> 34 ofert</span>
+                        <span><span class="status-dot active"></span> Aktywny</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- MODAL: Add/Edit Tag -->
+<div class="modal-backdrop" style="display: none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Dodaj nowy tag</h3>
+            <button class="modal-close"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Kod tagu</label>
+                    <input type="text" class="form-input" placeholder="np. WIFI_SPEED">
+                    <span class="form-hint">Unikalny identyfikator, UPPER_SNAKE_CASE</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kategoria</label>
+                    <select class="form-select">
+                        <option>Mieszkanie (PROPERTY)</option>
+                        <option>Praca (WORK)</option>
+                        <option>Komfort (COMFORT)</option>
+                        <option>Praktyczne (PRACTICAL)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Ikona (Lucide)</label>
+                    <input type="text" class="form-input" placeholder="np. wifi, sun, car">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kolejnosc sortowania</label>
+                    <input type="number" class="form-input" value="10">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-checkbox">
+                    <input type="checkbox" id="hasValue">
+                    <label for="hasValue">Wymaga wartosci (np. predkosc WiFi, odleglosc)</label>
+                </div>
+            </div>
+
+            <div class="form-group" id="valueUnitGroup" style="display: none;">
+                <label class="form-label">Jednostka wartosci</label>
+                <input type="text" class="form-input" placeholder="np. Mbps, m, szt.">
+            </div>
+
+            <div class="translations-section">
+                <h4>Tlumaczenia nazwy</h4>
+                <div class="translation-row">
+                    <span class="translation-lang">PL</span>
+                    <input type="text" class="translation-input" placeholder="Nazwa po polsku">
+                </div>
+                <div class="translation-row">
+                    <span class="translation-lang">EN</span>
+                    <input type="text" class="translation-input" placeholder="English name">
+                </div>
+                <div class="translation-row">
+                    <span class="translation-lang">DE</span>
+                    <input type="text" class="translation-input" placeholder="Deutscher Name">
+                </div>
+                <div class="translation-row">
+                    <span class="translation-lang">UK</span>
+                    <input type="text" class="translation-input" placeholder="Ukrainska nazwa">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary">Anuluj</button>
+            <button class="btn-primary">Zapisz tag</button>
+        </div>
+    </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+

@@ -1,0 +1,2990 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>workejszyn.pl - Dokumentacja projektu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F1F5F9;
+            color: #334155;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1, #00D2A0);
+            padding: 40px 20px;
+            padding-top: calc(40px + env(safe-area-inset-top));
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .logo svg {
+            width: 52px;
+            height: 52px;
+        }
+
+        .logo span {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .logo .accent {
+            opacity: 0.85;
+        }
+
+        .tagline {
+            color: rgba(255,255,255,0.95);
+            font-size: 18px;
+            margin-bottom: 24px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.15s;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            padding-bottom: calc(30px + env(safe-area-inset-bottom));
+        }
+
+        /* ACCORDION */
+        .accordion {
+            background-color: #fff;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 20px 24px;
+            background-color: #fff;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: inherit;
+            transition: background-color 0.15s;
+        }
+
+        .accordion-header:hover {
+            background-color: #F8FAFC;
+        }
+
+        .accordion-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accordion-icon {
+            font-size: 24px;
+            color: #94A3B8;
+            transition: transform 0.3s;
+        }
+
+        .accordion.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 0 24px 24px 24px;
+            width: 100%;
+        }
+
+        .accordion.open .accordion-content {
+            display: block;
+        }
+
+        /* TYPOGRAPHY */
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1E293B;
+            margin: 28px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 15px;
+            color: #475569;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        strong {
+            color: #1E293B;
+        }
+
+        /* VALUE GRID */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 20px 12px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.08), rgba(0,210,160,0.08));
+            border-radius: 12px;
+        }
+
+        .value-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .value-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+
+        .value-desc {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        /* PROBLEM / SOLUTION */
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .problem-box {
+            background-color: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .problem-box h4 {
+            color: #DC2626;
+            margin-bottom: 12px;
+        }
+
+        .problem-box li {
+            color: #7F1D1D;
+        }
+
+        .solution-box {
+            background-color: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .solution-box h4 {
+            color: #16A34A;
+            margin-bottom: 12px;
+        }
+
+        .solution-box li {
+            color: #166534;
+        }
+
+        /* INFO GRID */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .info-box {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .info-box h4 {
+            margin-bottom: 12px;
+        }
+
+        .info-box ul {
+            margin-bottom: 0;
+        }
+
+        /* HIGHLIGHT BOX */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(26,115,232,0.08), rgba(0,172,193,0.08));
+            border: 1px solid rgba(0,172,193,0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .highlight-box h4 {
+            color: #0369A1;
+            margin-bottom: 12px;
+        }
+
+        /* PHASES */
+        .phases {
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .phase {
+            position: relative;
+            padding-left: 32px;
+            padding-bottom: 24px;
+            border-left: 3px solid #E2E8F0;
+        }
+
+        .phase:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+
+        .phase::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #E2E8F0;
+        }
+
+        .phase.done::before {
+            background-color: #00D2A0;
+        }
+
+        .phase.current::before {
+            background-color: #00ACC1;
+            box-shadow: 0 0 0 4px rgba(0,172,193,0.2);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .phase-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .phase-badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .phase-badge.done {
+            background-color: rgba(0,210,160,0.15);
+            color: #059669;
+        }
+
+        .phase-badge.current {
+            background-color: rgba(0,172,193,0.15);
+            color: #0891B2;
+        }
+
+        .phase-badge.future {
+            background-color: #F1F5F9;
+            color: #64748B;
+        }
+
+        .phase-desc {
+            font-size: 14px;
+            color: #64748B;
+            margin-bottom: 8px;
+        }
+
+        .phase-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .phase-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            background-color: #F1F5F9;
+            color: #475569;
+            border-radius: 6px;
+        }
+
+        /* PANEL SECTIONS */
+        .panel-box {
+            border-radius: 12px;
+            padding: 24px;
+            margin: 16px 0;
+            width: 100%;
+        }
+
+        .panel-box.guest {
+            background-color: #F0F9FF;
+            border: 1px solid #BAE6FD;
+        }
+
+        .panel-box.guest h4 {
+            color: #0369A1;
+        }
+
+        .panel-box.owner {
+            background-color: #F0FDF4;
+            border: 1px solid #BBF7D0;
+        }
+
+        .panel-box.owner h4 {
+            color: #16A34A;
+        }
+
+        .panel-box.admin {
+            background-color: #FDF4FF;
+            border: 1px solid #F5D0FE;
+        }
+
+        .panel-box.admin h4 {
+            color: #A21CAF;
+        }
+
+        .panel-box.b2b {
+            background-color: #FFFBEB;
+            border: 1px solid #FDE68A;
+        }
+
+        .panel-box.b2b h4 {
+            color: #B45309;
+        }
+
+        .panel-features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+            width: 100%;
+        }
+
+        .panel-feature h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 8px;
+        }
+
+        .panel-feature ul {
+            margin-left: 16px;
+            margin-bottom: 0;
+        }
+
+        .panel-feature li {
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        /* REVENUE */
+        .revenue-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .revenue-item {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .revenue-item.primary {
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-color: rgba(0,172,193,0.3);
+        }
+
+        .revenue-item .icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .revenue-item h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+
+        .revenue-item p {
+            font-size: 12px;
+            color: #64748B;
+            margin: 0;
+        }
+
+        /* EXCLUSIONS */
+        .exclusions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+            width: 100%;
+        }
+
+        .exclusion {
+            background-color: #FEE2E2;
+            color: #991B1B;
+            font-size: 13px;
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        /* MOCKUPS */
+        .mockups-section {
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        .mockups-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .mockups-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .mockup-link {
+            display: inline-block;
+            padding: 10px 16px;
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .mockup-link:hover {
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-color: #00ACC1;
+            color: #00ACC1;
+            transform: translateY(-2px);
+        }
+
+        .mockup-link.primary {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+            border: none;
+        }
+
+        .mockup-link.primary:hover {
+            box-shadow: 0 6px 16px rgba(0,172,193,0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #00D2A0;
+            color: #fff;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: #94A3B8;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .panel-features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 24px 16px;
+            }
+
+            .logo span {
+                font-size: 28px;
+            }
+
+            .tagline {
+                font-size: 15px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .accordion-header {
+                padding: 16px 20px;
+            }
+
+            .accordion-content {
+                padding: 0 20px 20px 20px;
+            }
+
+            .accordion-title {
+                font-size: 17px;
+            }
+
+            .value-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .problem-solution {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .revenue-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .panel-features {
+                grid-template-columns: 1fr;
+            }
+
+            .nav a {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .value-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .value-item {
+                padding: 14px 8px;
+            }
+
+            .value-icon {
+                font-size: 24px;
+            }
+
+            .value-title {
+                font-size: 13px;
+            }
+
+            .revenue-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* PRICING TABLE */
+        .pricing-table {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .pricing-tier {
+            background: #fff;
+            border: 2px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 24px 20px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .pricing-tier:hover {
+            border-color: #00ACC1;
+            box-shadow: 0 8px 24px rgba(0,172,193,0.15);
+        }
+
+        .pricing-tier.free {
+            border-color: #00D2A0;
+            background: linear-gradient(180deg, rgba(0,210,160,0.05) 0%, #fff 100%);
+        }
+
+        .pricing-tier.popular {
+            border-color: #00ACC1;
+            background: linear-gradient(180deg, rgba(0,172,193,0.08) 0%, #fff 100%);
+            transform: scale(1.02);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .pricing-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748B;
+            margin-bottom: 8px;
+        }
+
+        .pricing-price {
+            display: block;
+            font-size: 32px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .pricing-tier.free .pricing-price {
+            color: #00D2A0;
+        }
+
+        .pricing-period {
+            display: block;
+            font-size: 12px;
+            color: #94A3B8;
+            margin-top: 4px;
+        }
+
+        .pricing-highlight {
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            color: #0F172A;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .pricing-features ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pricing-features li {
+            font-size: 13px;
+            color: #475569;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00D2A0;
+            font-weight: 600;
+        }
+
+        .pricing-example {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px dashed #E2E8F0;
+            font-size: 12px;
+            color: #64748B;
+            font-style: italic;
+        }
+
+        /* POI PRICING */
+        .pricing-poi {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .poi-formula {
+            background: linear-gradient(135deg, rgba(26,115,232,0.1), rgba(0,172,193,0.1));
+            padding: 16px 24px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .poi-formula .formula {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .poi-examples {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .poi-example {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .poi-name {
+            display: block;
+            font-size: 13px;
+            color: #64748B;
+            margin-bottom: 6px;
+        }
+
+        .poi-calc {
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .poi-calc strong {
+            display: block;
+            font-size: 18px;
+            color: #00ACC1;
+            margin-top: 4px;
+        }
+
+        .poi-note {
+            font-size: 13px;
+            color: #64748B;
+            font-style: italic;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            margin: 24px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-marker {
+            width: 60px;
+            height: 28px;
+            border-radius: 14px;
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .timeline-marker.free {
+            background: linear-gradient(135deg, #00D2A0, #00ACC1);
+            color: #fff;
+        }
+
+        .timeline-marker.paid {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+        }
+
+        .timeline-content h4 {
+            font-size: 15px;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content p {
+            font-size: 13px;
+            color: #64748B;
+            margin: 0;
+        }
+
+        @media (max-width: 1000px) {
+            .pricing-table {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .poi-examples {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .pricing-table {
+                grid-template-columns: 1fr;
+            }
+            .pricing-tier.popular {
+                transform: none;
+            }
+        }
+
+        /* ONBOARDING */
+        .onboarding-targets {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .target-card {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+        }
+
+        .target-icon {
+            font-size: 32px;
+        }
+
+        .target-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .target-name {
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .target-count {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        .target-status {
+            font-size: 11px;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            color: #0F766E;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .onboarding-steps {
+            margin: 20px 0;
+        }
+
+        .onboarding-step {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .onboarding-step:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            font-size: 15px;
+            color: #0F172A;
+            margin-bottom: 6px;
+        }
+
+        .step-content p {
+            font-size: 13px;
+            color: #64748B;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .step-who {
+            display: inline-block;
+            font-size: 11px;
+            padding: 3px 10px;
+            background: #F1F5F9;
+            color: #64748B;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .material-card {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .material-card:hover {
+            border-color: #00ACC1;
+            box-shadow: 0 4px 12px rgba(0,172,193,0.1);
+        }
+
+        .material-icon {
+            font-size: 28px;
+        }
+
+        .material-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .material-name {
+            font-weight: 600;
+            color: #0F172A;
+            font-size: 14px;
+        }
+
+        .material-desc {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        @media (max-width: 768px) {
+            .onboarding-targets {
+                grid-template-columns: 1fr;
+            }
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* BUSINESS SECTION */
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .market-stat {
+            background: linear-gradient(135deg, rgba(26,115,232,0.08), rgba(0,172,193,0.08));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .market-stat .stat-number {
+            display: block;
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .market-stat .stat-label {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        /* COMPETITORS TABLE */
+        .competitors-table {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 1px solid #E2E8F0;
+        }
+
+        .competitor-row {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr 1.2fr 1.2fr;
+            padding: 14px 20px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 13px;
+        }
+
+        .competitor-row:last-child {
+            border-bottom: none;
+        }
+
+        .competitor-row.header {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .competitor-row .red { color: #DC2626; font-weight: 600; }
+        .competitor-row .yellow { color: #D97706; font-weight: 600; }
+        .competitor-row .green { color: #059669; font-weight: 600; }
+
+        /* SWOT */
+        .swot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .swot-box {
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .swot-box h4 {
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .swot-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .swot-box li {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .swot-box.strengths {
+            background: rgba(0,210,160,0.1);
+            border: 1px solid rgba(0,210,160,0.3);
+        }
+        .swot-box.strengths h4 { color: #059669; }
+        .swot-box.strengths li { color: #047857; }
+
+        .swot-box.weaknesses {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+        .swot-box.weaknesses h4 { color: #DC2626; }
+        .swot-box.weaknesses li { color: #B91C1C; }
+
+        .swot-box.opportunities {
+            background: rgba(26,115,232,0.1);
+            border: 1px solid rgba(26,115,232,0.3);
+        }
+        .swot-box.opportunities h4 { color: #1A73E8; }
+        .swot-box.opportunities li { color: #1E40AF; }
+
+        .swot-box.threats {
+            background: rgba(217,119,6,0.1);
+            border: 1px solid rgba(217,119,6,0.3);
+        }
+        .swot-box.threats h4 { color: #D97706; }
+        .swot-box.threats li { color: #B45309; }
+
+        /* COSTS TABLE */
+        .costs-table, .projections-table {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 1px solid #E2E8F0;
+        }
+
+        .cost-row, .projection-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 12px 20px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 13px;
+        }
+
+        .projection-row {
+            grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1fr;
+        }
+
+        .cost-row:last-child, .projection-row:last-child {
+            border-bottom: none;
+        }
+
+        .cost-row.header, .projection-row.header {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #64748B;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .cost-row.total {
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+        }
+
+        .projection-row.highlight {
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+        }
+
+        /* REVENUE STREAMS */
+        .revenue-streams {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stream {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        .stream.primary {
+            background: linear-gradient(135deg, rgba(26,115,232,0.08), rgba(0,172,193,0.08));
+            border-color: rgba(0,172,193,0.3);
+        }
+
+        .stream-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .stream-icon {
+            font-size: 24px;
+        }
+
+        .stream-name {
+            flex: 1;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .stream-pct {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00ACC1;
+        }
+
+        .stream p {
+            font-size: 13px;
+            color: #64748B;
+            margin: 0;
+        }
+
+        /* KPI GRID */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .kpi-card {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .kpi-name {
+            display: block;
+            font-size: 12px;
+            color: #64748B;
+            margin-bottom: 6px;
+        }
+
+        .kpi-target {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        /* BUSINESS TIMELINE */
+        .business-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .timeline-phase {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .phase-marker {
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 10px 16px;
+            text-align: center;
+        }
+
+        .phase-content {
+            padding: 16px;
+        }
+
+        .phase-content h4 {
+            font-size: 14px;
+            color: #0F172A;
+            margin-bottom: 10px;
+        }
+
+        .phase-content ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .phase-content li {
+            font-size: 12px;
+            color: #64748B;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .market-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .business-timeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .market-stats {
+                grid-template-columns: 1fr;
+            }
+            .swot-grid {
+                grid-template-columns: 1fr;
+            }
+            .competitor-row {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            .competitor-row.header {
+                display: none;
+            }
+            .cost-row, .projection-row {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            .cost-row.header, .projection-row.header {
+                display: none;
+            }
+            .business-timeline {
+                grid-template-columns: 1fr;
+            }
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">
+        <svg viewBox="0 0 512 512">
+            <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="rgba(255,255,255,0.8)"/></linearGradient></defs>
+            <g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g>
+        </svg>
+        <span>workejszyn<span class="accent">.pl</span></span>
+    </div>
+    <p class="tagline">Portal do wynajmu mieszkan na prace zdalna w kurortach, poza sezonem turystycznym</p>
+    <nav class="nav">
+        <a href="#o-projekcie">O projekcie</a>
+        <a href="#fazy">Fazy</a>
+        <a href="#funkcjonalnosci">Funkcje</a>
+        <a href="#promocja">Promocja</a>
+        <a href="#cennik">Cennik</a>
+        <a href="#onboarding">Onboarding</a>
+        <a href="#b2b">B2B</a>
+        <a href="#mockupy">Mockupy</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- O PROJEKCIE -->
+    <div id="o-projekcie" class="accordion open">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">📋 O projekcie</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <p style="font-size: 16px; color: #1E293B;">
+                <strong>workejszyn.pl</strong> to portal laczacy <strong>Zarzadcai mieszkan w miejscowosciach turystycznych</strong>
+                z <strong>pracownikami zdalnymi</strong> szukajacymi elastycznego wynajmu na 1-8 tygodni.
+                Skupiamy sie na sezonie niskim (wrzesien-czerwiec), kiedy mieszkania stoja puste.
+            </p>
+
+            <div class="value-grid">
+                <div class="value-item">
+                    <div class="value-icon">💰</div>
+                    <div class="value-title">Bez prowizji</div>
+                    <div class="value-desc">Bezposredni kontakt Zarzadca-gosc</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">📅</div>
+                    <div class="value-title">1-8 tygodni</div>
+                    <div class="value-desc">Bez formalnosci i meldunku</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">💻</div>
+                    <div class="value-title">Work-ready</div>
+                    <div class="value-desc">Internet, biurko, cisza</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🏖️</div>
+                    <div class="value-title">Off-season</div>
+                    <div class="value-desc">Niskie ceny poza sezonem</div>
+                </div>
+            </div>
+
+            <h3>Grupa docelowa</h3>
+            <div class="value-grid">
+                <div class="value-item">
+                    <div class="value-icon">👨‍💻</div>
+                    <div class="value-title">Remote Workers</div>
+                    <div class="value-desc">Pracownicy zdalni</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🎒</div>
+                    <div class="value-title">Digital Nomads</div>
+                    <div class="value-desc">Podrozujacy freelancerzy</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">👨‍👩‍👧</div>
+                    <div class="value-title">Rodziny</div>
+                    <div class="value-desc">Wakacje + praca rodzicow</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🏢</div>
+                    <div class="value-title">Firmy</div>
+                    <div class="value-desc">Offsites, retreaty</div>
+                </div>
+            </div>
+
+            <h3>Kluczowe zalozenia</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📍 Rynek geograficzny</h4>
+                    <ul>
+                        <li><strong>Start:</strong> Polska - wybrzeze, gory, jeziora</li>
+                        <li><strong>Docelowo:</strong> Oferty Polakow za granica</li>
+                        <li><strong>Fokus:</strong> Miejscowosci z "martwym sezonem"</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>📊 Skala i tempo</h4>
+                    <ul>
+                        <li><strong>MVP:</strong> 1 oferta - walidacja</li>
+                        <li><strong>Faza 1:</strong> 10-50 mieszkan</li>
+                        <li><strong>Docelowo:</strong> Tysiace ofert</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>💵 Model cenowy</h4>
+                    <ul>
+                        <li><strong>Progresywny:</strong> 1 / 2 / 3 / 4+ tyg</li>
+                        <li><strong>Zasada:</strong> Im dluzej, tym taniej</li>
+                        <li><strong>Przyklad:</strong> 1100 / 2000 / 2800 / 3500 PLN</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>⚖️ Model prawny</h4>
+                    <ul>
+                        <li><strong>Typ:</strong> Wynajem krotkoterminowy</li>
+                        <li><strong>Bez meldunku</strong> i aktu notarialnego</li>
+                        <li><strong>Rozliczenie:</strong> Bezposrednio gosc-Zarzadca</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROBLEMY -->
+    <div id="problemy" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">❓ Problemy i rozwiazania</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <h3>Problemy Zarzadcai mieszkan</h3>
+            <div class="problem-solution">
+                <div class="problem-box">
+                    <h4>❌ Problemy</h4>
+                    <ul>
+                        <li><strong>Puste mieszkania poza sezonem</strong> - wrzesien-czerwiec pustki</li>
+                        <li><strong>Wysokie prowizje</strong> - Airbnb/Booking 15-20%</li>
+                        <li><strong>Najem dlugoterminowy = ryzyko</strong> - lokator moze zostac na lata</li>
+                        <li><strong>Formalnosci</strong> - umowy, meldunek, kaucje</li>
+                        <li><strong>Brak platformy na "miedzy"</strong> - albo 2 dni albo rok</li>
+                    </ul>
+                </div>
+                <div class="solution-box">
+                    <h4>✅ Rozwiazania</h4>
+                    <ul>
+                        <li><strong>Zero prowizji</strong> - bezposredni kontakt</li>
+                        <li><strong>1-8 tygodni</strong> - idealne "miedzy"</li>
+                        <li><strong>Bez formalnosci</strong> - jak hotel</li>
+                        <li><strong>Goscie premium</strong> - remote workers</li>
+                        <li><strong>Sync kalendarza</strong> - iCal z Airbnb/Booking</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Problemy pracownikow zdalnych</h3>
+            <div class="problem-solution">
+                <div class="problem-box">
+                    <h4>❌ Problemy</h4>
+                    <ul>
+                        <li><strong>Drogie hotele</strong> - kilka tygodni = majatek</li>
+                        <li><strong>Airbnb nie dla pracy</strong> - brak biurka, slaby net</li>
+                        <li><strong>Najem = zobowiazania</strong> - min. 3-6 mies., kaucja</li>
+                        <li><strong>Brak filtrowania work-ready</strong></li>
+                        <li><strong>Sezon = ceny x3</strong></li>
+                    </ul>
+                </div>
+                <div class="solution-box">
+                    <h4>✅ Rozwiazania</h4>
+                    <ul>
+                        <li><strong>Ceny off-season</strong> - 2-3x taniej</li>
+                        <li><strong>Filtry work-ready</strong> - internet, biurko</li>
+                        <li><strong>Elastyczny okres</strong> - bez zobowiazan</li>
+                        <li><strong>Cennik progresywny</strong> - im dluzej tym taniej</li>
+                        <li><strong>Bezposredni kontakt</strong> - mozna dopytac</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🎯 Nisza ktorej nikt nie obsluguje</h4>
+                <p>Istnieje luka miedzy:</p>
+                <ul>
+                    <li><strong>Booking/Airbnb</strong> - krotkie pobyty (2-5 dni), drogie, prowizje</li>
+                    <li><strong>OLX/Otodom</strong> - najem 6-12 mies., formalnosci, ryzyko</li>
+                </ul>
+                <p><strong>workejszyn.pl wypelnia te luke:</strong> 1-8 tygodni, bez prowizji, bez formalnosci.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAZY -->
+    <div id="fazy" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">🚀 Fazy rozwoju</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <div class="phases">
+                <div class="phase done">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 0: MVP</span>
+                        <span class="phase-badge done">Mockupy gotowe</span>
+                    </div>
+                    <p class="phase-desc">Jedna oferta jako proof of concept</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Strona /baltycki</span>
+                        <span class="phase-tag">Galeria 20 zdjec</span>
+                        <span class="phase-tag">Mapa</span>
+                        <span class="phase-tag">Cennik</span>
+                        <span class="phase-tag">Kontakt</span>
+                    </div>
+                </div>
+
+                <div class="phase current">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 1: Multi-oferty</span>
+                        <span class="phase-badge current">Nastepna</span>
+                    </div>
+                    <p class="phase-desc">Wyszukiwarka + panel Zarzadcaa</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Strona glowna</span>
+                        <span class="phase-tag">Wyszukiwarka</span>
+                        <span class="phase-tag">Filtry</span>
+                        <span class="phase-tag">Rejestracja</span>
+                        <span class="phase-tag">Panel Zarzadcaa</span>
+                        <span class="phase-tag">CRUD ofert</span>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 2: Rezerwacje</span>
+                        <span class="phase-badge future">Planowana</span>
+                    </div>
+                    <p class="phase-desc">System zapytan i rezerwacji</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Formularz zapytania</span>
+                        <span class="phase-tag">Panel goscia</span>
+                        <span class="phase-tag">Statusy</span>
+                        <span class="phase-tag">Email</span>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 3: Komunikacja</span>
+                        <span class="phase-badge future">Planowana</span>
+                    </div>
+                    <p class="phase-desc">Wiadomosci + kalendarz</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Chat</span>
+                        <span class="phase-tag">Kalendarz</span>
+                        <span class="phase-tag">iCal import/export</span>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 4: Local Guide</span>
+                        <span class="phase-badge future">B2B</span>
+                    </div>
+                    <p class="phase-desc">Przewodnik po okolicy</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Baza POI</span>
+                        <span class="phase-tag">/okolica</span>
+                        <span class="phase-tag">QR</span>
+                        <span class="phase-tag">Partnerstwa</span>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 5: Monetyzacja</span>
+                        <span class="phase-badge future">Planowana</span>
+                    </div>
+                    <p class="phase-desc">Przychody B2B</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Abonamenty</span>
+                        <span class="phase-tag">Wyroznienia</span>
+                        <span class="phase-tag">Affiliate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FUNKCJONALNOSCI -->
+    <div id="funkcjonalnosci" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">⚙️ Funkcjonalnosci</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <div class="panel-box guest">
+                <h4>👤 Panel Goscia</h4>
+                <p>Wyszukiwanie, rezerwacje, komunikacja, przewodnik podczas pobytu</p>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Wyszukiwanie</h5>
+                        <ul>
+                            <li>Filtr lokalizacji, dat, ceny</li>
+                            <li>Filtry work-ready</li>
+                            <li>Mapa z ofertami</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Rezerwacja</h5>
+                        <ul>
+                            <li>Formularz zapytania</li>
+                            <li>Historia rezerwacji</li>
+                            <li>Statusy</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Komunikacja</h5>
+                        <ul>
+                            <li>Wiadomosci</li>
+                            <li>Email notifications</li>
+                            <li>Dane kontaktowe</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Podczas pobytu</h5>
+                        <ul>
+                            <li>Strona /okolica</li>
+                            <li>QR code</li>
+                            <li>Rabaty partnerow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box owner">
+                <h4>🏠 Panel Zarzadcaa</h4>
+                <p>Zarzadzanie ofertami, kalendarz, rezerwacje, statystyki</p>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Oferty</h5>
+                        <ul>
+                            <li>CRUD mieszkan</li>
+                            <li>Do 20 zdjec</li>
+                            <li>Cennik progresywny</li>
+                            <li>Tagi i udogodnienia</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Kalendarz</h5>
+                        <ul>
+                            <li>Dostepnosc</li>
+                            <li>iCal import/export</li>
+                            <li>Blokowanie dat</li>
+                            <li>Sync co 30 min</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Rezerwacje</h5>
+                        <ul>
+                            <li>Lista zapytan</li>
+                            <li>Potwierdzanie</li>
+                            <li>Wiadomosci</li>
+                            <li>Historia</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Statystyki</h5>
+                        <ul>
+                            <li>Wyswietlenia</li>
+                            <li>Zapytania</li>
+                            <li>Konwersja</li>
+                            <li>Trendy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box admin">
+                <h4>⚙️ Panel Admina</h4>
+                <p>Uzytkownicy, oferty, konfiguracja, statystyki</p>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Uzytkownicy</h5>
+                        <ul>
+                            <li>Lista gosci/Zarzadcai</li>
+                            <li>Weryfikacja kont</li>
+                            <li>Blokowanie</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Oferty</h5>
+                        <ul>
+                            <li>Lista wszystkich</li>
+                            <li>Wyroznianie</li>
+                            <li>Moderacja kont (nie tresci)</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Konfiguracja</h5>
+                        <ul>
+                            <li>Tagi / amenities</li>
+                            <li>Kategorie POI</li>
+                            <li>Ustawienia</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Dashboard</h5>
+                        <ul>
+                            <li>Statystyki globalne</li>
+                            <li>Top Zarzadcae</li>
+                            <li>Top mieszkania</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Czego NIE robimy</h3>
+            <div class="exclusions">
+                <span class="exclusion">❌ Opinie/recenzje</span>
+                <span class="exclusion">❌ Platnosci online (MVP)</span>
+                <span class="exclusion">❌ Aplikacja mobilna</span>
+                <span class="exclusion">❌ Chat real-time</span>
+                <span class="exclusion">❌ Prowizje od rezerwacji</span>
+                <span class="exclusion">❌ Moderacja tresci ofert</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROMOCJA -->
+    <div id="promocja" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">📣 Promocja portalu i ofert</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <p>
+                <strong>Budzet na start: minimalny.</strong> Stawiamy na organiczny wzrost, content marketing i spolecznosc.
+                Promujemy glownie <strong>poza sezonem</strong>, ale dzialamy caly rok.
+            </p>
+
+            <h3>Kanaly (zero/niski budzet)</h3>
+            <div class="panel-box">
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Facebook - Grupy</h5>
+                        <ul>
+                            <li>"Praca zdalna - Pair" (~50k)</li>
+                            <li>"Digital Nomads Polska"</li>
+                            <li>"Freelancerzy Polska"</li>
+                            <li>"Programisci - pair"</li>
+                            <li>"Remote Work Poland"</li>
+                            <li>Lokalne grupy wynajem</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>LinkedIn</h5>
+                        <ul>
+                            <li>Posty o work-life balance</li>
+                            <li>Artykuly "5 miejsc na workation"</li>
+                            <li>#pracazdalna #remotework</li>
+                            <li>Grupy: "Praca Zdalna Polska"</li>
+                            <li>Konto firmowe workejszyn.pl</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Instagram</h5>
+                        <ul>
+                            <li>Zdjecia apartamentow + lokalizacji</li>
+                            <li>Stories: "Dzis pracuje z..."</li>
+                            <li>Reels: tury po mieszkaniach</li>
+                            <li>#workation #homeoffice</li>
+                            <li>Konto firmowe</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>SEO (dlugi ogon)</h5>
+                        <ul>
+                            <li>"mieszkanie praca zdalna morze"</li>
+                            <li>"wynajem apartament miesiac"</li>
+                            <li>"workation polska poza sezonem"</li>
+                            <li>Blog z poradnikami (AI pisze)</li>
+                            <li>Google Business Profile</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Blog / Content Marketing</h3>
+            <p>Blog na wlasnej domenie (workejszyn.pl/blog) - budujemy SEO dla siebie, nie dla Medium. AI generuje artykuly:</p>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📝 Przyklady artykulow</h4>
+                    <ul>
+                        <li>"Najlepsze miejsca na workation w Polsce - ranking"</li>
+                        <li>"Jak przekonac szefa do pracy zdalnej z innego miasta"</li>
+                        <li>"Checklist: co musi miec mieszkanie do pracy zdalnej"</li>
+                        <li>"Off-season nad morzem - dlaczego warto"</li>
+                        <li>"Workation w Jastrzebiej Gorze - przewodnik"</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>🎯 Strategia</h4>
+                    <ul>
+                        <li>1-2 artykuly tygodniowo</li>
+                        <li>Dlugi ogon SEO (frazy 4-6 slow)</li>
+                        <li>Linkowanie do ofert</li>
+                        <li>Udostepnianie w grupach FB</li>
+                        <li>Recykling na LinkedIn/Insta</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Narzedzia dla hostow (Sharing Kit)</h3>
+            <p>Host sam promuje swoja oferte - dajemy mu gotowe materialy:</p>
+            <div class="panel-box">
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>📱 Grafiki SM</h5>
+                        <ul>
+                            <li>Instagram Story (9:16)</li>
+                            <li>Post FB/LinkedIn</li>
+                            <li>Gotowy tekst do wklejenia</li>
+                            <li>Hashtagi</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>📲 QR Code</h5>
+                        <ul>
+                            <li>Link do oferty</li>
+                            <li>PNG do druku</li>
+                            <li>Przy drzwiach mieszkania</li>
+                            <li>Wizytowki, ulotki</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>🔗 Widget embed</h5>
+                        <ul>
+                            <li>Kod HTML do wklejenia</li>
+                            <li>Na wlasna strone/bloga</li>
+                            <li>Branding workejszyn.pl</li>
+                            <li>Auto-aktualizacja cen</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>📊 Statystyki</h5>
+                        <ul>
+                            <li>Wyswietlenia oferty</li>
+                            <li>Zapytania (konwersja)</li>
+                            <li>Skany QR</li>
+                            <li>Zrodla ruchu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🎯 Dlaczego to dziala</h4>
+                <ul>
+                    <li><strong>Host ma motywacje:</strong> Widzi statystyki, chce wiecej rezerwacji</li>
+                    <li><strong>Host ma sieci:</strong> Znajomi, lokalne grupy, wlasny FB</li>
+                    <li><strong>Zero kosztu:</strong> Host promuje za darmo, my dajemy narzedzia</li>
+                    <li><strong>Viral effect:</strong> Kazdy post z oferta = reklama portalu</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODEL CENOWY -->
+    <div id="cennik" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">💰 Model cenowy</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <p>
+                <strong>Strategia:</strong> Faza 1-2 (rok/dwa) wszystko FREE - budujemy baze zarzadcow i zbieramy feedback.
+                Monetyzacja wchodzi w Fazie 3+, gdy portal ma trakcje.
+            </p>
+
+            <h3>Cennik dla zarzadcow (Faza 3+)</h3>
+            <div class="pricing-table">
+                <div class="pricing-tier free">
+                    <div class="pricing-header">
+                        <span class="pricing-name">Starter</span>
+                        <span class="pricing-price">0 zl</span>
+                        <span class="pricing-period">zawsze FREE</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-highlight">1 mieszkanie</div>
+                        <ul>
+                            <li>Pelna funkcjonalnosc</li>
+                            <li>Sharing Kit</li>
+                            <li>Statystyki podstawowe</li>
+                            <li>Wsparcie email</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="pricing-tier popular">
+                    <div class="pricing-badge">Najpopularniejszy</div>
+                    <div class="pricing-header">
+                        <span class="pricing-name">Standard</span>
+                        <span class="pricing-price">19 zl</span>
+                        <span class="pricing-period">/ mieszkanie / miesiac</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-highlight">2-10 mieszkan</div>
+                        <ul>
+                            <li>Wszystko ze Starter</li>
+                            <li>Priorytetowe wsparcie</li>
+                            <li>Statystyki rozszerzone</li>
+                            <li>Kalendarz multi-sync</li>
+                        </ul>
+                        <div class="pricing-example">Przyklad: 10 mieszkan = 171 zl/mies (1. gratis)</div>
+                    </div>
+                </div>
+                <div class="pricing-tier">
+                    <div class="pricing-header">
+                        <span class="pricing-name">Pro</span>
+                        <span class="pricing-price">14 zl</span>
+                        <span class="pricing-period">/ mieszkanie / miesiac</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-highlight">11-30 mieszkan</div>
+                        <ul>
+                            <li>Wszystko ze Standard</li>
+                            <li>API dostep</li>
+                            <li>Dedykowany opiekun</li>
+                            <li>Raporty miesieczne</li>
+                        </ul>
+                        <div class="pricing-example">Przyklad: 30 mieszkan = 406 zl/mies</div>
+                    </div>
+                </div>
+                <div class="pricing-tier">
+                    <div class="pricing-header">
+                        <span class="pricing-name">Enterprise</span>
+                        <span class="pricing-price">9 zl</span>
+                        <span class="pricing-period">/ mieszkanie / miesiac</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-highlight">31+ mieszkan</div>
+                        <ul>
+                            <li>Wszystko z Pro</li>
+                            <li>Wlasna subdomena</li>
+                            <li>White-label opcja</li>
+                            <li>SLA gwarantowane</li>
+                        </ul>
+                        <div class="pricing-example">Przyklad: 50 mieszkan = 441 zl/mies</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📊 Porownanie z konkurencja (rezerwacja 3000 zl/mies)</h4>
+                <ul>
+                    <li><strong>Booking.com:</strong> ~450 zl prowizji (15%)</li>
+                    <li><strong>Airbnb:</strong> ~90 zl (3%) + gosc placi wiecej</li>
+                    <li><strong>workejszyn.pl:</strong> 19 zl flat - <strong>23x taniej niz Booking!</strong></li>
+                </ul>
+                <p style="margin-top: 1rem; font-style: italic;">
+                    "Jedna rezerwacja z Bookingu kosztuje Cie wiecej niz rok u nas."
+                </p>
+            </div>
+
+            <h3>Dodatki platne (opcjonalne)</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>⭐ Wyroznienie oferty</h4>
+                    <ul>
+                        <li>+29 zl / mieszkanie / miesiac</li>
+                        <li>Top pozycja w wyszukiwarce</li>
+                        <li>Badge "Polecane"</li>
+                        <li>Wiecej wyswietlen</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>🌐 Wlasna subdomena</h4>
+                    <ul>
+                        <li>+19 zl / miesiac</li>
+                        <li>nazwa.workejszyn.pl</li>
+                        <li>Wlasne logo</li>
+                        <li>Profesjonalny wizerunek</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Cennik dla POI / lokalnych biznesow (Faza 4+)</h3>
+            <p>Symboliczna oplata roczna uzalezniona od zasiegu:</p>
+            <div class="pricing-poi">
+                <div class="poi-formula">
+                    <span class="formula">Oplata roczna = Liczba mieszkan w zasiegu 5km × 1 zl</span>
+                </div>
+                <div class="poi-examples">
+                    <div class="poi-example">
+                        <span class="poi-name">Mala kawiarnia</span>
+                        <span class="poi-calc">10 mieszkan × 1 zl = <strong>10 zl/rok</strong></span>
+                    </div>
+                    <div class="poi-example">
+                        <span class="poi-name">Restauracja w centrum</span>
+                        <span class="poi-calc">50 mieszkan × 1 zl = <strong>50 zl/rok</strong></span>
+                    </div>
+                    <div class="poi-example">
+                        <span class="poi-name">Duzy aquapark</span>
+                        <span class="poi-calc">200 mieszkan × 1 zl = <strong>200 zl/rok</strong></span>
+                    </div>
+                </div>
+                <p class="poi-note">
+                    Im wiecej mieszkan w okolicy = wiecej potencjalnych klientow = wyzsza wartosc = wyzsza (ale nadal symboliczna) oplata.
+                </p>
+            </div>
+
+            <h3>Timeline monetyzacji</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker free">FREE</div>
+                    <div class="timeline-content">
+                        <h4>Faza 1-2 (Rok 1-2)</h4>
+                        <p>Wszystko za darmo. Budujemy baze, zbieramy feedback, dopracowujemy produkt.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker paid">PAID</div>
+                    <div class="timeline-content">
+                        <h4>Faza 3 (Rok 2+)</h4>
+                        <p>Wchodza abonamenty dla zarzadcow. Pierwsi (onboardowani w Fazie 1) moga miec grace period.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker paid">PAID</div>
+                    <div class="timeline-content">
+                        <h4>Faza 4+ (Rok 3+)</h4>
+                        <p>Monetyzacja POI. Lokalne biznesy placa symboliczna oplata za widocznosc.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONBOARDING -->
+    <div id="onboarding" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">🚀 Onboarding zarzadcow</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <p>
+                <strong>Strategia:</strong> Ty robisz ciezka prace (zbierasz dane z ich stron), oni dostaja gotowa, ladna oferte.
+                Zero wysilku dla zarzadcy = latwy YES.
+            </p>
+
+            <h3>Pierwsi zarzadcy (Faza 1)</h3>
+            <div class="onboarding-targets">
+                <div class="target-card">
+                    <div class="target-icon">🏠</div>
+                    <div class="target-info">
+                        <span class="target-name">Zarzadca A</span>
+                        <span class="target-count">~1 mieszkanie</span>
+                    </div>
+                    <span class="target-status">Znajomy</span>
+                </div>
+                <div class="target-card">
+                    <div class="target-icon">🏘️</div>
+                    <div class="target-info">
+                        <span class="target-name">Zarzadca B</span>
+                        <span class="target-count">~10 mieszkan</span>
+                    </div>
+                    <span class="target-status">Biznesowy</span>
+                </div>
+                <div class="target-card">
+                    <div class="target-icon">🏢</div>
+                    <div class="target-info">
+                        <span class="target-name">Zarzadca C</span>
+                        <span class="target-count">~40 mieszkan</span>
+                    </div>
+                    <span class="target-status">Biznesowy</span>
+                </div>
+            </div>
+            <p style="text-align: center; color: #64748B; font-size: 13px; margin-top: 8px;">
+                Lokalizacja: Jastrzebia Gora i okolice
+            </p>
+
+            <h3>Proces onboardingu</h3>
+            <div class="onboarding-steps">
+                <div class="onboarding-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>MVP gotowe + oferty wpisane</h4>
+                        <p>Zanim dzwonisz - ich mieszkania juz sa na portalu. Zaciagasz dane z ich obecnych stron (zdjecia, opisy, ceny).</p>
+                        <span class="step-who">Ty robisz</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Pitch call</h4>
+                        <p>"Hej, zrobilem cos fajnego - zobacz jak wyglada Twoje mieszkanie na nowym portalu". Pokazujesz na zywo.</p>
+                        <span class="step-who">Telefon 15 min</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Prezentacja</h4>
+                        <p>Pokazujesz: mockup oferty, porownanie z ich strona, Sharing Kit, statystyki. Link do pitch decka ponizej.</p>
+                        <span class="step-who">Screenshare 20 min</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Dostep do panelu</h4>
+                        <p>Zakladasz konto, dajesz login. Krotkie szkolenie z panelu - jak edytowac, jak sprawdzac statystyki.</p>
+                        <span class="step-who">Mail + telefon 15 min</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Poprawki i uzupelnienia</h4>
+                        <p>Zarzadca poprawia opisy, dodaje brakujace zdjecia, aktualizuje ceny. Ty pomagasz jesli trzeba.</p>
+                        <span class="step-who">Zarzadca robi (1 tydz)</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h4>Pierwsza promocja</h4>
+                        <p>Pomagasz wrzucic pierwszy post na FB/Insta. Dajesz gotowa grafike ze Sharing Kit.</p>
+                        <span class="step-who">Wspolnie 15 min</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <h4>Feedback po miesiacu</h4>
+                        <p>"Co dziala? Czego brakuje? Co Cie wkurza?" - zbierasz info do iteracji.</p>
+                        <span class="step-who">Telefon 15 min</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Argumenty sprzedazowe</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>✅ Co ich przekona</h4>
+                    <ul>
+                        <li><strong>Za darmo</strong> - zero ryzyka</li>
+                        <li><strong>Ladniejsze</strong> niz ich obecna strona</li>
+                        <li><strong>Poza sezon</strong> - nowy kanal na martwy okres</li>
+                        <li><strong>Zero pracy</strong> - Ty wpisujesz dane</li>
+                        <li><strong>Narzedzia</strong> - grafiki, QR, statystyki</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>❓ Potencjalne obawy</h4>
+                    <ul>
+                        <li>"Kolejna platforma" → To nie Booking, zero prowizji</li>
+                        <li>"Malo ruchu na start" → Dlatego darmowe + razem promujemy</li>
+                        <li>"Nie mam czasu" → Ty robisz wszystko</li>
+                        <li>"Mam juz strone" → Ta jest ladniejsza i za darmo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Materialy do przygotowania</h3>
+            <div class="materials-grid">
+                <a href="pitch-deck.html" class="material-card">
+                    <div class="material-icon">📊</div>
+                    <div class="material-info">
+                        <span class="material-name">Pitch Deck</span>
+                        <span class="material-desc">Prezentacja dla zarzadcy (7 slajdow)</span>
+                    </div>
+                </a>
+                <div class="material-card">
+                    <div class="material-icon">📋</div>
+                    <div class="material-info">
+                        <span class="material-name">Checklist onboardingu</span>
+                        <span class="material-desc">Co potrzebujesz od zarzadcy</span>
+                    </div>
+                </div>
+                <a href="sharing-kit.html" class="material-card">
+                    <div class="material-icon">🎨</div>
+                    <div class="material-info">
+                        <span class="material-name">Sharing Kit</span>
+                        <span class="material-desc">Grafiki, QR, widget</span>
+                    </div>
+                </a>
+                <div class="material-card">
+                    <div class="material-icon">📖</div>
+                    <div class="material-info">
+                        <span class="material-name">Quick Start Guide</span>
+                        <span class="material-desc">Jak uzywac panelu (PDF)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 Klucz do sukcesu</h4>
+                <p style="margin-bottom: 0;">
+                    <strong>Minimalizuj wysilek zarzadcy.</strong> Im mniej musi zrobic, tym szybciej powie TAK.
+                    Ty wpisujesz dane, Ty robisz grafiki, Ty pomagasz z pierwszym postem.
+                    On tylko patrzy i mowi "ok, fajne".
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- B2B -->
+    <div id="b2b" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">🤝 Model B2B - Local Guide</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <p>
+                <strong>Przewodnik po okolicy</strong> to fundament pod <strong>drugi strumien przychodow</strong>.
+                Stajemy sie posrednikiem dostarczajacym klienta premium lokalnym biznesom.
+            </p>
+
+            <div class="panel-box b2b">
+                <h4>📍 Jak to dziala</h4>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Baza POI</h5>
+                        <ul>
+                            <li>Punkty per miasto</li>
+                            <li>Kategorie: jedzenie, sport, wellness</li>
+                            <li>Adres, telefon, godziny</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Strona /okolica</h5>
+                        <ul>
+                            <li>Mapa z mieszkaniem</li>
+                            <li>POI w promieniu 5 km</li>
+                            <li>Filtrowanie, sortowanie</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>QR w mieszkaniu</h5>
+                        <ul>
+                            <li>Naklejka przy drzwiach</li>
+                            <li>Skanowanie → /okolica</li>
+                            <li>Analytics</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>PDF do ramki</h5>
+                        <ul>
+                            <li>Generator A4</li>
+                            <li>WiFi, telefon, top miejsca</li>
+                            <li>Branding workejszyn.pl</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Fazy monetyzacji</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>🎁 Faza 1: Barter</h4>
+                    <ul>
+                        <li>Restauracja daje -10% dla gosci</li>
+                        <li>W zamian: wpis w /okolica, logo w ramce</li>
+                        <li>Koszt dla nas: 0 PLN</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>💸 Faza 2: Affiliate</h4>
+                    <ul>
+                        <li>Unikalne kody rabatowe</li>
+                        <li>Prowizja 5-10% od obrotu</li>
+                        <li>Dzielimy sie z hostem (50/50)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🤝 Zarzadca lokalny jako partner</h4>
+                <ul>
+                    <li><strong>Ma motywacje:</strong> Jego goscie korzystaja z przewodnika</li>
+                    <li><strong>Ma kontakty:</strong> Zna lokalne biznesy</li>
+                    <li><strong>Ma skale:</strong> 10-40 mieszkan = 10-40 ramek z logo</li>
+                    <li><strong>Zarabia:</strong> Prowizja od affiliate</li>
+                </ul>
+            </div>
+
+            <h3>Model przychodow</h3>
+            <div class="revenue-grid">
+                <div class="revenue-item">
+                    <div class="icon">🏠</div>
+                    <h5>Abonament Host</h5>
+                    <p>Miesieczna oplata</p>
+                </div>
+                <div class="revenue-item">
+                    <div class="icon">⭐</div>
+                    <h5>Wyroznienia</h5>
+                    <p>Promowanie ofert</p>
+                </div>
+                <div class="revenue-item primary">
+                    <div class="icon">🤝</div>
+                    <h5>Partnerstwa B2B</h5>
+                    <p>Abonamenty biznesow</p>
+                </div>
+                <div class="revenue-item primary">
+                    <div class="icon">💸</div>
+                    <h5>Affiliate</h5>
+                    <p>Prowizja od zamowien</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOCKUPY -->
+    <div id="mockupy" class="accordion open">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">🎨 Mockupy UI</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <div class="mockups-section">
+                <div class="mockups-title">Faza 0: MVP</div>
+                <div class="mockups-grid">
+                    <a href="baltycki.html" class="mockup-link primary">Apartament Baltycki <span class="badge">MVP</span></a>
+                    <a href="baltycki-v2.html" class="mockup-link">Baltycki v2 (slider)</a>
+                    <a href="nadmorski.html" class="mockup-link primary">Apartament Nadmorski <span class="badge">MVP</span></a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Faza 1: Strony publiczne</div>
+                <div class="mockups-grid">
+                    <a href="strona-glowna.html" class="mockup-link primary">Strona glowna</a>
+                    <a href="wyszukiwarka.html" class="mockup-link">Wyszukiwarka</a>
+                    <a href="jak-to-dziala.html" class="mockup-link">Jak to dziala</a>
+                    <a href="kontakt.html" class="mockup-link">Kontakt</a>
+                    <a href="logowanie.html" class="mockup-link">Logowanie</a>
+                    <a href="rejestracja.html" class="mockup-link">Rejestracja</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Faza 1-2: Strony lokalizacji (SEO)</div>
+                <div class="mockups-grid">
+                    <a href="lokalizacja-jastrzebia-gora.html" class="mockup-link primary">Jastrzebia Gora</a>
+                    <a href="#" class="mockup-link disabled">Wladyslawowo (planned)</a>
+                    <a href="#" class="mockup-link disabled">Hel (planned)</a>
+                    <a href="#" class="mockup-link disabled">Sopot (planned)</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Faza 1-2: Panel Zarzadcaa</div>
+                <div class="mockups-grid">
+                    <a href="panel-dashboard.html" class="mockup-link">Dashboard</a>
+                    <a href="panel-oferty.html" class="mockup-link">Oferty</a>
+                    <a href="panel-oferta-nowa.html" class="mockup-link">Nowa oferta</a>
+                    <a href="panel-kalendarz.html" class="mockup-link">Kalendarz</a>
+                    <a href="panel-rezerwacje.html" class="mockup-link">Rezerwacje</a>
+                    <a href="panel-rezerwacja-szczegoly.html" class="mockup-link">Szczegoly</a>
+                    <a href="panel-wiadomosci.html" class="mockup-link">Wiadomosci</a>
+                    <a href="panel-wiadomosc-szczegoly.html" class="mockup-link">Wiadomosc</a>
+                    <a href="panel-statystyki.html" class="mockup-link">Statystyki</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Faza 2: Panel goscia + Okolica</div>
+                <div class="mockups-grid">
+                    <a href="gosc-rezerwacje.html" class="mockup-link">Rezerwacje</a>
+                    <a href="baltycki-okolica.html" class="mockup-link">Okolica (POI)</a>
+                    <a href="gosc-rezerwacja-szczegoly.html" class="mockup-link">Szczegoly</a>
+                    <a href="gosc-wiadomosci.html" class="mockup-link">Wiadomosci</a>
+                    <a href="gosc-wiadomosc-szczegoly.html" class="mockup-link">Wiadomosc</a>
+                    <a href="gosc-profil.html" class="mockup-link">Profil</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Promocja i Onboarding</div>
+                <div class="mockups-grid">
+                    <a href="pitch-deck.html" class="mockup-link primary">Pitch Deck (7 slajdow)</a>
+                    <a href="sharing-kit.html" class="mockup-link primary">Sharing Kit</a>
+                    <a href="blog.html" class="mockup-link">Blog</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Faza 5: Panel admina</div>
+                <div class="mockups-grid">
+                    <a href="admin-dashboard.html" class="mockup-link">Dashboard</a>
+                    <a href="admin-uzytkownicy.html" class="mockup-link">Uzytkownicy</a>
+                    <a href="admin-oferty.html" class="mockup-link">Oferty</a>
+                    <a href="admin-tagi.html" class="mockup-link">Tagi</a>
+                    <a href="admin-ustawienia.html" class="mockup-link">Ustawienia</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Strony bledow</div>
+                <div class="mockups-grid">
+                    <a href="blad-404.html" class="mockup-link">404</a>
+                    <a href="blad-403.html" class="mockup-link">403</a>
+                    <a href="blad-500.html" class="mockup-link">500</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Prawne i pomocowe</div>
+                <div class="mockups-grid">
+                    <a href="faq.html" class="mockup-link primary">FAQ</a>
+                    <a href="regulamin.html" class="mockup-link">Regulamin</a>
+                    <a href="polityka-prywatnosci.html" class="mockup-link">Polityka prywatnosci</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BIZNES -->
+    <div id="biznes" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">📈 Business Plan</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+
+            <!-- EXECUTIVE SUMMARY -->
+            <h3>Executive Summary</h3>
+            <div class="highlight-box">
+                <p style="margin-bottom: 16px;">
+                    <strong>workejszyn.pl</strong> to portal laczacy zarzadcow mieszkan w kurortach z pracownikami zdalnymi
+                    szukajacymi elastycznego wynajmu na 1-8 tygodni, glownie poza sezonem turystycznym.
+                </p>
+                <p style="margin-bottom: 16px;">
+                    <strong>Problem:</strong> Mieszkania w kurortach stoja puste wrzesien-czerwiec. Zarzadcy traca przychody,
+                    a platformy jak Booking biora 15% prowizji.
+                </p>
+                <p style="margin-bottom: 0;">
+                    <strong>Rozwiazanie:</strong> Portal bez prowizji, z narzedziami promocyjnymi (Sharing Kit) i systemem
+                    Local Guide (POI). Monetyzacja przez abonamenty zarzadcow i lokalne biznesy.
+                </p>
+            </div>
+
+            <!-- RYNEK -->
+            <h3>Analiza rynku</h3>
+            <div class="market-stats">
+                <div class="market-stat">
+                    <span class="stat-number">2.5M</span>
+                    <span class="stat-label">pracownikow zdalnych w Polsce (2024)</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-number">~50k</span>
+                    <span class="stat-label">mieszkan na wynajem krotkoterminowy nad morzem</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-number">65%</span>
+                    <span class="stat-label">pustostanow poza sezonem (wrzesien-czerwiec)</span>
+                </div>
+                <div class="market-stat">
+                    <span class="stat-number">15-20%</span>
+                    <span class="stat-label">prowizja Booking/Airbnb</span>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📍 Grupa docelowa - Goscie</h4>
+                    <ul>
+                        <li>Pracownicy zdalni 25-45 lat</li>
+                        <li>Freelancerzy, programisci, designerzy</li>
+                        <li>Digital nomads (PL i zagranica)</li>
+                        <li>Male zespoly na offsite (2-4 os.)</li>
+                        <li>Dochod: 8-20k PLN/mies</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>🏠 Grupa docelowa - Zarzadcy</h4>
+                    <ul>
+                        <li>Indywidualni (1-3 mieszkania)</li>
+                        <li>Mali zarzadcy (5-15 mieszkan)</li>
+                        <li>Agencje (20-50+ mieszkan)</li>
+                        <li>Lokalizacje: morze, gory, jeziora</li>
+                        <li>Problem: sezonowość, puste mieszkania</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- KONKURENCJA -->
+            <h3>Konkurencja</h3>
+            <div class="competitors-table">
+                <div class="competitor-row header">
+                    <span>Portal</span>
+                    <span>Prowizja</span>
+                    <span>Focus</span>
+                    <span>Nasz advantage</span>
+                </div>
+                <div class="competitor-row">
+                    <span><strong>Booking.com</strong></span>
+                    <span class="red">15-20%</span>
+                    <span>Turysci, krotkie pobyty</span>
+                    <span class="green">Zero prowizji</span>
+                </div>
+                <div class="competitor-row">
+                    <span><strong>Airbnb</strong></span>
+                    <span class="red">3% + gosc 14%</span>
+                    <span>Turysci, unikalne miejsca</span>
+                    <span class="green">Dlugie pobyty, workation</span>
+                </div>
+                <div class="competitor-row">
+                    <span><strong>Nocowanie.pl</strong></span>
+                    <span class="yellow">Abonament</span>
+                    <span>Polska, turystyka</span>
+                    <span class="green">Narzedzia promocji, poza sezon</span>
+                </div>
+                <div class="competitor-row">
+                    <span><strong>OLX/Otodom</strong></span>
+                    <span class="yellow">Ogloszenia</span>
+                    <span>Ogolny, brak filtrów</span>
+                    <span class="green">Dedykowane filtry pracy zdalnej</span>
+                </div>
+            </div>
+
+            <!-- SWOT -->
+            <h3>Analiza SWOT</h3>
+            <div class="swot-grid">
+                <div class="swot-box strengths">
+                    <h4>💪 Silne strony</h4>
+                    <ul>
+                        <li>Zero prowizji - silny argument</li>
+                        <li>Nisza (workation) - brak bezposredniej konkurencji</li>
+                        <li>Nowoczesny UI - lepszy niz konkurencja</li>
+                        <li>Narzedzia promocji (Sharing Kit)</li>
+                        <li>Niskie koszty operacyjne</li>
+                    </ul>
+                </div>
+                <div class="swot-box weaknesses">
+                    <h4>😓 Slabe strony</h4>
+                    <ul>
+                        <li>Nowa marka - brak rozpoznawalnosci</li>
+                        <li>Malo ofert na start</li>
+                        <li>Jednoosobowy zespol</li>
+                        <li>Brak budzetu marketingowego</li>
+                        <li>Zaleznosc od ruchu organicznego</li>
+                    </ul>
+                </div>
+                <div class="swot-box opportunities">
+                    <h4>🚀 Szanse</h4>
+                    <ul>
+                        <li>Rosnacy trend pracy zdalnej</li>
+                        <li>Inflacja - goscie szukaja tanszych opcji</li>
+                        <li>Zarzadcy niezadowoleni z Booking</li>
+                        <li>Ekspansja na nowe regiony (gory, jeziora)</li>
+                        <li>B2B Local Guide - drugi revenue stream</li>
+                    </ul>
+                </div>
+                <div class="swot-box threats">
+                    <h4>⚠️ Zagrozenia</h4>
+                    <ul>
+                        <li>Booking wejdzie w niszę workation</li>
+                        <li>Recesja - mniej podrozy</li>
+                        <li>Regulacje krótkoterminowego wynajmu</li>
+                        <li>Trudnosc budowy ruchu organicznego</li>
+                        <li>Zarzadcy wola status quo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- KOSZTY STARTUPU -->
+            <h3>Koszty startupu (Rok 1)</h3>
+            <div class="costs-table">
+                <div class="cost-row header">
+                    <span>Pozycja</span>
+                    <span>Koszt miesieczny</span>
+                    <span>Koszt roczny</span>
+                </div>
+                <div class="cost-row">
+                    <span>Domena (workejszyn.pl)</span>
+                    <span>-</span>
+                    <span>~80 zl</span>
+                </div>
+                <div class="cost-row">
+                    <span>Hosting (VPS / fly.io / Azure)</span>
+                    <span>~50-150 zl</span>
+                    <span>~600-1800 zl</span>
+                </div>
+                <div class="cost-row">
+                    <span>SSL (Let's Encrypt)</span>
+                    <span>0 zl</span>
+                    <span>0 zl</span>
+                </div>
+                <div class="cost-row">
+                    <span>Email (SMTP / SendGrid free)</span>
+                    <span>0 zl</span>
+                    <span>0 zl</span>
+                </div>
+                <div class="cost-row">
+                    <span>Marketing (organic tylko)</span>
+                    <span>0 zl</span>
+                    <span>0 zl</span>
+                </div>
+                <div class="cost-row total">
+                    <span><strong>RAZEM</strong></span>
+                    <span><strong>~100 zl</strong></span>
+                    <span><strong>~1200-2000 zl</strong></span>
+                </div>
+            </div>
+            <p style="font-size: 13px; color: #64748B; margin-top: 12px;">
+                * Nie wliczony koszt Twojego czasu. Przy 5h/tydz i stawce 150 zl/h = 3000 zl/mies = 36 000 zl/rok.
+            </p>
+
+            <!-- PROJEKCJE PRZYCHODOW -->
+            <h3>Projekcje przychodow (po wprowadzeniu oplat)</h3>
+            <p>Zalozenia: monetyzacja od Fazy 3 (rok 2-3), 1 mieszkanie FREE, reszta platna.</p>
+
+            <div class="projections-table">
+                <div class="projection-row header">
+                    <span>Scenariusz</span>
+                    <span>Zarzadcy</span>
+                    <span>Mieszkania</span>
+                    <span>MRR</span>
+                    <span>ARR</span>
+                </div>
+                <div class="projection-row">
+                    <span>Pesymistyczny</span>
+                    <span>10</span>
+                    <span>50</span>
+                    <span>~760 zl</span>
+                    <span>~9 100 zl</span>
+                </div>
+                <div class="projection-row highlight">
+                    <span><strong>Realistyczny</strong></span>
+                    <span><strong>30</strong></span>
+                    <span><strong>200</strong></span>
+                    <span><strong>~3 200 zl</strong></span>
+                    <span><strong>~38 400 zl</strong></span>
+                </div>
+                <div class="projection-row">
+                    <span>Optymistyczny</span>
+                    <span>100</span>
+                    <span>800</span>
+                    <span>~12 000 zl</span>
+                    <span>~144 000 zl</span>
+                </div>
+            </div>
+            <p style="font-size: 13px; color: #64748B; margin-top: 12px;">
+                * Kalkulacja: (mieszkania - zarzadcy) × srednia cena 19 zl. Nie wliczone: wyroznienia, POI, affiliate.
+            </p>
+
+            <!-- BREAK-EVEN -->
+            <h3>Break-even</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📊 Koszty vs Przychody</h4>
+                    <ul>
+                        <li><strong>Koszty stale:</strong> ~100 zl/mies</li>
+                        <li><strong>Break-even:</strong> ~6 platnych mieszkan</li>
+                        <li><strong>Przy 50 mieszkaniach:</strong> +660 zl/mies zysku</li>
+                        <li><strong>Przy 200 mieszkaniach:</strong> +3100 zl/mies zysku</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>⏱️ Timeline</h4>
+                    <ul>
+                        <li><strong>Rok 1:</strong> FREE, budowanie bazy, -2000 zl</li>
+                        <li><strong>Rok 2:</strong> Monetyzacja, break-even</li>
+                        <li><strong>Rok 3:</strong> Wzrost, +20-50k zl/rok</li>
+                        <li><strong>Rok 4+:</strong> Skalowanie, POI revenue</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- REVENUE STREAMS -->
+            <h3>Strumienie przychodow</h3>
+            <div class="revenue-streams">
+                <div class="stream primary">
+                    <div class="stream-header">
+                        <span class="stream-icon">🏠</span>
+                        <span class="stream-name">Abonamenty zarzadcow</span>
+                        <span class="stream-pct">~70%</span>
+                    </div>
+                    <p>9-19 zl/mieszkanie/miesiac. Glowne zrodlo przychodu.</p>
+                </div>
+                <div class="stream">
+                    <div class="stream-header">
+                        <span class="stream-icon">⭐</span>
+                        <span class="stream-name">Wyroznienia ofert</span>
+                        <span class="stream-pct">~15%</span>
+                    </div>
+                    <p>+29 zl/mieszkanie/miesiac za top pozycje w wyszukiwarce.</p>
+                </div>
+                <div class="stream">
+                    <div class="stream-header">
+                        <span class="stream-icon">📍</span>
+                        <span class="stream-name">POI / Local Guide</span>
+                        <span class="stream-pct">~10%</span>
+                    </div>
+                    <p>1 zl × mieszkania w zasiegu / rok. Lokalne biznesy.</p>
+                </div>
+                <div class="stream">
+                    <div class="stream-header">
+                        <span class="stream-icon">💸</span>
+                        <span class="stream-name">Affiliate</span>
+                        <span class="stream-pct">~5%</span>
+                    </div>
+                    <p>Prowizja od zamowien przez kody rabatowe (przyszlosc).</p>
+                </div>
+            </div>
+
+            <!-- KPIs -->
+            <h3>Kluczowe metryki (KPIs)</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-name">Liczba zarzadcow</span>
+                    <span class="kpi-target">Cel Y1: 30</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-name">Liczba mieszkan</span>
+                    <span class="kpi-target">Cel Y1: 200</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-name">Aktywne oferty</span>
+                    <span class="kpi-target">Cel Y1: 150</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-name">Zapytan/miesiac</span>
+                    <span class="kpi-target">Cel Y1: 100</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-name">Konwersja (zapytanie→rezerwacja)</span>
+                    <span class="kpi-target">Cel: 20%</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-name">Churn rate (zarzadcy)</span>
+                    <span class="kpi-target">Cel: <5%/mies</span>
+                </div>
+            </div>
+
+            <!-- TIMELINE -->
+            <h3>Roadmap biznesowy</h3>
+            <div class="business-timeline">
+                <div class="timeline-phase">
+                    <div class="phase-marker">Q3-Q4 2026</div>
+                    <div class="phase-content">
+                        <h4>MVP + Pierwsi zarzadcy</h4>
+                        <ul>
+                            <li>Uruchomienie portalu</li>
+                            <li>Onboarding 3 zarzadcow (51 mieszkan)</li>
+                            <li>Zbieranie feedbacku</li>
+                            <li>Iteracja produktu</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-phase">
+                    <div class="phase-marker">Q1-Q2 2027</div>
+                    <div class="phase-content">
+                        <h4>Wzrost organiczny</h4>
+                        <ul>
+                            <li>SEO + content marketing</li>
+                            <li>10-20 nowych zarzadcow</li>
+                            <li>Ekspansja: gory, jeziora</li>
+                            <li>Pierwsze rezerwacje</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-phase">
+                    <div class="phase-marker">Q3-Q4 2027</div>
+                    <div class="phase-content">
+                        <h4>Monetyzacja</h4>
+                        <ul>
+                            <li>Wprowadzenie abonamentow</li>
+                            <li>Grace period dla early adopters</li>
+                            <li>Wyroznienia ofert</li>
+                            <li>Break-even</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-phase">
+                    <div class="phase-marker">2028+</div>
+                    <div class="phase-content">
+                        <h4>Skalowanie</h4>
+                        <ul>
+                            <li>POI / Local Guide revenue</li>
+                            <li>Affiliate z lokalnymi biznesami</li>
+                            <li>100+ zarzadcow, 500+ mieszkan</li>
+                            <li>Rozważ zespol / inwestycje</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TECH -->
+    <div id="tech" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">💻 Stack technologiczny</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>Backend</h4>
+                    <ul>
+                        <li><strong>JHipster</strong> - generator</li>
+                        <li><strong>Java 21</strong> + Spring Boot 3</li>
+                        <li><strong>PostgreSQL</strong></li>
+                        <li><strong>Liquibase</strong> - migracje</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>Frontend</h4>
+                    <ul>
+                        <li><strong>Angular 17</strong></li>
+                        <li><strong>Lucide Icons</strong></li>
+                        <li><strong>Leaflet + OSM</strong> - mapy</li>
+                        <li><strong>Responsive</strong> - mobile-first</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>Hosting</h4>
+                    <ul>
+                        <li><strong>Dev:</strong> fly.io (free)</li>
+                        <li><strong>Prod:</strong> Azure App Service</li>
+                        <li><strong>CI/CD:</strong> GitHub Actions</li>
+                        <li><strong>Domena:</strong> workejszyn.pl</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>Inne</h4>
+                    <ul>
+                        <li><strong>Email:</strong> SMTP</li>
+                        <li><strong>i18n:</strong> PL, EN, DE, UK</li>
+                        <li><strong>Auth:</strong> JWT</li>
+                        <li><strong>Cache:</strong> Caffeine</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    workejszyn.pl &copy; 2026 &middot; Dokumentacja projektu
+</footer>
+
+<script>
+function toggleAccordion(btn) {
+    const accordion = btn.parentElement;
+    accordion.classList.toggle('open');
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('.nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+            // Open accordion if closed
+            const accordion = target.closest('.accordion');
+            if (accordion && !accordion.classList.contains('open')) {
+                accordion.classList.add('open');
+            }
+            // Scroll to it
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+
+

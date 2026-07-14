@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Checklist: co musi miec mieszkanie do pracy zdalnej | workejszyn.pl</title>
+    <meta name="description" content="Lista 15 rzeczy, ktore powinienes zweryfikowac przed rezerwacja mieszkania na dlugi pobyt workation.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --gradient-1: #1A73E8;
+            --gradient-2: #00ACC1;
+            --gradient-3: #00D2A0;
+            --text-dark: #0F172A;
+            --text-mid: #334155;
+            --text-light: #64748B;
+            --bg: #F8FAFC;
+            --card: #FFFFFF;
+            --border: #E2E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        header {
+            background: var(--card);
+            padding: 1rem 1.5rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--gradient-1), var(--gradient-2), var(--gradient-3)) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover { color: var(--gradient-2); }
+        .back-link i { width: 18px; height: 18px; }
+
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .article-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: rgba(0,172,193,0.1);
+            color: var(--gradient-2);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .article-excerpt {
+            font-size: 1.15rem;
+            color: var(--text-mid);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .article-meta i { width: 16px; height: 16px; }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 2.5rem 0 1rem;
+        }
+
+        .article-content p {
+            color: var(--text-mid);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .article-content strong {
+            color: var(--text-dark);
+        }
+
+        /* CHECKLIST */
+        .checklist {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            border-color: var(--gradient-2);
+            box-shadow: 0 4px 12px rgba(0,172,193,0.1);
+        }
+
+        .checklist-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--gradient-2), var(--gradient-3));
+            color: #FFFFFF;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .checklist-content h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .checklist-content p {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .checklist-tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: #F1F5F9;
+            color: var(--text-light);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        .checklist-tag.must { background: rgba(239,68,68,0.1); color: #DC2626; }
+        .checklist-tag.nice { background: rgba(0,172,193,0.1); color: var(--gradient-2); }
+
+        /* CATEGORY HEADER */
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 2.5rem 0 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--gradient-2);
+        }
+
+        .category-header i {
+            width: 28px;
+            height: 28px;
+            padding: 6px;
+            background: linear-gradient(135deg, rgba(0,172,193,0.1), rgba(0,210,160,0.1));
+            border-radius: 8px;
+            color: var(--gradient-2);
+        }
+
+        .category-header h2 {
+            margin: 0;
+            font-size: 1.35rem;
+        }
+
+        /* SUMMARY BOX */
+        .summary-box {
+            margin: 2.5rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0,172,193,0.08), rgba(0,210,160,0.08));
+            border: 1px solid rgba(0,172,193,0.2);
+            border-radius: 16px;
+        }
+
+        .summary-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .summary-item {
+            padding: 1rem;
+            background: var(--card);
+            border-radius: 10px;
+        }
+
+        .summary-item .number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gradient-2);
+        }
+
+        .summary-item .label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .article-cta {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            border-radius: 16px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .article-cta h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-cta p {
+            opacity: 0.9;
+            margin-bottom: 1.25rem;
+            color: #FFFFFF;
+        }
+
+        .article-cta a {
+            display: inline-block;
+            padding: 0.85rem 1.75rem;
+            background: #FFFFFF;
+            color: var(--gradient-1);
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .article-share {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .article-share span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .share-btn i { width: 18px; height: 18px; }
+        .share-btn.facebook { background: #1877F2; }
+        .share-btn.linkedin { background: #0A66C2; }
+        .share-btn.twitter { background: #1DA1F2; }
+
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer a { color: var(--gradient-2); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .article-title { font-size: 1.75rem; }
+            article { padding: 2rem 1rem; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-bar">
+        <a href="strona-glowna.html" class="logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span class="logo-text">workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <a href="blog.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Blog
+        </a>
+    </div>
+</header>
+
+<article>
+    <div class="article-header">
+        <span class="article-category">Workation</span>
+        <h1 class="article-title">Checklist: co musi miec mieszkanie do pracy zdalnej</h1>
+        <p class="article-excerpt">
+            Szybki internet to podstawa, ale nie wszystko. Sprawdz liste 15 rzeczy, ktore powinienes zweryfikowac przed rezerwacja mieszkania na dluzy pobyt.
+        </p>
+        <div class="article-meta">
+            <span><i data-lucide="calendar"></i> 5 lipca 2026</span>
+            <span><i data-lucide="clock"></i> 4 min czytania</span>
+            <span><i data-lucide="user"></i> Redakcja workejszyn.pl</span>
+        </div>
+    </div>
+
+    <div class="article-content">
+        <p>
+            Wybrales lokalizacje. Znalazles mieszkanie z ladnymi zdjeciami. Ale czy <strong>naprawde nadaje sie do pracy</strong>? Oto kompletna lista rzeczy do sprawdzenia - od absolutnie niezbednych po mile widziane.
+        </p>
+
+        <div class="summary-box">
+            <h3>Podsumowanie checklisty</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="number">6</div>
+                    <div class="label">Must-have</div>
+                </div>
+                <div class="summary-item">
+                    <div class="number">5</div>
+                    <div class="label">Wazne</div>
+                </div>
+                <div class="summary-item">
+                    <div class="number">4</div>
+                    <div class="label">Nice-to-have</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-header">
+            <i data-lucide="wifi"></i>
+            <h2>Internet i praca</h2>
+        </div>
+
+        <ul class="checklist">
+            <li class="checklist-item">
+                <span class="checklist-number">1</span>
+                <div class="checklist-content">
+                    <h4>Szybkosc internetu (min. 50 Mbps)</h4>
+                    <p>Zapytaj o faktyczna predkosc, nie "do 100 Mbps". Popros o screenshot z testu speedtest.net. Dla videocall'i i udostepniania ekranu potrzebujesz stabilnego uploadu - min. 10 Mbps.</p>
+                    <span class="checklist-tag must">Must-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">2</span>
+                <div class="checklist-content">
+                    <h4>Biurko lub stol do pracy</h4>
+                    <p>Nie stolik kawowy, nie bar kuchenny. Potrzebujesz stabilnego miejsca na laptop, monitor (jesli bierzesz), mysz. Sprawdz wymiary - min. 100x60 cm.</p>
+                    <span class="checklist-tag must">Must-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">3</span>
+                <div class="checklist-content">
+                    <h4>Wygodne krzeslo</h4>
+                    <p>8 godzin dziennie na krzesle ogrodowym to przepis na bol plecow. Pytaj o krzeslo biurowe lub przynajmniej krzeslo z oparciem i podlokietnikami.</p>
+                    <span class="checklist-tag must">Must-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">4</span>
+                <div class="checklist-content">
+                    <h4>Gniazdka przy biurku</h4>
+                    <p>Laptop, telefon, ewentualnie monitor - potrzebujesz min. 2-3 gniazdek w zasiegu. Zapytaj lub popros o zdjecie miejsca do pracy.</p>
+                    <span class="checklist-tag nice">Wazne</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">5</span>
+                <div class="checklist-content">
+                    <h4>Cicha okolica w godzinach pracy</h4>
+                    <p>Ruchliwa ulica, plac budowy obok, halaslivi sasiedzi - to moze zabic produktywnosc. Zapytaj o poziom halasu w ciagu dnia.</p>
+                    <span class="checklist-tag nice">Wazne</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="category-header">
+            <i data-lucide="home"></i>
+            <h2>Komfort mieszkania</h2>
+        </div>
+
+        <ul class="checklist">
+            <li class="checklist-item">
+                <span class="checklist-number">6</span>
+                <div class="checklist-content">
+                    <h4>Pelna kuchnia</h4>
+                    <p>Lodowka, kuchenka, podstawowe naczynia. Przy dlugim pobycie jedzenie na miescie codziennie to duzy wydatek i strata czasu.</p>
+                    <span class="checklist-tag must">Must-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">7</span>
+                <div class="checklist-content">
+                    <h4>Pralka</h4>
+                    <p>Przy pobycie dluzszym niz tydzien - niezbedna. Sprawdz czy jest suszarka lub miejsce do suszenia.</p>
+                    <span class="checklist-tag must">Must-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">8</span>
+                <div class="checklist-content">
+                    <h4>Wygodne lozko</h4>
+                    <p>Dobry sen = dobra praca. Pytaj o rozmiar materaca i jego wiek. Rozkfadane sofy to ostatecznosc.</p>
+                    <span class="checklist-tag must">Must-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">9</span>
+                <div class="checklist-content">
+                    <h4>Klimatyzacja lub wentylator</h4>
+                    <p>Jesli jedziesz latem - sprawdz. Praca w 30-stopniowym upale bez klimy to katorga.</p>
+                    <span class="checklist-tag nice">Wazne</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">10</span>
+                <div class="checklist-content">
+                    <h4>Ogrzewanie</h4>
+                    <p>Jesli jedziesz poza sezonem (wrzesien-maj) - kluczowe. Pytaj o rodzaj ogrzewania i czy jest w cenie.</p>
+                    <span class="checklist-tag nice">Wazne</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="category-header">
+            <i data-lucide="map-pin"></i>
+            <h2>Lokalizacja i dojazd</h2>
+        </div>
+
+        <ul class="checklist">
+            <li class="checklist-item">
+                <span class="checklist-number">11</span>
+                <div class="checklist-content">
+                    <h4>Sklep w poblizu</h4>
+                    <p>Sprawdz odleglosc do najblizszego sklepu spozywczego. 2 km przez las to urocze, ale niepraktyczne na co dzien.</p>
+                    <span class="checklist-tag nice">Wazne</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">12</span>
+                <div class="checklist-content">
+                    <h4>Miejsce parkingowe</h4>
+                    <p>Jesli jedziesz samochodem - upewnij sie, ze jest gdzie parkowac. W sezonie moze byc problem.</p>
+                    <span class="checklist-tag nice">Nice-to-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">13</span>
+                <div class="checklist-content">
+                    <h4>Backup plan na internet</h4>
+                    <p>Czy w poblizu jest kawiarnia z WiFi? Biblioteka? Co zrobisz jak padnie net?</p>
+                    <span class="checklist-tag nice">Nice-to-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">14</span>
+                <div class="checklist-content">
+                    <h4>Miejsca do odpoczynku</h4>
+                    <p>Plaza, las, gory - co jest w zasiegu spaceru? Work-life balance to podstawa workation.</p>
+                    <span class="checklist-tag nice">Nice-to-have</span>
+                </div>
+            </li>
+            <li class="checklist-item">
+                <span class="checklist-number">15</span>
+                <div class="checklist-content">
+                    <h4>Restauracje / kawiarnie</h4>
+                    <p>Czasem trzeba wyjsc z mieszkania. Sprawdz co jest otwarte poza sezonem.</p>
+                    <span class="checklist-tag nice">Nice-to-have</span>
+                </div>
+            </li>
+        </ul>
+
+        <p>
+            <strong>Pro tip:</strong> Przed rezerwacja popros zarzadce o dodatkowe zdjecia miejsca do pracy i testu predkosci internetu. Dobry zarzadca nie bedzie mial problemu z wyslaniem.
+        </p>
+
+        <div class="article-cta">
+            <h3>Szukasz mieszkania spelniajacego te kryteria?</h3>
+            <p>Wszystkie oferty na workejszyn.pl maja zweryfikowany internet</p>
+            <a href="wyszukiwarka.html">Przegladaj oferty</a>
+        </div>
+
+        <div class="article-share">
+            <span>Udostepnij:</span>
+            <a href="#" class="share-btn facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" class="share-btn linkedin"><i data-lucide="linkedin"></i></a>
+            <a href="#" class="share-btn twitter"><i data-lucide="twitter"></i></a>
+        </div>
+    </div>
+</article>
+
+<footer>
+    <p>&copy; 2026 workejszyn.pl &middot; <a href="blog.html">Blog</a> &middot; <a href="strona-glowna.html">Strona glowna</a></p>
+</footer>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

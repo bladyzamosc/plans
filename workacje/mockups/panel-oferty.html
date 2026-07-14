@@ -1,0 +1,701 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Moje oferty - Panel Zarzadcaa - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .sidebar-nav i, .action-btn i, .stat-mini i, .page-btn i, .property-image i { width: 18px; height: 18px; }
+        :root {
+            --gradient-start: #1A73E8;
+            --gradient-mid: #00ACC1;
+            --gradient-end: #00D2A0;
+            --accent-blue: #1A73E8;
+            --accent-cyan: #00ACC1;
+            --accent-teal: #00D2A0;
+
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748B;
+            --slate-400: #94A3B8;
+            --slate-300: #CBD5E1;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--slate-100);
+            color: var(--slate-800);
+            line-height: 1.6;
+        }
+
+        /* LAYOUT */
+        .layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: var(--slate-900);
+            padding: 1.5rem;
+            position: fixed;
+            width: 260px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--slate-700);
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+        .sidebar-logo span { font-size: 1.25rem; font-weight: 700; color: var(--white); }
+        .sidebar-logo .accent { color: var(--accent-cyan); }
+
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.25rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--slate-400);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .sidebar-nav a:hover { background: var(--slate-800); color: var(--white); }
+        .sidebar-nav a.active { background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); color: var(--white); }
+        .sidebar-nav .icon { font-size: 1.1rem; }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--slate-700);
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--slate-500);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            margin-top: auto;
+            border-top: 1px solid var(--slate-700);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--slate-900);
+        }
+
+        .sidebar-user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-user-info { flex: 1; }
+        .sidebar-user-name { font-size: 0.9rem; font-weight: 600; color: var(--white); }
+        .sidebar-user-role { font-size: 0.75rem; color: var(--slate-500); }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 260px;
+            padding: 1.5rem 2rem;
+            min-width: 0;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--slate-900);
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(0, 172, 193, 0.3);
+        }
+
+        /* FILTERS */
+        .filters-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            background: var(--white);
+            border-radius: 8px;
+            padding: 0.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--slate-500);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+        }
+
+        .filter-tab:hover:not(.active) {
+            color: var(--slate-700);
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 300px;
+            padding: 0.625rem 1rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: var(--white);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        /* TABLE */
+        .table-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            white-space: nowrap;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 1rem 1.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--slate-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--slate-50);
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .data-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--slate-100);
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tbody tr {
+            display: table-row;
+        }
+
+        .data-table tr:hover {
+            background: var(--slate-50);
+        }
+
+        /* PROPERTY CELL */
+        .property-cell {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .property-image {
+            width: 64px;
+            height: 48px;
+            background: var(--slate-200);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate-400);
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .property-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            margin-bottom: 0.15rem;
+        }
+
+        .property-info p {
+            font-size: 0.8rem;
+            color: var(--slate-500);
+        }
+
+        /* STATUS */
+        .status-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background: rgba(0, 210, 160, 0.1);
+            color: var(--accent-teal);
+        }
+
+        .status-badge.draft {
+            background: var(--slate-100);
+            color: var(--slate-500);
+        }
+
+        .status-badge.inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        /* PRICE */
+        .price-cell {
+            font-weight: 600;
+            color: var(--slate-800);
+        }
+
+        .price-cell span {
+            font-weight: 400;
+            color: var(--slate-500);
+            font-size: 0.8rem;
+        }
+
+        /* STATS */
+        .stats-cell {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat-mini {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
+            color: var(--slate-600);
+        }
+
+        .stat-mini .icon {
+            font-size: 0.9rem;
+        }
+
+        /* ACTIONS */
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--slate-200);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 172, 193, 0.05);
+        }
+
+        .action-btn.danger:hover {
+            border-color: #EF4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--slate-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--slate-500);
+            margin-bottom: 1.5rem;
+        }
+
+        /* PAGINATION */
+        .table-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--slate-100);
+        }
+
+        .table-info {
+            font-size: 0.85rem;
+            color: var(--slate-500);
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--slate-200);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--slate-600);
+        }
+
+        .page-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--white);
+            border: none;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1100px) {
+            .data-table th:nth-child(4),
+            .data-table td:nth-child(4) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
+            .filters-bar { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <a href="#" class="sidebar-logo">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs>
+                    <g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g>
+                </svg>
+                <span>workejszyn<span class="accent">.pl</span></span>
+            </a>
+
+            <ul class="sidebar-nav">
+                <li><a href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+                <li><a href="#" class="active"><i data-lucide="home"></i> Moje oferty</a></li>
+                <li><a href="#"><i data-lucide="calendar"></i> Kalendarz</a></li>
+                <li><a href="#"><i data-lucide="clipboard-list"></i> Rezerwacje</a></li>
+                <li><a href="#"><i data-lucide="message-square"></i> Wiadomosci</a></li>
+                <li><a href="#"><i data-lucide="bar-chart-3"></i> Statystyki</a></li>
+            </ul>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Ustawienia</div>
+                <ul class="sidebar-nav">
+                    <li><a href="#"><i data-lucide="user"></i> Profil</a></li>
+                    <li><a href="#"><i data-lucide="settings"></i> Ustawienia</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-user">
+                <div class="sidebar-user-avatar">AK</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">Anna Kowalska</div>
+                    <div class="sidebar-user-role">Zarzadca</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Moje oferty</h1>
+                <a href="#" class="btn-primary">+ Dodaj oferte</a>
+            </div>
+
+            <!-- FILTERS -->
+            <div class="filters-bar">
+                <div class="filter-tabs">
+                    <button class="filter-tab active">Wszystkie (5)</button>
+                    <button class="filter-tab">Aktywne (4)</button>
+                    <button class="filter-tab">Drafty (1)</button>
+                    <button class="filter-tab">Nieaktywne (0)</button>
+                </div>
+                <div style="position:relative">
+                    <i data-lucide="search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94A3B8;width:16px;height:16px"></i>
+                    <input type="text" class="search-input" style="padding-left:40px" placeholder="Szukaj oferty...">
+                </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Oferta</th>
+                            <th>Status</th>
+                            <th>Cena</th>
+                            <th>Statystyki</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="property-cell">
+                                    <div class="property-image"><i data-lucide="image"></i></div>
+                                    <div class="property-info">
+                                        <h4>Apartament z widokiem na morze</h4>
+                                        <p><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Monte Cassino</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge active">Aktywna</span></td>
+                            <td class="price-cell">1100 zl <span>/ tydzien</span></td>
+                            <td>
+                                <div class="stats-cell">
+                                    <div class="stat-mini"><i data-lucide="eye" style="width:14px;height:14px"></i> 542</div>
+                                    <div class="stat-mini"><i data-lucide="message-square" style="width:14px;height:14px"></i> 12</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="actions-cell">
+                                    <button class="action-btn" title="Edytuj"><i data-lucide="pencil"></i></button>
+                                    <button class="action-btn" title="Kalendarz"><i data-lucide="calendar"></i></button>
+                                    <button class="action-btn" title="Podglad"><i data-lucide="eye"></i></button>
+                                    <button class="action-btn danger" title="Dezaktywuj"><i data-lucide="pause"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-cell">
+                                    <div class="property-image"><i data-lucide="image"></i></div>
+                                    <div class="property-info">
+                                        <h4>Studio w centrum Gdanska</h4>
+                                        <p><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Gdansk, Stare Miasto</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge active">Aktywna</span></td>
+                            <td class="price-cell">850 zl <span>/ tydzien</span></td>
+                            <td>
+                                <div class="stats-cell">
+                                    <div class="stat-mini"><i data-lucide="eye" style="width:14px;height:14px"></i> 387</div>
+                                    <div class="stat-mini"><i data-lucide="message-square" style="width:14px;height:14px"></i> 8</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="actions-cell">
+                                    <button class="action-btn" title="Edytuj"><i data-lucide="pencil"></i></button>
+                                    <button class="action-btn" title="Kalendarz"><i data-lucide="calendar"></i></button>
+                                    <button class="action-btn" title="Podglad"><i data-lucide="eye"></i></button>
+                                    <button class="action-btn danger" title="Dezaktywuj"><i data-lucide="pause"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-cell">
+                                    <div class="property-image"><i data-lucide="image"></i></div>
+                                    <div class="property-info">
+                                        <h4>Dom z ogrodem przy plazy</h4>
+                                        <p><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Jastarnia, ul. Rybacka</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge active">Aktywna</span></td>
+                            <td class="price-cell">1800 zl <span>/ tydzien</span></td>
+                            <td>
+                                <div class="stats-cell">
+                                    <div class="stat-mini"><i data-lucide="eye" style="width:14px;height:14px"></i> 245</div>
+                                    <div class="stat-mini"><i data-lucide="message-square" style="width:14px;height:14px"></i> 5</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="actions-cell">
+                                    <button class="action-btn" title="Edytuj"><i data-lucide="pencil"></i></button>
+                                    <button class="action-btn" title="Kalendarz"><i data-lucide="calendar"></i></button>
+                                    <button class="action-btn" title="Podglad"><i data-lucide="eye"></i></button>
+                                    <button class="action-btn danger" title="Dezaktywuj"><i data-lucide="pause"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-cell">
+                                    <div class="property-image"><i data-lucide="image"></i></div>
+                                    <div class="property-info">
+                                        <h4>Loft w starej kamienicy</h4>
+                                        <p><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Gdynia, Orlowo</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge active">Aktywna</span></td>
+                            <td class="price-cell">1200 zl <span>/ tydzien</span></td>
+                            <td>
+                                <div class="stats-cell">
+                                    <div class="stat-mini"><i data-lucide="eye" style="width:14px;height:14px"></i> 110</div>
+                                    <div class="stat-mini"><i data-lucide="message-square" style="width:14px;height:14px"></i> 2</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="actions-cell">
+                                    <button class="action-btn" title="Edytuj"><i data-lucide="pencil"></i></button>
+                                    <button class="action-btn" title="Kalendarz"><i data-lucide="calendar"></i></button>
+                                    <button class="action-btn" title="Podglad"><i data-lucide="eye"></i></button>
+                                    <button class="action-btn danger" title="Dezaktywuj"><i data-lucide="pause"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="property-cell">
+                                    <div class="property-image"><i data-lucide="image"></i></div>
+                                    <div class="property-info">
+                                        <h4>Nowa oferta (w przygotowaniu)</h4>
+                                        <p><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Dolny</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge draft">Draft</span></td>
+                            <td class="price-cell">- zl <span>/ tydzien</span></td>
+                            <td>
+                                <div class="stats-cell">
+                                    <div class="stat-mini"><i data-lucide="eye" style="width:14px;height:14px"></i> -</div>
+                                    <div class="stat-mini"><i data-lucide="message-square" style="width:14px;height:14px"></i> -</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="actions-cell">
+                                    <button class="action-btn" title="Edytuj"><i data-lucide="pencil"></i></button>
+                                    <button class="action-btn danger" title="Usun"><i data-lucide="trash-2"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="table-footer">
+                    <div class="table-info">Pokazano 5 z 5 ofert</div>
+                    <div class="pagination">
+                        <button class="page-btn"><i data-lucide="chevron-left"></i></button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn"><i data-lucide="chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,721 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Rezerwacja #1234 - Panel Zarzadcaa - workejszyn.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .sidebar-nav i { width: 18px; height: 18px; }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #0F172A;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .sidebar-logo svg { width: 36px; height: 36px; }
+        .sidebar-logo span { font-size: 1.25rem; font-weight: 700; color: #FFFFFF; }
+        .sidebar-logo .accent { color: #00ACC1; }
+
+        .sidebar-nav { list-style: none; }
+        .sidebar-nav li { margin-bottom: 0.25rem; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .sidebar-nav a:hover { background: #1E293B; color: #FFFFFF; }
+        .sidebar-nav a.active { background: linear-gradient(135deg, #1A73E8, #00ACC1); color: #FFFFFF; }
+
+        .sidebar-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .back-btn i { width: 18px; height: 18px; }
+
+        .page-title-group h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-top: 0.25rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.875rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-badge.inquiry {
+            background: rgba(251, 146, 60, 0.1);
+            color: #F97316;
+        }
+
+        .status-badge.confirmed {
+            background: rgba(0, 210, 160, 0.1);
+            color: #00D2A0;
+        }
+
+        .status-badge.prepaid {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1A73E8;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: #FFFFFF;
+            color: #475569;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00ACC1;
+            color: #00ACC1;
+        }
+
+        .btn-danger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: #FFFFFF;
+            color: #EF4444;
+            border: 1px solid #FCA5A5;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* CONTENT GRID */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 1.5rem;
+        }
+
+        /* CARDS */
+        .card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #F1F5F9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1E293B;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title i { width: 18px; height: 18px; color: #00ACC1; }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* GUEST INFO */
+        .guest-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .guest-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #00ACC1, #00D2A0);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .guest-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .guest-meta {
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        .guest-contacts {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #F8FAFC;
+            border-radius: 8px;
+        }
+
+        .contact-item i { width: 18px; height: 18px; color: #00ACC1; }
+
+        .contact-item a {
+            color: #1E293B;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: #00ACC1;
+        }
+
+        /* DETAILS LIST */
+        .details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        .detail-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1E293B;
+            text-align: right;
+        }
+
+        .detail-value.large {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1A73E8, #00ACC1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* PROPERTY CARD */
+        .property-mini {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #F8FAFC;
+            border-radius: 8px;
+        }
+
+        .property-mini-thumb {
+            width: 80px;
+            height: 60px;
+            background: #E2E8F0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .property-mini-thumb i { width: 24px; height: 24px; color: #94A3B8; }
+
+        .property-mini-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 0.25rem;
+        }
+
+        .property-mini-info p {
+            font-size: 0.8rem;
+            color: #64748B;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #E2E8F0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.25rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: #00ACC1;
+            border-radius: 50%;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 0 2px #E2E8F0;
+        }
+
+        .timeline-dot.pending {
+            background: #F97316;
+        }
+
+        .timeline-time {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-text {
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        /* MESSAGE PREVIEW */
+        .message-preview {
+            padding: 1rem;
+            background: #F8FAFC;
+            border-radius: 8px;
+            border-left: 3px solid #00ACC1;
+        }
+
+        .message-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-preview-author {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .message-preview-time {
+            font-size: 0.75rem;
+            color: #94A3B8;
+        }
+
+        .message-preview-text {
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .message-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: #00ACC1;
+            text-decoration: none;
+        }
+
+        .message-link:hover {
+            text-decoration: underline;
+        }
+
+        .message-link i { width: 14px; height: 14px; }
+
+        /* ACTIONS BOX */
+        .actions-box {
+            padding: 1.5rem;
+            background: #F8FAFC;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .actions-box p {
+            font-size: 0.9rem;
+            color: #64748B;
+            margin-bottom: 1rem;
+        }
+
+        .actions-box .btn-primary {
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .actions-box .btn-danger {
+            width: 100%;
+            justify-content: center;
+        }
+
+        @media (max-width: 1100px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .page-header { flex-direction: column; gap: 1rem; }
+            .header-actions { width: 100%; }
+            .header-actions button { flex: 1; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <a href="#" class="sidebar-logo">
+            <svg viewBox="0 0 512 512"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1A73E8"/><stop offset="50%" stop-color="#00ACC1"/><stop offset="100%" stop-color="#00D2A0"/></linearGradient></defs><g transform="translate(0,10)"><path d="M90,110 L165,390 L215,390 L256,220 L297,390 L347,390 L422,110 L360,110 L322,300 L278,110 L234,110 L190,300 L152,110Z" fill="url(#lg1)"/></g></svg>
+            <span>workejszyn<span class="accent">.pl</span></span>
+        </a>
+        <ul class="sidebar-nav">
+            <li><a href="#"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i data-lucide="home"></i> Moje oferty</a></li>
+            <li><a href="#"><i data-lucide="calendar"></i> Kalendarz</a></li>
+            <li><a href="#" class="active"><i data-lucide="clipboard-list"></i> Rezerwacje</a></li>
+            <li><a href="#"><i data-lucide="message-square"></i> Wiadomosci</a></li>
+            <li><a href="#"><i data-lucide="bar-chart-3"></i> Statystyki</a></li>
+        </ul>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Ustawienia</div>
+            <ul class="sidebar-nav">
+                <li><a href="#"><i data-lucide="user"></i> Profil</a></li>
+                <li><a href="#"><i data-lucide="settings"></i> Ustawienia</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="page-header">
+            <div class="page-header-left">
+                <button class="back-btn"><i data-lucide="arrow-left"></i></button>
+                <div class="page-title-group">
+                    <h1>
+                        Rezerwacja #1234
+                        <span class="status-badge inquiry">Zapytanie</span>
+                    </h1>
+                    <p class="page-subtitle">Utworzona 12 wrz 2026, 14:32</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary"><i data-lucide="message-square" style="width:16px;height:16px"></i> Napisz</button>
+                <button class="btn-primary"><i data-lucide="check" style="width:16px;height:16px"></i> Potwierdz</button>
+                <button class="btn-danger"><i data-lucide="x" style="width:16px;height:16px"></i> Odrzuc</button>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <!-- LEFT COLUMN -->
+            <div class="left-column">
+                <!-- GUEST INFO -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i data-lucide="user"></i> Gosc</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="guest-profile">
+                            <div class="guest-avatar">JN</div>
+                            <div>
+                                <div class="guest-name">Jan Nowak</div>
+                                <div class="guest-meta">Pierwsza rezerwacja</div>
+                            </div>
+                        </div>
+                        <div class="guest-contacts">
+                            <div class="contact-item">
+                                <i data-lucide="mail"></i>
+                                <a href="mailto:jan.nowak@example.com">jan.nowak@example.com</a>
+                            </div>
+                            <div class="contact-item">
+                                <i data-lucide="phone"></i>
+                                <a href="tel:+48600123456">+48 600 123 456</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROPERTY -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i data-lucide="home"></i> Mieszkanie</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="property-mini">
+                            <div class="property-mini-thumb"><i data-lucide="image"></i></div>
+                            <div class="property-mini-info">
+                                <h4>Apartament z widokiem na morze</h4>
+                                <p><i data-lucide="map-pin" style="width:12px;height:12px;display:inline"></i> Sopot, Monte Cassino 15/3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MESSAGE -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i data-lucide="message-square"></i> Wiadomosc od goscia</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="message-preview">
+                            <div class="message-preview-header">
+                                <span class="message-preview-author">Jan Nowak</span>
+                                <span class="message-preview-time">12 wrz 2026, 14:32</span>
+                            </div>
+                            <p class="message-preview-text">
+                                Dzien dobry, interesuje mnie wynajem Panstwa apartamentu na okres 15-22 wrzesnia. Pracuje zdalnie i szukam spokojnego miejsca z dobrym internetem. Czy w tym terminie mieszkanie jest dostepne? Pozdrawiam, Jan
+                            </p>
+                        </div>
+                        <a href="#" class="message-link">
+                            <i data-lucide="arrow-right"></i> Przejdz do konwersacji
+                        </a>
+                    </div>
+                </div>
+
+                <!-- TIMELINE -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i data-lucide="clock"></i> Historia</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot pending"></div>
+                                <div class="timeline-time">Oczekuje</div>
+                                <div class="timeline-text">Oczekuje na potwierdzenie Zarzadcaa</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-time">12 wrz 2026, 14:32</div>
+                                <div class="timeline-text">Gosc wyslal zapytanie o rezerwacje</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="right-column">
+                <!-- BOOKING DETAILS -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i data-lucide="calendar"></i> Szczegoly rezerwacji</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="details-list">
+                            <div class="detail-row">
+                                <span class="detail-label">Przyjazd</span>
+                                <span class="detail-value">15 wrz 2026 (wt)</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Wyjazd</span>
+                                <span class="detail-value">22 wrz 2026 (wt)</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Dlugosc pobytu</span>
+                                <span class="detail-value">7 nocy (1 tydzien)</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Liczba gosci</span>
+                                <span class="detail-value">2 osoby</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Cena za tydzien</span>
+                                <span class="detail-value">1100 zl</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Suma</span>
+                                <span class="detail-value large">1100 zl</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="actions-box">
+                            <p>Ten gosc czeka na Twoja odpowiedz. Potwierdz lub odrzuc rezerwacje.</p>
+                            <button class="btn-primary"><i data-lucide="check" style="width:16px;height:16px"></i> Potwierdz rezerwacje</button>
+                            <button class="btn-danger"><i data-lucide="x" style="width:16px;height:16px"></i> Odrzuc zapytanie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>
+
+
+
