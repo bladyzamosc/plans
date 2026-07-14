@@ -266,6 +266,44 @@ Nie używaj zdjęć z Adobe Stock (płatne)! Darmowe źródła:
 
 ---
 
+## 13. PROMOCJA APARTAMENTU
+
+### Google Business Profile (wizytówka Google) ⭐ PRIORYTET
+- [ ] Utworz wizytówkę: https://business.google.com
+- [ ] Dodaj zdjęcia apartamentu i okolicy
+- [ ] Uzupełnij godziny, telefon, stronę WWW
+- [ ] Zbieraj opinie od gości
+
+### Portale ogłoszeniowe
+- [ ] Booking.com
+- [ ] Airbnb
+- [ ] Nocowanie.pl
+- [ ] Travelist.pl
+- [ ] Noclegi.pl
+
+### Social media
+- [ ] Facebook - strona apartamentu
+- [ ] Facebook - grupy lokalne (np. "Jastrzębia Góra", "Wakacje nad Bałtykiem")
+- [ ] Instagram - zdjęcia, stories, reels
+- [ ] Pinterest - zdjęcia wnętrz (świetne dla apartamentów)
+
+### Opinie gości
+- [ ] Proś o recenzje na Google po wyjeździe
+- [ ] QR kod w apartamencie linkujący do opinii
+- [ ] Odpowiadaj na wszystkie opinie
+
+### SEO i widoczność
+- [ ] Słowa kluczowe w tytule i opisie strony
+- [ ] Meta tagi i Open Graph
+- [ ] Lokalne katalogi turystyczne (strona gminy/miasta)
+- [ ] Wpis na Tripadvisor
+
+### Polecenia
+- [ ] Zniżka dla gości za polecenie znajomym
+- [ ] Program lojalnościowy (rabat na kolejny pobyt)
+
+---
+
 ## PRZYKŁADOWE KOMENDY
 
 ```bash
