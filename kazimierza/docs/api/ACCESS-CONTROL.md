@@ -39,7 +39,8 @@ Użytkownik może mieć wiele ról (np. CLIENT + OWNER).
 | `/user/districts/{id}` | PATCH, DELETE | Zarządzanie subskrypcją |
 | `/user/favorites` | GET, POST | Ulubione lokale |
 | `/user/favorites/{id}` | DELETE | Usuń z ulubionych |
-| `/user/push-token` | POST | Rejestracja push |
+| `/user/push-token` | POST, DELETE | Rejestracja/wyrejestrowanie push |
+| `/user/push-settings` | GET, PATCH | Ustawienia push |
 | `/redemptions` | GET, POST | Historia i generowanie QR |
 
 ### OWNER (właściciel lokalu)
