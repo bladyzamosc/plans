@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokale - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">SWOI</span>
+                <span class="logo-sub">Admin</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="districts.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Dzielnice
+                </a>
+                <a href="venues.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    Lokale
+                </a>
+                <a href="categories.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    Kategorie
+                </a>
+                <a href="users.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Użytkownicy
+                </a>
+                <a href="offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    Oferty
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../index.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Wróć do mockupów
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <header class="topbar">
+                <h1 class="page-title">Lokale</h1>
+                <div class="topbar-actions">
+                    <button class="btn btn-primary">
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Dodaj lokal
+                    </button>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="card">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" placeholder="Szukaj lokali...">
+                        </div>
+                        <select class="filter-select">
+                            <option>Wszystkie dzielnice</option>
+                            <option>Jana Kazimierza</option>
+                            <option>Mokotów Stary</option>
+                            <option>Żoliborz</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>Wszystkie kategorie</option>
+                            <option>Restauracja</option>
+                            <option>Kawiarnia</option>
+                            <option>Fryzjer</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>Wszystkie statusy</option>
+                            <option>Aktywne</option>
+                            <option>Nieaktywne</option>
+                        </select>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Lokal</th>
+                                <th>Dzielnica</th>
+                                <th>Kategoria</th>
+                                <th>Właściciel</th>
+                                <th>Oferty</th>
+                                <th>Realizacje</th>
+                                <th>Status</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:12px">
+                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">B</div>
+                                        <div>
+                                            <strong>Burger u Kazika</strong>
+                                            <div class="text-muted" style="font-size:12px">ul. Kazimierza 42</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Jana Kazimierza</td>
+                                <td><span class="badge blue">Restauracja</span></td>
+                                <td>Jan Kowalski</td>
+                                <td>3</td>
+                                <td>456</td>
+                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:12px">
+                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">K</div>
+                                        <div>
+                                            <strong>Kawiarnia Cicha</strong>
+                                            <div class="text-muted" style="font-size:12px">ul. Kazimierza 15</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Jana Kazimierza</td>
+                                <td><span class="badge purple">Kawiarnia</span></td>
+                                <td>Anna Nowak</td>
+                                <td>2</td>
+                                <td>312</td>
+                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:12px">
+                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">F</div>
+                                        <div>
+                                            <strong>Fryzjer Ela</strong>
+                                            <div class="text-muted" style="font-size:12px">ul. Mokotowska 8</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Mokotów Stary</td>
+                                <td><span class="badge orange">Fryzjer</span></td>
+                                <td>Elżbieta Wiśniewska</td>
+                                <td>1</td>
+                                <td>198</td>
+                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:12px">
+                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">P</div>
+                                        <div>
+                                            <strong>Piekarnia Pod Kogutem</strong>
+                                            <div class="text-muted" style="font-size:12px">ul. Żoliborska 23</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Żoliborz</td>
+                                <td><span class="badge green">Piekarnia</span></td>
+                                <td>Piotr Dąbrowski</td>
+                                <td>2</td>
+                                <td>145</td>
+                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr style="opacity:0.6">
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:12px">
+                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">S</div>
+                                        <div>
+                                            <strong>Sklep Spożywczy u Zosi</strong>
+                                            <div class="text-muted" style="font-size:12px">ul. Praska 5</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Praga Północ</td>
+                                <td><span class="badge">Sklep</span></td>
+                                <td>Zofia Krawczyk</td>
+                                <td>0</td>
+                                <td>23</td>
+                                <td><span class="status-dot orange"></span> Nieaktywny</td>
+                                <td>
+                                    <button class="action-btn">
+                                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <span class="pagination-info">Wyświetlono 1-5 z 48 lokali</span>
+                        <div class="pagination-buttons">
+                            <button class="pagination-btn" disabled>← Poprzednia</button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <button class="pagination-btn">...</button>
+                            <button class="pagination-btn">10</button>
+                            <button class="pagination-btn">Następna →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nowa oferta - Panel Właściciela</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="owner-styles.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">SWOI</span>
+                <span class="logo-sub">Właściciel</span>
+            </div>
+
+            <div class="venue-card">
+                <img src="../kuflo.png" alt="Kufloteka" class="venue-logo-img">
+                <div class="venue-info">
+                    <div class="venue-name">Beer & Burger Kufloteka</div>
+                    <div class="venue-address">ul. Kazimierza 42</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    Moje oferty
+                </a>
+                <a href="new-offer.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Nowa oferta
+                </a>
+                <a href="redemptions.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Realizacje
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Ustawienia
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../index.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Wróć do mockupów
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <header class="topbar">
+                <h1 class="page-title">Nowa oferta</h1>
+            </header>
+
+            <div class="content">
+                <div class="card" style="max-width:700px">
+                    <div class="card-header">
+                        <h3>Szczegóły oferty</h3>
+                    </div>
+
+                    <div style="padding:24px">
+                        <div class="form-group">
+                            <label class="form-label">Tytuł oferty</label>
+                            <input type="text" class="form-input" placeholder="np. -30% na burgery">
+                            <div class="form-hint">Krótki, przyciągający uwagę tytuł (max 100 znaków)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Opis</label>
+                            <textarea class="form-input" rows="3" placeholder="Dodatkowe informacje o ofercie..."></textarea>
+                            <div class="form-hint">Opcjonalny opis, warunki, ograniczenia (max 500 znaków)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Typ rabatu</label>
+                            <div class="radio-cards">
+                                <div class="radio-card selected">
+                                    <div class="radio-card-title">Procent</div>
+                                    <div class="radio-card-desc">np. -30%</div>
+                                </div>
+                                <div class="radio-card">
+                                    <div class="radio-card-title">Kwota</div>
+                                    <div class="radio-card-desc">np. -15 zł</div>
+                                </div>
+                                <div class="radio-card">
+                                    <div class="radio-card-title">Gratis</div>
+                                    <div class="radio-card-desc">np. kawa gratis</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Wartość rabatu</label>
+                            <div style="display:flex;align-items:center;gap:8px;max-width:200px">
+                                <input type="number" class="form-input" placeholder="30">
+                                <span style="font-size:18px;color:var(--text-muted)">%</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Okres obowiązywania</label>
+                            <div class="form-row" style="max-width:400px">
+                                <div>
+                                    <label class="form-label" style="font-size:12px;color:var(--text-muted)">Od</label>
+                                    <input type="date" class="form-input" value="2026-07-16">
+                                </div>
+                                <div>
+                                    <label class="form-label" style="font-size:12px;color:var(--text-muted)">Do</label>
+                                    <input type="date" class="form-input" value="2026-07-23">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
+                            <button class="btn btn-secondary">Zapisz jako szkic</button>
+                            <button class="btn btn-primary">Publikuj ofertę</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Card -->
+                <div class="card" style="max-width:700px;background:#f8fafc;border:1px dashed var(--border)">
+                    <div style="padding:20px;display:flex;gap:16px">
+                        <div style="width:40px;height:40px;background:rgba(201,169,98,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center">
+                            <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#c9a962;stroke-width:2;fill:none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        </div>
+                        <div>
+                            <strong style="display:block;margin-bottom:4px">Plan darmowy</strong>
+                            <p style="font-size:14px;color:var(--text-muted);margin:0">
+                                Możesz mieć 1 aktywną ofertę dziennie. Chcesz więcej?
+                                <a href="#" style="color:var(--accent)">Sprawdź plany premium →</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
