@@ -1,0 +1,1821 @@
+openapi: 3.0.3
+info:
+  title: Swoi API
+  description: |
+    API dla aplikacji Swoi - lokalne rabaty i wspieranie sąsiedzkiego biznesu.
+
+    ## Autoryzacja
+    - JWT Bearer token w headerze `Authorization: Bearer <token>`
+    - Access token ważny 15 minut
+    - Refresh token ważny 30 dni
+
+    ## Role
+    - `CLIENT` - zwykły użytkownik
+    - `OWNER` - właściciel lokalu (może mieć wiele lokali)
+    - `ADMIN` - administrator systemu
+  version: 1.0.0
+  contact:
+    name: Swoi Team
+
+servers:
+  - url: https://api.swoi.app/v1
+    description: Production
+  - url: https://api.staging.swoi.app/v1
+    description: Staging
+
+tags:
+  - name: Auth
+    description: Autoryzacja i uwierzytelnianie
+  - name: Districts
+    description: Dzielnice / okolice
+  - name: Categories
+    description: Kategorie lokali
+  - name: Venues
+    description: Lokale
+  - name: Offers
+    description: Oferty / rabaty
+  - name: Redemptions
+    description: Realizacja rabatów (QR)
+  - name: User
+    description: Profil użytkownika
+  - name: Owner
+    description: Panel właściciela lokalu
+  - name: Admin
+    description: Panel administratora
+
+paths:
+  # ==================== AUTH ====================
+  /auth/google:
+    post:
+      tags: [Auth]
+      summary: Logowanie przez Google
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [idToken]
+              properties:
+                idToken:
+                  type: string
+                  description: Google ID token
+      responses:
+        '200':
+          description: Zalogowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/apple:
+    post:
+      tags: [Auth]
+      summary: Logowanie przez Apple
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identityToken]
+              properties:
+                identityToken:
+                  type: string
+                  description: Apple identity token
+      responses:
+        '200':
+          description: Zalogowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/magic-link:
+    post:
+      tags: [Auth]
+      summary: Wysłanie magic link na email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Link wysłany
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Link wysłany na email"
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /auth/magic-link/verify:
+    post:
+      tags: [Auth]
+      summary: Weryfikacja magic link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+                  description: Token z magic link
+      responses:
+        '200':
+          description: Zalogowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Odświeżenie access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Token odświeżony
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Wylogowanie (unieważnienie refresh token)
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Wylogowano
+
+  # ==================== DISTRICTS ====================
+  /districts:
+    get:
+      tags: [Districts]
+      summary: Lista dzielnic
+      parameters:
+        - name: lat
+          in: query
+          schema:
+            type: number
+            format: double
+          description: Szerokość geograficzna (do sortowania po odległości)
+        - name: lng
+          in: query
+          schema:
+            type: number
+            format: double
+          description: Długość geograficzna
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Wyszukiwanie po nazwie
+      responses:
+        '200':
+          description: Lista dzielnic
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/District'
+
+  /districts/{id}:
+    get:
+      tags: [Districts]
+      summary: Szczegóły dzielnicy
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Dzielnica
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/District'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /districts/nearby:
+    get:
+      tags: [Districts]
+      summary: Dzielnice w pobliżu (geolokalizacja)
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lng
+          in: query
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: radiusKm
+          in: query
+          schema:
+            type: number
+            default: 5
+      responses:
+        '200':
+          description: Dzielnice w pobliżu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/District'
+                        - type: object
+                          properties:
+                            distanceKm:
+                              type: number
+                              format: double
+
+  # ==================== CATEGORIES ====================
+  /categories:
+    get:
+      tags: [Categories]
+      summary: Lista kategorii lokali
+      responses:
+        '200':
+          description: Lista kategorii
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Category'
+
+  # ==================== VENUES ====================
+  /venues:
+    get:
+      tags: [Venues]
+      summary: Lista lokali
+      parameters:
+        - name: districtId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filtr po dzielnicy
+        - name: categoryId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filtr po kategorii
+        - name: hasActiveOffers
+          in: query
+          schema:
+            type: boolean
+          description: Tylko lokale z aktywnymi ofertami
+      responses:
+        '200':
+          description: Lista lokali
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenueListItem'
+
+  /venues/{id}:
+    get:
+      tags: [Venues]
+      summary: Szczegóły lokalu
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Lokal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venue'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== OFFERS ====================
+  /offers:
+    get:
+      tags: [Offers]
+      summary: Lista ofert
+      parameters:
+        - name: districtId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filtr po dzielnicy
+        - name: categoryId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filtr po kategorii lokalu
+        - name: venueId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filtr po lokalu
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [newest, ending_soon]
+            default: newest
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 50
+      responses:
+        '200':
+          description: Lista ofert
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OfferListItem'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+  /offers/{id}:
+    get:
+      tags: [Offers]
+      summary: Szczegóły oferty
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Oferta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== REDEMPTIONS ====================
+  /redemptions:
+    get:
+      tags: [Redemptions]
+      summary: Historia realizacji użytkownika
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PENDING, REDEEMED, EXPIRED]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Historia realizacji
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Redemption'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+    post:
+      tags: [Redemptions]
+      summary: Wygeneruj kod QR dla oferty
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [offerId]
+              properties:
+                offerId:
+                  type: string
+                  format: uuid
+      responses:
+        '201':
+          description: Kod wygenerowany
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Redemption'
+        '400':
+          description: Błąd walidacji
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                dailyLimit:
+                  summary: Limit dzienny
+                  value:
+                    error: "DAILY_LIMIT_REACHED"
+                    message: "Już dziś skorzystałeś z tej oferty"
+                offerExpired:
+                  summary: Oferta wygasła
+                  value:
+                    error: "OFFER_EXPIRED"
+                    message: "Ta oferta już wygasła"
+
+  /redemptions/{qrCode}:
+    get:
+      tags: [Redemptions]
+      summary: Pobierz dane realizacji (dla pracownika)
+      description: Endpoint publiczny - używany po zeskanowaniu QR
+      parameters:
+        - name: qrCode
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "RDM-A7X2K9"
+      responses:
+        '200':
+          description: Dane realizacji
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedemptionValidation'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /redemptions/{qrCode}/validate:
+    post:
+      tags: [Redemptions]
+      summary: Potwierdź realizację (pracownik wpisuje PIN)
+      parameters:
+        - name: qrCode
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "RDM-A7X2K9"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [pin]
+              properties:
+                pin:
+                  type: string
+                  minLength: 4
+                  maxLength: 4
+                  example: "1234"
+      responses:
+        '200':
+          description: Zrealizowano
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  redeemedAt:
+                    type: string
+                    format: date-time
+        '400':
+          description: Błąd walidacji
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalidPin:
+                  summary: Błędny PIN
+                  value:
+                    error: "INVALID_PIN"
+                    message: "Nieprawidłowy PIN"
+                alreadyRedeemed:
+                  summary: Już zrealizowano
+                  value:
+                    error: "ALREADY_REDEEMED"
+                    message: "Ten kod został już wykorzystany"
+
+  # ==================== USER ====================
+  /user/me:
+    get:
+      tags: [User]
+      summary: Profil zalogowanego użytkownika
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    patch:
+      tags: [User]
+      summary: Aktualizacja profilu
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+      responses:
+        '200':
+          description: Zaktualizowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    delete:
+      tags: [User]
+      summary: Usunięcie konta (GDPR)
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Konto usunięte
+
+  /user/districts:
+    get:
+      tags: [User]
+      summary: Subskrybowane dzielnice
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista subskrypcji
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserDistrict'
+
+    post:
+      tags: [User]
+      summary: Subskrybuj dzielnicę
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [districtId]
+              properties:
+                districtId:
+                  type: string
+                  format: uuid
+                notificationsEnabled:
+                  type: boolean
+                  default: true
+      responses:
+        '201':
+          description: Subskrypcja dodana
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDistrict'
+        '409':
+          description: Już subskrybowano
+
+  /user/districts/{districtId}:
+    patch:
+      tags: [User]
+      summary: Aktualizuj ustawienia subskrypcji
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: districtId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationsEnabled:
+                  type: boolean
+      responses:
+        '200':
+          description: Zaktualizowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDistrict'
+
+    delete:
+      tags: [User]
+      summary: Usuń subskrypcję dzielnicy
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: districtId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Usunięto
+
+  /user/favorites:
+    get:
+      tags: [User]
+      summary: Ulubione lokale
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista ulubionych
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenueListItem'
+
+    post:
+      tags: [User]
+      summary: Dodaj do ulubionych
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [venueId]
+              properties:
+                venueId:
+                  type: string
+                  format: uuid
+      responses:
+        '201':
+          description: Dodano
+        '409':
+          description: Już w ulubionych
+
+  /user/favorites/{venueId}:
+    delete:
+      tags: [User]
+      summary: Usuń z ulubionych
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Usunięto
+
+  /user/push-token:
+    post:
+      tags: [User]
+      summary: Rejestracja tokena push
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, platform]
+              properties:
+                token:
+                  type: string
+                platform:
+                  type: string
+                  enum: [WEB, IOS, ANDROID]
+      responses:
+        '200':
+          description: Token zarejestrowany
+
+  # ==================== OWNER ====================
+  /owner/venue:
+    get:
+      tags: [Owner]
+      summary: Mój lokal (dane właściciela)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lokal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueOwnerView'
+        '403':
+          description: Nie jesteś właścicielem żadnego lokalu
+
+    patch:
+      tags: [Owner]
+      summary: Aktualizuj dane lokalu
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+                description:
+                  type: string
+                  maxLength: 1000
+                address:
+                  type: string
+                  maxLength: 200
+      responses:
+        '200':
+          description: Zaktualizowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueOwnerView'
+
+  /owner/venue/logo:
+    post:
+      tags: [Owner]
+      summary: Upload logo lokalu
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Logo zaktualizowane
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logoUrl:
+                    type: string
+                    format: uri
+
+  /owner/venue/pin:
+    patch:
+      tags: [Owner]
+      summary: Zmień PIN walidacji
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [newPin]
+              properties:
+                newPin:
+                  type: string
+                  minLength: 4
+                  maxLength: 4
+      responses:
+        '200':
+          description: PIN zmieniony
+
+  /owner/stats:
+    get:
+      tags: [Owner]
+      summary: Statystyki lokalu
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statystyki
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activeOffers:
+                    type: integer
+                  redemptionsToday:
+                    type: integer
+                  redemptionsWeek:
+                    type: integer
+                  redemptionsTotal:
+                    type: integer
+
+  /owner/offers:
+    get:
+      tags: [Owner]
+      summary: Moje oferty
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [DRAFT, ACTIVE, PAUSED, EXPIRED]
+      responses:
+        '200':
+          description: Lista ofert
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OfferOwnerView'
+
+    post:
+      tags: [Owner]
+      summary: Utwórz ofertę
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferCreate'
+      responses:
+        '201':
+          description: Oferta utworzona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferOwnerView'
+        '400':
+          description: Błąd walidacji
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                dailyOfferLimit:
+                  summary: Limit ofert
+                  value:
+                    error: "DAILY_OFFER_LIMIT"
+                    message: "Możesz mieć tylko 1 aktywną ofertę dziennie (plan darmowy)"
+
+  /owner/offers/{id}:
+    get:
+      tags: [Owner]
+      summary: Szczegóły mojej oferty
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Oferta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferOwnerView'
+
+    patch:
+      tags: [Owner]
+      summary: Aktualizuj ofertę (tylko DRAFT)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferCreate'
+      responses:
+        '200':
+          description: Zaktualizowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferOwnerView'
+        '400':
+          description: Nie można edytować opublikowanej oferty
+
+    delete:
+      tags: [Owner]
+      summary: Usuń ofertę (tylko DRAFT)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '204':
+          description: Usunięto
+
+  /owner/offers/{id}/publish:
+    post:
+      tags: [Owner]
+      summary: Publikuj ofertę (DRAFT → ACTIVE)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Opublikowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferOwnerView'
+
+  /owner/offers/{id}/pause:
+    post:
+      tags: [Owner]
+      summary: Wstrzymaj ofertę (ACTIVE → PAUSED)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Wstrzymano
+
+  /owner/offers/{id}/resume:
+    post:
+      tags: [Owner]
+      summary: Wznów ofertę (PAUSED → ACTIVE)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Wznowiono
+
+  # ==================== ADMIN ====================
+  /admin/stats:
+    get:
+      tags: [Admin]
+      summary: Statystyki globalne
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Statystyki
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalUsers:
+                    type: integer
+                  totalVenues:
+                    type: integer
+                  activeOffers:
+                    type: integer
+                  redemptionsToday:
+                    type: integer
+
+  /admin/districts:
+    get:
+      tags: [Admin]
+      summary: Lista dzielnic (admin)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista dzielnic
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DistrictAdmin'
+
+    post:
+      tags: [Admin]
+      summary: Utwórz dzielnicę
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DistrictCreate'
+      responses:
+        '201':
+          description: Utworzono
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistrictAdmin'
+
+  /admin/districts/{id}:
+    patch:
+      tags: [Admin]
+      summary: Aktualizuj dzielnicę
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DistrictCreate'
+      responses:
+        '200':
+          description: Zaktualizowano
+
+    delete:
+      tags: [Admin]
+      summary: Usuń dzielnicę
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '204':
+          description: Usunięto
+        '400':
+          description: Dzielnica ma przypisane lokale
+
+  /admin/venues:
+    get:
+      tags: [Admin]
+      summary: Lista lokali (admin)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: districtId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: active
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Lista lokali
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenueAdmin'
+
+    post:
+      tags: [Admin]
+      summary: Utwórz lokal
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VenueCreate'
+      responses:
+        '201':
+          description: Utworzono
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueAdmin'
+
+  /admin/venues/{id}:
+    patch:
+      tags: [Admin]
+      summary: Aktualizuj lokal
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VenueCreate'
+      responses:
+        '200':
+          description: Zaktualizowano
+
+    delete:
+      tags: [Admin]
+      summary: Deaktywuj lokal
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '204':
+          description: Deaktywowano
+
+  /admin/categories:
+    get:
+      tags: [Admin]
+      summary: Lista kategorii (admin)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista kategorii
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CategoryAdmin'
+
+    post:
+      tags: [Admin]
+      summary: Utwórz kategorię
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryCreate'
+      responses:
+        '201':
+          description: Utworzono
+
+  /admin/categories/{id}:
+    patch:
+      tags: [Admin]
+      summary: Aktualizuj kategorię
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryCreate'
+      responses:
+        '200':
+          description: Zaktualizowano
+
+    delete:
+      tags: [Admin]
+      summary: Usuń kategorię
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '204':
+          description: Usunięto
+        '400':
+          description: Kategoria ma przypisane lokale
+
+  /admin/categories/reorder:
+    post:
+      tags: [Admin]
+      summary: Zmień kolejność kategorii
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [order]
+              properties:
+                order:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  description: Lista ID kategorii w nowej kolejności
+      responses:
+        '200':
+          description: Kolejność zmieniona
+
+  /admin/users:
+    get:
+      tags: [Admin]
+      summary: Lista użytkowników
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Szukaj po nazwie lub email
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [CLIENT, OWNER, ADMIN]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Lista użytkowników
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserAdmin'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+
+  /admin/users/{id}:
+    get:
+      tags: [Admin]
+      summary: Szczegóły użytkownika
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Użytkownik
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAdmin'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    PathId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    Unauthorized:
+      description: Brak autoryzacji
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "UNAUTHORIZED"
+            message: "Wymagane zalogowanie"
+
+    NotFound:
+      description: Nie znaleziono
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "NOT_FOUND"
+            message: "Nie znaleziono zasobu"
+
+    TooManyRequests:
+      description: Zbyt wiele żądań
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "TOO_MANY_REQUESTS"
+            message: "Poczekaj przed kolejną próbą"
+
+  schemas:
+    Error:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+
+    PaginationMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+          description: Czas ważności access token w sekundach
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        avatarUrl:
+          type: string
+          format: uri
+        authProvider:
+          type: string
+          enum: [GOOGLE, APPLE, EMAIL]
+        roles:
+          type: array
+          items:
+            type: string
+            enum: [CLIENT, OWNER, ADMIN]
+        createdAt:
+          type: string
+          format: date-time
+
+    UserAdmin:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            lastActiveAt:
+              type: string
+              format: date-time
+            ownedVenuesCount:
+              type: integer
+            redemptionsCount:
+              type: integer
+
+    District:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        centerLat:
+          type: number
+          format: double
+        centerLng:
+          type: number
+          format: double
+        radiusKm:
+          type: number
+          format: double
+        venuesCount:
+          type: integer
+        activeOffersCount:
+          type: integer
+
+    DistrictAdmin:
+      allOf:
+        - $ref: '#/components/schemas/District'
+        - type: object
+          properties:
+            active:
+              type: boolean
+            subscribersCount:
+              type: integer
+            createdAt:
+              type: string
+              format: date-time
+
+    DistrictCreate:
+      type: object
+      required: [name, slug, centerLat, centerLng, radiusKm]
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 50
+        centerLat:
+          type: number
+          format: double
+        centerLng:
+          type: number
+          format: double
+        radiusKm:
+          type: number
+          format: double
+        active:
+          type: boolean
+          default: true
+
+    UserDistrict:
+      type: object
+      properties:
+        district:
+          $ref: '#/components/schemas/District'
+        notificationsEnabled:
+          type: boolean
+        subscribedAt:
+          type: string
+          format: date-time
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        icon:
+          type: string
+        sortOrder:
+          type: integer
+
+    CategoryAdmin:
+      allOf:
+        - $ref: '#/components/schemas/Category'
+        - type: object
+          properties:
+            venuesCount:
+              type: integer
+
+    CategoryCreate:
+      type: object
+      required: [name, slug, icon]
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        slug:
+          type: string
+          maxLength: 50
+        icon:
+          type: string
+          maxLength: 50
+        sortOrder:
+          type: integer
+          default: 0
+
+    VenueListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        logoUrl:
+          type: string
+          format: uri
+        category:
+          $ref: '#/components/schemas/Category'
+        activeOffersCount:
+          type: integer
+        isFavorite:
+          type: boolean
+          description: Czy użytkownik ma w ulubionych (null jeśli niezalogowany)
+
+    Venue:
+      allOf:
+        - $ref: '#/components/schemas/VenueListItem'
+        - type: object
+          properties:
+            address:
+              type: string
+            description:
+              type: string
+            district:
+              $ref: '#/components/schemas/District'
+
+    VenueOwnerView:
+      allOf:
+        - $ref: '#/components/schemas/Venue'
+        - type: object
+          properties:
+            validationPin:
+              type: string
+              description: PIN do walidacji (widoczny tylko dla właściciela)
+
+    VenueAdmin:
+      allOf:
+        - $ref: '#/components/schemas/Venue'
+        - type: object
+          properties:
+            active:
+              type: boolean
+            owner:
+              $ref: '#/components/schemas/User'
+            validationPin:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+
+    VenueCreate:
+      type: object
+      required: [name, districtId, categoryId, address, ownerId]
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        districtId:
+          type: string
+          format: uuid
+        categoryId:
+          type: string
+          format: uuid
+        address:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 1000
+        ownerId:
+          type: string
+          format: uuid
+        validationPin:
+          type: string
+          minLength: 4
+          maxLength: 4
+        active:
+          type: boolean
+          default: true
+
+    OfferListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        discountType:
+          type: string
+          enum: [PERCENTAGE, FIXED_AMOUNT, FREE_ITEM]
+        discountValue:
+          type: number
+          description: Wartość rabatu (null dla FREE_ITEM)
+        freeItemName:
+          type: string
+          description: Nazwa darmowego produktu (tylko dla FREE_ITEM)
+        validFrom:
+          type: string
+          format: date
+        validTo:
+          type: string
+          format: date
+        venue:
+          $ref: '#/components/schemas/VenueListItem'
+
+    Offer:
+      allOf:
+        - $ref: '#/components/schemas/OfferListItem'
+        - type: object
+          properties:
+            description:
+              type: string
+            status:
+              type: string
+              enum: [DRAFT, ACTIVE, PAUSED, EXPIRED]
+
+    OfferOwnerView:
+      allOf:
+        - $ref: '#/components/schemas/Offer'
+        - type: object
+          properties:
+            redemptionsCount:
+              type: integer
+            redemptionsToday:
+              type: integer
+            createdAt:
+              type: string
+              format: date-time
+
+    OfferCreate:
+      type: object
+      required: [title, discountType, validFrom, validTo]
+      properties:
+        title:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        discountType:
+          type: string
+          enum: [PERCENTAGE, FIXED_AMOUNT, FREE_ITEM]
+        discountValue:
+          type: number
+          description: Wymagane dla PERCENTAGE i FIXED_AMOUNT
+        freeItemName:
+          type: string
+          maxLength: 100
+          description: Wymagane dla FREE_ITEM
+        validFrom:
+          type: string
+          format: date
+        validTo:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [DRAFT, ACTIVE]
+          default: DRAFT
+
+    Redemption:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        qrCode:
+          type: string
+          example: "RDM-A7X2K9"
+        status:
+          type: string
+          enum: [PENDING, REDEEMED, EXPIRED]
+        qrGeneratedAt:
+          type: string
+          format: date-time
+        redeemedAt:
+          type: string
+          format: date-time
+        offer:
+          $ref: '#/components/schemas/OfferListItem'
+
+    RedemptionValidation:
+      type: object
+      description: Dane wyświetlane pracownikowi po zeskanowaniu QR
+      properties:
+        qrCode:
+          type: string
+        status:
+          type: string
+          enum: [PENDING, REDEEMED, EXPIRED]
+        customerName:
+          type: string
+          description: Imię klienta (nie pełne dane)
+        offer:
+          type: object
+          properties:
+            title:
+              type: string
+            discountType:
+              type: string
+            discountValue:
+              type: number
+            freeItemName:
+              type: string
+        venueName:
+          type: string
+        redeemedAt:
+          type: string
+          format: date-time
+          description: Jeśli już zrealizowano
