@@ -501,7 +501,10 @@ paths:
     get:
       tags: [Redemptions]
       summary: Pobierz dane realizacji (dla pracownika)
-      description: Endpoint publiczny - używany po zeskanowaniu QR
+      description: |
+        Endpoint publiczny - używany po zeskanowaniu QR.
+
+        **Rate limit:** 10 req/min per IP (anti-enumeration)
       parameters:
         - name: qrCode
           in: path
@@ -518,11 +521,21 @@ paths:
                 $ref: '#/components/schemas/RedemptionValidation'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /redemptions/{qrCode}/validate:
     post:
       tags: [Redemptions]
       summary: Potwierdź realizację (pracownik wpisuje PIN)
+      description: |
+        Walidacja PINem lokalu.
+
+        **Rate limits:**
+        - 5 req/5min per qrCode (anti brute-force)
+        - 20 req/min per IP (anti DDoS)
+
+        **Blokada:** Po 3 błędnych PINach kod blokowany na 15 minut.
       parameters:
         - name: qrCode
           in: path
@@ -574,6 +587,13 @@ paths:
                   value:
                     error: "ALREADY_REDEEMED"
                     message: "Ten kod został już wykorzystany"
+                temporarilyBlocked:
+                  summary: Tymczasowa blokada
+                  value:
+                    error: "REDEMPTION_TEMPORARILY_BLOCKED"
+                    message: "Zbyt wiele błędnych prób. Kod zablokowany na 15 minut."
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   # ==================== USER ====================
   /user/me:

@@ -82,6 +82,54 @@ Wszystkie endpointy CLIENT i OWNER plus:
 
 ---
 
+## Rate Limiting
+
+### Limity globalne
+
+| Endpoint | Limit | Okno | Klucz |
+|----------|-------|------|-------|
+| Wszystkie | 100 req | 1 min | IP |
+| `/auth/*` | 10 req | 1 min | IP |
+| `/auth/magic-link` | 3 req | 15 min | Email |
+
+### Limity walidacji QR (krytyczne)
+
+| Endpoint | Limit | Okno | Klucz | Powód |
+|----------|-------|------|-------|-------|
+| `GET /redemptions/{qrCode}` | 10 req | 1 min | IP | Anti-enumeration |
+| `POST /redemptions/{qrCode}/validate` | 5 req | 5 min | qrCode | Anti brute-force PIN |
+| `POST /redemptions/{qrCode}/validate` | 20 req | 1 min | IP | Anti DDoS |
+
+### Odpowiedź przy przekroczeniu
+
+**429 Too Many Requests:**
+```json
+{
+  "error": "TOO_MANY_REQUESTS",
+  "message": "Zbyt wiele prób. Spróbuj za 5 minut.",
+  "retryAfter": 300
+}
+```
+
+Header: `Retry-After: 300`
+
+### Blokada po błędnych PINach
+
+Po **3 błędnych PINach** dla danego kodu QR:
+- Kod blokowany na **15 minut**
+- Logowanie incydentu (alert dla admina)
+- Odpowiedź: `REDEMPTION_TEMPORARILY_BLOCKED`
+
+```json
+{
+  "error": "REDEMPTION_TEMPORARILY_BLOCKED",
+  "message": "Zbyt wiele błędnych prób. Kod zablokowany na 15 minut.",
+  "blockedUntil": "2026-07-16T15:30:00Z"
+}
+```
+
+---
+
 ## Walidacja uprawnień
 
 ### Przykłady odpowiedzi błędów
