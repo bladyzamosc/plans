@@ -4,6 +4,30 @@ Szablon pytań do zebrania przed rozpoczęciem pracy nad nową stroną.
 
 ---
 
+## Spis treści
+
+1. [Podstawowe informacje](#1-podstawowe-informacje)
+2. [Branding i styl](#2-branding-i-styl)
+3. [Zdjęcia](#3-zdjęcia)
+4. [Udogodnienia](#4-udogodnienia)
+5. [Lokalizacja i okolica](#5-lokalizacja-i-okolica)
+6. [Region](#6-region)
+7. [Transport - dojazd](#7-transport---dojazd)
+8. [Języki](#8-języki)
+9. [Sekcje strony](#9-sekcje-strony)
+10. [Dodatkowe funkcje](#10-dodatkowe-funkcje)
+11. [Grupy / sąsiedzi](#11-grupy--sąsiedzi)
+12. [Informacje o twórcy](#12-informacje-o-twórcy)
+13. [Promocja apartamentu](#13-promocja-apartamentu)
+
+**Dodatki:**
+- [Checklist przed publikacją](#checklist-przed-publikacją)
+- [Darmowe zdjęcia okolicy](#darmowe-zdjęcia-okolicy)
+- [Przykładowe komendy](#przykładowe-komendy)
+- [Szablon struktury plików](#szablon-struktury-plików)
+
+---
+
 ## 1. PODSTAWOWE INFORMACJE
 
 ### Dane apartamentu
@@ -269,10 +293,56 @@ Nie używaj zdjęć z Adobe Stock (płatne)! Darmowe źródła:
 ## 13. PROMOCJA APARTAMENTU
 
 ### Google Business Profile (wizytówka Google) ⭐ PRIORYTET
-- [ ] Utworz wizytówkę: https://business.google.com
-- [ ] Dodaj zdjęcia apartamentu i okolicy
-- [ ] Uzupełnij godziny, telefon, stronę WWW
-- [ ] Zbieraj opinie od gości
+
+**Co to daje:**
+- Apartament widoczny w Google Maps przy wyszukiwaniu "apartament [miejscowość]"
+- Widoczny telefon, zdjęcia, godziny, link do strony
+- Goście mogą zostawiać opinie (gwiazdki)
+- Darmowe, bardzo skuteczne dla lokalnego biznesu
+
+**Jak założyć (przykład dla Apartament Bałtycki):**
+1. Wejdź na https://business.google.com
+2. Kliknij "Zarządzaj teraz"
+3. Wpisz nazwę: "Apartament Bałtycki"
+4. Kategoria: "Apartament wakacyjny" lub "Nocleg"
+5. Adres: Podgrzybkowa 17c/2, Tupadły
+6. Telefon + strona WWW (apartament-baltycki.pl)
+7. **Weryfikacja** - Google wyśle kartkę pocztową z kodem na adres lub SMS
+   - Z reguły: 1-3 dni robocze
+   - Maksymalnie: do 5 dni roboczych (w rzadkich przypadkach dłużej)
+
+**Co dodać po założeniu:**
+- [ ] 10-20 najlepszych zdjęć apartamentu
+- [ ] Zdjęcia okolicy (plaża, atrakcje)
+- [ ] Opis z słowami kluczowymi
+- [ ] Godziny zameldowania/wymeldowania
+- [ ] Link do strony WWW
+- [ ] Numer telefonu
+
+**Przykład opisu:**
+```
+Apartament Bałtycki to elegancki, dwupoziomowy apartament w Jastrzębiej Górze, 
+800m od plaży przez malowniczy Lisi Jar. 2 sypialnie, 2 łazienki, do 5 osób.
+
+✓ Wi-Fi 300 Mb/s  ✓ Smart TV (Netflix, HBO)  ✓ Pełna kuchnia
+✓ Parking gratis  ✓ Zwierzęta mile widziane  ✓ Dla niepalących
+
+Idealny na rodzinne wakacje, romantyczny wypad lub workation.
+Rezerwacje: +48 XXX XXX XXX | apartament-baltycki.pl
+```
+
+**Atrybuty do zaznaczenia w Google:**
+- Wi-Fi
+- Parking
+- Klimatyzacja (jeśli jest)
+- Przyjazny dla zwierząt
+- Dla niepalących
+- Płatność kartą / gotówką / przelewem
+
+**Zbieranie opinii:**
+- [ ] Proś gości o opinię po wyjeździe (SMS/email)
+- [ ] Przygotuj QR kod linkujący do opinii Google (wydrukuj i zostaw w apartamencie)
+- [ ] Odpowiadaj na WSZYSTKIE opinie (także negatywne - profesjonalnie)
 
 ### Portale ogłoszeniowe
 - [ ] Booking.com

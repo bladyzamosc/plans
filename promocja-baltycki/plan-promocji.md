@@ -209,7 +209,7 @@ Apartament Bałtycki - Jastrzębia Góra
 
 📞 Kontakt: +48 505 763 202
 🌐 apartament-baltycki.pl
-👍 FB: [WSTAW LINK DO STRONY FB]
+👍 FB: https://www.facebook.com/profile.php?id=61591895132802
 
 [ZDJĘCIE - najlepiej łoś, zachód słońca lub plaża]
 ```
@@ -227,7 +227,7 @@ Szeroka, piaszczysta plaża idealna na spacery z pupilem.
 
 📞 +48 505 763 202
 🌐 apartament-baltycki.pl
-👍 FB: [WSTAW LINK DO STRONY FB]
+👍 FB: https://www.facebook.com/profile.php?id=61591895132802
 
 [ZDJĘCIE]
 ```
@@ -245,7 +245,7 @@ Praca z widokiem na zachody słońca.
 
 📞 +48 505 763 202
 🌐 apartament-baltycki.pl
-👍 FB: [WSTAW LINK DO STRONY FB]
+👍 FB: https://www.facebook.com/profile.php?id=61591895132802
 
 [ZDJĘCIE]
 ```

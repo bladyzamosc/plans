@@ -1,5 +1,35 @@
 # Kazimierza — Aplikacja Lokalnych Rabatów
 
+## Nazwa aplikacji — DO DECYZJI
+
+**Problem:** "Kazimierza" to nazwa ulicy (Jana Kazimierza) — nie skaluje się przy ekspansji na inne dzielnice.
+
+**Kierunek:** Nazwa powinna kojarzyć się z budowaniem lokalnej społeczności i wspieraniem lokalnego rynku, nie z rabatami/promocjami.
+
+### Propozycje
+
+| Nazwa | Domena | Klimat |
+|-------|--------|--------|
+| **Swoi** | swoi.app | "Kupuj u swoich", silna identyfikacja |
+| **NaszaUlica** | naszaulica.pl | Wspólnota miejsca, pasuje do modelu ekspansji ulica→dzielnica |
+| **OdSąsiada** | odsasiada.pl | Ciepłe, relacja człowiek-człowiek |
+| **Sąsiedzkie** | sasiedzkie.pl | Relacje, nie transakcje |
+| **TuKupuję** | tukupuje.pl | Deklaracja wsparcia lokalnych |
+| **Kupuj Blisko** | kupujblisko.pl | Jasny przekaz wsparcia |
+| **Lokalnie** | lokalnie.app | Proste, uniwersalne |
+| **Okolica** | okolica.app | Społecznościowy vibe |
+| **Blisko** | blisko.app | Krótkie, ciepłe |
+
+### Top 3 (do rozważenia)
+
+1. **Swoi** — krótkie, mocne, "kupuj u swoich" to znany przekaz
+2. **NaszaUlica** — idealnie pasuje do startu z jednej ulicy i ekspansji
+3. **OdSąsiada** — ciepłe, podkreśla relację człowiek-człowiek
+
+**Status:** ⏳ Oczekuje na decyzję
+
+---
+
 ## Idea
 
 Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w promieniu 2-3km — mieszkańcy otrzymują powiadomienia o rabatach w okolicy. Start na ulicy Jana Kazimierza, potem ekspansja na kolejne dzielnice/ulice.
