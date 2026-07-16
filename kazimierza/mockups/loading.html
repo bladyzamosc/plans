@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ładowanie - Swoi</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid #f0f0f0;
+            border-top-color: #1a1a1a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
+
+    <div class="phone">
+        <div class="content content-center">
+            <div class="spinner"></div>
+            <p class="text-muted mt-16">Ładowanie...</p>
+        </div>
+    </div>
+</body>
+</html>

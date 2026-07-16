@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nowa dzielnica - Swoi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
+
+    <div class="phone">
+        <div class="header">
+            <a href="admin-districts.html" class="header-back">←</a>
+            <span class="header-title">Nowa dzielnica</span>
+            <span style="width:40px"></span>
+        </div>
+
+        <div class="content">
+            <div class="input-group">
+                <label class="input-label">Nazwa</label>
+                <input type="text" class="input" placeholder="Jana Kazimierza">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Slug (URL)</label>
+                <input type="text" class="input" placeholder="kazimierza">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Centrum</label>
+                <div class="card" style="height:150px;display:flex;align-items:center;justify-content:center;background:#f5f5f5">
+                    <span style="font-size:32px">📍</span>
+                </div>
+                <p class="text-muted text-small mt-8">Lat: 52.2345 Lng: 20.9876</p>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Promień (km)</label>
+                <input type="number" class="input" placeholder="2.0" style="width:120px">
+            </div>
+
+            <label class="radio-item" style="margin-bottom:20px">
+                <input type="checkbox" checked style="width:20px;height:20px">
+                <span>Aktywna</span>
+            </label>
+
+            <a href="admin-districts.html" class="btn btn-primary">Zapisz</a>
+        </div>
+    </div>
+</body>
+</html>
