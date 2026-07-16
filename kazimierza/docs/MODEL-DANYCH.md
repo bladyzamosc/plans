@@ -11,7 +11,11 @@ UserDistrict              Offer
     ↓                         │
   User ←── UserFavoriteVenue  │
     ↑                         │
-    └──────── Redemption ─────┘
+    ├──────── Redemption ─────┘
+    │
+    ├──────── PushToken
+    │
+    └──────── PushLog
 ```
 
 ## Encje
@@ -53,6 +57,8 @@ User
 ├── name: VARCHAR(100)
 ├── avatar_url: VARCHAR(500)
 ├── auth_provider: ENUM('GOOGLE', 'APPLE', 'EMAIL')
+├── push_enabled: BOOLEAN DEFAULT true
+├── digest_time: TIME DEFAULT '10:00'
 ├── created_at: TIMESTAMP
 ├── last_active_at: TIMESTAMP
 └── deleted_at: TIMESTAMP        -- soft delete (GDPR)
@@ -137,6 +143,35 @@ Redemption
 └── updated_at: TIMESTAMP
 ```
 
+### PushToken (Token push)
+
+```
+PushToken
+├── id: UUID
+├── user_id: UUID FK
+├── token: VARCHAR(500)
+├── platform: ENUM('WEB', 'IOS', 'ANDROID')
+├── active: BOOLEAN DEFAULT true
+├── created_at: TIMESTAMP
+└── last_used_at: TIMESTAMP
+```
+
+### PushLog (Historia wysłanych push)
+
+```
+PushLog
+├── id: UUID
+├── user_id: UUID FK
+├── type: ENUM('DIGEST', 'WELCOME', 'WINBACK', 'REMINDER', 'FAVORITE', 'FIRST_N')
+├── title: VARCHAR(100)
+├── body: VARCHAR(200)
+├── sent_at: TIMESTAMP
+├── delivered: BOOLEAN
+├── opened: BOOLEAN
+├── opened_at: TIMESTAMP
+└── error: TEXT
+```
+
 ## Indeksy
 
 ```sql
@@ -163,4 +198,10 @@ CREATE INDEX idx_user_district_user ON UserDistrict(user_id);
 
 -- Geolokalizacja dzielnic
 CREATE INDEX idx_district_geo ON District(center_lat, center_lng) WHERE active = true;
+
+-- Push tokeny usera
+CREATE INDEX idx_push_token_user ON PushToken(user_id) WHERE active = true;
+
+-- Push logi (ostatnie wysłane)
+CREATE INDEX idx_push_log_user_type ON PushLog(user_id, type, sent_at DESC);
 ```

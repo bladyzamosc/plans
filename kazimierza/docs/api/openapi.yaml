@@ -815,6 +815,64 @@ paths:
         '200':
           description: Token zarejestrowany
 
+    delete:
+      tags: [User]
+      summary: Usuń token push (wylogowanie z urządzenia)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+      responses:
+        '204':
+          description: Token usunięty
+
+  /user/push-settings:
+    get:
+      tags: [User]
+      summary: Pobierz ustawienia push
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Ustawienia push
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushSettings'
+
+    patch:
+      tags: [User]
+      summary: Aktualizuj ustawienia push
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pushEnabled:
+                  type: boolean
+                digestTime:
+                  type: string
+                  pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]$'
+                  example: "10:00"
+      responses:
+        '200':
+          description: Zaktualizowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushSettings'
+
   # ==================== OWNER ====================
   /owner/venue:
     get:
@@ -1839,3 +1897,17 @@ components:
           type: string
           format: date-time
           description: Jeśli już zrealizowano
+
+    PushSettings:
+      type: object
+      properties:
+        pushEnabled:
+          type: boolean
+          description: Master switch dla wszystkich push
+        digestTime:
+          type: string
+          example: "10:00"
+          description: Godzina wysyłki digestu (HH:mm)
+        tokensCount:
+          type: integer
+          description: Liczba zarejestrowanych urządzeń
