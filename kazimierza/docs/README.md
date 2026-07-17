@@ -4,6 +4,8 @@
 
 Aplikacja zrzeszająca lokalne biznesy (niesieciowe) — mieszkańcy otrzymują powiadomienia o rabatach w swojej okolicy. Start na Odolanach, potem ekspansja na kolejne okolice.
 
+**Hasło:** „Łączymy się lokalnie!"
+
 **Why:** Wspieranie lokalnego biznesu, budowanie społeczności wokół okolicy.
 
 > **Okolica** = dzielnica, poddzielnica (np. Odolany na Woli), małe miasto, kilka wsi. Uniwersalna jednostka geograficzna w aplikacji.
@@ -30,15 +32,21 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) — mieszkańcy otrzymują 
 
 **Kierunek:** Nazwa powinna kojarzyć się z budowaniem lokalnej społeczności i wspieraniem lokalnego rynku, nie z rabatami/promocjami.
 
-### Top 3 propozycje
+### Propozycje domen (do wyboru)
 
-| Nazwa | Domena | Klimat |
-|-------|--------|--------|
-| **Swoi** | swoi.app | "Kupuj u swoich", silna identyfikacja |
-| **NaszaUlica** | naszaulica.pl | Wspólnota miejsca, pasuje do modelu ekspansji ulica→okolica |
-| **OdSąsiada** | odsasiada.pl | Ciepłe, relacja człowiek-człowiek |
+| Domena | Klimat | Rekomendacja |
+|--------|--------|--------------|
+| **tuswoi.pl** | "Tu swoi" — lokalni ludzie tutaj | ⭐⭐⭐ TOP |
+| **laczmysie.pl** | Idealne do hasła "Łączymy się lokalnie!" | ⭐⭐⭐ TOP |
+| **razemlokalni.pl** | Wspólnota, razem | ⭐⭐ |
+| **uswoi.pl** | "U swoich" | ⭐⭐ |
+| **naszacy.pl** | Slangowe "nasi", młode | ⭐ |
+| **zaulka.pl** | "Z ulicy", lokalne | ⭐ |
+| **tuswoich.pl** | Wariant tuswoi | ⭐ |
 
-**Status:** Roboczo używamy "Swoi"
+*Weryfikacja DNS: 2026-07-17. Domeny prawdopodobnie wolne — do potwierdzenia na home.pl przed zakupem.*
+
+**Status:** Do wyboru. Roboczo używamy "Swoi" w mockupach.
 
 ---
 
@@ -347,6 +355,9 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 | [MODEL-DANYCH.md](MODEL-DANYCH.md) | Encje, pola, relacje, indeksy |
 | [api/openapi.yaml](api/openapi.yaml) | Specyfikacja OpenAPI 3.0 (wszystkie endpointy) |
 | [api/ACCESS-CONTROL.md](api/ACCESS-CONTROL.md) | Role, macierz uprawnień, rate limiting, JWT |
+| [legal/REGULAMIN-UZYTKOWNICY.md](legal/REGULAMIN-UZYTKOWNICY.md) | Draft regulaminu dla użytkowników |
+| [legal/REGULAMIN-WLASCICIELE.md](legal/REGULAMIN-WLASCICIELE.md) | Draft regulaminu dla właścicieli lokali |
+| [legal/POLITYKA-PRYWATNOSCI.md](legal/POLITYKA-PRYWATNOSCI.md) | Draft polityki prywatności (RODO) |
 
 **Quick links:**
 - OpenAPI Editor: Wklej `api/openapi.yaml` do [editor.swagger.io](https://editor.swagger.io)
@@ -410,5 +421,5 @@ Folder: `mockups/admin-web/`
 
 ## Do zrobienia
 
-- [ ] Aktualizacja mockupów mobile (timer QR, oceny w historii, ulica przy rejestracji)
-- [ ] Przegląd prawniczy regulaminów i zgód
+- [x] Aktualizacja mockupów mobile (timer QR, oceny w historii, ulica przy rejestracji)
+- [ ] Przegląd prawniczy regulaminów i zgód (drafty gotowe w `docs/legal/`)
