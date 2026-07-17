@@ -240,7 +240,7 @@ ContentModeration
 ├── entity_id: UUID              -- offer_id lub venue_change_request_id
 ├── 
 ├── # Analiza AI
-├── ai_provider: VARCHAR(50)     -- "openai", "azure-content-safety"
+├── ai_provider: VARCHAR(50)     -- "perspective", "dictionary" (lub w przyszłości "openai", "azure")
 ├── ai_score: DECIMAL(3,2)       -- 0.00 = bezpieczne, 1.00 = niebezpieczne
 ├── ai_categories: JSONB         -- {"profanity": 0.1, "hate": 0.0, "violence": 0.0}
 ├── ai_explanation: TEXT
@@ -271,8 +271,6 @@ Redemption
 ├── redeemed_at: TIMESTAMP       -- kiedy zrealizowano
 ├── redeemed_by_pin: CHAR(4)     -- który PIN użyto
 ├── 
-├── # Ocena (opcjonalna)
-├── review_requested_at: TIMESTAMP  -- kiedy wysłano prośbę o ocenę
 ├── 
 ├── created_at: TIMESTAMP
 └── updated_at: TIMESTAMP
@@ -420,13 +418,15 @@ CREATE INDEX idx_invitation_token ON OwnerInvitation(token)
 
 ### Moderacja treści ofert
 
-1. **AI Content Safety** — każda nowa oferta przechodzi przez Azure Content Safety / OpenAI Moderation
-2. **Progi:**
+1. **Własny słownik** — lista zakazanych słów (wulgaryzmy, konkurencja, obraźliwe)
+2. **Perspective API (Google)** — darmowe API do wykrywania toksyczności
+3. **Progi (na podstawie Perspective score):**
    - score < 0.3 → auto-approve, scheduled_publish_at = now + 3 dni
    - score 0.3-0.7 → PENDING_REVIEW (wymaga admina)
    - score > 0.7 → auto-reject z powiadomieniem
-3. **Słownik zakazany** — dodatkowo lista słów kluczowych (wulgaryzmy, konkurencja, itp.)
 4. **Admin override** — admin może zatwierdzić/odrzucić niezależnie od AI
+
+**Notatka na przyszłość:** Rozważyć Azure Content Safety (enterprise, RODO) lub OpenAI Moderation (darmowe) przy większej skali.
 
 ### Publikacja ofert
 
@@ -444,10 +444,10 @@ CREATE INDEX idx_invitation_token ON OwnerInvitation(token)
 
 ### Oceny ofert
 
-1. 24h po realizacji → push z prośbą o ocenę
-2. Ocena opcjonalna (1-5 gwiazdek + komentarz)
-3. Komentarze moderowane (AI)
-4. Średnia ocen widoczna w profilu lokalu
+1. Ocena opcjonalna (1-5 gwiazdek + komentarz) — z poziomu historii realizacji
+2. Komentarze moderowane (własny słownik + Perspective API)
+3. Średnia ocen widoczna **tylko dla właściciela** w dashboardzie (nie publicznie)
+4. ❌ BEZ automatycznego push z prośbą o ocenę
 
 ### Role w lokalu
 

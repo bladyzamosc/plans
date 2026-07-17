@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaproszenia właścicieli - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo">SWOI</span>
+                <span class="logo-sub">Admin</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="districts.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Dzielnice
+                </a>
+                <a href="venues.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                    Lokale
+                </a>
+                <a href="categories.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    Kategorie
+                </a>
+                <a href="users.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Użytkownicy
+                </a>
+                <a href="offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    Oferty
+                </a>
+                <a href="moderation.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Moderacja
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="invitations.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Zaproszenia
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../index.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Wróć do mockupów
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <header class="topbar">
+                <h1 class="page-title">Zaproszenia właścicieli</h1>
+                <div class="topbar-actions">
+                    <button class="btn btn-primary" onclick="document.getElementById('inviteModal').style.display='flex'">
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Zaproś właściciela
+                    </button>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- Stats -->
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <span class="stat-value">2</span>
+                            <span class="stat-label">Oczekujące</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">Zaakceptowane</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Wygasłe</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="card">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" placeholder="Szukaj po emailu lub lokalu...">
+                        </div>
+                        <select class="filter-select">
+                            <option>Wszystkie</option>
+                            <option>Oczekujące</option>
+                            <option>Zaakceptowane</option>
+                            <option>Wygasłe</option>
+                        </select>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Lokal</th>
+                                <th>Status</th>
+                                <th>Wysłano</th>
+                                <th>Wygasa</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>tomasz.zielinski@email.pl</td>
+                                <td>
+                                    <strong>Kawiarnia Pod Lipą</strong>
+                                    <div class="text-muted" style="font-size:12px">ul. Lipowa 15</div>
+                                </td>
+                                <td><span class="badge orange">Oczekuje</span></td>
+                                <td class="text-muted">15.07.2026</td>
+                                <td class="text-muted">22.07.2026</td>
+                                <td>
+                                    <div style="display:flex;gap:8px">
+                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">Wyślij ponownie</button>
+                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px;color:#dc2626;border-color:#fecaca">Anuluj</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ewa.malinowska@firma.pl</td>
+                                <td>
+                                    <strong>Salon Urody Ewa</strong>
+                                    <div class="text-muted" style="font-size:12px">ul. Piękna 8</div>
+                                </td>
+                                <td><span class="badge orange">Oczekuje</span></td>
+                                <td class="text-muted">14.07.2026</td>
+                                <td class="text-muted">21.07.2026</td>
+                                <td>
+                                    <div style="display:flex;gap:8px">
+                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">Wyślij ponownie</button>
+                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px;color:#dc2626;border-color:#fecaca">Anuluj</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="background:#f0fdf4">
+                                <td>jan.kowalski@kufloteka.pl</td>
+                                <td>
+                                    <strong>Beer & Burger Kufloteka</strong>
+                                    <div class="text-muted" style="font-size:12px">ul. Jana Kazimierza 32</div>
+                                </td>
+                                <td><span class="badge green">Zaakceptowane</span></td>
+                                <td class="text-muted">01.07.2026</td>
+                                <td class="text-muted">-</td>
+                                <td class="text-muted">Aktywowany 02.07.2026</td>
+                            </tr>
+                            <tr style="background:#f0fdf4">
+                                <td>anna.nowak@pizzaroma.pl</td>
+                                <td>
+                                    <strong>Pizzeria Roma</strong>
+                                    <div class="text-muted" style="font-size:12px">ul. Włoska 22</div>
+                                </td>
+                                <td><span class="badge green">Zaakceptowane</span></td>
+                                <td class="text-muted">28.06.2026</td>
+                                <td class="text-muted">-</td>
+                                <td class="text-muted">Aktywowany 29.06.2026</td>
+                            </tr>
+                            <tr style="opacity:0.6">
+                                <td>nieaktywny@email.pl</td>
+                                <td>
+                                    <strong>Sklep Spożywczy ABC</strong>
+                                    <div class="text-muted" style="font-size:12px">ul. Handlowa 5</div>
+                                </td>
+                                <td><span class="badge">Wygasłe</span></td>
+                                <td class="text-muted">01.06.2026</td>
+                                <td class="text-muted">08.06.2026</td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">Wyślij ponownie</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Invite Modal -->
+    <div id="inviteModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
+        <div style="background:#fff;border-radius:16px;width:100%;max-width:500px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25)">
+            <div style="padding:24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+                <h3 style="margin:0;font-size:18px">Zaproś właściciela lokalu</h3>
+                <button onclick="document.getElementById('inviteModal').style.display='none'" style="border:none;background:none;cursor:pointer;padding:8px">
+                    <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#64748b;stroke-width:2;fill:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div style="padding:24px">
+                <div class="form-group">
+                    <label class="form-label">Lokal</label>
+                    <select class="form-input">
+                        <option value="">Wybierz lokal...</option>
+                        <option>Kawiarnia Pod Lipą (ul. Lipowa 15)</option>
+                        <option>Salon Urody Ewa (ul. Piękna 8)</option>
+                        <option>Sklep Spożywczy ABC (ul. Handlowa 5)</option>
+                    </select>
+                    <div class="form-hint">Wybierz lokal bez przypisanego właściciela</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email właściciela</label>
+                    <input type="email" class="form-input" placeholder="email@example.pl">
+                    <div class="form-hint">Na ten adres zostanie wysłane zaproszenie z linkiem aktywacyjnym</div>
+                </div>
+
+                <div style="background:#f8fafc;border-radius:8px;padding:16px;margin-top:16px">
+                    <strong style="font-size:14px;display:block;margin-bottom:8px">Co zostanie wysłane:</strong>
+                    <ul style="margin:0;padding-left:20px;font-size:14px;color:var(--text-muted)">
+                        <li>Email z jednorazowym hasłem</li>
+                        <li>Link do uzupełnienia danych firmy</li>
+                        <li>Regulaminy i zgody do zaakceptowania</li>
+                    </ul>
+                    <div style="margin-top:12px;font-size:13px;color:var(--text-muted)">
+                        Zaproszenie wygasa po 7 dniach.
+                    </div>
+                </div>
+            </div>
+            <div style="padding:24px;border-top:1px solid var(--border);display:flex;gap:12px;justify-content:flex-end">
+                <button class="btn btn-secondary" onclick="document.getElementById('inviteModal').style.display='none'">Anuluj</button>
+                <button class="btn btn-primary">Wyślij zaproszenie</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

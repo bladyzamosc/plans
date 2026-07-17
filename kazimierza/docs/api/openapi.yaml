@@ -10,10 +10,14 @@ info:
     - Refresh token ważny 30 dni
 
     ## Role
-    - `CLIENT` - zwykły użytkownik
-    - `OWNER` - właściciel lokalu (może mieć wiele lokali)
+    - `CLIENT` - zwykły użytkownik aplikacji
+    - `VENUE_USER` - użytkownik przypisany do lokalu (OWNER lub MANAGER)
     - `ADMIN` - administrator systemu
-  version: 1.0.0
+
+    ## Role w lokalu (VenueUser)
+    - `OWNER` - właściciel: pełne uprawnienia (zmiana nazwy/logo, PIN, wypowiedzenie, oferty, managerowie)
+    - `MANAGER` - manager: tylko oferty (tworzenie, edycja, pauzowanie, statystyki)
+  version: 2.0.0
   contact:
     name: Swoi Team
 
@@ -36,10 +40,12 @@ tags:
     description: Oferty / rabaty
   - name: Redemptions
     description: Realizacja rabatów (QR)
+  - name: Reviews
+    description: Oceny zrealizowanych ofert
   - name: User
     description: Profil użytkownika
   - name: Owner
-    description: Panel właściciela lokalu
+    description: Panel właściciela/managera lokalu
   - name: Admin
     description: Panel administratora
 
@@ -149,6 +155,110 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+  /auth/owner-invitation/accept:
+    post:
+      tags: [Auth]
+      summary: Akceptacja zaproszenia właściciela (ustawienie hasła)
+      description: |
+        Endpoint dla nowych właścicieli zaproszonych przez admina.
+        Token pochodzi z emaila, użytkownik ustawia hasło i akceptuje regulaminy.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password, ownerData, consents]
+              properties:
+                token:
+                  type: string
+                  description: Token z emaila zaproszeniowego
+                password:
+                  type: string
+                  minLength: 8
+                  description: Nowe hasło
+                ownerData:
+                  $ref: '#/components/schemas/OwnerRegistrationData'
+                consents:
+                  type: object
+                  required: [termsAccepted, privacyAccepted]
+                  properties:
+                    termsAccepted:
+                      type: boolean
+                    privacyAccepted:
+                      type: boolean
+                    marketingAccepted:
+                      type: boolean
+      responses:
+        '200':
+          description: Konto aktywowane
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Token wygasł lub nieprawidłowy
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Logowanie hasłem (dla owner/manager)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Zalogowano
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AuthResponse'
+                  - type: object
+                    properties:
+                      mustChangePassword:
+                        type: boolean
+                        description: Czy wymaga zmiany hasła (pierwsze logowanie)
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/change-password:
+    post:
+      tags: [Auth]
+      summary: Zmiana hasła
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [currentPassword, newPassword]
+              properties:
+                currentPassword:
+                  type: string
+                newPassword:
+                  type: string
+                  minLength: 8
+      responses:
+        '200':
+          description: Hasło zmienione
+        '400':
+          description: Nieprawidłowe aktualne hasło
+
   /auth/refresh:
     post:
       tags: [Auth]
@@ -182,6 +292,47 @@ paths:
       responses:
         '204':
           description: Wylogowano
+
+  # ==================== REGISTRATION ====================
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Rejestracja klienta (po OAuth)
+      description: |
+        Uzupełnienie danych po pierwszym logowaniu OAuth.
+        Wymagane: dzielnica + ulica + zgody.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [districtId, street, termsAccepted, privacyAccepted]
+              properties:
+                districtId:
+                  type: string
+                  format: uuid
+                street:
+                  type: string
+                  maxLength: 200
+                  description: Wymagana ulica zamieszkania
+                termsAccepted:
+                  type: boolean
+                privacyAccepted:
+                  type: boolean
+                personalizedOffersConsent:
+                  type: boolean
+                  default: false
+                  description: Zgoda na personalizowane oferty
+      responses:
+        '200':
+          description: Rejestracja zakończona
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
   # ==================== DISTRICTS ====================
   /districts:
@@ -234,6 +385,31 @@ paths:
                 $ref: '#/components/schemas/District'
         '404':
           $ref: '#/components/responses/NotFound'
+
+  /districts/{id}/streets:
+    get:
+      tags: [Districts]
+      summary: Lista ulic w dzielnicy (autocomplete)
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Wyszukiwanie po nazwie ulicy
+      responses:
+        '200':
+          description: Lista ulic
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Aleje Jerozolimskie", "Andersa", "Anielewicza"]
 
   /districts/nearby:
     get:
@@ -521,6 +697,15 @@ paths:
                 $ref: '#/components/schemas/RedemptionValidation'
         '404':
           $ref: '#/components/responses/NotFound'
+        '410':
+          description: QR kod wygasł
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "QR_EXPIRED"
+                message: "Kod QR wygasł. Klient może wygenerować nowy w aplikacji."
         '429':
           $ref: '#/components/responses/TooManyRequests'
 
@@ -530,6 +715,9 @@ paths:
       summary: Potwierdź realizację (pracownik wpisuje PIN)
       description: |
         Walidacja PINem lokalu.
+
+        **Komunikat personalizacji:** Po pomyślnej walidacji zwracany jest komunikat
+        o zgodzie na personalizowane oferty (do wyświetlenia klientowi).
 
         **Rate limits:**
         - 5 req/5min per qrCode (anti brute-force)
@@ -570,6 +758,10 @@ paths:
                   redeemedAt:
                     type: string
                     format: date-time
+                  personalizationNotice:
+                    type: string
+                    description: Komunikat o personalizacji do wyświetlenia klientowi
+                    example: "Realizując ofertę wyrażasz zgodę na otrzymywanie spersonalizowanych ofert."
         '400':
           description: Błąd walidacji
           content:
@@ -587,6 +779,11 @@ paths:
                   value:
                     error: "ALREADY_REDEEMED"
                     message: "Ten kod został już wykorzystany"
+                qrExpired:
+                  summary: QR wygasł
+                  value:
+                    error: "QR_EXPIRED"
+                    message: "Kod QR wygasł. Klient może wygenerować nowy."
                 temporarilyBlocked:
                   summary: Tymczasowa blokada
                   value:
@@ -594,6 +791,68 @@ paths:
                     message: "Zbyt wiele błędnych prób. Kod zablokowany na 15 minut."
         '429':
           $ref: '#/components/responses/TooManyRequests'
+
+  # ==================== REVIEWS ====================
+  /redemptions/{redemptionId}/review:
+    post:
+      tags: [Reviews]
+      summary: Dodaj ocenę zrealizowanej oferty
+      description: Opcjonalna ocena po realizacji (z historii realizacji)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: redemptionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating]
+              properties:
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  description: Ocena 1-5 gwiazdek
+                comment:
+                  type: string
+                  maxLength: 500
+                  description: Opcjonalny komentarz
+      responses:
+        '201':
+          description: Ocena dodana
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferReview'
+        '400':
+          description: Błąd walidacji
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                alreadyReviewed:
+                  summary: Już oceniono
+                  value:
+                    error: "ALREADY_REVIEWED"
+                    message: "Ta realizacja została już oceniona"
+                notRedeemed:
+                  summary: Nie zrealizowano
+                  value:
+                    error: "NOT_REDEEMED"
+                    message: "Można ocenić tylko zrealizowane oferty"
+                commentRejected:
+                  summary: Komentarz odrzucony
+                  value:
+                    error: "COMMENT_REJECTED"
+                    message: "Komentarz zawiera niedozwolone treści"
 
   # ==================== USER ====================
   /user/me:
@@ -624,6 +883,9 @@ paths:
                 name:
                   type: string
                   maxLength: 100
+                street:
+                  type: string
+                  maxLength: 200
       responses:
         '200':
           description: Zaktualizowano
@@ -640,6 +902,43 @@ paths:
       responses:
         '204':
           description: Konto usunięte
+
+  /user/consents:
+    get:
+      tags: [User]
+      summary: Pobierz zgody użytkownika
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Zgody
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserConsents'
+
+    patch:
+      tags: [User]
+      summary: Aktualizuj zgody (np. wycofaj personalizację)
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                personalizedOffersConsent:
+                  type: boolean
+                marketingConsent:
+                  type: boolean
+      responses:
+        '200':
+          description: Zaktualizowano
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserConsents'
 
   /user/districts:
     get:
@@ -873,13 +1172,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/PushSettings'
 
-  # ==================== OWNER ====================
-  /owner/venue:
+  # ==================== OWNER/MANAGER ====================
+  /owner/venues:
     get:
       tags: [Owner]
-      summary: Mój lokal (dane właściciela)
+      summary: Moje lokale (lista)
+      description: Zwraca lokale, do których użytkownik ma dostęp (jako OWNER lub MANAGER)
       security:
         - bearerAuth: []
+      responses:
+        '200':
+          description: Lista lokali
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenueOwnerListItem'
+
+  /owner/venues/{venueId}:
+    get:
+      tags: [Owner]
+      summary: Szczegóły lokalu
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Lokal
@@ -888,42 +1214,85 @@ paths:
               schema:
                 $ref: '#/components/schemas/VenueOwnerView'
         '403':
-          description: Nie jesteś właścicielem żadnego lokalu
+          description: Brak dostępu do tego lokalu
 
-    patch:
+  /owner/venues/{venueId}/change-request:
+    post:
       tags: [Owner]
-      summary: Aktualizuj dane lokalu
+      summary: Złóż wniosek o zmianę nazwy/logo (tylko OWNER)
+      description: Zmiana nazwy lub logo wymaga akceptacji admina
       security:
         - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                name:
+                newName:
                   type: string
                   maxLength: 100
-                description:
+                newLogoUrl:
                   type: string
-                  maxLength: 1000
-                address:
-                  type: string
-                  maxLength: 200
+                  format: uri
       responses:
-        '200':
-          description: Zaktualizowano
+        '201':
+          description: Wniosek złożony
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VenueOwnerView'
+                $ref: '#/components/schemas/VenueChangeRequest'
+        '403':
+          description: Tylko OWNER może zmieniać nazwę/logo
 
-  /owner/venue/logo:
-    post:
+  /owner/venues/{venueId}/change-requests:
+    get:
       tags: [Owner]
-      summary: Upload logo lokalu
+      summary: Historia wniosków o zmianę
       security:
         - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lista wniosków
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenueChangeRequest'
+
+  /owner/venues/{venueId}/logo:
+    post:
+      tags: [Owner]
+      summary: Upload nowego logo (tylko OWNER)
+      description: Zwraca URL, który trzeba przekazać do change-request
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           multipart/form-data:
@@ -935,22 +1304,31 @@ paths:
                   format: binary
       responses:
         '200':
-          description: Logo zaktualizowane
+          description: Logo uploadowane (oczekuje na akceptację)
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  logoUrl:
+                  pendingLogoUrl:
                     type: string
                     format: uri
+        '403':
+          description: Tylko OWNER może zmieniać logo
 
-  /owner/venue/pin:
+  /owner/venues/{venueId}/pin:
     patch:
       tags: [Owner]
-      summary: Zmień PIN walidacji
+      summary: Zmień PIN walidacji (tylko OWNER)
       security:
         - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -966,13 +1344,66 @@ paths:
       responses:
         '200':
           description: PIN zmieniony
+        '403':
+          description: Tylko OWNER może zmieniać PIN
 
-  /owner/stats:
+  /owner/venues/{venueId}/terminate:
+    post:
+      tags: [Owner]
+      summary: Wypowiedzenie umowy (tylko OWNER)
+      description: |
+        Rozpoczyna 30-dniowy okres wypowiedzenia.
+        W tym czasie oferty działają, ale nie można tworzyć nowych.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  maxLength: 500
+                  description: Opcjonalny powód wypowiedzenia
+      responses:
+        '200':
+          description: Wypowiedzenie przyjęte
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  terminationRequestedAt:
+                    type: string
+                    format: date-time
+                  terminationEffectiveAt:
+                    type: string
+                    format: date-time
+                    description: Data zakończenia (za 30 dni)
+        '403':
+          description: Tylko OWNER może wypowiedzieć umowę
+
+  /owner/venues/{venueId}/stats:
     get:
       tags: [Owner]
       summary: Statystyki lokalu
       security:
         - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Statystyki
@@ -989,19 +1420,119 @@ paths:
                     type: integer
                   redemptionsTotal:
                     type: integer
+                  averageRating:
+                    type: number
+                    format: double
+                    description: Średnia ocen (tylko dla właściciela, nie publiczna)
+                  totalReviews:
+                    type: integer
 
-  /owner/offers:
+  /owner/venues/{venueId}/managers:
     get:
       tags: [Owner]
-      summary: Moje oferty
+      summary: Lista managerów lokalu (tylko OWNER)
       security:
         - bearerAuth: []
       parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lista managerów
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenueManager'
+        '403':
+          description: Tylko OWNER może zarządzać managerami
+
+    post:
+      tags: [Owner]
+      summary: Zaproś managera (tylko OWNER)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '201':
+          description: Zaproszenie wysłane
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueManager'
+        '403':
+          description: Tylko OWNER może zapraszać managerów
+        '409':
+          description: Użytkownik jest już przypisany do lokalu
+
+  /owner/venues/{venueId}/managers/{userId}:
+    delete:
+      tags: [Owner]
+      summary: Usuń managera (tylko OWNER)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Manager usunięty
+        '403':
+          description: Tylko OWNER może usuwać managerów
+
+  /owner/venues/{venueId}/offers:
+    get:
+      tags: [Owner]
+      summary: Oferty lokalu
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
         - name: status
           in: query
           schema:
             type: string
-            enum: [DRAFT, ACTIVE, PAUSED, EXPIRED]
+            enum: [DRAFT, PENDING_REVIEW, SCHEDULED, ACTIVE, PAUSED, EXPIRED, REJECTED]
       responses:
         '200':
           description: Lista ofert
@@ -1018,8 +1549,18 @@ paths:
     post:
       tags: [Owner]
       summary: Utwórz ofertę
+      description: |
+        Nowa oferta przechodzi moderację i jest publikowana za minimum 3 dni.
+        Status flow: DRAFT → PENDING_REVIEW → SCHEDULED → ACTIVE
       security:
         - bearerAuth: []
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -1028,7 +1569,7 @@ paths:
               $ref: '#/components/schemas/OfferCreate'
       responses:
         '201':
-          description: Oferta utworzona
+          description: Oferta utworzona (w moderacji)
           content:
             application/json:
               schema:
@@ -1045,15 +1586,36 @@ paths:
                   value:
                     error: "DAILY_OFFER_LIMIT"
                     message: "Możesz mieć tylko 1 aktywną ofertę dziennie (plan darmowy)"
+                contentRejected:
+                  summary: Treść odrzucona
+                  value:
+                    error: "CONTENT_REJECTED"
+                    message: "Treść oferty zawiera niedozwolone wyrażenia"
+                venueTerminating:
+                  summary: Lokal w wypowiedzeniu
+                  value:
+                    error: "VENUE_TERMINATING"
+                    message: "Nie można tworzyć nowych ofert w okresie wypowiedzenia"
 
-  /owner/offers/{id}:
+  /owner/venues/{venueId}/offers/{offerId}:
     get:
       tags: [Owner]
-      summary: Szczegóły mojej oferty
+      summary: Szczegóły oferty
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/PathId'
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Oferta
@@ -1064,11 +1626,22 @@ paths:
 
     patch:
       tags: [Owner]
-      summary: Aktualizuj ofertę (tylko DRAFT)
+      summary: Aktualizuj ofertę (tylko DRAFT lub REJECTED)
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/PathId'
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           application/json:
@@ -1082,7 +1655,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OfferOwnerView'
         '400':
-          description: Nie można edytować opublikowanej oferty
+          description: Nie można edytować oferty w tym statusie
 
     delete:
       tags: [Owner]
@@ -1090,47 +1663,91 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/PathId'
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Usunięto
 
-  /owner/offers/{id}/publish:
+  /owner/venues/{venueId}/offers/{offerId}/submit:
     post:
       tags: [Owner]
-      summary: Publikuj ofertę (DRAFT → ACTIVE)
+      summary: Wyślij ofertę do moderacji (DRAFT → PENDING_REVIEW)
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/PathId'
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: Opublikowano
+          description: Wysłano do moderacji
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/OfferOwnerView'
 
-  /owner/offers/{id}/pause:
+  /owner/venues/{venueId}/offers/{offerId}/pause:
     post:
       tags: [Owner]
       summary: Wstrzymaj ofertę (ACTIVE → PAUSED)
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/PathId'
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Wstrzymano
 
-  /owner/offers/{id}/resume:
+  /owner/venues/{venueId}/offers/{offerId}/resume:
     post:
       tags: [Owner]
       summary: Wznów ofertę (PAUSED → ACTIVE)
       security:
         - bearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/PathId'
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Wznowiono
@@ -1158,6 +1775,217 @@ paths:
                     type: integer
                   redemptionsToday:
                     type: integer
+                  pendingModerations:
+                    type: integer
+                  pendingChangeRequests:
+                    type: integer
+
+  /admin/owner-invitations:
+    get:
+      tags: [Admin]
+      summary: Lista zaproszeń właścicieli
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PENDING, ACCEPTED, EXPIRED]
+      responses:
+        '200':
+          description: Lista zaproszeń
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OwnerInvitation'
+
+    post:
+      tags: [Admin]
+      summary: Zaproś właściciela (utwórz konto + wyślij email)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, venueId]
+              properties:
+                email:
+                  type: string
+                  format: email
+                venueId:
+                  type: string
+                  format: uuid
+                  description: ID lokalu, do którego przypisać właściciela
+      responses:
+        '201':
+          description: Zaproszenie wysłane
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerInvitation'
+        '409':
+          description: Email już zarejestrowany
+
+  /admin/offer-moderations:
+    get:
+      tags: [Admin]
+      summary: Oferty do moderacji
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PENDING_REVIEW]
+            default: PENDING_REVIEW
+      responses:
+        '200':
+          description: Lista ofert do moderacji
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OfferModeration'
+
+  /admin/offer-moderations/{offerId}/approve:
+    post:
+      tags: [Admin]
+      summary: Zatwierdź ofertę (może przyspieszyć publikację)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                publishImmediately:
+                  type: boolean
+                  default: false
+                  description: Opublikuj natychmiast (pomiń 3 dni)
+      responses:
+        '200':
+          description: Zatwierdzona
+
+  /admin/offer-moderations/{offerId}/reject:
+    post:
+      tags: [Admin]
+      summary: Odrzuć ofertę
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason:
+                  type: string
+                  maxLength: 500
+      responses:
+        '200':
+          description: Odrzucona
+
+  /admin/venue-change-requests:
+    get:
+      tags: [Admin]
+      summary: Wnioski o zmianę nazwy/logo
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PENDING, APPROVED, REJECTED]
+            default: PENDING
+      responses:
+        '200':
+          description: Lista wniosków
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VenueChangeRequestAdmin'
+
+  /admin/venue-change-requests/{id}/approve:
+    post:
+      tags: [Admin]
+      summary: Zatwierdź zmianę nazwy/logo
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Zatwierdzona
+
+  /admin/venue-change-requests/{id}/reject:
+    post:
+      tags: [Admin]
+      summary: Odrzuć zmianę nazwy/logo
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason:
+                  type: string
+                  maxLength: 500
+      responses:
+        '200':
+          description: Odrzucona
 
   /admin/districts:
     get:
@@ -1239,10 +2067,11 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: active
+        - name: status
           in: query
           schema:
-            type: boolean
+            type: string
+            enum: [ACTIVE, INACTIVE, TERMINATING, TERMINATED, DELETED]
       responses:
         '200':
           description: Lista lokali
@@ -1407,7 +2236,7 @@ paths:
           in: query
           schema:
             type: string
-            enum: [CLIENT, OWNER, ADMIN]
+            enum: [CLIENT, VENUE_USER, ADMIN]
         - name: page
           in: query
           schema:
@@ -1531,6 +2360,27 @@ components:
         user:
           $ref: '#/components/schemas/User'
 
+    OwnerRegistrationData:
+      type: object
+      required: [fullName, phone, companyName, companyNip, companyAddress]
+      properties:
+        fullName:
+          type: string
+          maxLength: 100
+          description: Imię i nazwisko osoby kontaktowej
+        phone:
+          type: string
+          maxLength: 20
+        companyName:
+          type: string
+          maxLength: 200
+        companyNip:
+          type: string
+          pattern: '^\d{10}$'
+        companyAddress:
+          type: string
+          maxLength: 300
+
     User:
       type: object
       properties:
@@ -1547,13 +2397,31 @@ components:
           format: uri
         authProvider:
           type: string
-          enum: [GOOGLE, APPLE, EMAIL]
-        roles:
-          type: array
-          items:
-            type: string
-            enum: [CLIENT, OWNER, ADMIN]
+          enum: [GOOGLE, APPLE, EMAIL, ADMIN_CREATED]
+        role:
+          type: string
+          enum: [CLIENT, VENUE_USER, ADMIN]
+        districtId:
+          type: string
+          format: uuid
+        street:
+          type: string
         createdAt:
+          type: string
+          format: date-time
+
+    UserConsents:
+      type: object
+      properties:
+        termsAccepted:
+          type: boolean
+        privacyAccepted:
+          type: boolean
+        personalizedOffersConsent:
+          type: boolean
+        marketingConsent:
+          type: boolean
+        consentDate:
           type: string
           format: date-time
 
@@ -1565,8 +2433,9 @@ components:
             lastActiveAt:
               type: string
               format: date-time
-            ownedVenuesCount:
+            venuesCount:
               type: integer
+              description: Liczba lokali (jako owner lub manager)
             redemptionsCount:
               type: integer
 
@@ -1712,33 +2581,75 @@ components:
             district:
               $ref: '#/components/schemas/District'
 
+    VenueOwnerListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        logoUrl:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE, TERMINATING, TERMINATED]
+        role:
+          type: string
+          enum: [OWNER, MANAGER]
+          description: Rola użytkownika w tym lokalu
+
     VenueOwnerView:
       allOf:
         - $ref: '#/components/schemas/Venue'
         - type: object
           properties:
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE, TERMINATING, TERMINATED]
             validationPin:
               type: string
-              description: PIN do walidacji (widoczny tylko dla właściciela)
+              description: PIN do walidacji (widoczny tylko dla OWNER)
+            role:
+              type: string
+              enum: [OWNER, MANAGER]
+            terminationRequestedAt:
+              type: string
+              format: date-time
+            terminationEffectiveAt:
+              type: string
+              format: date-time
+            pendingChangeRequest:
+              $ref: '#/components/schemas/VenueChangeRequest'
 
     VenueAdmin:
       allOf:
         - $ref: '#/components/schemas/Venue'
         - type: object
           properties:
-            active:
-              type: boolean
-            owner:
-              $ref: '#/components/schemas/User'
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE, TERMINATING, TERMINATED, DELETED]
             validationPin:
               type: string
+            ownersCount:
+              type: integer
+            managersCount:
+              type: integer
             createdAt:
+              type: string
+              format: date-time
+            terminationRequestedAt:
+              type: string
+              format: date-time
+            terminationEffectiveAt:
               type: string
               format: date-time
 
     VenueCreate:
       type: object
-      required: [name, districtId, categoryId, address, ownerId]
+      required: [name, districtId, categoryId, address]
       properties:
         name:
           type: string
@@ -1755,16 +2666,96 @@ components:
         description:
           type: string
           maxLength: 1000
-        ownerId:
-          type: string
-          format: uuid
         validationPin:
           type: string
           minLength: 4
           maxLength: 4
-        active:
-          type: boolean
-          default: true
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE]
+          default: ACTIVE
+
+    VenueManager:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+          enum: [OWNER, MANAGER]
+        invitedAt:
+          type: string
+          format: date-time
+        acceptedAt:
+          type: string
+          format: date-time
+          description: NULL jeśli oczekuje na akceptację
+
+    VenueChangeRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        changeType:
+          type: string
+          enum: [NAME, LOGO, NAME_AND_LOGO]
+        newName:
+          type: string
+        newLogoUrl:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED]
+        rejectionReason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        reviewedAt:
+          type: string
+          format: date-time
+
+    VenueChangeRequestAdmin:
+      allOf:
+        - $ref: '#/components/schemas/VenueChangeRequest'
+        - type: object
+          properties:
+            venue:
+              $ref: '#/components/schemas/VenueListItem'
+            requestedBy:
+              $ref: '#/components/schemas/User'
+
+    OwnerInvitation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        venue:
+          $ref: '#/components/schemas/VenueListItem'
+        status:
+          type: string
+          enum: [PENDING, ACCEPTED, EXPIRED]
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        acceptedAt:
+          type: string
+          format: date-time
 
     OfferListItem:
       type: object
@@ -1799,15 +2790,25 @@ components:
           properties:
             description:
               type: string
-            status:
-              type: string
-              enum: [DRAFT, ACTIVE, PAUSED, EXPIRED]
+            qrValidityMinutes:
+              type: integer
+              description: Czas ważności QR w minutach (null = do końca oferty)
 
     OfferOwnerView:
       allOf:
         - $ref: '#/components/schemas/Offer'
         - type: object
           properties:
+            status:
+              type: string
+              enum: [DRAFT, PENDING_REVIEW, SCHEDULED, ACTIVE, PAUSED, EXPIRED, REJECTED]
+            scheduledPublishAt:
+              type: string
+              format: date-time
+              description: Kiedy oferta zostanie aktywowana (dla SCHEDULED)
+            rejectionReason:
+              type: string
+              description: Powód odrzucenia (dla REJECTED)
             redemptionsCount:
               type: integer
             redemptionsToday:
@@ -1815,6 +2816,23 @@ components:
             createdAt:
               type: string
               format: date-time
+
+    OfferModeration:
+      allOf:
+        - $ref: '#/components/schemas/OfferOwnerView'
+        - type: object
+          properties:
+            moderationScore:
+              type: number
+              format: double
+              description: Wynik AI (0-1)
+            moderationFlags:
+              type: array
+              items:
+                type: string
+              description: Flagi z moderacji (np. ["profanity"])
+            createdBy:
+              $ref: '#/components/schemas/User'
 
     OfferCreate:
       type: object
@@ -1842,10 +2860,11 @@ components:
         validTo:
           type: string
           format: date
-        status:
-          type: string
-          enum: [DRAFT, ACTIVE]
-          default: DRAFT
+        qrValidityMinutes:
+          type: integer
+          enum: [5, 10, 15, 30, 60]
+          default: 15
+          description: Czas ważności QR (null = do końca oferty)
 
     Redemption:
       type: object
@@ -1862,11 +2881,18 @@ components:
         qrGeneratedAt:
           type: string
           format: date-time
+        qrExpiresAt:
+          type: string
+          format: date-time
+          description: Kiedy QR wygasa
         redeemedAt:
           type: string
           format: date-time
         offer:
           $ref: '#/components/schemas/OfferListItem'
+        review:
+          $ref: '#/components/schemas/OfferReview'
+          description: Ocena (jeśli dodano)
 
     RedemptionValidation:
       type: object
@@ -1877,6 +2903,12 @@ components:
         status:
           type: string
           enum: [PENDING, REDEEMED, EXPIRED]
+        qrExpiresAt:
+          type: string
+          format: date-time
+        timeRemainingSeconds:
+          type: integer
+          description: Ile sekund do wygaśnięcia QR
         customerName:
           type: string
           description: Imię klienta (nie pełne dane)
@@ -1897,6 +2929,22 @@ components:
           type: string
           format: date-time
           description: Jeśli już zrealizowano
+
+    OfferReview:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
 
     PushSettings:
       type: object
