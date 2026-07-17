@@ -56,12 +56,12 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w promieniu 2-3km — miesz
 
 ## Role i uprawnienia
 
-### Role użytkowników
+### Role systemowe
 - `CLIENT` — zwykły użytkownik aplikacji
-- `VENUE_USER` — użytkownik przypisany do lokalu
 - `ADMIN` — administrator systemu
 
 ### Role w lokalu
+Właściciel/manager to CLIENT który dodatkowo ma przypisanie do lokalu:
 - `OWNER` — właściciel (pełne uprawnienia)
 - `MANAGER` — manager (tylko oferty)
 
