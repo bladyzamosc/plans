@@ -20,7 +20,6 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w promieniu 2-3km — miesz
 
 ### Flows i UX
 - **[USER-FLOWS.md](USER-FLOWS.md)** — ścieżki użytkownika (klient, właściciel, admin)
-- **[WIREFRAMES.md](WIREFRAMES.md)** — ASCII wireframes ekranów mobile
 
 ### Push notifications
 - **[PUSH-NOTIFICATIONS.md](PUSH-NOTIFICATIONS.md)** — strategia, typy powiadomień, treści
