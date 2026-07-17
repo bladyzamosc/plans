@@ -1,6 +1,10 @@
 # Swoi — Dokumentacja projektu
 
-Aplikacja lokalnych rabatów wspierająca sąsiedzki biznes.
+## Cel projektu
+
+Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w promieniu 2-3km — mieszkańcy otrzymują powiadomienia o rabatach w okolicy. Start na ulicy Jana Kazimierza, potem ekspansja na kolejne dzielnice/ulice.
+
+**Why:** Wspieranie lokalnego biznesu, budowanie społeczności wokół ulicy/dzielnicy.
 
 ## Spis treści
 
