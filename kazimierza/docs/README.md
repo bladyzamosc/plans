@@ -2,9 +2,9 @@
 
 ## Cel projektu
 
-Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w promieniu 2-3km — mieszkańcy otrzymują powiadomienia o rabatach w okolicy. Start na ulicy Jana Kazimierza, potem ekspansja na kolejne dzielnice/ulice.
+Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w okolicy — mieszkańcy otrzymują powiadomienia o rabatach w swojej dzielnicy. Start na Odolanach, potem ekspansja na kolejne dzielnice.
 
-**Why:** Wspieranie lokalnego biznesu, budowanie społeczności wokół ulicy/dzielnicy.
+**Why:** Wspieranie lokalnego biznesu, budowanie społeczności wokół dzielnicy.
 
 ---
 
