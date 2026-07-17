@@ -53,6 +53,7 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) — mieszkańcy otrzymują 
 | Walidacja rabatu | QR deep link + PIN lokalu + timer |
 | Pracownicy lokalu | Wspólny PIN (bez osobnych kont) |
 | Moderacja treści | Własny słownik + Perspective API (Google) |
+| Języki | Polski, angielski (i18n) |
 
 ---
 
