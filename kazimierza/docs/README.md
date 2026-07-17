@@ -1,4 +1,4 @@
-# Swoi — Dokumentacja projektu
+# Swoi — Aplikacja Lokalnych Rabatów
 
 ## Cel projektu
 
@@ -6,27 +6,351 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w promieniu 2-3km — miesz
 
 **Why:** Wspieranie lokalnego biznesu, budowanie społeczności wokół ulicy/dzielnicy.
 
+---
+
 ## Spis treści
 
-### Wizja i zakres
-- **[WIZJA.md](WIZJA.md)** — idea projektu, decyzje techniczne, scope MVP vs Faza 2, role i uprawnienia
-
-### Model danych
-- **[MODEL-DANYCH.md](MODEL-DANYCH.md)** — encje, relacje, indeksy, reguły biznesowe (v2)
-
-### API
-- **[api/openapi.yaml](api/openapi.yaml)** — specyfikacja OpenAPI 3.0 (wszystkie endpointy)
-- **[api/ACCESS-CONTROL.md](api/ACCESS-CONTROL.md)** — role, macierz uprawnień, rate limiting, JWT
-
-### Flows i UX
-- **[USER-FLOWS.md](USER-FLOWS.md)** — ścieżki użytkownika (klient, właściciel, admin)
-
-### Push notifications
-- **[PUSH-NOTIFICATIONS.md](PUSH-NOTIFICATIONS.md)** — strategia, typy powiadomień, treści
+1. [Nazwa aplikacji](#nazwa-aplikacji)
+2. [Decyzje techniczne](#decyzje-techniczne)
+3. [Role i uprawnienia](#role-i-uprawnienia)
+4. [Reguły biznesowe](#reguły-biznesowe)
+5. [Flow-y użytkownika](#flow-y-użytkownika)
+6. [Push notifications](#push-notifications)
+7. [Scope MVP vs Faza 2](#scope-mvp-vs-faza-2)
+8. [Dokumentacja techniczna](#dokumentacja-techniczna)
+9. [Mockupy](#mockupy)
 
 ---
 
-## Mockupy HTML
+## Nazwa aplikacji
+
+**Problem:** "Kazimierza" to nazwa ulicy (Jana Kazimierza) — nie skaluje się przy ekspansji na inne dzielnice.
+
+**Kierunek:** Nazwa powinna kojarzyć się z budowaniem lokalnej społeczności i wspieraniem lokalnego rynku, nie z rabatami/promocjami.
+
+### Top 3 propozycje
+
+| Nazwa | Domena | Klimat |
+|-------|--------|--------|
+| **Swoi** | swoi.app | "Kupuj u swoich", silna identyfikacja |
+| **NaszaUlica** | naszaulica.pl | Wspólnota miejsca, pasuje do modelu ekspansji ulica→dzielnica |
+| **OdSąsiada** | odsasiada.pl | Ciepłe, relacja człowiek-człowiek |
+
+**Status:** Roboczo używamy "Swoi"
+
+---
+
+## Decyzje techniczne
+
+| Obszar | Decyzja |
+|--------|---------|
+| Mobile | PWA (MVP) → React Native (później) |
+| Backend | Spring Boot + PostgreSQL |
+| Auth | Google, Apple + Magic link (fallback) + hasło (dla owner/manager) |
+| Sesja | JWT access (15 min) + refresh token (30 dni) |
+| Walidacja rabatu | QR deep link + PIN lokalu + timer |
+| Pracownicy lokalu | Wspólny PIN (bez osobnych kont) |
+| Moderacja treści | Własny słownik + Perspective API (Google) |
+
+---
+
+## Role i uprawnienia
+
+### Role użytkowników
+- `CLIENT` — zwykły użytkownik aplikacji
+- `VENUE_USER` — użytkownik przypisany do lokalu
+- `ADMIN` — administrator systemu
+
+### Role w lokalu
+- `OWNER` — właściciel (pełne uprawnienia)
+- `MANAGER` — manager (tylko oferty)
+
+| Uprawnienie | OWNER | MANAGER |
+|-------------|-------|---------|
+| Tworzenie/edycja ofert | tak | tak |
+| Pauzowanie ofert | tak | tak |
+| Podgląd statystyk | tak | tak |
+| Zmiana nazwy/logo | tak (wymaga akceptacji) | nie |
+| Zmiana PIN | tak | nie |
+| Zapraszanie managerów | tak | nie |
+| Usuwanie managerów | tak | nie |
+| Wypowiedzenie umowy | tak | nie |
+
+---
+
+## Reguły biznesowe
+
+### Dzielnice
+- User może subskrybować wiele dzielnic (N:M)
+- Wyszukiwanie dzielnic przez geolokalizację
+- Dzielnica = umowna (ulica, mała miejscowość, osiedle)
+
+### Rejestracja klienta
+1. OAuth (Google/Apple) lub Magic link
+2. Wybór dzielnicy (obowiązkowy)
+3. Wybór ulicy (obowiązkowy) — autocomplete z bazy ulic
+4. Zgoda na regulamin (obowiązkowa)
+5. Zgoda na personalizację ofert (opcjonalna)
+
+### Zakładanie konta właściciela
+1. Admin tworzy lokal w panelu i wprowadza email właściciela
+2. System wysyła email z linkiem i jednorazowym hasłem
+3. Właściciel klika link i uzupełnia dane:
+   - Imię i nazwisko, telefon
+   - NIP, nazwa firmy, adres siedziby
+   - Zgody (regulamin, RODO, marketing opcjonalnie)
+4. Ustawia hasło → konto aktywne
+
+### Typy rabatów
+
+**MVP:**
+- PERCENTAGE — np. -20%
+- FIXED_AMOUNT — np. -15 zł
+- FREE_ITEM — np. gratis kawa
+
+**Faza 2:**
+- FIRST_N — pierwsze 10 osób (z rezerwacją)
+- BUY_X_GET_Y — kup 2, trzeci gratis
+- BUNDLE — zestaw w cenie
+- SECOND_HALF_PRICE — drugi produkt -50%
+
+### QR Flow (walidacja)
+1. User klika "Pokaż kod" → generuje QR
+2. Timer odlicza czas ważności (domyślnie 15 min, konfigurowalny: 5/10/15/30/60 min lub do końca oferty)
+3. QR zawiera deep link: `https://app.swoi.pl/validate/RDM-A7X2K9`
+4. Pracownik skanuje aparatem → otwiera się strona z info o rabacie
+5. Pracownik wpisuje PIN lokalu → klik "Potwierdź" → zrealizowano
+6. Komunikat o personalizacji wyświetlany klientowi
+
+### Oceny ofert
+1. Ocena opcjonalna (1-5 gwiazdek + komentarz) — z poziomu historii realizacji
+2. Komentarze moderowane (własny słownik + Perspective API)
+3. Średnia ocen widoczna tylko dla właściciela w dashboardzie (nie publicznie)
+4. Bez automatycznego push z prośbą o ocenę
+
+### Moderacja treści
+
+**Oferty:**
+1. Każda nowa oferta przechodzi przez moderację
+2. Własny słownik — lista zakazanych słów
+3. Perspective API (Google) — darmowe API do wykrywania toksyczności
+4. Progi decyzyjne:
+   - score < 0.3 → auto-approve, publikacja za 3 dni
+   - score 0.3-0.7 → wymaga akceptacji admina
+   - score > 0.7 → auto-reject
+
+**Zmiana nazwy/logo:**
+- Wymaga akceptacji admina
+- Wniosek widoczny w panelu admina
+
+### Status lokalu
+
+| Status | Opis |
+|--------|------|
+| ACTIVE | Aktywny, oferty działają |
+| INACTIVE | Nieaktywny (admin wyłączył) |
+| TERMINATING | Wypowiedzenie, 30 dni okresu |
+| TERMINATED | Po wypowiedzeniu, niewidoczny |
+| DELETED | Usunięty przez admina |
+
+### Wypowiedzenie umowy
+1. OWNER składa wypowiedzenie
+2. 30 dni okresu wypowiedzenia
+3. W tym czasie: oferty działają, ale nowych nie można tworzyć
+4. Po 30 dniach: lokal niewidoczny, dane archiwizowane
+
+### Kategorie lokali
+RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GROOMER, VET, LAUNDRY, KEBAB, PIZZA, INDIAN, CHINESE, OTHER
+
+---
+
+## Flow-y użytkownika
+
+### Klient
+
+**Rejestracja / Logowanie:**
+```
+[Ekran startowy]
+    ├── [Zaloguj przez Google] → OAuth → [Wybierz dzielnicę] → [Wybierz ulicę] → [Home]
+    ├── [Zaloguj przez Apple] → OAuth → [Wybierz dzielnicę] → [Wybierz ulicę] → [Home]
+    └── [Magic link] → Wpisz email → "Wysłano link" → Klik w mailu → [Wybierz dzielnicę] → [Home]
+```
+
+**Przeglądanie ofert:**
+```
+[Home]
+    ├── Lista ofert w dzielnicy (karty)
+    │   ├── Filtr: kategoria
+    │   ├── Filtr: typ rabatu
+    │   └── Sortowanie: najnowsze / kończące się
+    └── [Klik na ofertę] → [Szczegóły oferty]
+            ├── Info o lokalu, opis rabatu, ważność
+            ├── [Dodaj do ulubionych]
+            └── [Pokaż kod] → (wymaga logowania)
+```
+
+**Realizacja rabatu:**
+```
+[Szczegóły oferty] → [Pokaż kod]
+    ├── Sprawdź: czy już realizował dziś? → TAK → "Limit 1/dzień"
+    └── NIE → [Ekran QR]
+            ├── QR code + kod tekstowy
+            ├── Timer: ważny X minut
+            └── Status: PENDING
+
+[Pracownik skanuje QR] → [Strona walidacji]
+    ├── Info o rabacie i kliencie
+    ├── [Wpisz PIN lokalu]
+    └── [Potwierdź] → PIN OK → "Zrealizowano!"
+```
+
+**Historia i ulubione:**
+```
+[Menu / Profil]
+    ├── [Historia rabatów] → Lista zrealizowanych (+ opcja oceny)
+    ├── [Ulubione lokale] → Lista lokali
+    └── [Moje dzielnice] → Lista subskrybowanych, dodaj/usuń
+```
+
+### Właściciel lokalu
+
+**Panel właściciela:**
+```
+[Panel właściciela]
+    ├── Statystyki (aktywne oferty, realizacje, średnia ocen)
+    ├── [Moje oferty] → lista ofert
+    ├── [Nowa oferta] → formularz (+ timer QR, info o moderacji)
+    ├── [Managerowie] → lista, zapraszanie, usuwanie
+    └── [Ustawienia]
+            ├── Edycja opisu, logo (wymaga akceptacji)
+            ├── Zmiana PIN
+            └── Wypowiedzenie umowy
+```
+
+**Tworzenie oferty:**
+```
+[Nowa oferta]
+    ├── Tytuł, opis
+    ├── Typ rabatu: Procent / Kwota / Gratis
+    ├── Wartość
+    ├── Ważność QR: 5/10/15/30/60 min lub do końca oferty
+    ├── Data od-do
+    └── [Zapisz jako szkic] / [Publikuj]
+        → Info: "Oferta zostanie opublikowana za 3 dni lub po akceptacji admina"
+```
+
+### Admin
+
+**Panel admina:**
+```
+[Admin Panel]
+    ├── Dashboard (statystyki globalne)
+    ├── [Dzielnice] → zarządzanie
+    ├── [Lokale] → zarządzanie
+    ├── [Kategorie] → zarządzanie
+    ├── [Użytkownicy] → zarządzanie
+    ├── [Oferty] → przegląd
+    ├── [Moderacja] → oferty do weryfikacji, zmiany nazwy/logo
+    └── [Zaproszenia] → zaproszenia właścicieli
+```
+
+---
+
+## Push notifications
+
+### Zasady
+1. Nie spamuj — max 1 push dziennie (MVP)
+2. Wartość dla usera — tylko jeśli są nowe oferty
+3. Personalizacja — tylko subskrybowane dzielnice
+4. Kontrola — user może wyłączyć per dzielnica
+
+### MVP - Typy powiadomień
+
+**1. Digest dzienny (nowe oferty)**
+- Kiedy: Codziennie o 10:00
+- Warunek: Są nowe oferty w subskrybowanych dzielnicach
+- Treść: "3 nowe oferty w Twojej okolicy! Beer & Burger Kufloteka, Kawiarnia Cicha i więcej..."
+
+| Nowych ofert | Tytuł |
+|--------------|-------|
+| 1 | Nowa oferta w okolicy! |
+| 2-3 | {n} nowe oferty w okolicy! |
+| 4+ | {n} nowych ofert czeka! |
+
+**2. Powitanie (onboarding)**
+- Kiedy: 24h po rejestracji (jeśli nie otworzył aplikacji)
+- Treść: "Wspieraj lokalnych! Sprawdź oferty od sąsiadów w Twojej okolicy"
+
+**3. Reaktywacja (win-back)**
+- Kiedy: 7 dni bez aktywności
+- Treść: "{n} ofert czeka w {dzielnica}"
+- Limit: Max 1 reaktywacja na 30 dni
+
+### Faza 2 - Dodatkowe typy
+- Oferta się kończy (24h przed końcem, jeśli user wygenerował QR ale nie zrealizował)
+- Ulubiony lokal ma nową ofertę (natychmiast)
+- Oferta "gorąca" FIRST_N (natychmiast)
+
+### Ustawienia użytkownika
+
+| Ustawienie | Default |
+|------------|---------|
+| pushEnabled | true |
+| digestTime | 10:00 |
+| notificationsEnabled per dzielnica | true |
+
+### Ton - rekomendacja
+**Przyjacielski bez emoji** — pasuje do idei "sąsiedzkiej" aplikacji, nie jest nachalne.
+
+---
+
+## Scope MVP vs Faza 2
+
+### MVP
+- Rejestracja Google/Apple/Magic link + dzielnica + ulica
+- Subskrypcja dzielnicy (geo-search)
+- Przeglądanie ofert (niezalogowany może przeglądać, nie może realizować)
+- Rabaty: PERCENTAGE, FIXED_AMOUNT, FREE_ITEM
+- QR kod + PIN walidacja + timer (domyślnie 15 min)
+- Oceny ofert (1-5 gwiazdek + komentarz)
+- Panel właściciela (oferty, managerowie, statystyki, wypowiedzenie)
+- Panel managera (oferty, statystyki)
+- Panel admina (moderacja, zaproszenia, zarządzanie)
+- Moderacja treści: słownik + Perspective API
+- Oferta publikowana za 3 dni lub po akceptacji admina
+- Zmiana nazwy/logo wymaga akceptacji admina
+- Push: nowe oferty (digest 1x dziennie)
+- Historia zrealizowanych rabatów
+- Ulubione lokale
+- Limit: 1 oferta dziennie za darmo (kalendarzowo)
+- Kategorie zarządzane przez admina
+- Zgoda na personalizację przy walidacji QR
+
+### Faza 2
+- FIRST_N (pierwsze X osób) + rezerwacja + timeout
+- Push: przypomnienia o wygasaniu
+- Właściciel sam tworzy lokal (+ akceptacja admina)
+- Płatne subskrypcje dla lokali
+- Wiele dzielnic
+- Więcej ofert dziennie (płatne)
+- Publiczna średnia ocen lokali
+
+---
+
+## Dokumentacja techniczna
+
+| Plik | Opis |
+|------|------|
+| [MODEL-DANYCH.md](MODEL-DANYCH.md) | Encje, pola, relacje, indeksy |
+| [api/openapi.yaml](api/openapi.yaml) | Specyfikacja OpenAPI 3.0 (wszystkie endpointy) |
+| [api/ACCESS-CONTROL.md](api/ACCESS-CONTROL.md) | Role, macierz uprawnień, rate limiting, JWT |
+
+**Quick links:**
+- OpenAPI Editor: Wklej `api/openapi.yaml` do [editor.swagger.io](https://editor.swagger.io)
+
+---
+
+## Mockupy
 
 ### Mobile PWA
 Folder: `mockups/`
@@ -47,9 +371,8 @@ Folder: `mockups/owner-web/`
 - `offers.html` — lista ofert
 - `new-offer.html` — tworzenie oferty (z QR timer, info o moderacji)
 - `redemptions.html` — historia realizacji
-- `managers.html` — **NOWE:** zarządzanie managerami
+- `managers.html` — zarządzanie managerami
 - `settings.html` — ustawienia (zmiana nazwy/logo, PIN, wypowiedzenie)
-- `owner-styles.css` — style panelu
 
 ### Panel admina (desktop)
 Folder: `mockups/admin-web/`
@@ -59,24 +382,30 @@ Folder: `mockups/admin-web/`
 - `categories.html` — kategorie
 - `users.html` — użytkownicy
 - `offers.html` — przegląd ofert
-- `moderation.html` — **NOWE:** moderacja treści ofert
-- `invitations.html` — **NOWE:** zaproszenia właścicieli
-- `admin-styles.css` — style panelu
+- `moderation.html` — moderacja treści ofert
+- `invitations.html` — zaproszenia właścicieli
+
+**Otwieranie:** Otwórz `mockups/index.html` w przeglądarce
 
 ---
 
----
+## Regulaminy i zgody (do prawnika)
 
-## Quick links
+### Dla klientów
+- Regulamin platformy
+- Polityka prywatności
+- Zgoda na personalizację ofert (opcjonalna)
+- Komunikat przy walidacji QR: "Realizując ofertę wyrażasz zgodę na otrzymywanie spersonalizowanych ofert"
 
-- **OpenAPI Editor:** Wklej `api/openapi.yaml` do [editor.swagger.io](https://editor.swagger.io)
-- **Mockupy:** Otwórz `mockups/index.html` w przeglądarce
-- **GitHub Pages:** Ustaw branch `main`, folder `/kazimierza/mockups`
+### Dla właścicieli
+- Regulamin platformy dla właścicieli
+- Umowa o współpracy
+- Zgoda na przetwarzanie danych (RODO)
+- Zgoda na marketing (opcjonalna)
 
 ---
 
 ## Do zrobienia
 
 - [ ] Aktualizacja mockupów mobile (timer QR, oceny w historii, ulica przy rejestracji)
-- [ ] Dodanie nawigacji do nowych stron admin-web w pozostałych plikach
 - [ ] Przegląd prawniczy regulaminów i zgód
