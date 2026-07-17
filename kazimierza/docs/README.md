@@ -2,9 +2,11 @@
 
 ## Cel projektu
 
-Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w okolicy — mieszkańcy otrzymują powiadomienia o rabatach w swojej dzielnicy. Start na Odolanach, potem ekspansja na kolejne dzielnice.
+Aplikacja zrzeszająca lokalne biznesy (niesieciowe) — mieszkańcy otrzymują powiadomienia o rabatach w swojej okolicy. Start na Odolanach, potem ekspansja na kolejne okolice.
 
-**Why:** Wspieranie lokalnego biznesu, budowanie społeczności wokół dzielnicy.
+**Why:** Wspieranie lokalnego biznesu, budowanie społeczności wokół okolicy.
+
+> **Okolica** = dzielnica, poddzielnica (np. Odolany na Woli), małe miasto, kilka wsi. Uniwersalna jednostka geograficzna w aplikacji.
 
 ---
 
@@ -24,7 +26,7 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w okolicy — mieszkańcy o
 
 ## Nazwa aplikacji
 
-**Problem:** "Kazimierza" to nazwa ulicy (Jana Kazimierza) — nie skaluje się przy ekspansji na inne dzielnice.
+**Problem:** "Kazimierza" to nazwa ulicy (Jana Kazimierza) — nie skaluje się przy ekspansji na inne okolice.
 
 **Kierunek:** Nazwa powinna kojarzyć się z budowaniem lokalnej społeczności i wspieraniem lokalnego rynku, nie z rabatami/promocjami.
 
@@ -33,7 +35,7 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) w okolicy — mieszkańcy o
 | Nazwa | Domena | Klimat |
 |-------|--------|--------|
 | **Swoi** | swoi.app | "Kupuj u swoich", silna identyfikacja |
-| **NaszaUlica** | naszaulica.pl | Wspólnota miejsca, pasuje do modelu ekspansji ulica→dzielnica |
+| **NaszaUlica** | naszaulica.pl | Wspólnota miejsca, pasuje do modelu ekspansji ulica→okolica |
 | **OdSąsiada** | odsasiada.pl | Ciepłe, relacja człowiek-człowiek |
 
 **Status:** Roboczo używamy "Swoi"
@@ -80,14 +82,14 @@ Właściciel/manager to CLIENT który dodatkowo ma przypisanie do lokalu:
 
 ## Reguły biznesowe
 
-### Dzielnice
-- User może subskrybować wiele dzielnic (N:M)
-- Wyszukiwanie dzielnic przez geolokalizację
-- Dzielnica = umowna (ulica, mała miejscowość, osiedle)
+### Okolice
+- User może subskrybować wiele okolic (N:M)
+- Wyszukiwanie okolic przez geolokalizację
+- Okolica = umowna jednostka (dzielnica, poddzielnica, małe miasto, wieś)
 
 ### Rejestracja klienta
 1. OAuth (Google/Apple) lub Magic link
-2. Wybór dzielnicy (obowiązkowy)
+2. Wybór okolicy (obowiązkowy)
 3. Wybór ulicy (obowiązkowy) — autocomplete z bazy ulic
 4. Zgoda na regulamin (obowiązkowa)
 5. Zgoda na personalizację ofert (opcjonalna)
@@ -171,15 +173,15 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 **Rejestracja / Logowanie:**
 ```
 [Ekran startowy]
-    ├── [Zaloguj przez Google] → OAuth → [Wybierz dzielnicę] → [Wybierz ulicę] → [Home]
-    ├── [Zaloguj przez Apple] → OAuth → [Wybierz dzielnicę] → [Wybierz ulicę] → [Home]
-    └── [Magic link] → Wpisz email → "Wysłano link" → Klik w mailu → [Wybierz dzielnicę] → [Home]
+    ├── [Zaloguj przez Google] → OAuth → [Wybierz okolicę] → [Wybierz ulicę] → [Home]
+    ├── [Zaloguj przez Apple] → OAuth → [Wybierz okolicę] → [Wybierz ulicę] → [Home]
+    └── [Magic link] → Wpisz email → "Wysłano link" → Klik w mailu → [Wybierz okolicę] → [Home]
 ```
 
 **Przeglądanie ofert:**
 ```
 [Home]
-    ├── Lista ofert w dzielnicy (karty)
+    ├── Lista ofert w okolicy (karty)
     │   ├── Filtr: kategoria
     │   ├── Filtr: typ rabatu
     │   └── Sortowanie: najnowsze / kończące się
@@ -209,7 +211,7 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 [Menu / Profil]
     ├── [Historia rabatów] → Lista zrealizowanych (+ opcja oceny)
     ├── [Ulubione lokale] → Lista lokali
-    └── [Moje dzielnice] → Lista subskrybowanych, dodaj/usuń
+    └── [Moje okolice] → Lista subskrybowanych, dodaj/usuń
 ```
 
 ### Właściciel lokalu
@@ -245,7 +247,7 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 ```
 [Admin Panel]
     ├── Dashboard (statystyki globalne)
-    ├── [Dzielnice] → zarządzanie
+    ├── [Okolice] → zarządzanie
     ├── [Lokale] → zarządzanie
     ├── [Kategorie] → zarządzanie
     ├── [Użytkownicy] → zarządzanie
@@ -261,14 +263,14 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 ### Zasady
 1. Nie spamuj — max 1 push dziennie (MVP)
 2. Wartość dla usera — tylko jeśli są nowe oferty
-3. Personalizacja — tylko subskrybowane dzielnice
-4. Kontrola — user może wyłączyć per dzielnica
+3. Personalizacja — tylko subskrybowane okolice
+4. Kontrola — user może wyłączyć per okolica
 
 ### MVP - Typy powiadomień
 
 **1. Digest dzienny (nowe oferty)**
 - Kiedy: Codziennie o 10:00
-- Warunek: Są nowe oferty w subskrybowanych dzielnicach
+- Warunek: Są nowe oferty w subskrybowanych okolicach
 - Treść: "3 nowe oferty w Twojej okolicy! Beer & Burger Kufloteka, Kawiarnia Cicha i więcej..."
 
 | Nowych ofert | Tytuł |
@@ -283,7 +285,7 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 
 **3. Reaktywacja (win-back)**
 - Kiedy: 7 dni bez aktywności
-- Treść: "{n} ofert czeka w {dzielnica}"
+- Treść: "{n} ofert czeka w {okolica}"
 - Limit: Max 1 reaktywacja na 30 dni
 
 ### Faza 2 - Dodatkowe typy
@@ -297,7 +299,7 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 |------------|---------|
 | pushEnabled | true |
 | digestTime | 10:00 |
-| notificationsEnabled per dzielnica | true |
+| notificationsEnabled per okolica | true |
 
 ### Ton - rekomendacja
 **Przyjacielski bez emoji** — pasuje do idei "sąsiedzkiej" aplikacji, nie jest nachalne.
@@ -307,8 +309,8 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 ## Scope MVP vs Faza 2
 
 ### MVP
-- Rejestracja Google/Apple/Magic link + dzielnica + ulica
-- Subskrypcja dzielnicy (geo-search)
+- Rejestracja Google/Apple/Magic link + okolica + ulica
+- Subskrypcja okolicy (geo-search)
 - Przeglądanie ofert (niezalogowany może przeglądać, nie może realizować)
 - Rabaty: PERCENTAGE, FIXED_AMOUNT, FREE_ITEM
 - QR kod + PIN walidacja + timer (domyślnie 15 min)
@@ -331,7 +333,7 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 - Push: przypomnienia o wygasaniu
 - Właściciel sam tworzy lokal (+ akceptacja admina)
 - Płatne subskrypcje dla lokali
-- Wiele dzielnic
+- Wiele okolic
 - Więcej ofert dziennie (płatne)
 - Publiczna średnia ocen lokali
 
@@ -358,7 +360,7 @@ Folder: `mockups/`
 - `home.html` — strona główna
 - `home-style-[1-10].html` — 10 wariantów stylów
 - `login.html`, `register.html` — autoryzacja
-- `district-*.html` — wybór dzielnicy
+- `district-*.html` — wybór okolicy
 - `offers.html`, `offer-details.html` — oferty
 - `venue.html` — profil lokalu
 - `qr-code.html`, `validate.html`, `success.html` — flow walidacji QR
@@ -377,7 +379,7 @@ Folder: `mockups/owner-web/`
 ### Panel admina (desktop)
 Folder: `mockups/admin-web/`
 - `index.html` — dashboard
-- `districts.html` — zarządzanie dzielnicami
+- `districts.html` — zarządzanie okolicami
 - `venues.html` — zarządzanie lokalami
 - `categories.html` — kategorie
 - `users.html` — użytkownicy
