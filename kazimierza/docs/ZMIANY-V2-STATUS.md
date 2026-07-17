@@ -1,8 +1,9 @@
 # Swoi — Zmiany v2 — Status zatwierdzania
 
 Data rozpoczęcia: 2026-07-16
+Data zatwierdzenia: 2026-07-17
 
-## ZATWIERDZONE
+## WSZYSTKO ZATWIERDZONE ✅
 
 ### 1. Timer QR kodu ✅
 - QR ważny przez 15 min (domyślnie) lub konfigurowalny per oferta
@@ -15,7 +16,7 @@ Data rozpoczęcia: 2026-07-16
 - Klient może wycofać zgodę w ustawieniach
 - User.personalized_offers_consent w modelu
 
-### 3. Oceny zrealizowanych ofert ✅ (z modyfikacjami)
+### 3. Oceny zrealizowanych ofert ✅
 - ❌ BEZ push z prośbą o ocenę
 - ✅ Ocena 1-5 gwiazdek (opcjonalna, z poziomu historii realizacji)
 - ✅ Komentarz opcjonalny
@@ -24,65 +25,84 @@ Data rozpoczęcia: 2026-07-16
 
 **Notatka AI:** Na przyszłość rozważyć Azure Content Safety (enterprise, RODO, ~$1/1000 req) lub OpenAI Moderation (darmowe, US). Na MVP wystarczy słownik + Perspective.
 
-### 4. Zakładanie konta właściciela przez admina ✅ (do doprecyzowania)
+### 4. Zakładanie konta właściciela przez admina ✅
 - Admin wprowadza email właściciela
 - System tworzy konto + wysyła email z jednorazowym hasłem
 - Link do zaakceptowania regulaminów i zgód
-- **DO DOPRECYZOWANIA:** Lista wymaganych danych od właściciela przy rejestracji
 
----
+**Dane wymagane od właściciela:**
+- Imię i nazwisko (osoba kontaktowa) — wymagane
+- Numer telefonu — wymagane
+- NIP firmy — wymagane
+- Nazwa firmy — wymagane
+- Adres siedziby firmy — wymagane
+- Zgoda na regulamin platformy — wymagane
+- Zgoda na przetwarzanie danych (RODO) — wymagane
+- Zgoda na marketing — opcjonalne
 
-## DO ZATWIERDZENIA (kontynuacja)
+### 5. Zmiana nazwy/logo wymaga akceptacji admina ✅
+- Właściciel edytuje nazwę/logo → zmiana idzie do kolejki
+- Admin zatwierdza lub odrzuca (z powodem)
+- Do czasu zatwierdzenia wyświetlana stara nazwa/logo
 
-### 5. Zmiana nazwy/logo wymaga akceptacji admina
-- Właściciel może edytować nazwę/logo
-- Zmiana idzie do kolejki do zatwierdzenia przez admina
-- Nowa encja: VenueChangeRequest
+### 6. Moderacja treści ofert ✅
+- Tytuł i opis oferty sprawdzane przez: **Własny słownik + Perspective API**
+- Progi:
+  - score < 0.3 → auto-approve
+  - score 0.3-0.7 → wymaga admina
+  - score > 0.7 → auto-reject
+- Dodatkowo lista zakazanych słów (wulgaryzmy, konkurencja, etc.)
 
-### 6. Moderacja treści ofert (anty-wulgaryzmy)
-- AI Content Safety analizuje tytuł i opis oferty
-- Progi decyzyjne (auto-approve, wymaga admina, auto-reject)
-- Słownik zakazanych słów
-- Nowa encja: ContentModeration
+### 7. Oferta nie wchodzi ad hoc ✅
+- Flow: DRAFT → PENDING_REVIEW → SCHEDULED (za 3 dni) → ACTIVE
+- Admin może przyspieszyć (od razu ACTIVE)
+- Cron job aktywuje oferty o scheduled_publish_at
 
-### 7. Oferta nie wchodzi ad hoc — minimum 3 dni lub akceptacja admina
-- DRAFT → PENDING_REVIEW → SCHEDULED (za 3 dni) → ACTIVE
-- Admin może przyspieszyć publikację
-
-### 8. Wybór ulicy przy rejestracji klienta
+### 8. Wybór ulicy przy rejestracji klienta ✅
 - Oprócz dzielnicy wymagany wybór ulicy
-- Autocomplete z bazy ulic dzielnicy
+- Autocomplete z bazy ulic dzielnicy (GUS/TERYT lub własna lista)
 
-### 9. Status lokalu: wypowiedzenie umowy, usunięty
+### 9. Status lokalu: wypowiedzenie, usunięty ✅
 - Venue.status: ACTIVE, INACTIVE, TERMINATING, TERMINATED, DELETED
-- 30 dni okresu wypowiedzenia
+- TERMINATING = złożono wypowiedzenie, 30 dni okresu (oferty działają, nowych nie można)
+- TERMINATED = po 30 dniach, lokal niewidoczny, dane zarchiwizowane
 
-### 10. Opcja wypowiedzenia umowy w panelu właściciela
-- "Strefa niebezpieczna" → "Wypowiedz umowę"
-- Potwierdzenie + powód wypowiedzenia
+### 10. Opcja wypowiedzenia umowy w panelu właściciela ✅
+- W "Strefie niebezpiecznej" przycisk "Wypowiedz umowę"
+- Modal z potwierdzeniem + pole na powód (opcjonalne)
+- Email z potwierdzeniem wypowiedzenia
 
-### 11. Wielu użytkowników na lokal + rola MANAGER
-- OWNER: wszystko (zmiana nazwy/logo, PIN, wypowiedzenie, oferty, zapraszanie)
-- MANAGER: tylko oferty (tworzenie, edycja, pauzowanie)
-- Nowa encja: VenueUser
+### 11. Wielu użytkowników na lokal + rola MANAGER ✅
+
+| Uprawnienie | OWNER | MANAGER |
+|-------------|-------|---------|
+| Tworzenie/edycja ofert | ✅ | ✅ |
+| Pauzowanie ofert | ✅ | ✅ |
+| Podgląd statystyk | ✅ | ✅ |
+| Zmiana nazwy/logo | ✅ | ❌ |
+| Zmiana PIN | ✅ | ❌ |
+| Zapraszanie managerów | ✅ | ❌ |
+| Usuwanie managerów | ✅ | ❌ |
+| Wypowiedzenie umowy | ✅ | ❌ |
+
+- Owner zaprasza managera przez email
+- Manager otrzymuje link do utworzenia konta / dołączenia
+- **Tylko OWNER może usunąć managera** (brak opcji samodzielnej rezygnacji)
 
 ---
 
-## DO DOPRECYZOWANIA JUTRO
+## DO ZROBIENIA
 
-### Dane wymagane od właściciela przy rejestracji (pkt 4)
-Propozycje:
-- [ ] Imię i nazwisko
-- [ ] Numer telefonu
-- [ ] NIP firmy
-- [ ] Nazwa firmy
-- [ ] Adres siedziby firmy
-- [ ] Zgoda na regulamin platformy
-- [ ] Zgoda na przetwarzanie danych
-- [ ] Zgoda na komunikację marketingową (opcjonalna)
-- [ ] ...inne?
+- [ ] Zaktualizować MODEL-DANYCH.md (już częściowo zrobione)
+- [ ] Zaktualizować API (openapi.yaml)
+- [ ] Zaktualizować ACCESS-CONTROL.md
+- [ ] Zaktualizować mockupy mobile (timer QR, oceny, ulica)
+- [ ] Zaktualizować mockupy owner-web (wypowiedzenie, managerowie, średnia ocen)
+- [ ] Zaktualizować mockupy admin-web (akceptacja nazw/logo, moderacja ofert, tworzenie właścicieli)
 
-### Regulaminy i zgody (do prawnika)
+---
+
+## Regulaminy i zgody (do prawnika)
 - Regulamin platformy dla właścicieli
 - Polityka prywatności
 - Umowa o współpracy
