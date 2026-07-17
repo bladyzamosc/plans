@@ -21,9 +21,6 @@ Aplikacja lokalnych rabatów wspierająca sąsiedzki biznes.
 ### Push notifications
 - **[PUSH-NOTIFICATIONS.md](PUSH-NOTIFICATIONS.md)** — strategia, typy powiadomień, treści
 
-### Status zmian
-- **[ZMIANY-V2-STATUS.md](ZMIANY-V2-STATUS.md)** — lista zatwierdzonych zmian v2, do zrobienia
-
 ---
 
 ## Mockupy HTML
@@ -64,19 +61,6 @@ Folder: `mockups/admin-web/`
 - `admin-styles.css` — style panelu
 
 ---
-
-## Kluczowe decyzje v2
-
-| Funkcja | Decyzja |
-|---------|---------|
-| Timer QR | 15 min domyślnie, konfigurowalny (5-60 min lub do końca oferty) |
-| Moderacja treści | Własny słownik + Perspective API (Google) |
-| Publikacja ofert | Minimum 3 dni lub akceptacja admina |
-| Zmiana nazwy/logo | Wymaga akceptacji admina |
-| Role w lokalu | OWNER (wszystko) + MANAGER (tylko oferty) |
-| Oceny ofert | 1-5 gwiazdek, średnia tylko dla właściciela |
-| Wypowiedzenie | 30 dni okresu, oferty działają, nowych nie można |
-| Rejestracja klienta | Dzielnica + ulica + zgody |
 
 ---
 
