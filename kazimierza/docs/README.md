@@ -178,7 +178,6 @@ Właściciel/manager to CLIENT który dodatkowo ma przypisanie do lokalu:
 - `EXPIRED` — link wygasł (7 dni), można ponowić
 - `CANCELLED` — admin anulował
 
-**Faza 2:** Właściciel sam tworzy lokal → wymaga akceptacji admina
 
 ### Typy rabatów
 
@@ -408,7 +407,6 @@ RESTAURANT, CAFE, BAR, BAKERY, GROCERY, PHARMACY, HAIRDRESSER, BARBER, NAILS, GR
 ### Faza 2
 - FIRST_N (pierwsze X osób) + rezerwacja + timeout
 - Push: przypomnienia o wygasaniu
-- Właściciel sam tworzy lokal (+ akceptacja admina)
 - Płatne subskrypcje dla lokali
 - Wiele okolic
 - Więcej ofert dziennie (płatne)
