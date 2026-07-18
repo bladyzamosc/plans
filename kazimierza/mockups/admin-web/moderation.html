@@ -1,16 +1,522 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moderacja - Admin Panel</title>
+    <title>Moderacja - Tuswoi Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="admin-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
+            line-height: 1.5;
+        }
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1E3A5F;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-sub {
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #A0AEC0;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .nav-badge {
+            margin-left: auto;
+            background: #FF3B30;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 8px 16px;
+            width: 280px;
+        }
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+            color: #1E3A5F;
+            width: 100%;
+        }
+        .search-box input::placeholder {
+            color: #A0AEC0;
+        }
+        .search-box svg {
+            width: 18px;
+            height: 18px;
+            stroke: #A0AEC0;
+            stroke-width: 2;
+            fill: none;
+        }
+        .search-shortcut {
+            font-size: 11px;
+            color: #A0AEC0;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 4px;
+            padding: 2px 6px;
+        }
+        .header-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #E2E8F0;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .header-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #6B7C93;
+            stroke-width: 2;
+            fill: none;
+        }
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: #FF3B30;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .user-dropdown:hover {
+            background: #F2F5F9;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .user-info {
+            text-align: left;
+        }
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .user-role {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+
+        /* Content */
+        .content {
+            padding: 32px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .tab {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6B7C93;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+        }
+        .tab:hover {
+            color: #1E3A5F;
+        }
+        .tab.active {
+            color: #1E3A5F;
+            border-bottom-color: #1E3A5F;
+        }
+
+        /* Card */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+
+        /* Moderation Item */
+        .moderation-item {
+            padding: 24px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .moderation-item:last-child {
+            border-bottom: none;
+        }
+        .moderation-item.flagged {
+            background: rgba(255, 59, 48, 0.03);
+        }
+        .moderation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .moderation-info {
+            display: flex;
+            gap: 16px;
+        }
+        .moderation-icon {
+            width: 56px;
+            height: 56px;
+            background: #F2F5F9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: #6B7C93;
+        }
+        .moderation-icon.flagged {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+        .moderation-details h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .moderation-venue {
+            font-size: 14px;
+            color: #6B7C93;
+        }
+        .moderation-meta {
+            font-size: 13px;
+            color: #A0AEC0;
+            margin-top: 4px;
+        }
+        .moderation-score {
+            text-align: right;
+        }
+        .ai-score {
+            font-size: 13px;
+            color: #6B7C93;
+            margin-top: 4px;
+        }
+        .ai-score.warning {
+            color: #FF3B30;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge.green {
+            background: rgba(52, 199, 89, 0.1);
+            color: #34C759;
+        }
+        .badge.red {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+        .badge.gray {
+            background: #F2F5F9;
+            color: #6B7C93;
+        }
+
+        /* Content Box */
+        .content-box {
+            background: #F2F5F9;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+        }
+        .content-box.flagged {
+            background: #fff;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+        }
+        .content-box strong {
+            display: block;
+            font-size: 13px;
+            color: #6B7C93;
+            margin-bottom: 8px;
+        }
+        .content-box p {
+            color: #1E3A5F;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .flags {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 59, 48, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .flags-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #FF3B30;
+        }
+
+        /* Action Buttons */
+        .moderation-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #1E3A5F;
+            border: 1px solid #E2E8F0;
+        }
+        .btn-secondary:hover {
+            background: #F2F5F9;
+            border-color: #1E3A5F;
+        }
+        .btn-danger {
+            background: #fff;
+            color: #FF3B30;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+        }
+        .btn-danger:hover {
+            background: rgba(255, 59, 48, 0.05);
+            border-color: #FF3B30;
+        }
+
+        /* Mobile */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: #1E3A5F;
+            border: none;
+            cursor: pointer;
+        }
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .header {
+                padding-left: 72px;
+            }
+            .moderation-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="layout">
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="logo">Tuswoi</span>
                 <span class="logo-sub">Admin</span>
@@ -35,7 +541,7 @@
                 </a>
                 <a href="users.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Użytkownicy
+                    Uzytkownicy
                 </a>
                 <a href="offers.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
@@ -55,24 +561,40 @@
             <div class="sidebar-footer">
                 <a href="../index.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    Wróć do mockupów
+                    Wroc do mockupow
                 </a>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main">
-            <header class="topbar">
+            <!-- Header -->
+            <header class="header">
                 <h1 class="page-title">Moderacja</h1>
-                <div class="topbar-actions">
-                    <span class="admin-badge">Administrator</span>
-                    <div class="avatar">JK</div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" placeholder="Szukaj...">
+                        <span class="search-shortcut">Cmd+K</span>
+                    </div>
+                    <button class="header-icon-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <div class="user-dropdown">
+                        <div class="avatar">JK</div>
+                        <div class="user-info">
+                            <div class="user-name">Jan Kowalski</div>
+                            <div class="user-role">Administrator</div>
+                        </div>
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#6B7C93;stroke-width:2;fill:none"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
                 </div>
             </header>
 
             <div class="content">
                 <!-- Tabs -->
-                <div class="tabs" style="margin-bottom:24px">
+                <div class="tabs">
                     <button class="tab active">Oferty do weryfikacji (3)</button>
                     <button class="tab">Zmiany nazwy/logo (1)</button>
                 </div>
@@ -80,91 +602,91 @@
                 <!-- Pending Offers -->
                 <div class="card">
                     <div class="card-header">
-                        <h3>Oferty oczekujące na weryfikację</h3>
+                        <h3>Oferty oczekujace na weryfikacje</h3>
                     </div>
 
                     <!-- Offer 1 -->
-                    <div style="padding:24px;border-bottom:1px solid var(--border)">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
-                            <div style="display:flex;gap:16px">
-                                <div style="width:60px;height:60px;background:#f1f5f9;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text-muted)">KF</div>
-                                <div>
-                                    <h4 style="margin:0 0 4px">Happy Hour -50% na piwo</h4>
-                                    <div style="font-size:14px;color:var(--text-muted)">Beer & Burger Kufloteka</div>
-                                    <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Dodano: 17.07.2026 09:15 przez Jan Kowalski</div>
+                    <div class="moderation-item">
+                        <div class="moderation-header">
+                            <div class="moderation-info">
+                                <div class="moderation-icon">KF</div>
+                                <div class="moderation-details">
+                                    <h4>Happy Hour -50% na piwo</h4>
+                                    <div class="moderation-venue">Beer & Burger Kufloteka</div>
+                                    <div class="moderation-meta">Dodano: 17.07.2026 09:15 przez Jan Kowalski</div>
                                 </div>
                             </div>
-                            <div style="text-align:right">
+                            <div class="moderation-score">
                                 <span class="badge green">AI: 0.12</span>
-                                <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Auto-approve</div>
+                                <div class="ai-score">Auto-approve</div>
                             </div>
                         </div>
-                        <div style="background:#f8fafc;border-radius:8px;padding:16px;margin-bottom:16px">
-                            <strong style="display:block;margin-bottom:8px">Treść oferty:</strong>
-                            <p style="margin:0;color:var(--text-muted)">Wszystkie piwa kraftowe z kranu 50% taniej w godzinach 15:00-17:00. Idealna okazja na spotkanie ze znajomymi!</p>
+                        <div class="content-box">
+                            <strong>Tresc oferty:</strong>
+                            <p>Wszystkie piwa kraftowe z kranu 50% taniej w godzinach 15:00-17:00. Idealna okazja na spotkanie ze znajomymi!</p>
                         </div>
-                        <div style="display:flex;gap:12px;justify-content:flex-end">
-                            <button class="btn btn-outline" style="color:#dc2626;border-color:#fecaca">Odrzuć</button>
-                            <button class="btn btn-secondary">Zatwierdź (publikacja za 3 dni)</button>
-                            <button class="btn btn-primary">Zatwierdź i publikuj teraz</button>
+                        <div class="moderation-actions">
+                            <button class="btn btn-danger">Odrzuc</button>
+                            <button class="btn btn-secondary">Zatwierdz (publikacja za 3 dni)</button>
+                            <button class="btn btn-primary">Zatwierdz i publikuj teraz</button>
                         </div>
                     </div>
 
                     <!-- Offer 2 - flagged -->
-                    <div style="padding:24px;border-bottom:1px solid var(--border);background:#fef2f2">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
-                            <div style="display:flex;gap:16px">
-                                <div style="width:60px;height:60px;background:#fee2e2;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#dc2626">!</div>
-                                <div>
-                                    <h4 style="margin:0 0 4px">Super mega okazja!!!</h4>
-                                    <div style="font-size:14px;color:var(--text-muted)">Pizzeria Roma</div>
-                                    <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Dodano: 16.07.2026 18:42 przez Anna Nowak</div>
+                    <div class="moderation-item flagged">
+                        <div class="moderation-header">
+                            <div class="moderation-info">
+                                <div class="moderation-icon flagged">!</div>
+                                <div class="moderation-details">
+                                    <h4>Super mega okazja!!!</h4>
+                                    <div class="moderation-venue">Pizzeria Roma</div>
+                                    <div class="moderation-meta">Dodano: 16.07.2026 18:42 przez Anna Nowak</div>
                                 </div>
                             </div>
-                            <div style="text-align:right">
+                            <div class="moderation-score">
                                 <span class="badge red">AI: 0.58</span>
-                                <div style="font-size:12px;color:#dc2626;margin-top:4px">Wymaga weryfikacji</div>
+                                <div class="ai-score warning">Wymaga weryfikacji</div>
                             </div>
                         </div>
-                        <div style="background:#fff;border:1px solid #fecaca;border-radius:8px;padding:16px;margin-bottom:16px">
-                            <strong style="display:block;margin-bottom:8px">Treść oferty:</strong>
-                            <p style="margin:0;color:var(--text-muted)">Najlepsza pizza w mieście, konkurencja ssie! Tylko u nas prawdziwa włoska pizza!!!</p>
-                            <div style="margin-top:12px;padding-top:12px;border-top:1px solid #fecaca">
-                                <strong style="color:#dc2626;font-size:13px">Flagi AI:</strong>
-                                <span class="badge" style="margin-left:8px">competitive_language</span>
-                                <span class="badge" style="margin-left:4px">excessive_punctuation</span>
+                        <div class="content-box flagged">
+                            <strong>Tresc oferty:</strong>
+                            <p>Najlepsza pizza w miescie, konkurencja ssie! Tylko u nas prawdziwa wloska pizza!!!</p>
+                            <div class="flags">
+                                <span class="flags-label">Flagi AI:</span>
+                                <span class="badge gray">competitive_language</span>
+                                <span class="badge gray">excessive_punctuation</span>
                             </div>
                         </div>
-                        <div style="display:flex;gap:12px;justify-content:flex-end">
-                            <button class="btn btn-outline" style="color:#dc2626;border-color:#fecaca">Odrzuć z powiadomieniem</button>
-                            <button class="btn btn-secondary">Zatwierdź mimo to</button>
+                        <div class="moderation-actions">
+                            <button class="btn btn-danger">Odrzuc z powiadomieniem</button>
+                            <button class="btn btn-secondary">Zatwierdz mimo to</button>
                         </div>
                     </div>
 
                     <!-- Offer 3 -->
-                    <div style="padding:24px">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
-                            <div style="display:flex;gap:16px">
-                                <div style="width:60px;height:60px;background:#f1f5f9;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text-muted)">CA</div>
-                                <div>
-                                    <h4 style="margin:0 0 4px">Kawa + ciastko za 12 zł</h4>
-                                    <div style="font-size:14px;color:var(--text-muted)">Cafe Artystyczna</div>
-                                    <div style="font-size:13px;color:var(--text-muted);margin-top:4px">Dodano: 16.07.2026 14:20 przez Maria Wiśniewska</div>
+                    <div class="moderation-item">
+                        <div class="moderation-header">
+                            <div class="moderation-info">
+                                <div class="moderation-icon">CA</div>
+                                <div class="moderation-details">
+                                    <h4>Kawa + ciastko za 12 zl</h4>
+                                    <div class="moderation-venue">Cafe Artystyczna</div>
+                                    <div class="moderation-meta">Dodano: 16.07.2026 14:20 przez Maria Wisniewska</div>
                                 </div>
                             </div>
-                            <div style="text-align:right">
+                            <div class="moderation-score">
                                 <span class="badge green">AI: 0.05</span>
-                                <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Auto-approve</div>
+                                <div class="ai-score">Auto-approve</div>
                             </div>
                         </div>
-                        <div style="background:#f8fafc;border-radius:8px;padding:16px;margin-bottom:16px">
-                            <strong style="display:block;margin-bottom:8px">Treść oferty:</strong>
-                            <p style="margin:0;color:var(--text-muted)">Dowolna kawa + ciastko dnia w zestawie za 12 zł. Codziennie inne ciastko!</p>
+                        <div class="content-box">
+                            <strong>Tresc oferty:</strong>
+                            <p>Dowolna kawa + ciastko dnia w zestawie za 12 zl. Codziennie inne ciastko!</p>
                         </div>
-                        <div style="display:flex;gap:12px;justify-content:flex-end">
-                            <button class="btn btn-outline" style="color:#dc2626;border-color:#fecaca">Odrzuć</button>
-                            <button class="btn btn-secondary">Zatwierdź (publikacja za 3 dni)</button>
-                            <button class="btn btn-primary">Zatwierdź i publikuj teraz</button>
+                        <div class="moderation-actions">
+                            <button class="btn btn-danger">Odrzuc</button>
+                            <button class="btn btn-secondary">Zatwierdz (publikacja za 3 dni)</button>
+                            <button class="btn btn-primary">Zatwierdz i publikuj teraz</button>
                         </div>
                     </div>
                 </div>
@@ -172,31 +694,11 @@
         </main>
     </div>
 
-    <style>
-    .tabs {
-        display: flex;
-        gap: 8px;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 0;
-    }
-    .tab {
-        padding: 12px 20px;
-        border: none;
-        background: none;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-muted);
-        cursor: pointer;
-        border-bottom: 2px solid transparent;
-        margin-bottom: -1px;
-    }
-    .tab:hover {
-        color: var(--text);
-    }
-    .tab.active {
-        color: var(--accent);
-        border-bottom-color: var(--accent);
-    }
-    </style>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

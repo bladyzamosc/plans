@@ -1,28 +1,128 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sukces - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            min-height: 700px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            border: 8px solid #1E3A5F;
+            overflow: hidden;
+            position: relative;
+        }
+        .content {
+            padding: 80px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .icon-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .icon-circle.success {
+            background: linear-gradient(135deg, #34C759, #30B350);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(52, 199, 89, 0.3);
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1E3A5F;
+            margin-bottom: 32px;
+        }
+        .details {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 24px;
+            width: 100%;
+        }
+        .detail-row {
+            margin-bottom: 20px;
+        }
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+        .detail-label {
+            font-size: 12px;
+            color: #6B7C93;
+            margin-bottom: 4px;
+        }
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #1E3A5F15, transparent);
+            margin: 16px 0;
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
 
     <div class="phone">
-        <div class="content content-center">
+        <div class="content">
             <div class="icon-circle success">✓</div>
-            <h1 class="title" style="font-size:24px">Zrealizowano!</h1>
+            <h1 class="title">Zrealizowano!</h1>
 
-            <div class="mt-32" style="text-align:left">
-                <p class="text-muted text-small">Klient</p>
-                <p style="font-weight:500">Jan K.</p>
-
-                <p class="text-muted text-small mt-16">Oferta</p>
-                <p style="font-weight:500">-30% pizza</p>
-
-                <p class="text-muted text-small mt-16">Data</p>
-                <p style="font-weight:500">16.07.2026 14:32</p>
+            <div class="details">
+                <div class="detail-row">
+                    <p class="detail-label">Klient</p>
+                    <p class="detail-value">Jan K.</p>
+                </div>
+                <div class="divider"></div>
+                <div class="detail-row">
+                    <p class="detail-label">Oferta</p>
+                    <p class="detail-value">-30% pizza</p>
+                </div>
+                <div class="divider"></div>
+                <div class="detail-row">
+                    <p class="detail-label">Data realizacji</p>
+                    <p class="detail-value">18.07.2026 14:32</p>
+                </div>
             </div>
         </div>
     </div>

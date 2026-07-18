@@ -1,10 +1,189 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(30, 58, 95, 0.15);
+            display: flex;
+            flex-direction: column;
+            border: 8px solid #1E3A5F;
+        }
+        .header {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: white;
+            padding: 60px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-back {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            width: 40px;
+            opacity: 0.9;
+        }
+        .header-back:hover {
+            opacity: 1;
+        }
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .content {
+            flex: 1;
+            padding: 24px 20px;
+            overflow-y: auto;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 auto;
+        }
+        .user-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-top: 16px;
+        }
+        .user-email {
+            font-size: 14px;
+            color: #6B7C93;
+            margin-top: 4px;
+        }
+        .divider {
+            height: 1px;
+            background: #E8EDF4;
+            margin: 24px 0;
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .list-icon {
+            font-size: 20px;
+            margin-right: 16px;
+        }
+        .list-text {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .list-arrow {
+            color: #6B7C93;
+            font-size: 18px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-secondary {
+            background: white;
+            color: #1E3A5F;
+            border: 2px solid #E8EDF4;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .btn-secondary:hover {
+            border-color: #1E3A5F;
+            transform: translateY(-2px);
+        }
+        .tab-bar {
+            display: flex;
+            background: white;
+            border-top: 1px solid #E8EDF4;
+            padding: 8px 0 24px;
+        }
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #6B7C93;
+            font-size: 11px;
+            font-weight: 500;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+        .tab-item:hover {
+            color: #2C5282;
+        }
+        .tab-item.active {
+            color: #1E3A5F;
+        }
+        .tab-icon {
+            font-size: 22px;
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
@@ -17,10 +196,10 @@
         </div>
 
         <div class="content">
-            <div class="text-center mb-20">
-                <div class="avatar" style="margin:0 auto">JK</div>
-                <h2 class="mt-12" style="font-size:20px">Jan Kowalski</h2>
-                <p class="text-muted text-small">jan@example.com</p>
+            <div class="text-center">
+                <div class="avatar">JK</div>
+                <h2 class="user-name">Jan Kowalski</h2>
+                <p class="user-email">jan@example.com</p>
             </div>
 
             <div class="divider"></div>
@@ -40,10 +219,47 @@
                 <span class="list-text">Powiadomienia</span>
                 <span class="list-arrow">→</span>
             </a>
+            <div class="list-item" style="cursor:pointer" onclick="toggleLang()">
+                <span class="list-icon">🌐</span>
+                <span class="list-text">Jezyk</span>
+                <span class="lang-value" id="langValue" style="color:#6B7C93;font-size:14px;margin-right:8px;display:flex;align-items:center;gap:6px;">
+                    <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                    Polski
+                </span>
+                <span class="list-arrow">→</span>
+            </div>
+            <div id="langSelect" style="display:none;background:#fff;border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                <a href="#" onclick="selectLang('pl');return false;" style="display:flex;align-items:center;padding:14px 20px;text-decoration:none;color:#1E3A5F;border-bottom:1px solid #E8EDF4;">
+                    <svg width="20" height="14" viewBox="0 0 20 14" style="margin-right:12px;"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                    <span style="flex:1;">Polski</span>
+                    <span id="checkPl" style="color:#34C759;">✓</span>
+                </a>
+                <a href="#" onclick="selectLang('en');return false;" style="display:flex;align-items:center;padding:14px 20px;text-decoration:none;color:#1E3A5F;">
+                    <svg width="20" height="14" viewBox="0 0 20 14" style="margin-right:12px;"><clipPath id="gb"><rect width="20" height="14" rx="1"/></clipPath><g clip-path="url(#gb)"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.5"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.5"/></g></svg>
+                    <span style="flex:1;">English</span>
+                    <span id="checkEn" style="color:#34C759;display:none;">✓</span>
+                </a>
+            </div>
 
             <div class="divider"></div>
 
-            <a href="splash.html" class="btn btn-secondary">Wyloguj się</a>
+            <a href="splash.html" class="btn btn-secondary">Wyloguj sie</a>
+
+            <script>
+                function toggleLang() {
+                    var el = document.getElementById('langSelect');
+                    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+                }
+                function selectLang(lang) {
+                    var flagPl = '<svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>';
+                    var flagEn = '<svg width="20" height="14" viewBox="0 0 20 14"><clipPath id="gb2"><rect width="20" height="14" rx="1"/></clipPath><g clip-path="url(#gb2)"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.5"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.5"/></g></svg>';
+                    var isPl = lang === 'pl';
+                    document.getElementById('langValue').innerHTML = (isPl ? flagPl : flagEn) + (isPl ? ' Polski' : ' English');
+                    document.getElementById('langSelect').style.display = 'none';
+                    document.getElementById('checkPl').style.display = isPl ? 'inline' : 'none';
+                    document.getElementById('checkEn').style.display = isPl ? 'none' : 'inline';
+                }
+            </script>
         </div>
 
         <div class="tab-bar">

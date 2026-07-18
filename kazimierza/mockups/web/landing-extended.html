@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tuswoi - Łączymy się lokalnie!</title>
+    <title>Tuswoi - Laczymy sie lokalnie!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,9 +13,9 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #fff;
-            color: #1a1a1a;
+            color: #1E3A5F;
             line-height: 1.6;
         }
 
@@ -31,13 +32,13 @@
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
             z-index: 100;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.08);
         }
 
         .nav-logo {
             font-size: 24px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #1E3A5F;
             text-decoration: none;
         }
 
@@ -48,22 +49,88 @@
         }
 
         .nav-links a {
-            color: #666;
+            color: #6B7C93;
             text-decoration: none;
             font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: #1a1a1a;
+            color: #1E3A5F;
         }
 
         .nav-btn {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             color: #fff;
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+        }
+
+        /* Language Dropdown */
+        .lang-dropdown {
+            position: relative;
+        }
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 500;
+            color: #1E3A5F;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover {
+            background: #E8EDF4;
+        }
+        .lang-flag {
+            font-size: 16px;
+        }
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 140px;
+            display: none;
+            z-index: 200;
+        }
+        .lang-dropdown:hover .lang-menu {
+            display: block;
+        }
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .lang-option:hover {
+            background: #F2F5F9;
+        }
+        .lang-option.active {
+            background: #E8EDF4;
+            font-weight: 600;
         }
 
         /* Hero - Full screen */
@@ -72,7 +139,8 @@
             display: flex;
             align-items: center;
             padding: 120px 40px 80px;
-            background: linear-gradient(135deg, #f8f8f8 0%, #fff 100%);
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
         }
 
         .hero-inner {
@@ -90,71 +158,75 @@
 
         .hero-badge {
             display: inline-block;
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 24px;
+            backdrop-filter: blur(10px);
         }
 
         .hero-title {
             font-size: 64px;
-            font-weight: 700;
+            font-weight: 800;
             line-height: 1.1;
             margin-bottom: 24px;
-        }
-
-        .hero-title span {
-            background: linear-gradient(135deg, #1a1a1a, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
         }
 
         .hero-subtitle {
             font-size: 20px;
-            color: #666;
+            color: rgba(255,255,255,0.85);
             margin-bottom: 40px;
             max-width: 500px;
+            line-height: 1.7;
         }
 
         .hero-buttons {
             display: flex;
             gap: 16px;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .btn-primary {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #1a1a1a;
-            color: #fff;
+            background: #fff;
+            color: #1E3A5F;
             padding: 18px 36px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
             font-size: 16px;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
         .btn-outline {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #fff;
-            color: #1a1a1a;
+            background: transparent;
+            color: #fff;
             padding: 18px 36px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
             font-size: 16px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .btn-outline:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.1);
         }
 
         .hero-stats {
@@ -167,13 +239,14 @@
         }
 
         .stat-value {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 700;
+            color: #fff;
         }
 
         .stat-label {
             font-size: 14px;
-            color: #666;
+            color: rgba(255,255,255,0.7);
         }
 
         .hero-visual {
@@ -186,13 +259,13 @@
             height: 600px;
             background: #fff;
             border-radius: 40px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: #6B7C93;
             font-size: 14px;
-            border: 8px solid #1a1a1a;
+            border: 8px solid rgba(255,255,255,0.2);
         }
 
         .phone-mockup-small {
@@ -203,19 +276,19 @@
             height: 400px;
             background: #fff;
             border-radius: 30px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: #6B7C93;
             font-size: 12px;
-            border: 6px solid #333;
+            border: 6px solid rgba(255,255,255,0.15);
             transform: rotate(5deg);
         }
 
         /* Social proof */
         .social-proof {
-            background: #1a1a1a;
+            background: #1E3A5F;
             color: #fff;
             padding: 60px 40px;
         }
@@ -254,6 +327,7 @@
         /* How it works */
         .how-it-works {
             padding: 120px 40px;
+            background: #F2F5F9;
         }
 
         .section-inner {
@@ -269,7 +343,7 @@
         .section-label {
             font-size: 14px;
             font-weight: 600;
-            color: #666;
+            color: #2C5282;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 16px;
@@ -278,6 +352,7 @@
         .section-title {
             font-size: 48px;
             font-weight: 700;
+            color: #1E3A5F;
         }
 
         .steps {
@@ -293,7 +368,7 @@
         .step-number {
             width: 80px;
             height: 80px;
-            background: #f5f5f5;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -301,16 +376,18 @@
             font-size: 32px;
             font-weight: 700;
             margin: 0 auto 24px;
+            color: #fff;
         }
 
         .step-title {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 12px;
+            color: #1E3A5F;
         }
 
         .step-desc {
-            color: #666;
+            color: #6B7C93;
             font-size: 16px;
             max-width: 280px;
             margin: 0 auto;
@@ -319,19 +396,27 @@
         /* Features grid */
         .features {
             padding: 120px 40px;
-            background: #f8f8f8;
+            background: #fff;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            gap: 32px;
         }
 
         .feature-card {
             background: #fff;
-            padding: 48px;
-            border-radius: 24px;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 12px 32px rgba(30, 58, 95, 0.12);
+            transform: translateY(-4px);
         }
 
         .feature-card.large {
@@ -344,7 +429,7 @@
         .feature-icon {
             width: 64px;
             height: 64px;
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -358,10 +443,11 @@
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 12px;
+            color: #1E3A5F;
         }
 
         .feature-desc {
-            color: #666;
+            color: #6B7C93;
             font-size: 16px;
             line-height: 1.7;
         }
@@ -369,6 +455,7 @@
         /* For business */
         .for-business {
             padding: 120px 40px;
+            background: #F2F5F9;
         }
 
         .for-business-inner {
@@ -385,13 +472,22 @@
 
         .for-business-visual {
             flex: 1;
-            background: #f5f5f5;
-            border-radius: 24px;
+            background: #fff;
+            border-radius: 16px;
             height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: #6B7C93;
+            box-shadow: 0 8px 32px rgba(30, 58, 95, 0.1);
+        }
+
+        .for-business-subtitle {
+            font-size: 20px;
+            color: #6B7C93;
+            margin-bottom: 32px;
+            max-width: 500px;
+            line-height: 1.7;
         }
 
         .benefits-list {
@@ -405,12 +501,13 @@
             gap: 16px;
             margin-bottom: 20px;
             font-size: 16px;
+            color: #1E3A5F;
         }
 
         .benefits-list li::before {
-            content: "✓";
-            background: #e8f5e9;
-            color: #2e7d32;
+            content: "";
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
             width: 24px;
             height: 24px;
             border-radius: 50%;
@@ -419,12 +516,15 @@
             justify-content: center;
             font-size: 14px;
             flex-shrink: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         /* Testimonials */
         .testimonials {
             padding: 120px 40px;
-            background: #f8f8f8;
+            background: #fff;
         }
 
         .testimonials-grid {
@@ -437,13 +537,15 @@
             background: #fff;
             padding: 32px;
             border-radius: 16px;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
         }
 
         .testimonial-quote {
             font-size: 16px;
             line-height: 1.7;
             margin-bottom: 24px;
-            color: #333;
+            color: #1E3A5F;
         }
 
         .testimonial-author {
@@ -455,28 +557,89 @@
         .author-avatar {
             width: 48px;
             height: 48px;
-            background: #e0e0e0;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: #666;
+            color: #fff;
         }
 
         .author-name {
             font-weight: 600;
+            color: #1E3A5F;
         }
 
         .author-role {
             font-size: 14px;
-            color: #666;
+            color: #6B7C93;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 120px 40px;
+            background: #F2F5F9;
+        }
+
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: #fff;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
+        }
+
+        .faq-question {
+            padding: 24px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #1E3A5F;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: #F2F5F9;
+        }
+
+        .faq-question::after {
+            content: "+";
+            font-size: 24px;
+            color: #2C5282;
+            font-weight: 400;
+            transition: transform 0.2s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 32px 24px;
+            color: #6B7C93;
+            font-size: 16px;
+            line-height: 1.7;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
         }
 
         /* Download CTA */
         .download-cta {
             padding: 120px 40px;
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             color: #fff;
             text-align: center;
         }
@@ -487,12 +650,12 @@
         }
 
         .download-cta .section-label {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.7);
         }
 
         .download-cta-subtitle {
             font-size: 18px;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.8);
             margin-bottom: 48px;
         }
 
@@ -513,20 +676,20 @@
         .qr-code {
             width: 180px;
             height: 180px;
-            background: #f5f5f5;
+            background: #F2F5F9;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: monospace;
             font-size: 10px;
-            color: #888;
+            color: #6B7C93;
             margin-bottom: 16px;
         }
 
         .qr-label {
             font-size: 14px;
-            color: #666;
+            color: #6B7C93;
         }
 
         .download-stores {
@@ -540,11 +703,17 @@
             align-items: center;
             gap: 12px;
             background: #fff;
-            color: #1a1a1a;
+            color: #1E3A5F;
             padding: 16px 32px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .store-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         .store-icon {
@@ -557,7 +726,7 @@
 
         .store-small {
             font-size: 12px;
-            color: #666;
+            color: #6B7C93;
         }
 
         .store-name {
@@ -567,7 +736,7 @@
 
         /* Footer */
         .footer {
-            background: #111;
+            background: #1E3A5F;
             color: #fff;
             padding: 80px 40px 40px;
         }
@@ -596,7 +765,7 @@
         }
 
         .footer-tagline {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.7);
             font-size: 15px;
             line-height: 1.6;
         }
@@ -610,7 +779,7 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 20px;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.5);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -621,10 +790,11 @@
             text-decoration: none;
             font-size: 15px;
             margin-bottom: 12px;
+            transition: opacity 0.2s;
         }
 
         .footer-col a:hover {
-            text-decoration: underline;
+            opacity: 0.8;
         }
 
         .footer-bottom {
@@ -632,7 +802,7 @@
             justify-content: space-between;
             align-items: center;
             font-size: 14px;
-            color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.5);
         }
 
         .footer-social {
@@ -650,6 +820,132 @@
             justify-content: center;
             color: #fff;
             text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .footer-social a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1E3A5F;
+            color: #fff;
+            padding: 20px 40px;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(30, 58, 95, 0.2);
+        }
+
+        .cookie-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .cookie-text {
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            margin: 0;
+        }
+
+        .cookie-text a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .cookie-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .cookie-btn-settings {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .cookie-btn-settings:hover {
+            border-color: #fff;
+        }
+
+        .cookie-btn-accept {
+            background: #fff;
+            color: #1E3A5F;
+        }
+
+        .cookie-btn-accept:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 40px;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card.large {
+                grid-column: span 1;
+                flex-direction: column;
+            }
+
+            .for-business-inner {
+                flex-direction: column;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 40px;
+            }
         }
     </style>
 </head>
@@ -657,11 +953,28 @@
     <nav class="nav">
         <a href="#" class="nav-logo">Tuswoi</a>
         <div class="nav-links">
-            <a href="#jak-to-dziala">Jak to działa</a>
+            <a href="#jak-to-dziala">Jak to dziala</a>
             <a href="#funkcje">Funkcje</a>
             <a href="#dla-biznesu">Dla biznesu</a>
             <a href="faq.html">FAQ</a>
-            <a href="login.html" class="nav-btn">Zaloguj się</a>
+            <div class="lang-dropdown">
+                <button class="lang-btn">
+                    <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                    PL
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="lang-menu">
+                    <a href="#" class="lang-option active">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                        Polski
+                    </a>
+                    <a href="#" class="lang-option">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><clipPath id="gb"><rect width="20" height="14" rx="1"/></clipPath><g clip-path="url(#gb)"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.5"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.5"/></g></svg>
+                        English
+                    </a>
+                </div>
+            </div>
+            <a href="login.html" class="nav-btn">Zaloguj sie</a>
         </div>
     </nav>
 
@@ -670,29 +983,29 @@
             <div class="hero-content">
                 <span class="hero-badge">Nowe w Twojej okolicy</span>
                 <h1 class="hero-title">
-                    <span>Łączymy się</span><br>
+                    Laczymy sie<br>
                     lokalnie!
                 </h1>
                 <p class="hero-subtitle">
-                    Odkrywaj ekskluzywne rabaty w lokalnych sklepach, kawiarniach i usługach.
-                    Wspieraj sąsiedzkie biznesy, buduj społeczność.
+                    Odkrywaj ekskluzywne rabaty w lokalnych sklepach, kawiarniach i uslugach.
+                    Wspieraj sasiedzkie biznesy, buduj spolecznosc.
                 </p>
                 <div class="hero-buttons">
                     <a href="#pobierz" class="btn-primary">
                         Pobierz za darmo
                     </a>
                     <a href="#jak-to-dziala" class="btn-outline">
-                        Zobacz jak działa
+                        Zobacz jak dziala
                     </a>
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
                         <div class="stat-value">50+</div>
-                        <div class="stat-label">Lokalnych biznesów</div>
+                        <div class="stat-label">Lokalnych biznesow</div>
                     </div>
                     <div class="stat">
                         <div class="stat-value">1000+</div>
-                        <div class="stat-label">Użytkowników</div>
+                        <div class="stat-label">Uzytkownikow</div>
                     </div>
                     <div class="stat">
                         <div class="stat-value">5</div>
@@ -713,7 +1026,7 @@
 
     <section class="social-proof">
         <div class="social-proof-inner">
-            <p class="social-proof-text">Zaufali nam lokalni przedsiębiorcy</p>
+            <p class="social-proof-text">Zaufali nam lokalni przedsiebiorcy</p>
             <div class="social-proof-logos">
                 <div class="logo-placeholder">Logo 1</div>
                 <div class="logo-placeholder">Logo 2</div>
@@ -726,29 +1039,29 @@
     <section class="how-it-works" id="jak-to-dziala">
         <div class="section-inner">
             <div class="section-header">
-                <p class="section-label">Jak to działa</p>
+                <p class="section-label">Jak to dziala</p>
                 <h2 class="section-title">Trzy proste kroki</h2>
             </div>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3 class="step-title">Wybierz okolicę</h3>
+                    <h3 class="step-title">Wybierz okolice</h3>
                     <p class="step-desc">
-                        Podaj swoją dzielnicę lub ulicę, a pokażemy Ci lokalne biznesy w pobliżu.
+                        Podaj swoja dzielnice lub ulice, a pokazemy Ci lokalne biznesy w poblizu.
                     </p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3 class="step-title">Znajdź rabat</h3>
+                    <h3 class="step-title">Znajdz rabat</h3>
                     <p class="step-desc">
-                        Przeglądaj aktualne oferty — procenty, gratisy, zniżki kwotowe.
+                        Przegladaj aktualne oferty - procenty, gratisy, znizki kwotowe.
                     </p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3 class="step-title">Pokaż kod</h3>
+                    <h3 class="step-title">Pokaz kod</h3>
                     <p class="step-desc">
-                        Wygeneruj kod QR, pokaż w lokalu i ciesz się rabatem!
+                        Wygeneruj kod QR, pokaz w lokalu i ciesz sie rabatem!
                     </p>
                 </div>
             </div>
@@ -764,13 +1077,13 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">%</div>
-                    <h3 class="feature-title">Różne typy rabatów</h3>
+                    <h3 class="feature-title">Rozne typy rabatow</h3>
                     <p class="feature-desc">
-                        Procenty, kwoty, gratisy — każdy lokal może wybrać formę rabatu, która mu pasuje.
+                        Procenty, kwoty, gratisy - kazdy lokal moze wybrac forme rabatu, ktora mu pasuje.
                     </p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">♥</div>
+                    <div class="feature-icon">&#9829;</div>
                     <h3 class="feature-title">Ulubione lokale</h3>
                     <p class="feature-desc">
                         Zapisuj ulubione miejsca i nie przegap ich nowych ofert.
@@ -778,29 +1091,29 @@
                 </div>
                 <div class="feature-card large">
                     <div>
-                        <div class="feature-icon">⏱</div>
+                        <div class="feature-icon">&#9201;</div>
                         <h3 class="feature-title">Bezpieczne kody QR</h3>
                         <p class="feature-desc">
-                            Każdy kod ma ograniczony czas ważności. Nie da się go skopiować ani użyć dwukrotnie.
-                            Pracownik potwierdza realizację kodem PIN — szybko i bezpiecznie.
+                            Kazdy kod ma ograniczony czas waznosci. Nie da sie go skopiowac ani uzyc dwukrotnie.
+                            Pracownik potwierdza realizacje kodem PIN - szybko i bezpiecznie.
                         </p>
                     </div>
-                    <div style="flex:1;height:200px;background:#f5f5f5;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#999">
+                    <div style="flex:1;height:200px;background:#F2F5F9;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#6B7C93">
                         [Animacja QR]
                     </div>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">★</div>
+                    <div class="feature-icon">&#9733;</div>
                     <h3 class="feature-title">Oceny i opinie</h3>
                     <p class="feature-desc">
-                        Oceń ofertę po realizacji — Twoja opinia pomoże innym.
+                        Ocen oferte po realizacji - Twoja opinia pomoze innym.
                     </p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔔</div>
+                    <div class="feature-icon">&#128276;</div>
                     <h3 class="feature-title">Powiadomienia</h3>
                     <p class="feature-desc">
-                        Raz dziennie — tylko nowe oferty z Twojej okolicy. Bez spamu.
+                        Raz dziennie - tylko nowe oferty z Twojej okolicy. Bez spamu.
                     </p>
                 </div>
             </div>
@@ -810,27 +1123,83 @@
     <section class="for-business" id="dla-biznesu">
         <div class="for-business-inner">
             <div class="for-business-content">
-                <p class="section-label">Dla właścicieli</p>
-                <h2 class="section-title">Dotrzyj do lokalnych klientów</h2>
-                <p class="hero-subtitle">
-                    Dołącz do społeczności lokalnych biznesów. Publikuj rabaty, zdobywaj stałych klientów,
-                    buduj relacje z sąsiadami.
+                <p class="section-label">Dla wlascicieli</p>
+                <h2 class="section-title">Dotrzyj do lokalnych klientow</h2>
+                <p class="for-business-subtitle">
+                    Dolacz do spolecznosci lokalnych biznesow. Publikuj rabaty, zdobywaj stalych klientow,
+                    buduj relacje z sasiadami.
                 </p>
                 <ul class="benefits-list">
-                    <li>Prosta publikacja ofert w kilka kliknięć</li>
+                    <li>Prosta publikacja ofert w kilka klikniec</li>
                     <li>Panel ze statystykami realizacji</li>
                     <li>Bezpieczna walidacja przez kod PIN</li>
                     <li>Brak prowizji od transakcji</li>
                     <li>Darmowy start w fazie MVP</li>
                 </ul>
                 <div class="hero-buttons" style="margin-top:32px">
-                    <a href="kontakt.html" class="btn-primary">
-                        Skontaktuj się z nami
+                    <a href="kontakt.html" class="btn-primary" style="background:linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);color:#fff;">
+                        Skontaktuj sie z nami
                     </a>
                 </div>
             </div>
             <div class="for-business-visual">
-                [Screenshot panelu właściciela]
+                [Screenshot panelu wlasciciela]
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <div class="section-inner">
+            <div class="section-header">
+                <p class="section-label">FAQ</p>
+                <h2 class="section-title">Czesto zadawane pytania</h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item active">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                        Czy aplikacja jest darmowa?
+                    </div>
+                    <div class="faq-answer">
+                        Tak, Tuswoi jest calkowicie darmowa dla uzytkownikow. Mozesz przegladac oferty,
+                        generowac kody QR i korzystac z rabatow bez zadnych oplat.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                        Jak zrealizowac rabat?
+                    </div>
+                    <div class="faq-answer">
+                        Wybierz interesujaca Cie oferte, kliknij "Pokaz kod" i pokaz wygenerowany kod QR
+                        pracownikowi lokalu. Pracownik potwierdzi realizacje swoim kodem PIN.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                        Ile rabatow moge wykorzystac dziennie?
+                    </div>
+                    <div class="faq-answer">
+                        Mozesz wykorzystac jedna oferte dziennie w kazdym lokalu. Jesli chcesz skorzystac
+                        z tej samej oferty ponownie, musisz poczekac do nastepnego dnia.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                        Jak dlugo wazny jest kod QR?
+                    </div>
+                    <div class="faq-answer">
+                        Czas waznosci kodu zalezy od ustawien oferty - zazwyczaj od 5 do 60 minut.
+                        Timer jest widoczny na ekranie z kodem QR.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                        Jak dolaczyc do Tuswoi jako wlasciciel lokalu?
+                    </div>
+                    <div class="faq-answer">
+                        Skontaktuj sie z nami przez formularz kontaktowy. Nasz zespol skontaktuje sie
+                        z Toba, aby omowic szczegoly wspolpracy i zalozyc konto Twojego lokalu.
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -839,12 +1208,12 @@
         <div class="section-inner">
             <div class="section-header">
                 <p class="section-label">Opinie</p>
-                <h2 class="section-title">Co mówią użytkownicy</h2>
+                <h2 class="section-title">Co mowia uzytkownicy</h2>
             </div>
             <div class="testimonials-grid">
                 <div class="testimonial">
                     <p class="testimonial-quote">
-                        "Odkryłam kawiarnie dwie ulice dalej, o których nie wiedziałam! Teraz chodzę tam codziennie."
+                        "Odkrylam kawiarnio dwie ulice dalej, o ktorych nie wiedzialam! Teraz chodze tam codziennie."
                     </p>
                     <div class="testimonial-author">
                         <div class="author-avatar">AK</div>
@@ -856,25 +1225,25 @@
                 </div>
                 <div class="testimonial">
                     <p class="testimonial-quote">
-                        "Od kiedy dołączyłem do Tuswoi, mam o 30% więcej klientów z okolicy. Polecam każdemu lokalnemu biznesowi."
+                        "Od kiedy dolaczylem do Tuswoi, mam o 30% wiecej klientow z okolicy. Polecam kazdemu lokalnemu biznesowi."
                     </p>
                     <div class="testimonial-author">
                         <div class="author-avatar">MN</div>
                         <div>
                             <div class="author-name">Marek N.</div>
-                            <div class="author-role">Właściciel kawiarni</div>
+                            <div class="author-role">Wlasciciel kawiarni</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial">
                     <p class="testimonial-quote">
-                        "Proste, bez kombinowania. Pokazuję kod, dostaję rabat. Wspieraj lokalnych!"
+                        "Proste, bez kombinowania. Pokazuje kod, dostaje rabat. Wspieraj lokalnych!"
                     </p>
                     <div class="testimonial-author">
                         <div class="author-avatar">PW</div>
                         <div>
                             <div class="author-name">Piotr W.</div>
-                            <div class="author-role">Użytkownik</div>
+                            <div class="author-role">Uzytkownik</div>
                         </div>
                     </div>
                 </div>
@@ -884,20 +1253,14 @@
 
     <section class="download-cta" id="pobierz">
         <p class="section-label">Pobierz</p>
-        <h2 class="section-title">Zacznij oszczędzać lokalnie</h2>
-        <p class="download-cta-subtitle">Dostępne na iOS i Android</p>
+        <h2 class="section-title">Zacznij oszczedzac lokalnie</h2>
+        <p class="download-cta-subtitle">Dostepne na iOS i Android</p>
         <div class="download-options">
             <div class="download-qr">
                 <div class="qr-code">
-                    ▄▄▄▄▄▄▄▄▄▄▄▄▄<br>
-                    █ ▄▄▄▄▄ █▄█ █<br>
-                    █ █   █ █▄▄▀█<br>
-                    █ █▄▄▄█ █ ▄ █<br>
-                    █▄▄▄▄▄▄▄█▄█▄█<br>
-                    █ ▄ █▄▀▄▄▀█ █<br>
-                    ▀▀▀▀▀▀▀▀▀▀▀▀▀
+                    [QR Code]
                 </div>
-                <p class="qr-label">Zeskanuj aby pobrać</p>
+                <p class="qr-label">Zeskanuj aby pobrac</p>
             </div>
             <div class="download-stores">
                 <a href="#" class="store-btn">
@@ -908,7 +1271,7 @@
                     </div>
                 </a>
                 <a href="#" class="store-btn">
-                    <span class="store-icon">▶</span>
+                    <span class="store-icon">&#9654;</span>
                     <div class="store-text">
                         <div class="store-small">Pobierz z</div>
                         <div class="store-name">Google Play</div>
@@ -924,34 +1287,34 @@
                 <div class="footer-brand">
                     <div class="footer-logo">Tuswoi</div>
                     <p class="footer-tagline">
-                        Łączymy się lokalnie! Wspieraj sąsiednie biznesy,
-                        buduj społeczność, oszczędzaj.
+                        Laczymy sie lokalnie! Wspieraj sasiedzkie biznesy,
+                        buduj spolecznosc, oszczedzaj.
                     </p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-col">
                         <h4>Produkt</h4>
                         <a href="#funkcje">Funkcje</a>
-                        <a href="#jak-to-dziala">Jak to działa</a>
+                        <a href="#jak-to-dziala">Jak to dziala</a>
                         <a href="#pobierz">Pobierz</a>
                         <a href="faq.html">FAQ</a>
                     </div>
                     <div class="footer-col">
                         <h4>Dla biznesu</h4>
                         <a href="#dla-biznesu">Oferta</a>
-                        <a href="login.html">Panel właściciela</a>
+                        <a href="login.html">Panel wlasciciela</a>
                         <a href="kontakt.html">Kontakt</a>
                     </div>
                     <div class="footer-col">
                         <h4>Prawne</h4>
                         <a href="regulamin.html">Regulamin</a>
-                        <a href="prywatnosc.html">Polityka prywatności</a>
+                        <a href="prywatnosc.html">Polityka prywatnosci</a>
                         <a href="cookies.html">Cookies</a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2026 Tuswoi. Wszystkie prawa zastrzeżone.</p>
+                <p>&copy; 2026 Tuswoi. Wszystkie prawa zastrzezone.</p>
                 <div class="footer-social">
                     <a href="#">f</a>
                     <a href="#">in</a>
@@ -960,77 +1323,19 @@
             </div>
         </div>
     </footer>
+
     <!-- Cookie Banner -->
     <div class="cookie-banner" id="cookieBanner">
         <div class="cookie-content">
             <p class="cookie-text">
-                Używamy plików cookies, aby zapewnić najlepsze doświadczenia na naszej stronie.
-                <a href="prywatnosc.html">Dowiedz się więcej</a>
+                Uzywamy plikow cookies, aby zapewnic najlepsze doswiadczenia na naszej stronie.
+                <a href="prywatnosc.html">Dowiedz sie wiecej</a>
             </p>
             <div class="cookie-buttons">
                 <button class="cookie-btn cookie-btn-settings">Ustawienia</button>
-                <button class="cookie-btn cookie-btn-accept" onclick="document.getElementById('cookieBanner').style.display='none'">Akceptuję</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="document.getElementById('cookieBanner').style.display='none'">Akceptuje</button>
             </div>
         </div>
     </div>
-
-    <style>
-        .cookie-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #1a1a1a;
-            color: #fff;
-            padding: 20px 40px;
-            z-index: 1000;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-        }
-        .cookie-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-        }
-        .cookie-text {
-            font-size: 14px;
-            color: rgba(255,255,255,0.8);
-            margin: 0;
-        }
-        .cookie-text a {
-            color: #fff;
-            text-decoration: underline;
-        }
-        .cookie-buttons {
-            display: flex;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-        .cookie-btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-        }
-        .cookie-btn-settings {
-            background: transparent;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .cookie-btn-settings:hover {
-            border-color: #fff;
-        }
-        .cookie-btn-accept {
-            background: #fff;
-            color: #1a1a1a;
-        }
-        .cookie-btn-accept:hover {
-            background: #f0f0f0;
-        }
-    </style>
 </body>
 </html>

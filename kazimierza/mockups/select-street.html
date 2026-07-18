@@ -1,10 +1,161 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wybór ulicy - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Wybor ulicy - Tuswoi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #E8EDF4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(30, 58, 95, 0.15);
+            position: relative;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: #fff;
+            border-bottom: 1px solid #E8EDF4;
+        }
+        .header-back {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            background: #F2F5F9;
+            border-radius: 12px;
+        }
+        .header-back:hover {
+            background: #E8EDF4;
+        }
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .content {
+            padding: 24px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1E3A5F;
+        }
+        .text-muted {
+            font-size: 14px;
+            color: #6B7C93;
+            margin-top: 8px;
+            margin-bottom: 20px;
+        }
+        .text-small {
+            font-size: 12px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+        }
+        .input {
+            width: 100%;
+            padding: 16px 16px 16px 44px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid #2C5282;
+            border-radius: 14px 14px 0 0;
+            background: #fff;
+            color: #1E3A5F;
+            box-shadow: 0 0 0 4px rgba(44, 82, 130, 0.1);
+        }
+        .input:focus {
+            outline: none;
+        }
+        .input::placeholder {
+            color: #6B7C93;
+        }
+        .autocomplete-list {
+            background: #fff;
+            border: 1.5px solid #E8EDF4;
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .autocomplete-item {
+            display: block;
+            padding: 14px 16px;
+            text-decoration: none;
+            border-bottom: 1px solid #E8EDF4;
+            transition: all 0.15s ease;
+        }
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        .autocomplete-item:hover {
+            background: #F2F5F9;
+        }
+        .autocomplete-item-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 2px;
+        }
+        .autocomplete-item-desc {
+            font-size: 13px;
+            color: #6B7C93;
+        }
+        .privacy-note {
+            font-size: 12px;
+            color: #6B7C93;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
@@ -17,13 +168,11 @@
         </div>
 
         <div class="content">
-            <h1 class="title" style="font-size:24px">Na jakiej ulicy mieszkasz?</h1>
-            <p class="text-muted mt-8 mb-20">Pomoże nam to pokazywać najbliższe oferty</p>
+            <h1 class="title">Na jakiej ulicy mieszkasz?</h1>
+            <p class="text-muted">Pomoze nam to pokazywac najblizsze oferty</p>
 
-            <div class="input-group" style="margin-bottom:0">
-                <div class="input-icon" data-icon="🏠">
-                    <input type="text" class="input" placeholder="Wpisz nazwę ulicy..." value="Jana Kazi" style="border-radius:10px 10px 0 0">
-                </div>
+            <div class="input-wrapper" data-icon="&#127968;">
+                <input type="text" class="input" placeholder="Wpisz nazwe ulicy..." value="Jana Kazi">
             </div>
 
             <div class="autocomplete-list">
@@ -33,16 +182,16 @@
                 </a>
                 <a href="home.html" class="autocomplete-item">
                     <div class="autocomplete-item-title">Kazimierzowska</div>
-                    <div class="autocomplete-item-desc">Mokotów, Warszawa</div>
+                    <div class="autocomplete-item-desc">Mokotow, Warszawa</div>
                 </a>
                 <a href="home.html" class="autocomplete-item">
                     <div class="autocomplete-item-title">Kazimierza Wielkiego</div>
-                    <div class="autocomplete-item-desc">Śródmieście, Warszawa</div>
+                    <div class="autocomplete-item-desc">Srodmiescie, Warszawa</div>
                 </a>
             </div>
 
-            <p class="text-muted text-small mt-20 text-center">
-                Twoja dokładna lokalizacja nie jest udostępniana
+            <p class="privacy-note">
+                Twoja dokladna lokalizacja nie jest udostepniana
             </p>
         </div>
     </div>

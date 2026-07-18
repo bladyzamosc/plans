@@ -1,17 +1,25 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontakt - Tuswoi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #fff;
-            color: #1a1a1a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
             line-height: 1.6;
         }
+
+        /* Navigation */
         .nav {
             display: flex;
             justify-content: space-between;
@@ -19,179 +27,322 @@
             padding: 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
-            border-bottom: 1px solid #f0f0f0;
+            background: #fff;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.08);
         }
+
         .nav-logo {
             font-size: 24px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #1E3A5F;
             text-decoration: none;
         }
+
         .nav-links {
             display: flex;
             gap: 32px;
             align-items: center;
         }
+
         .nav-links a {
-            color: #666;
+            color: #6B7C93;
             text-decoration: none;
             font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
         }
-        .nav-links a:hover { color: #1a1a1a; }
+
+        .nav-links a:hover {
+            color: #1E3A5F;
+        }
+
         .nav-btn {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             color: #fff;
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        .contact-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 60px 40px 80px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
+        .lang-dropdown { position: relative; }
+        .lang-btn { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #F2F5F9; border: none; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #1E3A5F; }
+        .lang-btn:hover { background: #E8EDF4; }
+        .lang-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background: #fff; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: none; overflow: hidden; min-width: 120px; z-index: 100; }
+        .lang-dropdown:hover .lang-menu { display: block; }
+        .lang-option { display: flex; align-items: center; gap: 8px; padding: 12px 14px; text-decoration: none; color: #1E3A5F; font-size: 14px; transition: background 0.15s; }
+        .lang-option:hover { background: #F2F5F9; }
+        .lang-option.active { background: #F2F5F9; }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            padding: 80px 40px;
+            text-align: center;
+            color: #fff;
         }
 
-        .contact-info h1 {
-            font-size: 40px;
+        .page-title {
+            font-size: 48px;
             font-weight: 700;
             margin-bottom: 16px;
         }
-        .contact-info p {
+
+        .page-subtitle {
             font-size: 18px;
-            color: #666;
+            color: rgba(255,255,255,0.8);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Contact Container */
+        .contact-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 40px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            padding-top: 20px;
+        }
+
+        .contact-intro {
+            font-size: 18px;
+            color: #6B7C93;
             margin-bottom: 40px;
+            line-height: 1.7;
         }
 
         .contact-card {
-            background: #f8f8f8;
+            background: #fff;
             padding: 24px;
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 16px;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
         }
+
         .contact-card-title {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
-            color: #888;
+            color: #2C5282;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
         }
+
         .contact-card-value {
             font-size: 18px;
             font-weight: 500;
-        }
-        .contact-card-value a {
-            color: #1a1a1a;
-            text-decoration: none;
-        }
-        .contact-card-value a:hover {
-            text-decoration: underline;
+            color: #1E3A5F;
         }
 
-        .contact-form h2 {
+        .contact-card-value a {
+            color: #1E3A5F;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-card-value a:hover {
+            color: #2C5282;
+        }
+
+        /* Contact Form */
+        .contact-form-wrapper {
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 4px 16px rgba(30, 58, 95, 0.06);
+        }
+
+        .contact-form-title {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            color: #1E3A5F;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
+
         .form-label {
             display: block;
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 8px;
+            color: #1E3A5F;
         }
-        .form-input, .form-textarea, .form-select {
+
+        .form-input,
+        .form-textarea,
+        .form-select {
             width: 100%;
             padding: 14px 16px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(30, 58, 95, 0.15);
             border-radius: 10px;
             font-size: 16px;
             font-family: inherit;
+            color: #1E3A5F;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
             outline: none;
-            border-color: #1a1a1a;
+            border-color: #2C5282;
+            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
         }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #6B7C93;
+        }
+
         .form-textarea {
             min-height: 150px;
             resize: vertical;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background: #1a1a1a;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .btn-submit:hover {
-            background: #333;
+        /* Honeypot - hidden field for spam protection */
+        .honeypot {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            pointer-events: none;
         }
 
+        /* reCAPTCHA placeholder */
         .recaptcha-placeholder {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #f8f8f8;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            padding: 12px 16px;
+            background: #F2F5F9;
+            border: 1px solid rgba(30, 58, 95, 0.1);
+            border-radius: 8px;
+            padding: 16px 20px;
         }
+
         .recaptcha-box {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .recaptcha-box input[type="checkbox"] {
-            width: 24px;
-            height: 24px;
+
+        .recaptcha-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 2px solid rgba(30, 58, 95, 0.2);
+            border-radius: 4px;
             cursor: pointer;
+            accent-color: #2C5282;
         }
-        .recaptcha-box label {
+
+        .recaptcha-label {
             font-size: 14px;
-            color: #333;
+            color: #1E3A5F;
             cursor: pointer;
         }
+
         .recaptcha-logo {
-            font-size: 10px;
-            color: #888;
+            font-size: 11px;
+            color: #6B7C93;
             text-align: right;
+        }
+
+        .recaptcha-logo span {
+            display: block;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 58, 95, 0.25);
         }
 
         .form-note {
             font-size: 12px;
-            color: #888;
+            color: #6B7C93;
             margin-top: 16px;
             text-align: center;
-        }
-        .form-note a {
-            color: #666;
+            line-height: 1.6;
         }
 
+        .form-note a {
+            color: #2C5282;
+            text-decoration: none;
+        }
+
+        .form-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
         .footer {
-            background: #1a1a1a;
+            background: #1E3A5F;
             color: #fff;
             padding: 40px;
             text-align: center;
         }
-        .footer a {
+
+        .footer-links {
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
             margin: 0 16px;
+            font-size: 15px;
+            transition: color 0.2s;
         }
-        .footer a:hover { color: #fff; }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-copyright {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+
+            .contact-form-wrapper {
+                padding: 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -201,27 +352,48 @@
             <a href="landing-extended.html#funkcje">Funkcje</a>
             <a href="landing-extended.html#dla-biznesu">Dla biznesu</a>
             <a href="faq.html">FAQ</a>
-            <a href="login.html" class="nav-btn">Zaloguj się</a>
+            <div class="lang-dropdown">
+                <button class="lang-btn">
+                    <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                    PL
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="lang-menu">
+                    <a href="#" class="lang-option active">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                        Polski
+                    </a>
+                    <a href="#" class="lang-option">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><clipPath id="gb"><rect width="20" height="14" rx="1"/></clipPath><g clip-path="url(#gb)"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.5"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.5"/></g></svg>
+                        English
+                    </a>
+                </div>
+            </div>
+            <a href="login.html" class="nav-btn">Zaloguj sie</a>
         </div>
     </nav>
 
+    <header class="page-header">
+        <h1 class="page-title">Skontaktuj sie z nami</h1>
+        <p class="page-subtitle">Masz pytanie? Chcesz dolaczyc ze swoim lokalem? Napisz do nas!</p>
+    </header>
+
     <main class="contact-container">
         <div class="contact-info">
-            <h1>Skontaktuj się z nami</h1>
-            <p>
-                Masz pytanie? Chcesz dołączyć ze swoim lokalem?
-                Napisz do nas, a odpowiemy najszybciej jak to możliwe.
+            <p class="contact-intro">
+                Odpowiemy najszybciej jak to mozliwe. Dla wlascicieli lokali przygotowalismy
+                specjalna sciezke wspolpracy - daj nam znac, a skontaktujemy sie z Toba.
             </p>
 
             <div class="contact-card">
-                <div class="contact-card-title">Email</div>
+                <div class="contact-card-title">Email ogolny</div>
                 <div class="contact-card-value">
                     <a href="mailto:kontakt@tuswoi.pl">kontakt@tuswoi.pl</a>
                 </div>
             </div>
 
             <div class="contact-card">
-                <div class="contact-card-title">Dla właścicieli lokali</div>
+                <div class="contact-card-title">Dla wlascicieli lokali</div>
                 <div class="contact-card-value">
                     <a href="mailto:biznes@tuswoi.pl">biznes@tuswoi.pl</a>
                 </div>
@@ -236,50 +408,60 @@
             </div>
         </div>
 
-        <div class="contact-form">
-            <h2>Wyślij wiadomość</h2>
-            <form>
+        <div class="contact-form-wrapper">
+            <h2 class="contact-form-title">Wyslij wiadomosc</h2>
+            <form action="#" method="POST">
+                <!-- Honeypot field for spam protection -->
+                <div class="honeypot">
+                    <label for="website">Website</label>
+                    <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                </div>
+
                 <div class="form-group">
-                    <label class="form-label">Temat</label>
-                    <select class="form-select">
-                        <option>Pytanie ogólne</option>
-                        <option>Chcę dołączyć z lokalem</option>
-                        <option>Problem techniczny</option>
-                        <option>Reklamacja</option>
-                        <option>Współpraca / Media</option>
+                    <label class="form-label" for="subject">Temat</label>
+                    <select class="form-select" id="subject" name="subject" required>
+                        <option value="">Wybierz temat...</option>
+                        <option value="general">Pytanie ogolne</option>
+                        <option value="business">Chce dolaczyc z lokalem</option>
+                        <option value="technical">Problem techniczny</option>
+                        <option value="complaint">Reklamacja</option>
+                        <option value="media">Wspolpraca / Media</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Imię i nazwisko</label>
-                    <input type="text" class="form-input" placeholder="Jan Kowalski">
+                    <label class="form-label" for="name">Imie i nazwisko</label>
+                    <input type="text" class="form-input" id="name" name="name" placeholder="Jan Kowalski" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-input" placeholder="jan@example.com">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" class="form-input" id="email" name="email" placeholder="jan@example.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Wiadomość</label>
-                    <textarea class="form-textarea" placeholder="Opisz swoje pytanie lub problem..."></textarea>
+                    <label class="form-label" for="message">Wiadomosc</label>
+                    <textarea class="form-textarea" id="message" name="message" placeholder="Opisz swoje pytanie lub problem..." required></textarea>
                 </div>
 
                 <div class="form-group">
                     <div class="recaptcha-placeholder">
                         <div class="recaptcha-box">
-                            <input type="checkbox" id="recaptcha">
-                            <label for="recaptcha">Nie jestem robotem</label>
+                            <input type="checkbox" class="recaptcha-checkbox" id="recaptcha" required>
+                            <label class="recaptcha-label" for="recaptcha">Nie jestem robotem</label>
                         </div>
-                        <div class="recaptcha-logo">reCAPTCHA</div>
+                        <div class="recaptcha-logo">
+                            <span>reCAPTCHA</span>
+                            Privacy - Terms
+                        </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit">Wyślij wiadomość</button>
+                <button type="submit" class="btn-submit">Wyslij wiadomosc</button>
 
                 <p class="form-note">
-                    Ta strona jest chroniona przez reCAPTCHA. Obowiązuje
-                    <a href="https://policies.google.com/privacy">Polityka prywatności</a> oraz
+                    Ta strona jest chroniona przez reCAPTCHA. Obowiazuje
+                    <a href="https://policies.google.com/privacy">Polityka prywatnosci</a> oraz
                     <a href="https://policies.google.com/terms">Warunki korzystania</a> Google.
                 </p>
             </form>
@@ -287,11 +469,13 @@
     </main>
 
     <footer class="footer">
-        <a href="regulamin.html">Regulamin</a>
-        <a href="prywatnosc.html">Prywatność</a>
-        <a href="kontakt.html">Kontakt</a>
-        <p style="margin-top: 24px; color: rgba(255,255,255,0.5); font-size: 14px;">
-            © 2026 Tuswoi. Wszystkie prawa zastrzeżone.
+        <div class="footer-links">
+            <a href="regulamin.html">Regulamin</a>
+            <a href="prywatnosc.html">Prywatnosc</a>
+            <a href="kontakt.html">Kontakt</a>
+        </div>
+        <p class="footer-copyright">
+            &copy; 2026 Tuswoi. Wszystkie prawa zastrzezone.
         </p>
     </footer>
 </body>

@@ -1,10 +1,166 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(30, 58, 95, 0.15);
+            display: flex;
+            flex-direction: column;
+            border: 8px solid #1E3A5F;
+        }
+        .header {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: white;
+            padding: 60px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-back {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            width: 40px;
+            opacity: 0.9;
+        }
+        .header-back:hover {
+            opacity: 1;
+        }
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .content {
+            flex: 1;
+            padding: 24px 20px;
+            overflow-y: auto;
+        }
+        .month-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6B7C93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            margin-top: 8px;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .card-body {
+            flex: 1;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .card-desc {
+            font-size: 14px;
+            color: #6B7C93;
+        }
+        .card-badge {
+            font-size: 12px;
+            font-weight: 500;
+            color: #2C5282;
+            background: rgba(44, 82, 130, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .card-badge.error {
+            color: #C53030;
+            background: rgba(197, 48, 48, 0.1);
+        }
+        .card-meta {
+            font-size: 12px;
+            color: #6B7C93;
+            margin-top: 6px;
+        }
+        .card-rating {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #E8EDF4;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-rate {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            padding: 8px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-rate:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25);
+        }
+        .stars-display {
+            display: flex;
+            gap: 2px;
+        }
+        .star {
+            font-size: 18px;
+            color: #E8EDF4;
+        }
+        .star.filled {
+            color: #F6AD55;
+        }
+        .rating-comment {
+            font-size: 13px;
+            color: #6B7C93;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
@@ -30,7 +186,7 @@
                         <div class="card-meta">16.07</div>
                     </div>
                 </div>
-                <div class="card-rating mt-12">
+                <div class="card-rating">
                     <a href="#" class="btn-rate">Oceń ofertę</a>
                 </div>
             </div>
@@ -46,7 +202,7 @@
                         <div class="card-meta">14.07</div>
                     </div>
                 </div>
-                <div class="card-rating mt-12">
+                <div class="card-rating">
                     <div class="stars-display">
                         <span class="star filled">★</span>
                         <span class="star filled">★</span>
@@ -84,7 +240,7 @@
                         <div class="card-meta">28.06</div>
                     </div>
                 </div>
-                <div class="card-rating mt-12">
+                <div class="card-rating">
                     <div class="stars-display">
                         <span class="star filled">★</span>
                         <span class="star filled">★</span>
@@ -106,7 +262,7 @@
                         <div class="card-meta">22.06</div>
                     </div>
                 </div>
-                <div class="card-rating mt-12">
+                <div class="card-rating">
                     <div class="stars-display">
                         <span class="star filled">★</span>
                         <span class="star filled">★</span>

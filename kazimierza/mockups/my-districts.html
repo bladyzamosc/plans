@@ -1,10 +1,144 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moje dzielnice - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(30, 58, 95, 0.15);
+            display: flex;
+            flex-direction: column;
+            border: 8px solid #1E3A5F;
+        }
+        .header {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: white;
+            padding: 60px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-back {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            width: 40px;
+            opacity: 0.9;
+        }
+        .header-back:hover {
+            opacity: 1;
+        }
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .content {
+            flex: 1;
+            padding: 24px 20px;
+            overflow-y: auto;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .card-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-body {
+            flex: 1;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .card-desc {
+            font-size: 14px;
+            color: #6B7C93;
+        }
+        .btn-remove {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #F2F5F9;
+            color: #A0AEC0;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-remove:hover {
+            background: #FED7D7;
+            color: #C53030;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Inter', sans-serif;
+            margin-top: 20px;
+        }
+        .btn-secondary {
+            background: white;
+            color: #1E3A5F;
+            border: 2px solid #E8EDF4;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .btn-secondary:hover {
+            border-color: #1E3A5F;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
@@ -21,9 +155,9 @@
                 <div class="card-row">
                     <div class="card-body">
                         <div class="card-title">Jana Kazimierza</div>
-                        <div class="card-desc">🔔 Powiadomienia: wł</div>
+                        <div class="card-desc">🔔 Powiadomienia: wl</div>
                     </div>
-                    <button class="header-action" style="color:#ccc">×</button>
+                    <button class="btn-remove">×</button>
                 </div>
             </div>
 
@@ -31,13 +165,13 @@
                 <div class="card-row">
                     <div class="card-body">
                         <div class="card-title">Mokotów Stary</div>
-                        <div class="card-desc">🔕 Powiadomienia: wył</div>
+                        <div class="card-desc">🔕 Powiadomienia: wyl</div>
                     </div>
-                    <button class="header-action" style="color:#ccc">×</button>
+                    <button class="btn-remove">×</button>
                 </div>
             </div>
 
-            <a href="select-district.html" class="btn btn-secondary mt-20">+ Dodaj dzielnicę</a>
+            <a href="select-district.html" class="btn btn-secondary">+ Dodaj dzielnice</a>
         </div>
     </div>
 </body>

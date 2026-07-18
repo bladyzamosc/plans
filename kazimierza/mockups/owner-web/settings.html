@@ -1,38 +1,603 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ustawienia - Panel Właściciela</title>
+    <title>Ustawienia - Panel Wlasciciela</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="owner-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
+            min-height: 100vh;
+        }
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1E3A5F;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-sub {
+            display: block;
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .venue-selector {
+            padding: 16px;
+            position: relative;
+        }
+        .venue-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            text-align: left;
+            transition: background 0.2s;
+        }
+        .venue-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .venue-logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .venue-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .venue-address {
+            font-size: 12px;
+            color: #A0AEC0;
+        }
+        .venue-dropdown-arrow {
+            color: #A0AEC0;
+            font-size: 10px;
+        }
+        .venue-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 16px;
+            right: 16px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 200;
+            overflow: hidden;
+        }
+        .venue-dropdown.active {
+            display: block;
+        }
+        .venue-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #1E3A5F;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .venue-dropdown-item:hover {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-item.active {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-dropdown-logo-placeholder {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #E2E8F0;
+            color: #6B7C93;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .venue-dropdown-info {
+            flex: 1;
+        }
+        .venue-dropdown-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .venue-dropdown-address {
+            display: block;
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .venue-check {
+            color: #34C759;
+            font-weight: 600;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #A0AEC0;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-item.active {
+            color: #1E3A5F;
+            background: #fff;
+        }
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        .topbar {
+            background: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-venue-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1E3A5F;
+            font-weight: 500;
+        }
+        .header-venue-btn:hover {
+            background: #E2E8F0;
+        }
+        .header-venue-btn img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(30,58,95,0.3);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #1E3A5F;
+            border: 1px solid #E2E8F0;
+        }
+        .btn-secondary:hover {
+            background: #F2F5F9;
+        }
+        .btn-outline {
+            background: #fff;
+            color: #1E3A5F;
+            border: 1px solid #E2E8F0;
+        }
+        .btn-outline:hover {
+            background: #F2F5F9;
+            border-color: #1E3A5F;
+        }
+        .btn-danger {
+            color: #FF3B30;
+            border-color: #FECACA;
+        }
+        .btn-danger:hover {
+            background: #FEF2F2;
+        }
+        .content {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #E2E8F0;
+            max-width: 700px;
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .card-body {
+            padding: 24px;
+        }
+        .card-footer {
+            padding: 24px;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            gap: 12px;
+        }
+        .badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #F2F5F9;
+            color: #6B7C93;
+        }
+        .badge.orange {
+            background: rgba(255,149,0,0.1);
+            color: #FF9500;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1E3A5F;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1E3A5F;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2C5282;
+            box-shadow: 0 0 0 3px rgba(44,82,130,0.1);
+        }
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-hint {
+            font-size: 12px;
+            color: #6B7C93;
+            margin-top: 8px;
+        }
+        .logo-upload {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+        .logo-upload-info {
+            flex: 1;
+        }
+        /* Pending Change Card */
+        .card.pending {
+            border-color: #FCD34D;
+            background: #FFFBEB;
+        }
+        .card.pending .card-header {
+            background: transparent;
+        }
+        .change-info {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+        .change-detail {
+            flex: 1;
+        }
+        .change-label {
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 8px;
+        }
+        .change-value {
+            font-size: 14px;
+            color: #6B7C93;
+        }
+        .change-value .old {
+            text-decoration: line-through;
+        }
+        .change-value .new {
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .change-date {
+            font-size: 13px;
+            color: #6B7C93;
+            margin-top: 16px;
+        }
+        /* PIN Section */
+        .pin-display {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .pin-digits {
+            display: flex;
+            gap: 8px;
+        }
+        .pin-digit {
+            width: 48px;
+            height: 56px;
+            background: #F2F5F9;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        /* Danger Zone */
+        .card.danger {
+            border-color: #FECACA;
+        }
+        .card.danger .card-header {
+            background: #FEF2F2;
+        }
+        .card.danger .card-header h3 {
+            color: #FF3B30;
+        }
+        .danger-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 0;
+            border-bottom: 1px solid #FECACA;
+        }
+        .danger-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .danger-item:first-child {
+            padding-top: 0;
+        }
+        .danger-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .danger-info p {
+            font-size: 14px;
+            color: #6B7C93;
+            margin: 0;
+        }
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #F2F5F9;
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-menu-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #1E3A5F;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+        .sidebar-overlay.active {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .content {
+                padding: 16px;
+            }
+            .topbar {
+                padding: 16px;
+            }
+            .logo-upload {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .pin-digits {
+                flex-wrap: wrap;
+            }
+            .danger-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <div class="layout">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="logo">Tuswoi</span>
-                <span class="logo-sub">Właściciel</span>
+                <span class="logo-sub">Panel Wlasciciela</span>
             </div>
 
             <div class="venue-selector">
-                <button class="venue-card venue-dropdown-toggle">
+                <button class="venue-card" onclick="toggleVenueDropdown()">
                     <img src="../kuflo.png" alt="Kufloteka" class="venue-logo-img">
                     <div class="venue-info">
                         <div class="venue-name">Beer & Burger Kufloteka</div>
                         <div class="venue-address">ul. Jana Kazimierza 32</div>
                     </div>
-                    <span class="venue-dropdown-arrow">▼</span>
+                    <span class="venue-dropdown-arrow">&#9660;</span>
                 </button>
-                <div class="venue-dropdown">
+                <div class="venue-dropdown" id="venueDropdown">
                     <a href="#" class="venue-dropdown-item active">
                         <img src="../kuflo.png" alt="Kufloteka" class="venue-dropdown-logo">
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Beer & Burger Kufloteka</span>
                             <span class="venue-dropdown-address">ul. Jana Kazimierza 32</span>
                         </div>
-                        <span class="venue-check">✓</span>
+                        <span class="venue-check">&#10003;</span>
                     </a>
                     <a href="#" class="venue-dropdown-item">
                         <div class="venue-dropdown-logo-placeholder">P</div>
@@ -45,7 +610,7 @@
                         <div class="venue-dropdown-logo-placeholder">K</div>
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Kawiarnia u Kasi</span>
-                            <span class="venue-dropdown-address">ul. Płocka 8</span>
+                            <span class="venue-dropdown-address">ul. Plocka 8</span>
                         </div>
                     </a>
                 </div>
@@ -70,7 +635,7 @@
                 </a>
                 <a href="managers.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Managerowie
+                    Pracownicy
                 </a>
                 <a href="settings.html" class="nav-item active">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -81,7 +646,7 @@
             <div class="sidebar-footer">
                 <a href="../index.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    Wróć do mockupów
+                    Wroc do mockupow
                 </a>
             </div>
         </aside>
@@ -89,24 +654,37 @@
         <!-- Main Content -->
         <main class="main">
             <header class="topbar">
-                <h1 class="page-title">Ustawienia lokalu</h1>
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <h1 class="page-title">Ustawienia lokalu</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="header-venue-btn">
+                        <img src="../kuflo.png" alt="">
+                        <span>Kufloteka</span>
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#6B7C93;stroke-width:2;fill:none"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="avatar">JK</div>
+                </div>
             </header>
 
             <div class="content">
                 <!-- Logo & Basic Info -->
-                <div class="card" style="max-width:700px">
+                <div class="card">
                     <div class="card-header">
                         <h3>Dane lokalu</h3>
                         <span class="badge orange">Wymaga akceptacji admina</span>
                     </div>
 
-                    <div style="padding:24px">
+                    <div class="card-body">
                         <div class="form-group">
                             <label class="form-label">Logo</label>
-                            <div style="display:flex;align-items:center;gap:20px">
-                                <img src="../kuflo.png" alt="Kufloteka" style="width:100px;height:100px;border-radius:16px;object-fit:cover">
-                                <div>
-                                    <button class="btn btn-secondary">Zmień logo</button>
+                            <div class="logo-upload">
+                                <img src="../kuflo.png" alt="Kufloteka" class="logo-preview">
+                                <div class="logo-upload-info">
+                                    <button class="btn btn-secondary">Zmien logo</button>
                                     <div class="form-hint" style="margin-top:8px">JPG lub PNG, max 2MB. Zmiana wymaga akceptacji.</div>
                                 </div>
                             </div>
@@ -126,101 +704,112 @@
                         <div class="form-group">
                             <label class="form-label">Opis</label>
                             <textarea class="form-input" rows="3">Beer & Burger Kufloteka - najlepsze piwo i burgery na Woli! Od 2015 roku serwujemy smaczne jedzenie i lokalne piwa kraftowe.</textarea>
-                            <div class="form-hint">Krótki opis wyświetlany klientom (max 500 znaków)</div>
+                            <div class="form-hint">Krotki opis wyswietlany klientom (max 500 znakow)</div>
                         </div>
+                    </div>
 
-                        <div style="display:flex;gap:12px;margin-top:24px;padding-top:24px;border-top:1px solid var(--border)">
-                            <button class="btn btn-primary">Wyślij do akceptacji</button>
-                        </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary">Wyslij do akceptacji</button>
                     </div>
                 </div>
 
                 <!-- Pending Change Request -->
-                <div class="card" style="max-width:700px;border-color:#fcd34d;background:#fffbeb">
-                    <div class="card-header" style="background:transparent">
-                        <h3>Oczekujący wniosek</h3>
-                        <span class="badge orange">Oczekuje na akceptację</span>
+                <div class="card pending">
+                    <div class="card-header">
+                        <h3>Oczekujacy wniosek</h3>
+                        <span class="badge orange">Oczekuje na akceptacje</span>
                     </div>
 
-                    <div style="padding:24px">
-                        <div style="display:flex;gap:24px;align-items:flex-start">
-                            <div>
-                                <strong style="display:block;margin-bottom:8px">Zmiana nazwy</strong>
-                                <div style="color:var(--text-muted);font-size:14px">
-                                    <span style="text-decoration:line-through">Beer & Burger Kufloteka</span>
-                                    →
-                                    <span style="font-weight:500;color:var(--text)">Kufloteka - Piwo & Burgery</span>
+                    <div class="card-body">
+                        <div class="change-info">
+                            <div class="change-detail">
+                                <div class="change-label">Zmiana nazwy</div>
+                                <div class="change-value">
+                                    <span class="old">Beer & Burger Kufloteka</span>
+                                    &rarr;
+                                    <span class="new">Kufloteka - Piwo & Burgery</span>
                                 </div>
                             </div>
                         </div>
-                        <div style="margin-top:16px;font-size:13px;color:var(--text-muted)">
-                            Wysłano: 15.07.2026 14:32
+                        <div class="change-date">
+                            Wyslano: 15.07.2026 14:32
                         </div>
                     </div>
                 </div>
 
                 <!-- PIN Section -->
-                <div class="card" style="max-width:700px">
+                <div class="card">
                     <div class="card-header">
                         <h3>PIN walidacji</h3>
                     </div>
 
-                    <div style="padding:24px">
-                        <p style="color:var(--text-muted);margin-bottom:20px">
-                            PIN służy do potwierdzania realizacji rabatów przez pracowników.
-                            Udostępnij go tylko zaufanym osobom.
+                    <div class="card-body">
+                        <p style="color:#6B7C93;margin-bottom:20px">
+                            PIN sluzy do potwierdzania realizacji rabatow przez pracownikow.
+                            Udostepnij go tylko zaufanym osobom.
                         </p>
 
                         <div class="form-group">
                             <label class="form-label">Aktualny PIN</label>
-                            <div style="display:flex;align-items:center;gap:16px">
-                                <div style="display:flex;gap:8px">
-                                    <div style="width:48px;height:56px;background:var(--bg);border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600">•</div>
-                                    <div style="width:48px;height:56px;background:var(--bg);border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600">•</div>
-                                    <div style="width:48px;height:56px;background:var(--bg);border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600">•</div>
-                                    <div style="width:48px;height:56px;background:var(--bg);border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600">•</div>
+                            <div class="pin-display">
+                                <div class="pin-digits">
+                                    <div class="pin-digit">&bull;</div>
+                                    <div class="pin-digit">&bull;</div>
+                                    <div class="pin-digit">&bull;</div>
+                                    <div class="pin-digit">&bull;</div>
                                 </div>
-                                <button class="btn btn-outline">Pokaż</button>
+                                <button class="btn btn-outline">Pokaz</button>
                             </div>
                         </div>
+                    </div>
 
-                        <div style="display:flex;gap:12px;margin-top:24px;padding-top:24px;border-top:1px solid var(--border)">
-                            <button class="btn btn-secondary">Zmień PIN</button>
-                        </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary">Zmien PIN</button>
                     </div>
                 </div>
 
                 <!-- Danger Zone -->
-                <div class="card" style="max-width:700px;border-color:#fecaca">
-                    <div class="card-header" style="background:#fef2f2">
-                        <h3 style="color:#dc2626">Strefa niebezpieczna</h3>
+                <div class="card danger">
+                    <div class="card-header">
+                        <h3>Strefa niebezpieczna</h3>
                     </div>
 
-                    <div style="padding:24px">
-                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid #fecaca">
-                            <div>
-                                <strong>Dezaktywuj lokal</strong>
-                                <p style="color:var(--text-muted);font-size:14px;margin:4px 0 0">
-                                    Lokal nie będzie widoczny dla klientów. Można przywrócić.
-                                </p>
+                    <div class="card-body">
+                        <div class="danger-item">
+                            <div class="danger-info">
+                                <h4>Dezaktywuj lokal</h4>
+                                <p>Lokal nie bedzie widoczny dla klientow. Mozna przywrocic.</p>
                             </div>
-                            <button class="btn btn-outline" style="color:#dc2626;border-color:#fecaca">Dezaktywuj</button>
+                            <button class="btn btn-outline btn-danger">Dezaktywuj</button>
                         </div>
 
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <div>
-                                <strong>Wypowiedz umowę</strong>
-                                <p style="color:var(--text-muted);font-size:14px;margin:4px 0 0">
-                                    30 dni okresu wypowiedzenia. W tym czasie oferty działają,<br>
-                                    ale nie można tworzyć nowych. Po 30 dniach lokal zostanie usunięty.
-                                </p>
+                        <div class="danger-item">
+                            <div class="danger-info">
+                                <h4>Wypowiedz umowe</h4>
+                                <p>30 dni okresu wypowiedzenia. W tym czasie oferty dzialaja,<br>
+                                ale nie mozna tworzyc nowych. Po 30 dniach lokal zostanie usuniety.</p>
                             </div>
-                            <button class="btn btn-outline" style="color:#dc2626;border-color:#fecaca">Wypowiedz umowę</button>
+                            <button class="btn btn-outline btn-danger">Wypowiedz umowe</button>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+        function toggleVenueDropdown() {
+            document.getElementById('venueDropdown').classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.venue-selector')) {
+                document.getElementById('venueDropdown').classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

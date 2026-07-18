@@ -1,16 +1,556 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokale - Admin Panel</title>
+    <title>Lokale - Tuswoi Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="admin-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
+            line-height: 1.5;
+        }
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1E3A5F;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-sub {
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #A0AEC0;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .nav-badge {
+            margin-left: auto;
+            background: #FF3B30;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 8px 16px;
+            width: 280px;
+        }
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+            color: #1E3A5F;
+            width: 100%;
+        }
+        .search-box input::placeholder {
+            color: #A0AEC0;
+        }
+        .search-box svg {
+            width: 18px;
+            height: 18px;
+            stroke: #A0AEC0;
+            stroke-width: 2;
+            fill: none;
+        }
+        .search-shortcut {
+            font-size: 11px;
+            color: #A0AEC0;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 4px;
+            padding: 2px 6px;
+        }
+        .header-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #E2E8F0;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .header-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #6B7C93;
+            stroke-width: 2;
+            fill: none;
+        }
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: #FF3B30;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .user-dropdown:hover {
+            background: #F2F5F9;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .user-info {
+            text-align: left;
+        }
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .user-role {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+
+        /* Content */
+        .content {
+            padding: 32px;
+        }
+
+        /* Card */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .toolbar .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+        .filter-select {
+            padding: 10px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1E3A5F;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+        .filter-select:focus {
+            border-color: #2C5282;
+        }
+
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table thead {
+            background: #F2F5F9;
+        }
+        .table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7C93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+            color: #1E3A5F;
+        }
+        .table tbody tr:hover {
+            background: #F8FAFC;
+        }
+        .table tbody tr.inactive {
+            opacity: 0.6;
+        }
+        .text-muted {
+            color: #6B7C93;
+        }
+
+        /* Venue Cell */
+        .venue-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .venue-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: #F2F5F9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: #1E3A5F;
+        }
+        .venue-details strong {
+            display: block;
+            color: #1E3A5F;
+        }
+        .venue-address {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge.blue {
+            background: rgba(30, 58, 95, 0.1);
+            color: #1E3A5F;
+        }
+        .badge.green {
+            background: rgba(52, 199, 89, 0.1);
+            color: #34C759;
+        }
+        .badge.purple {
+            background: rgba(44, 82, 130, 0.1);
+            color: #2C5282;
+        }
+        .badge.orange {
+            background: rgba(255, 149, 0, 0.1);
+            color: #FF9500;
+        }
+        .badge.red {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+        .badge.gray {
+            background: #F2F5F9;
+            color: #6B7C93;
+        }
+
+        /* Status */
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .status-dot.green {
+            background: #34C759;
+        }
+        .status-dot.orange {
+            background: #FF9500;
+        }
+        .status-dot.red {
+            background: #FF3B30;
+        }
+
+        /* Action Button */
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: #F2F5F9;
+            border-color: #1E3A5F;
+        }
+        .action-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: #6B7C93;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Pagination */
+        .pagination {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #E2E8F0;
+        }
+        .pagination-info {
+            font-size: 14px;
+            color: #6B7C93;
+        }
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .pagination-btn {
+            padding: 8px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 14px;
+            color: #6B7C93;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #1E3A5F;
+            color: #1E3A5F;
+        }
+        .pagination-btn.active {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            border-color: #1E3A5F;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Mobile */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: #1E3A5F;
+            border: none;
+            cursor: pointer;
+        }
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .header {
+                padding-left: 72px;
+            }
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .toolbar .search-box {
+                width: 100%;
+            }
+            .table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="layout">
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="logo">Tuswoi</span>
                 <span class="logo-sub">Admin</span>
@@ -35,31 +575,54 @@
                 </a>
                 <a href="users.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Użytkownicy
+                    Uzytkownicy
                 </a>
                 <a href="offers.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
                     Oferty
+                </a>
+                <a href="moderation.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Moderacja
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="invitations.html" class="nav-item">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Zaproszenia
                 </a>
             </nav>
 
             <div class="sidebar-footer">
                 <a href="../index.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    Wróć do mockupów
+                    Wroc do mockupow
                 </a>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main">
-            <header class="topbar">
+            <!-- Header -->
+            <header class="header">
                 <h1 class="page-title">Lokale</h1>
-                <div class="topbar-actions">
-                    <button class="btn btn-primary">
-                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        Dodaj lokal
+                <div class="header-actions">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" placeholder="Szukaj...">
+                        <span class="search-shortcut">Cmd+K</span>
+                    </div>
+                    <button class="header-icon-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="notification-dot"></span>
                     </button>
+                    <div class="user-dropdown">
+                        <div class="avatar">JK</div>
+                        <div class="user-info">
+                            <div class="user-name">Jan Kowalski</div>
+                            <div class="user-role">Administrator</div>
+                        </div>
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#6B7C93;stroke-width:2;fill:none"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
                 </div>
             </header>
 
@@ -73,8 +636,8 @@
                         <select class="filter-select">
                             <option>Wszystkie dzielnice</option>
                             <option>Jana Kazimierza</option>
-                            <option>Mokotów Stary</option>
-                            <option>Żoliborz</option>
+                            <option>Mokotow Stary</option>
+                            <option>Zoliborz</option>
                         </select>
                         <select class="filter-select">
                             <option>Wszystkie kategorie</option>
@@ -87,6 +650,10 @@
                             <option>Aktywne</option>
                             <option>Nieaktywne</option>
                         </select>
+                        <button class="btn btn-primary">
+                            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Dodaj lokal
+                        </button>
                     </div>
 
                     <table class="table">
@@ -95,7 +662,7 @@
                                 <th>Lokal</th>
                                 <th>Dzielnica</th>
                                 <th>Kategoria</th>
-                                <th>Właściciel</th>
+                                <th>Wlasciciel</th>
                                 <th>Oferty</th>
                                 <th>Realizacje</th>
                                 <th>Status</th>
@@ -105,11 +672,11 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">B</div>
-                                        <div>
+                                    <div class="venue-cell">
+                                        <div class="venue-icon">B</div>
+                                        <div class="venue-details">
                                             <strong>Burger u Kazika</strong>
-                                            <div class="text-muted" style="font-size:12px">ul. Kazimierza 42</div>
+                                            <span class="venue-address">ul. Kazimierza 42</span>
                                         </div>
                                     </div>
                                 </td>
@@ -118,7 +685,12 @@
                                 <td>Jan Kowalski</td>
                                 <td>3</td>
                                 <td>456</td>
-                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <span class="status">
+                                        <span class="status-dot green"></span>
+                                        Aktywny
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="action-btn">
                                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
@@ -127,11 +699,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">K</div>
-                                        <div>
+                                    <div class="venue-cell">
+                                        <div class="venue-icon">K</div>
+                                        <div class="venue-details">
                                             <strong>Kawiarnia Cicha</strong>
-                                            <div class="text-muted" style="font-size:12px">ul. Kazimierza 15</div>
+                                            <span class="venue-address">ul. Kazimierza 15</span>
                                         </div>
                                     </div>
                                 </td>
@@ -140,7 +712,12 @@
                                 <td>Anna Nowak</td>
                                 <td>2</td>
                                 <td>312</td>
-                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <span class="status">
+                                        <span class="status-dot green"></span>
+                                        Aktywny
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="action-btn">
                                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
@@ -149,20 +726,25 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">F</div>
-                                        <div>
+                                    <div class="venue-cell">
+                                        <div class="venue-icon">F</div>
+                                        <div class="venue-details">
                                             <strong>Fryzjer Ela</strong>
-                                            <div class="text-muted" style="font-size:12px">ul. Mokotowska 8</div>
+                                            <span class="venue-address">ul. Mokotowska 8</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>Mokotów Stary</td>
+                                <td>Mokotow Stary</td>
                                 <td><span class="badge orange">Fryzjer</span></td>
-                                <td>Elżbieta Wiśniewska</td>
+                                <td>Elzbieta Wisniewska</td>
                                 <td>1</td>
                                 <td>198</td>
-                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <span class="status">
+                                        <span class="status-dot green"></span>
+                                        Aktywny
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="action-btn">
                                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
@@ -171,42 +753,52 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">P</div>
-                                        <div>
+                                    <div class="venue-cell">
+                                        <div class="venue-icon">P</div>
+                                        <div class="venue-details">
                                             <strong>Piekarnia Pod Kogutem</strong>
-                                            <div class="text-muted" style="font-size:12px">ul. Żoliborska 23</div>
+                                            <span class="venue-address">ul. Zoliborska 23</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>Żoliborz</td>
+                                <td>Zoliborz</td>
                                 <td><span class="badge green">Piekarnia</span></td>
-                                <td>Piotr Dąbrowski</td>
+                                <td>Piotr Dabrowski</td>
                                 <td>2</td>
                                 <td>145</td>
-                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <span class="status">
+                                        <span class="status-dot green"></span>
+                                        Aktywny
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="action-btn">
                                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
                                     </button>
                                 </td>
                             </tr>
-                            <tr style="opacity:0.6">
+                            <tr class="inactive">
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600">S</div>
-                                        <div>
-                                            <strong>Sklep Spożywczy u Zosi</strong>
-                                            <div class="text-muted" style="font-size:12px">ul. Praska 5</div>
+                                    <div class="venue-cell">
+                                        <div class="venue-icon">S</div>
+                                        <div class="venue-details">
+                                            <strong>Sklep Spozywczy u Zosi</strong>
+                                            <span class="venue-address">ul. Praska 5</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>Praga Północ</td>
-                                <td><span class="badge">Sklep</span></td>
+                                <td>Praga Polnoc</td>
+                                <td><span class="badge gray">Sklep</span></td>
                                 <td>Zofia Krawczyk</td>
                                 <td>0</td>
                                 <td>23</td>
-                                <td><span class="status-dot orange"></span> Nieaktywny</td>
+                                <td>
+                                    <span class="status">
+                                        <span class="status-dot orange"></span>
+                                        Nieaktywny
+                                    </span>
+                                </td>
                                 <td>
                                     <button class="action-btn">
                                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
@@ -217,20 +809,27 @@
                     </table>
 
                     <div class="pagination">
-                        <span class="pagination-info">Wyświetlono 1-5 z 48 lokali</span>
+                        <span class="pagination-info">Wyswietlono 1-5 z 48 lokali</span>
                         <div class="pagination-buttons">
-                            <button class="pagination-btn" disabled>← Poprzednia</button>
+                            <button class="pagination-btn" disabled>Poprzednia</button>
                             <button class="pagination-btn active">1</button>
                             <button class="pagination-btn">2</button>
                             <button class="pagination-btn">3</button>
                             <button class="pagination-btn">...</button>
                             <button class="pagination-btn">10</button>
-                            <button class="pagination-btn">Następna →</button>
+                            <button class="pagination-btn">Nastepna</button>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

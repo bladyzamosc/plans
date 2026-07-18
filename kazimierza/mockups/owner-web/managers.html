@@ -1,38 +1,690 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Managerowie - Panel Właściciela</title>
+    <title>Pracownicy - Panel Wlasciciela</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="owner-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
+            min-height: 100vh;
+        }
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1E3A5F;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-sub {
+            display: block;
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .venue-selector {
+            padding: 16px;
+            position: relative;
+        }
+        .venue-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            text-align: left;
+            transition: background 0.2s;
+        }
+        .venue-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .venue-logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .venue-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .venue-address {
+            font-size: 12px;
+            color: #A0AEC0;
+        }
+        .venue-dropdown-arrow {
+            color: #A0AEC0;
+            font-size: 10px;
+        }
+        .venue-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 16px;
+            right: 16px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 200;
+            overflow: hidden;
+        }
+        .venue-dropdown.active {
+            display: block;
+        }
+        .venue-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #1E3A5F;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .venue-dropdown-item:hover {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-item.active {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-dropdown-logo-placeholder {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #E2E8F0;
+            color: #6B7C93;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .venue-dropdown-info {
+            flex: 1;
+        }
+        .venue-dropdown-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .venue-dropdown-address {
+            display: block;
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .venue-check {
+            color: #34C759;
+            font-weight: 600;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #A0AEC0;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-item.active {
+            color: #1E3A5F;
+            background: #fff;
+        }
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        .topbar {
+            background: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-venue-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1E3A5F;
+            font-weight: 500;
+        }
+        .header-venue-btn:hover {
+            background: #E2E8F0;
+        }
+        .header-venue-btn img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(30,58,95,0.3);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #1E3A5F;
+            border: 1px solid #E2E8F0;
+        }
+        .btn-secondary:hover {
+            background: #F2F5F9;
+        }
+        .btn-outline {
+            background: #fff;
+            color: #1E3A5F;
+            border: 1px solid #E2E8F0;
+        }
+        .btn-outline:hover {
+            background: #F2F5F9;
+            border-color: #1E3A5F;
+        }
+        .btn-danger {
+            color: #FF3B30;
+            border-color: #FECACA;
+        }
+        .btn-danger:hover {
+            background: #FEF2F2;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .content {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #E2E8F0;
+            max-width: 800px;
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        /* Info Card */
+        .info-card {
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            gap: 16px;
+            background: #F8FAFC;
+            border: 1px dashed #E2E8F0;
+        }
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(44,82,130,0.1);
+        }
+        .info-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: #2C5282;
+            stroke-width: 2;
+            fill: none;
+        }
+        .info-content {
+            flex: 1;
+        }
+        .info-title {
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #6B7C93;
+            margin: 0;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th {
+            text-align: left;
+            padding: 12px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7C93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #F8FAFC;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .table td {
+            padding: 16px 24px;
+            font-size: 14px;
+            color: #1E3A5F;
+            border-bottom: 1px solid #F2F5F9;
+        }
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        .table tr:hover {
+            background: #F8FAFC;
+        }
+        .table tr.pending {
+            opacity: 0.7;
+        }
+        .member-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .member-avatar.owner {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+        }
+        .member-avatar.manager {
+            background: #E0E7FF;
+            color: #4338CA;
+        }
+        .member-avatar.pending {
+            background: #F1F5F9;
+            color: #6B7C93;
+        }
+        .member-name {
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .member-email {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #F2F5F9;
+            color: #6B7C93;
+        }
+        .badge.purple {
+            background: rgba(139,92,246,0.1);
+            color: #8B5CF6;
+        }
+        .badge.blue {
+            background: rgba(44,82,130,0.1);
+            color: #2C5282;
+        }
+        .status-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .status-dot.green {
+            background: #34C759;
+        }
+        .status-dot.orange {
+            background: #FF9500;
+        }
+        .text-muted {
+            color: #6B7C93;
+        }
+        .actions-cell {
+            display: flex;
+            gap: 8px;
+        }
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover {
+            background: #F2F5F9;
+        }
+        .modal-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: #6B7C93;
+            stroke-width: 2;
+            fill: none;
+        }
+        .modal-body {
+            padding: 24px;
+        }
+        .modal-footer {
+            padding: 24px;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1E3A5F;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1E3A5F;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2C5282;
+            box-shadow: 0 0 0 3px rgba(44,82,130,0.1);
+        }
+        .form-hint {
+            font-size: 12px;
+            color: #6B7C93;
+            margin-top: 8px;
+        }
+        .permissions-box {
+            background: #F8FAFC;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .permissions-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 8px;
+        }
+        .permissions-list {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 14px;
+            color: #6B7C93;
+        }
+        .permissions-list li {
+            margin-bottom: 4px;
+        }
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #F2F5F9;
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-menu-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #1E3A5F;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+        .sidebar-overlay.active {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .content {
+                padding: 16px;
+            }
+            .topbar {
+                padding: 16px;
+            }
+            .table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <div class="layout">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="logo">Tuswoi</span>
-                <span class="logo-sub">Właściciel</span>
+                <span class="logo-sub">Panel Wlasciciela</span>
             </div>
 
             <div class="venue-selector">
-                <button class="venue-card venue-dropdown-toggle">
+                <button class="venue-card" onclick="toggleVenueDropdown()">
                     <img src="../kuflo.png" alt="Kufloteka" class="venue-logo-img">
                     <div class="venue-info">
                         <div class="venue-name">Beer & Burger Kufloteka</div>
                         <div class="venue-address">ul. Jana Kazimierza 32</div>
                     </div>
-                    <span class="venue-dropdown-arrow">▼</span>
+                    <span class="venue-dropdown-arrow">&#9660;</span>
                 </button>
-                <div class="venue-dropdown">
+                <div class="venue-dropdown" id="venueDropdown">
                     <a href="#" class="venue-dropdown-item active">
                         <img src="../kuflo.png" alt="Kufloteka" class="venue-dropdown-logo">
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Beer & Burger Kufloteka</span>
                             <span class="venue-dropdown-address">ul. Jana Kazimierza 32</span>
                         </div>
-                        <span class="venue-check">✓</span>
+                        <span class="venue-check">&#10003;</span>
                     </a>
                     <a href="#" class="venue-dropdown-item">
                         <div class="venue-dropdown-logo-placeholder">P</div>
@@ -45,7 +697,7 @@
                         <div class="venue-dropdown-logo-placeholder">K</div>
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Kawiarnia u Kasi</span>
-                            <span class="venue-dropdown-address">ul. Płocka 8</span>
+                            <span class="venue-dropdown-address">ul. Plocka 8</span>
                         </div>
                     </a>
                 </div>
@@ -70,7 +722,7 @@
                 </a>
                 <a href="managers.html" class="nav-item active">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Managerowie
+                    Pracownicy
                 </a>
                 <a href="settings.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -81,7 +733,7 @@
             <div class="sidebar-footer">
                 <a href="../index.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    Wróć do mockupów
+                    Wroc do mockupow
                 </a>
             </div>
         </aside>
@@ -89,36 +741,45 @@
         <!-- Main Content -->
         <main class="main">
             <header class="topbar">
-                <h1 class="page-title">Managerowie</h1>
-                <div class="topbar-actions">
-                    <button class="btn btn-primary" onclick="document.getElementById('inviteModal').style.display='flex'">
-                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        Zaproś managera
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                     </button>
+                    <h1 class="page-title">Pracownicy</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="header-venue-btn">
+                        <img src="../kuflo.png" alt="">
+                        <span>Kufloteka</span>
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#6B7C93;stroke-width:2;fill:none"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <button class="btn btn-primary" onclick="openModal()">
+                        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Zapros managera
+                    </button>
+                    <div class="avatar">JK</div>
                 </div>
             </header>
 
             <div class="content">
                 <!-- Info -->
-                <div class="card" style="max-width:800px;background:#f8fafc;border:1px dashed var(--border)">
-                    <div style="padding:20px;display:flex;gap:16px">
-                        <div style="width:40px;height:40px;background:rgba(59,130,246,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center">
-                            <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#3b82f6;stroke-width:2;fill:none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                        </div>
-                        <div>
-                            <strong style="display:block;margin-bottom:4px">Czym jest manager?</strong>
-                            <p style="font-size:14px;color:var(--text-muted);margin:0">
-                                Manager może tworzyć i zarządzać ofertami oraz przeglądać statystyki.
-                                Nie ma dostępu do zmiany nazwy, logo, PIN-u ani nie może wypowiedzieć umowy.
-                            </p>
-                        </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-title">Czym jest manager?</div>
+                        <p class="info-text">
+                            Manager moze tworzyc i zarzadzac ofertami oraz przegladac statystyki.
+                            Nie ma dostepu do zmiany nazwy, logo, PIN-u ani nie moze wypowiedziec umowy.
+                        </p>
                     </div>
                 </div>
 
                 <!-- Team List -->
-                <div class="card" style="max-width:800px">
+                <div class="card">
                     <div class="card-header">
-                        <h3>Zespół (3)</h3>
+                        <h3>Zespol (3)</h3>
                     </div>
 
                     <table class="table">
@@ -127,23 +788,28 @@
                                 <th>Osoba</th>
                                 <th>Rola</th>
                                 <th>Status</th>
-                                <th>Dołączył</th>
+                                <th>Dolaczyl</th>
                                 <th>Akcje</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:var(--accent);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600">JK</div>
+                                    <div class="member-cell">
+                                        <div class="member-avatar owner">JK</div>
                                         <div>
-                                            <strong>Jan Kowalski</strong>
-                                            <div class="text-muted" style="font-size:12px">jan.kowalski@email.pl</div>
+                                            <div class="member-name">Jan Kowalski</div>
+                                            <div class="member-email">jan.kowalski@email.pl</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td><span class="badge purple">Właściciel</span></td>
-                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td><span class="badge purple">Wlasciciel</span></td>
+                                <td>
+                                    <div class="status-cell">
+                                        <span class="status-dot green"></span>
+                                        Aktywny
+                                    </div>
+                                </td>
                                 <td class="text-muted">01.01.2026</td>
                                 <td>
                                     <span class="text-muted">Ty</span>
@@ -151,42 +817,52 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:#e0e7ff;color:#4338ca;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600">AN</div>
+                                    <div class="member-cell">
+                                        <div class="member-avatar manager">AN</div>
                                         <div>
-                                            <strong>Anna Nowak</strong>
-                                            <div class="text-muted" style="font-size:12px">anna.nowak@email.pl</div>
+                                            <div class="member-name">Anna Nowak</div>
+                                            <div class="member-email">anna.nowak@email.pl</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td><span class="badge blue">Manager</span></td>
-                                <td><span class="status-dot green"></span> Aktywny</td>
+                                <td>
+                                    <div class="status-cell">
+                                        <span class="status-dot green"></span>
+                                        Aktywny
+                                    </div>
+                                </td>
                                 <td class="text-muted">15.03.2026</td>
                                 <td>
-                                    <button class="btn btn-outline" style="padding:6px 12px;font-size:12px;color:#dc2626;border-color:#fecaca">
-                                        Usuń
+                                    <button class="btn btn-outline btn-sm btn-danger">
+                                        Usun
                                     </button>
                                 </td>
                             </tr>
-                            <tr style="opacity:0.7">
+                            <tr class="pending">
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div style="width:40px;height:40px;background:#f1f5f9;color:#64748b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600">?</div>
+                                    <div class="member-cell">
+                                        <div class="member-avatar pending">?</div>
                                         <div>
-                                            <strong>piotr.wisniewski@email.pl</strong>
-                                            <div class="text-muted" style="font-size:12px">Oczekuje na akceptację</div>
+                                            <div class="member-name">piotr.wisniewski@email.pl</div>
+                                            <div class="member-email">Oczekuje na akceptacje</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td><span class="badge">Manager</span></td>
-                                <td><span class="status-dot orange"></span> Zaproszony</td>
+                                <td>
+                                    <div class="status-cell">
+                                        <span class="status-dot orange"></span>
+                                        Zaproszony
+                                    </div>
+                                </td>
                                 <td class="text-muted">10.07.2026</td>
                                 <td>
-                                    <div style="display:flex;gap:8px">
-                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">
-                                            Wyślij ponownie
+                                    <div class="actions-cell">
+                                        <button class="btn btn-outline btn-sm">
+                                            Wyslij ponownie
                                         </button>
-                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px;color:#dc2626;border-color:#fecaca">
+                                        <button class="btn btn-outline btn-sm btn-danger">
                                             Anuluj
                                         </button>
                                     </div>
@@ -200,35 +876,59 @@
     </div>
 
     <!-- Invite Modal -->
-    <div id="inviteModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
-        <div style="background:#fff;border-radius:16px;width:100%;max-width:450px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25)">
-            <div style="padding:24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-                <h3 style="margin:0;font-size:18px">Zaproś managera</h3>
-                <button onclick="document.getElementById('inviteModal').style.display='none'" style="border:none;background:none;cursor:pointer;padding:8px">
-                    <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#64748b;stroke-width:2;fill:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <div class="modal-overlay" id="inviteModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Zapros managera</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
-            <div style="padding:24px">
+            <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Adres email</label>
                     <input type="email" class="form-input" placeholder="email@example.pl">
-                    <div class="form-hint">Na ten adres zostanie wysłane zaproszenie do dołączenia.</div>
+                    <div class="form-hint">Na ten adres zostanie wyslane zaproszenie do dolaczenia.</div>
                 </div>
 
-                <div style="background:#f8fafc;border-radius:8px;padding:16px;margin-top:16px">
-                    <strong style="font-size:14px;display:block;margin-bottom:8px">Manager będzie mógł:</strong>
-                    <ul style="margin:0;padding-left:20px;font-size:14px;color:var(--text-muted)">
-                        <li>Tworzyć i edytować oferty</li>
-                        <li>Wstrzymywać i wznawiać oferty</li>
-                        <li>Przeglądać statystyki i realizacje</li>
+                <div class="permissions-box">
+                    <div class="permissions-title">Manager bedzie mogl:</div>
+                    <ul class="permissions-list">
+                        <li>Tworzyc i edytowac oferty</li>
+                        <li>Wstrzymywac i wznawiac oferty</li>
+                        <li>Przegladac statystyki i realizacje</li>
                     </ul>
                 </div>
             </div>
-            <div style="padding:24px;border-top:1px solid var(--border);display:flex;gap:12px;justify-content:flex-end">
-                <button class="btn btn-secondary" onclick="document.getElementById('inviteModal').style.display='none'">Anuluj</button>
-                <button class="btn btn-primary">Wyślij zaproszenie</button>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Anuluj</button>
+                <button class="btn btn-primary">Wyslij zaproszenie</button>
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+        function toggleVenueDropdown() {
+            document.getElementById('venueDropdown').classList.toggle('active');
+        }
+        function openModal() {
+            document.getElementById('inviteModal').classList.add('active');
+        }
+        function closeModal() {
+            document.getElementById('inviteModal').classList.remove('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.venue-selector')) {
+                document.getElementById('venueDropdown').classList.remove('active');
+            }
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>

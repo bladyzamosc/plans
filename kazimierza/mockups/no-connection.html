@@ -1,22 +1,127 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brak sieci - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .back-to-index {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 100;
+        }
+
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(30, 58, 95, 0.15);
+            position: relative;
+            border: 8px solid #1E3A5F;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .icon-circle {
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            box-shadow: 0 12px 32px rgba(30, 58, 95, 0.12);
+            margin-bottom: 32px;
+        }
+
+        .icon-circle.warning {
+            border: 3px solid #2C5282;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1E3A5F;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .text-muted {
+            color: #6B7C93;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 16px;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(30, 58, 95, 0.25);
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(30, 58, 95, 0.35);
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
 
     <div class="phone">
-        <div class="content content-center">
+        <div class="content">
             <div class="icon-circle warning">⚡</div>
-            <h1 class="title" style="font-size:22px">Brak połączenia</h1>
-            <p class="text-muted mt-8">
-                Sprawdź połączenie z<br>internetem i spróbuj ponownie.
+            <h1 class="title">Brak polaczenia</h1>
+            <p class="text-muted">
+                Sprawdz polaczenie z<br>internetem i sprobuj ponownie.
             </p>
-            <a href="home.html" class="btn btn-primary mt-32">Spróbuj ponownie</a>
+            <a href="home.html" class="btn-primary">Sprobuj ponownie</a>
         </div>
     </div>
 </body>

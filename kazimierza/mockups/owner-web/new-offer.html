@@ -1,38 +1,566 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nowa oferta - Panel Właściciela</title>
+    <title>Nowa oferta - Panel Wlasciciela</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="owner-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
+            min-height: 100vh;
+        }
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1E3A5F;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-sub {
+            display: block;
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .venue-selector {
+            padding: 16px;
+            position: relative;
+        }
+        .venue-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            text-align: left;
+            transition: background 0.2s;
+        }
+        .venue-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .venue-logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .venue-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .venue-address {
+            font-size: 12px;
+            color: #A0AEC0;
+        }
+        .venue-dropdown-arrow {
+            color: #A0AEC0;
+            font-size: 10px;
+        }
+        .venue-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 16px;
+            right: 16px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 200;
+            overflow: hidden;
+        }
+        .venue-dropdown.active {
+            display: block;
+        }
+        .venue-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #1E3A5F;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .venue-dropdown-item:hover {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-item.active {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-dropdown-logo-placeholder {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #E2E8F0;
+            color: #6B7C93;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .venue-dropdown-info {
+            flex: 1;
+        }
+        .venue-dropdown-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .venue-dropdown-address {
+            display: block;
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .venue-check {
+            color: #34C759;
+            font-weight: 600;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #A0AEC0;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-item.active {
+            color: #1E3A5F;
+            background: #fff;
+        }
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        .topbar {
+            background: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-venue-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1E3A5F;
+            font-weight: 500;
+        }
+        .header-venue-btn:hover {
+            background: #E2E8F0;
+        }
+        .header-venue-btn img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(30,58,95,0.3);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #1E3A5F;
+            border: 1px solid #E2E8F0;
+        }
+        .btn-secondary:hover {
+            background: #F2F5F9;
+        }
+        .content {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #E2E8F0;
+            max-width: 700px;
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .card-body {
+            padding: 24px;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1E3A5F;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1E3A5F;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2C5282;
+            box-shadow: 0 0 0 3px rgba(44,82,130,0.1);
+        }
+        .form-input::placeholder {
+            color: #A0AEC0;
+        }
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-hint {
+            font-size: 12px;
+            color: #6B7C93;
+            margin-top: 8px;
+        }
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+        .form-row > div {
+            flex: 1;
+        }
+        .radio-cards {
+            display: flex;
+            gap: 12px;
+        }
+        .radio-card {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .radio-card:hover {
+            border-color: #2C5282;
+        }
+        .radio-card.selected {
+            border-color: #1E3A5F;
+            background: rgba(30,58,95,0.05);
+        }
+        .radio-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .radio-card-desc {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .value-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 200px;
+        }
+        .value-unit {
+            font-size: 18px;
+            color: #6B7C93;
+        }
+        .card-footer {
+            padding: 24px;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            gap: 12px;
+        }
+        /* Info Cards */
+        .info-card {
+            max-width: 700px;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            gap: 16px;
+        }
+        .info-card.blue {
+            background: #EBF5FF;
+            border: 1px solid #BFDBFE;
+        }
+        .info-card.yellow {
+            background: #FFFBEB;
+            border: 1px dashed #FCD34D;
+        }
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-icon.blue {
+            background: rgba(59,130,246,0.2);
+        }
+        .info-icon.blue svg {
+            stroke: #3B82F6;
+        }
+        .info-icon.yellow {
+            background: rgba(245,158,11,0.2);
+        }
+        .info-icon.yellow svg {
+            stroke: #F59E0B;
+        }
+        .info-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+            fill: none;
+        }
+        .info-content {
+            flex: 1;
+        }
+        .info-title {
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #6B7C93;
+            margin: 0;
+        }
+        .info-text a {
+            color: #2C5282;
+            font-weight: 500;
+        }
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #F2F5F9;
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-menu-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #1E3A5F;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+        .sidebar-overlay.active {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .content {
+                padding: 16px;
+            }
+            .topbar {
+                padding: 16px;
+            }
+            .radio-cards {
+                flex-direction: column;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <div class="layout">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="logo">Tuswoi</span>
-                <span class="logo-sub">Właściciel</span>
+                <span class="logo-sub">Panel Wlasciciela</span>
             </div>
 
             <div class="venue-selector">
-                <button class="venue-card venue-dropdown-toggle">
+                <button class="venue-card" onclick="toggleVenueDropdown()">
                     <img src="../kuflo.png" alt="Kufloteka" class="venue-logo-img">
                     <div class="venue-info">
                         <div class="venue-name">Beer & Burger Kufloteka</div>
                         <div class="venue-address">ul. Jana Kazimierza 32</div>
                     </div>
-                    <span class="venue-dropdown-arrow">▼</span>
+                    <span class="venue-dropdown-arrow">&#9660;</span>
                 </button>
-                <div class="venue-dropdown">
+                <div class="venue-dropdown" id="venueDropdown">
                     <a href="#" class="venue-dropdown-item active">
                         <img src="../kuflo.png" alt="Kufloteka" class="venue-dropdown-logo">
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Beer & Burger Kufloteka</span>
                             <span class="venue-dropdown-address">ul. Jana Kazimierza 32</span>
                         </div>
-                        <span class="venue-check">✓</span>
+                        <span class="venue-check">&#10003;</span>
                     </a>
                     <a href="#" class="venue-dropdown-item">
                         <div class="venue-dropdown-logo-placeholder">P</div>
@@ -45,7 +573,7 @@
                         <div class="venue-dropdown-logo-placeholder">K</div>
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Kawiarnia u Kasi</span>
-                            <span class="venue-dropdown-address">ul. Płocka 8</span>
+                            <span class="venue-dropdown-address">ul. Plocka 8</span>
                         </div>
                     </a>
                 </div>
@@ -70,7 +598,7 @@
                 </a>
                 <a href="managers.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Managerowie
+                    Pracownicy
                 </a>
                 <a href="settings.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -81,7 +609,7 @@
             <div class="sidebar-footer">
                 <a href="../index.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    Wróć do mockupów
+                    Wroc do mockupow
                 </a>
             </div>
         </aside>
@@ -89,40 +617,53 @@
         <!-- Main Content -->
         <main class="main">
             <header class="topbar">
-                <h1 class="page-title">Nowa oferta</h1>
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <h1 class="page-title">Nowa oferta</h1>
+                </div>
+                <div class="topbar-actions">
+                    <button class="header-venue-btn">
+                        <img src="../kuflo.png" alt="">
+                        <span>Kufloteka</span>
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#6B7C93;stroke-width:2;fill:none"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="avatar">JK</div>
+                </div>
             </header>
 
             <div class="content">
-                <div class="card" style="max-width:700px">
+                <div class="card">
                     <div class="card-header">
-                        <h3>Szczegóły oferty</h3>
+                        <h3>Szczegoly oferty</h3>
                     </div>
 
-                    <div style="padding:24px">
+                    <div class="card-body">
                         <div class="form-group">
-                            <label class="form-label">Tytuł oferty</label>
+                            <label class="form-label">Tytul oferty</label>
                             <input type="text" class="form-input" placeholder="np. Piwo z kranu gratis do zestawu">
-                            <div class="form-hint">Krótki, przyciągający uwagę tytuł (max 100 znaków)</div>
+                            <div class="form-hint">Krotki, przyciagajacy uwage tytul (max 100 znakow)</div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Opis</label>
                             <textarea class="form-input" rows="3" placeholder="Dodatkowe informacje o ofercie..."></textarea>
-                            <div class="form-hint">Opcjonalny opis, warunki, ograniczenia (max 500 znaków)</div>
+                            <div class="form-hint">Opcjonalny opis, warunki, ograniczenia (max 500 znakow)</div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Typ rabatu</label>
                             <div class="radio-cards">
-                                <div class="radio-card selected">
+                                <div class="radio-card selected" onclick="selectRadioCard(this)">
                                     <div class="radio-card-title">Procent</div>
                                     <div class="radio-card-desc">np. -30%</div>
                                 </div>
-                                <div class="radio-card">
+                                <div class="radio-card" onclick="selectRadioCard(this)">
                                     <div class="radio-card-title">Kwota</div>
-                                    <div class="radio-card-desc">np. -15 zł</div>
+                                    <div class="radio-card-desc">np. -15 zl</div>
                                 </div>
-                                <div class="radio-card">
+                                <div class="radio-card" onclick="selectRadioCard(this)">
                                     <div class="radio-card-title">Gratis</div>
                                     <div class="radio-card-desc">np. kawa gratis</div>
                                 </div>
@@ -130,80 +671,95 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Wartość rabatu</label>
-                            <div style="display:flex;align-items:center;gap:8px;max-width:200px">
-                                <input type="number" class="form-input" placeholder="30">
-                                <span style="font-size:18px;color:var(--text-muted)">%</span>
+                            <label class="form-label">Wartosc rabatu</label>
+                            <div class="value-input-row">
+                                <input type="number" class="form-input" placeholder="30" style="max-width:120px">
+                                <span class="value-unit">%</span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Okres obowiązywania</label>
+                            <label class="form-label">Okres obowiazywania</label>
                             <div class="form-row" style="max-width:400px">
                                 <div>
-                                    <label class="form-label" style="font-size:12px;color:var(--text-muted)">Od</label>
-                                    <input type="date" class="form-input" value="2026-07-16">
+                                    <label class="form-label" style="font-size:12px;color:#6B7C93">Od</label>
+                                    <input type="date" class="form-input" value="2026-07-18">
                                 </div>
                                 <div>
-                                    <label class="form-label" style="font-size:12px;color:var(--text-muted)">Do</label>
-                                    <input type="date" class="form-input" value="2026-07-23">
+                                    <label class="form-label" style="font-size:12px;color:#6B7C93">Do</label>
+                                    <input type="date" class="form-input" value="2026-07-25">
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Czas ważności kodu QR</label>
+                            <label class="form-label">Czas waznosci kodu QR</label>
                             <select class="form-input" style="max-width:200px">
                                 <option value="5">5 minut</option>
                                 <option value="10">10 minut</option>
-                                <option value="15" selected>15 minut (domyślnie)</option>
+                                <option value="15" selected>15 minut (domyslnie)</option>
                                 <option value="30">30 minut</option>
                                 <option value="60">60 minut</option>
-                                <option value="">Do końca oferty</option>
+                                <option value="">Do konca oferty</option>
                             </select>
-                            <div class="form-hint">Po tym czasie klient musi wygenerować nowy kod QR</div>
+                            <div class="form-hint">Po tym czasie klient musi wygenerowac nowy kod QR</div>
                         </div>
+                    </div>
 
-                        <div style="display:flex;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
-                            <button class="btn btn-secondary">Zapisz jako szkic</button>
-                            <button class="btn btn-primary">Wyślij do moderacji</button>
-                        </div>
+                    <div class="card-footer">
+                        <button class="btn btn-secondary">Zapisz jako szkic</button>
+                        <button class="btn btn-primary">Wyslij do moderacji</button>
                     </div>
                 </div>
 
                 <!-- Moderation Info -->
-                <div class="card" style="max-width:700px;background:#eff6ff;border:1px solid #bfdbfe">
-                    <div style="padding:20px;display:flex;gap:16px">
-                        <div style="width:40px;height:40px;background:rgba(59,130,246,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center">
-                            <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#3b82f6;stroke-width:2;fill:none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
-                        <div>
-                            <strong style="display:block;margin-bottom:4px">Moderacja treści</strong>
-                            <p style="font-size:14px;color:var(--text-muted);margin:0">
-                                Każda oferta przechodzi weryfikację. Publikacja następuje automatycznie za 3 dni
-                                lub wcześniej po akceptacji administratora.
-                            </p>
-                        </div>
+                <div class="info-card blue">
+                    <div class="info-icon blue">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-title">Moderacja tresci</div>
+                        <p class="info-text">
+                            Kazda oferta przechodzi weryfikacje. Publikacja nastepuje automatycznie za 3 dni
+                            lub wczesniej po akceptacji administratora.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Info Card -->
-                <div class="card" style="max-width:700px;background:#f8fafc;border:1px dashed var(--border)">
-                    <div style="padding:20px;display:flex;gap:16px">
-                        <div style="width:40px;height:40px;background:rgba(201,169,98,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center">
-                            <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#c9a962;stroke-width:2;fill:none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                        </div>
-                        <div>
-                            <strong style="display:block;margin-bottom:4px">Plan darmowy</strong>
-                            <p style="font-size:14px;color:var(--text-muted);margin:0">
-                                Możesz mieć 1 aktywną ofertę dziennie. Chcesz więcej?
-                                <a href="#" style="color:var(--accent)">Sprawdź plany premium →</a>
-                            </p>
-                        </div>
+                <!-- Plan Info Card -->
+                <div class="info-card yellow">
+                    <div class="info-icon yellow">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-title">Plan darmowy</div>
+                        <p class="info-text">
+                            Mozesz miec 1 aktywna oferte dziennie. Chcesz wiecej?
+                            <a href="#">Sprawdz plany premium &rarr;</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+        function toggleVenueDropdown() {
+            document.getElementById('venueDropdown').classList.toggle('active');
+        }
+        function selectRadioCard(card) {
+            document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.venue-selector')) {
+                document.getElementById('venueDropdown').classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

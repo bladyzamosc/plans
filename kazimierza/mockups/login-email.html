@@ -1,10 +1,143 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magic Link - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #E8EDF4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(30, 58, 95, 0.15);
+            position: relative;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: #fff;
+            border-bottom: 1px solid #E8EDF4;
+        }
+        .header-back {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            background: #F2F5F9;
+            border-radius: 12px;
+        }
+        .header-back:hover {
+            background: #E8EDF4;
+        }
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .content {
+            padding: 40px 24px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1E3A5F;
+        }
+        .subtitle {
+            font-size: 15px;
+            color: #6B7C93;
+            margin-top: 8px;
+        }
+        .input-group {
+            margin-top: 32px;
+            margin-bottom: 24px;
+        }
+        .input-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 8px;
+        }
+        .input {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            border: 1.5px solid #E8EDF4;
+            border-radius: 14px;
+            background: #fff;
+            color: #1E3A5F;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .input:focus {
+            outline: none;
+            border-color: #2C5282;
+            box-shadow: 0 0 0 4px rgba(44, 82, 130, 0.1);
+        }
+        .input::placeholder {
+            color: #6B7C93;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(30, 58, 95, 0.3);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.4);
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
@@ -17,15 +150,15 @@
         </div>
 
         <div class="content">
-            <h1 class="title" style="font-size:24px">Zaloguj się</h1>
-            <p class="subtitle mt-8">Wyślemy Ci link do logowania na email</p>
+            <h1 class="title">Zaloguj sie</h1>
+            <p class="subtitle">Wyslemy Ci link do logowania na email</p>
 
-            <div class="input-group mt-32">
+            <div class="input-group">
                 <label class="input-label">Email</label>
-                <input type="email" class="input" placeholder="jan@example.com">
+                <input type="email" class="input" placeholder="jan.kowalski@gmail.com">
             </div>
 
-            <a href="login-sent.html" class="btn btn-primary">Wyślij link</a>
+            <a href="login-sent.html" class="btn btn-primary">Wyslij link</a>
         </div>
     </div>
 </body>

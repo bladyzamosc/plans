@@ -1,10 +1,131 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link wysłany - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Link wyslany - Tuswoi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #E8EDF4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(30, 58, 95, 0.15);
+            position: relative;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: #fff;
+            border-bottom: 1px solid #E8EDF4;
+        }
+        .header-back {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            background: #F2F5F9;
+            border-radius: 12px;
+        }
+        .header-back:hover {
+            background: #E8EDF4;
+        }
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .content {
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100% - 73px);
+            text-align: center;
+        }
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+        .icon-circle.info {
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(30, 58, 95, 0.3);
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1E3A5F;
+        }
+        .subtitle {
+            font-size: 15px;
+            color: #6B7C93;
+            margin-top: 8px;
+        }
+        .email {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-top: 4px;
+        }
+        .text-muted {
+            font-size: 14px;
+            color: #6B7C93;
+            margin-top: 32px;
+        }
+        .text-link {
+            color: #2C5282;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .text-link:hover {
+            color: #1E3A5F;
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
@@ -16,14 +137,14 @@
             <span style="width:40px"></span>
         </div>
 
-        <div class="content content-center">
+        <div class="content">
             <div class="icon-circle info">✉</div>
-            <h1 class="title" style="font-size:24px">Sprawdź skrzynkę</h1>
-            <p class="subtitle mt-8">Wysłaliśmy link na:</p>
-            <p style="font-weight:500">jan@example.com</p>
+            <h1 class="title">Sprawdz skrzynke</h1>
+            <p class="subtitle">Wyslalismy link na:</p>
+            <p class="email">jan@example.com</p>
 
-            <p class="text-muted mt-32">Nie dostałeś?</p>
-            <a href="#" class="text-link">Wyślij ponownie</a>
+            <p class="text-muted">Nie dostales?</p>
+            <a href="#" class="text-link">Wyslij ponownie</a>
         </div>
     </div>
 </body>

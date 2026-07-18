@@ -1,17 +1,25 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polityka prywatności - Tuswoi</title>
+    <title>Polityka prywatnosci - Tuswoi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #fff;
-            color: #1a1a1a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
             line-height: 1.8;
         }
+
+        /* Navigation */
         .nav {
             display: flex;
             justify-content: space-between;
@@ -19,124 +27,240 @@
             padding: 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
-            border-bottom: 1px solid #f0f0f0;
+            background: #fff;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.08);
         }
+
         .nav-logo {
             font-size: 24px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #1E3A5F;
             text-decoration: none;
         }
+
         .nav-links {
             display: flex;
             gap: 32px;
             align-items: center;
         }
+
         .nav-links a {
-            color: #666;
+            color: #6B7C93;
             text-decoration: none;
             font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
         }
-        .nav-links a:hover { color: #1a1a1a; }
+
+        .nav-links a:hover {
+            color: #1E3A5F;
+        }
+
         .nav-btn {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             color: #fff;
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
         }
 
+        .lang-dropdown { position: relative; }
+        .lang-btn { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #F2F5F9; border: none; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #1E3A5F; }
+        .lang-btn:hover { background: #E8EDF4; }
+        .lang-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background: #fff; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: none; overflow: hidden; min-width: 120px; z-index: 100; }
+        .lang-dropdown:hover .lang-menu { display: block; }
+        .lang-option { display: flex; align-items: center; gap: 8px; padding: 12px 14px; text-decoration: none; color: #1E3A5F; font-size: 14px; transition: background 0.15s; }
+        .lang-option:hover { background: #F2F5F9; }
+        .lang-option.active { background: #F2F5F9; }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            padding: 80px 40px;
+            color: #fff;
+        }
+
+        .page-header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .page-meta {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Legal Container */
         .legal-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 60px 40px 80px;
         }
 
-        .legal-header {
-            margin-bottom: 48px;
-        }
-        .legal-title {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .legal-meta {
-            font-size: 14px;
-            color: #888;
-        }
-
+        /* Highlight Box */
         .legal-highlight {
-            background: #e8f5e9;
-            border-left: 4px solid #2e7d32;
-            padding: 20px 24px;
-            border-radius: 0 12px 12px 0;
+            background: #fff;
+            border-left: 4px solid #2C5282;
+            padding: 24px 32px;
+            border-radius: 0 16px 16px 0;
             margin-bottom: 40px;
-        }
-        .legal-highlight p {
-            color: #1a1a1a;
-            margin: 0;
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
         }
 
-        .legal-section {
-            margin-bottom: 40px;
+        .legal-highlight p {
+            color: #1E3A5F;
+            margin: 0;
+            font-size: 16px;
         }
+
+        .legal-highlight strong {
+            color: #2C5282;
+        }
+
+        /* Legal Sections */
+        .legal-section {
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
+        }
+
         .legal-section h2 {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 16px;
-            padding-top: 16px;
+            margin-bottom: 24px;
+            color: #1E3A5F;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.1);
         }
+
         .legal-section h3 {
             font-size: 18px;
             font-weight: 600;
             margin: 24px 0 12px;
+            color: #1E3A5F;
         }
+
         .legal-section p {
-            color: #444;
+            color: #6B7C93;
             margin-bottom: 16px;
         }
-        .legal-section ul, .legal-section ol {
+
+        .legal-section ul,
+        .legal-section ol {
             padding-left: 24px;
             margin-bottom: 16px;
-            color: #444;
+            color: #6B7C93;
         }
+
         .legal-section li {
             margin-bottom: 8px;
         }
 
+        .legal-section strong {
+            color: #1E3A5F;
+        }
+
+        .legal-section a {
+            color: #2C5282;
+            text-decoration: none;
+        }
+
+        .legal-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Data Table */
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 16px 0;
-        }
-        .data-table th, .data-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .data-table th {
-            background: #f8f8f8;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .data-table td {
-            font-size: 14px;
-            color: #444;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
+        .data-table th,
+        .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.08);
+        }
+
+        .data-table th {
+            background: #F2F5F9;
+            font-weight: 600;
+            font-size: 13px;
+            color: #2C5282;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            font-size: 14px;
+            color: #6B7C93;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Footer */
         .footer {
-            background: #1a1a1a;
+            background: #1E3A5F;
             color: #fff;
             padding: 40px;
             text-align: center;
         }
-        .footer a {
+
+        .footer-links {
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
             margin: 0 16px;
+            font-size: 15px;
+            transition: color 0.2s;
         }
-        .footer a:hover { color: #fff; }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-copyright {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 32px;
+            }
+
+            .legal-section {
+                padding: 24px;
+            }
+
+            .data-table {
+                font-size: 13px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -146,27 +270,46 @@
             <a href="landing-extended.html#funkcje">Funkcje</a>
             <a href="landing-extended.html#dla-biznesu">Dla biznesu</a>
             <a href="faq.html">FAQ</a>
-            <a href="login.html" class="nav-btn">Zaloguj się</a>
+            <div class="lang-dropdown">
+                <button class="lang-btn">
+                    <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                    PL
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="lang-menu">
+                    <a href="#" class="lang-option active">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                        Polski
+                    </a>
+                    <a href="#" class="lang-option">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><clipPath id="gb"><rect width="20" height="14" rx="1"/></clipPath><g clip-path="url(#gb)"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.5"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.5"/></g></svg>
+                        English
+                    </a>
+                </div>
+            </div>
+            <a href="login.html" class="nav-btn">Zaloguj sie</a>
         </div>
     </nav>
 
-    <main class="legal-container">
-        <header class="legal-header">
-            <h1 class="legal-title">Polityka prywatności</h1>
-            <p class="legal-meta">Ostatnia aktualizacja: 18 lipca 2026</p>
-        </header>
+    <header class="page-header">
+        <div class="page-header-inner">
+            <h1 class="page-title">Polityka prywatnosci</h1>
+            <p class="page-meta">Ostatnia aktualizacja: 18 lipca 2026</p>
+        </div>
+    </header>
 
+    <main class="legal-container">
         <div class="legal-highlight">
             <p>
-                <strong>W skrócie:</strong> Zbieramy tylko dane niezbędne do działania aplikacji.
-                Nie sprzedajemy Twoich danych. Masz pełną kontrolę nad swoim kontem.
+                <strong>W skrocie:</strong> Zbieramy tylko dane niezbedne do dzialania aplikacji.
+                Nie sprzedajemy Twoich danych. Masz pelna kontrole nad swoim kontem.
             </p>
         </div>
 
         <section class="legal-section">
             <h2>1. Administrator danych</h2>
             <p>
-                Administratorem danych osobowych jest [NAZWA SPÓŁKI], z siedzibą w Warszawie,
+                Administratorem danych osobowych jest [NAZWA SPOLKI], z siedziba w Warszawie,
                 NIP: [NIP], REGON: [REGON].
             </p>
             <p>
@@ -177,7 +320,7 @@
         <section class="legal-section">
             <h2>2. Jakie dane zbieramy</h2>
 
-            <h3>Dane użytkowników</h3>
+            <h3>Dane uzytkownikow</h3>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -199,12 +342,12 @@
                     </tr>
                     <tr>
                         <td>Historia realizacji</td>
-                        <td>Funkcjonalność aplikacji</td>
+                        <td>Funkcjonalnosc aplikacji</td>
                         <td>Umowa</td>
                     </tr>
                     <tr>
                         <td>Oceny i komentarze</td>
-                        <td>Funkcjonalność aplikacji</td>
+                        <td>Funkcjonalnosc aplikacji</td>
                         <td>Umowa</td>
                     </tr>
                 </tbody>
@@ -214,20 +357,20 @@
         <section class="legal-section">
             <h2>3. W jakim celu przetwarzamy dane</h2>
             <ul>
-                <li><strong>Świadczenie usług</strong> — umożliwienie korzystania z Platformy</li>
-                <li><strong>Personalizacja</strong> — wyświetlanie ofert z wybranych okolic</li>
-                <li><strong>Komunikacja</strong> — powiadomienia push o nowych ofertach</li>
-                <li><strong>Bezpieczeństwo</strong> — wykrywanie nadużyć, ochrona przed oszustwami</li>
-                <li><strong>Analityka</strong> — anonimowe statystyki korzystania</li>
+                <li><strong>Swiadczenie uslug</strong> - umozliwienie korzystania z Platformy</li>
+                <li><strong>Personalizacja</strong> - wyswietlanie ofert z wybranych okolic</li>
+                <li><strong>Komunikacja</strong> - powiadomienia push o nowych ofertach</li>
+                <li><strong>Bezpieczenstwo</strong> - wykrywanie naduzyc, ochrona przed oszustwami</li>
+                <li><strong>Analityka</strong> - anonimowe statystyki korzystania</li>
             </ul>
         </section>
 
         <section class="legal-section">
-            <h2>4. Komu udostępniamy dane</h2>
+            <h2>4. Komu udostepniamy dane</h2>
             <p>
-                <strong>Lokale</strong> — w zakresie niezbędnym do realizacji oferty (minimalny zestaw danych).
+                <strong>Lokale</strong> - w zakresie niezbednym do realizacji oferty (minimalny zestaw danych).
             </p>
-            <p><strong>Podwykonawcy</strong> przetwarzający dane w naszym imieniu:</p>
+            <p><strong>Podwykonawcy</strong> przetwarzajacy dane w naszym imieniu:</p>
             <ul>
                 <li>Dostawca hostingu</li>
                 <li>Dostawca e-mail</li>
@@ -239,61 +382,73 @@
         </section>
 
         <section class="legal-section">
-            <h2>5. Twoje prawa</h2>
-            <p>Zgodnie z RODO przysługują Ci następujące prawa:</p>
+            <h2>5. Twoje prawa (RODO)</h2>
+            <p>Zgodnie z RODO przysluguja Ci nastepujace prawa:</p>
             <ul>
-                <li><strong>Dostęp</strong> — możesz uzyskać kopię swoich danych</li>
-                <li><strong>Sprostowanie</strong> — możesz poprawić nieprawidłowe dane</li>
-                <li><strong>Usunięcie</strong> — możesz zażądać usunięcia danych</li>
-                <li><strong>Ograniczenie</strong> — możesz ograniczyć przetwarzanie</li>
-                <li><strong>Przenoszenie</strong> — możesz otrzymać dane w formacie elektronicznym</li>
-                <li><strong>Sprzeciw</strong> — możesz sprzeciwić się przetwarzaniu</li>
-                <li><strong>Wycofanie zgody</strong> — możesz wycofać zgodę w dowolnym momencie</li>
+                <li><strong>Dostep</strong> - mozesz uzyskac kopie swoich danych</li>
+                <li><strong>Sprostowanie</strong> - mozesz poprawic nieprawidlowe dane</li>
+                <li><strong>Usuniecie</strong> - mozesz zazadac usuniecia danych ("prawo do bycia zapomnianym")</li>
+                <li><strong>Ograniczenie</strong> - mozesz ograniczyc przetwarzanie</li>
+                <li><strong>Przenoszenie</strong> - mozesz otrzymac dane w formacie elektronicznym</li>
+                <li><strong>Sprzeciw</strong> - mozesz sprzeciwic sie przetwarzaniu</li>
+                <li><strong>Wycofanie zgody</strong> - mozesz wycofac zgode w dowolnym momencie</li>
             </ul>
             <p>
-                Aby skorzystać z praw, skontaktuj się: <a href="mailto:prywatnosc@tuswoi.pl">prywatnosc@tuswoi.pl</a>
+                Aby skorzystac z praw, skontaktuj sie: <a href="mailto:prywatnosc@tuswoi.pl">prywatnosc@tuswoi.pl</a>
             </p>
         </section>
 
         <section class="legal-section">
-            <h2>6. Bezpieczeństwo danych</h2>
-            <p>Stosujemy odpowiednie środki techniczne i organizacyjne:</p>
+            <h2>6. Bezpieczenstwo danych</h2>
+            <p>Stosujemy odpowiednie srodki techniczne i organizacyjne:</p>
             <ul>
                 <li>Szyfrowanie transmisji (HTTPS/TLS)</li>
                 <li>Szyfrowanie danych w spoczynku</li>
-                <li>Kontrola dostępu</li>
-                <li>Regularne audyty bezpieczeństwa</li>
+                <li>Kontrola dostepu</li>
+                <li>Regularne audyty bezpieczenstwa</li>
             </ul>
         </section>
 
         <section class="legal-section">
             <h2>7. Cookies</h2>
             <p>
-                Platforma wykorzystuje cookies niezbędne do działania (sesja, preferencje).
+                Platforma wykorzystuje cookies niezbedne do dzialania (sesja, preferencje).
             </p>
             <p>
-                Ustawienia cookies można zmienić w przeglądarce lub aplikacji.
+                Ustawienia cookies mozna zmienic w przegladarce lub aplikacji.
             </p>
+            <p>Rodzaje cookies:</p>
+            <ul>
+                <li><strong>Niezbedne</strong> - wymagane do dzialania strony (nie wymagaja zgody)</li>
+                <li><strong>Funkcjonalne</strong> - zapamietuja Twoje preferencje</li>
+                <li><strong>Analityczne</strong> - pomagaja nam zrozumiec jak korzystasz z serwisu</li>
+            </ul>
         </section>
 
         <section class="legal-section">
             <h2>8. Kontakt i skargi</h2>
             <p>
-                Administrator: <a href="mailto:prywatnosc@tuswoi.pl">prywatnosc@tuswoi.pl</a>
+                <strong>Administrator:</strong> <a href="mailto:prywatnosc@tuswoi.pl">prywatnosc@tuswoi.pl</a>
             </p>
             <p>
-                Organ nadzorczy: Prezes Urzędu Ochrony Danych Osobowych,
-                ul. Stawki 2, 00-193 Warszawa
+                <strong>Organ nadzorczy:</strong> Prezes Urzedu Ochrony Danych Osobowych,
+                ul. Stawki 2, 00-193 Warszawa, <a href="https://uodo.gov.pl">uodo.gov.pl</a>
+            </p>
+            <p>
+                Masz prawo wniesienia skargi do organu nadzorczego, jesli uważasz,
+                ze przetwarzanie Twoich danych narusza przepisy RODO.
             </p>
         </section>
     </main>
 
     <footer class="footer">
-        <a href="regulamin.html">Regulamin</a>
-        <a href="prywatnosc.html">Prywatność</a>
-        <a href="kontakt.html">Kontakt</a>
-        <p style="margin-top: 24px; color: rgba(255,255,255,0.5); font-size: 14px;">
-            © 2026 Tuswoi. Wszystkie prawa zastrzeżone.
+        <div class="footer-links">
+            <a href="regulamin.html">Regulamin</a>
+            <a href="prywatnosc.html">Prywatnosc</a>
+            <a href="kontakt.html">Kontakt</a>
+        </div>
+        <p class="footer-copyright">
+            &copy; 2026 Tuswoi. Wszystkie prawa zastrzezone.
         </p>
     </footer>
 </body>

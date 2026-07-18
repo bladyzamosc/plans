@@ -1,38 +1,618 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moje oferty - Panel Właściciela</title>
+    <title>Moje oferty - Panel Wlasciciela</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="owner-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
+            min-height: 100vh;
+        }
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1E3A5F;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-sub {
+            display: block;
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .venue-selector {
+            padding: 16px;
+            position: relative;
+        }
+        .venue-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            text-align: left;
+            transition: background 0.2s;
+        }
+        .venue-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .venue-logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .venue-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .venue-address {
+            font-size: 12px;
+            color: #A0AEC0;
+        }
+        .venue-dropdown-arrow {
+            color: #A0AEC0;
+            font-size: 10px;
+        }
+        .venue-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 16px;
+            right: 16px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 200;
+            overflow: hidden;
+        }
+        .venue-dropdown.active {
+            display: block;
+        }
+        .venue-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #1E3A5F;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .venue-dropdown-item:hover {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-item.active {
+            background: #F2F5F9;
+        }
+        .venue-dropdown-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .venue-dropdown-logo-placeholder {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #E2E8F0;
+            color: #6B7C93;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .venue-dropdown-info {
+            flex: 1;
+        }
+        .venue-dropdown-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .venue-dropdown-address {
+            display: block;
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .venue-check {
+            color: #34C759;
+            font-weight: 600;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #A0AEC0;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-item.active {
+            color: #1E3A5F;
+            background: #fff;
+        }
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        .topbar {
+            background: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-venue-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1E3A5F;
+            font-weight: 500;
+        }
+        .header-venue-btn:hover {
+            background: #E2E8F0;
+        }
+        .header-venue-btn img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .notification-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #F2F5F9;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .notification-btn:hover {
+            background: #E2E8F0;
+        }
+        .notification-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #6B7C93;
+            stroke-width: 2;
+            fill: none;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(30,58,95,0.3);
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            background: #fff;
+            color: #1E3A5F;
+            border: 1px solid #E2E8F0;
+        }
+        .btn-outline:hover {
+            background: #F2F5F9;
+            border-color: #1E3A5F;
+        }
+        .btn-danger {
+            background: #fff;
+            color: #FF3B30;
+            border: 1px solid #FECACA;
+        }
+        .btn-danger:hover {
+            background: #FEF2F2;
+        }
+        .content {
+            padding: 32px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #E2E8F0;
+        }
+        .toolbar {
+            padding: 16px 24px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .filter-select {
+            padding: 10px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1E3A5F;
+            background: #fff;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .filter-select:focus {
+            outline: none;
+            border-color: #2C5282;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th {
+            text-align: left;
+            padding: 12px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7C93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #F8FAFC;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .table td {
+            padding: 16px 24px;
+            font-size: 14px;
+            color: #1E3A5F;
+            border-bottom: 1px solid #F2F5F9;
+            vertical-align: top;
+        }
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        .table tr:hover {
+            background: #F8FAFC;
+        }
+        .table tr.paused {
+            opacity: 0.7;
+        }
+        .table tr.expired {
+            opacity: 0.5;
+        }
+        .offer-title {
+            font-weight: 600;
+            color: #1E3A5F;
+            margin-bottom: 4px;
+        }
+        .offer-desc {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #F2F5F9;
+            color: #6B7C93;
+        }
+        .badge.green {
+            background: rgba(52,199,89,0.1);
+            color: #34C759;
+        }
+        .badge.orange {
+            background: rgba(255,149,0,0.1);
+            color: #FF9500;
+        }
+        .badge.blue {
+            background: rgba(44,82,130,0.1);
+            color: #2C5282;
+        }
+        .badge.purple {
+            background: rgba(139,92,246,0.1);
+            color: #8B5CF6;
+        }
+        .text-muted {
+            color: #6B7C93;
+        }
+        .period-info {
+            font-size: 14px;
+            color: #1E3A5F;
+        }
+        .period-remaining {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+        .redemption-count {
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .redemption-today {
+            font-size: 12px;
+            color: #34C759;
+        }
+        .actions-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #E2E8F0;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: #F2F5F9;
+            border-color: #1E3A5F;
+        }
+        .action-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: #6B7C93;
+            stroke-width: 2;
+            fill: none;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-sm svg {
+            width: 14px;
+            height: 14px;
+        }
+        /* Dropdown menu */
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            min-width: 160px;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .dropdown-menu.active {
+            display: block;
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #1E3A5F;
+            text-decoration: none;
+            transition: background 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            cursor: pointer;
+            text-align: left;
+        }
+        .dropdown-item:hover {
+            background: #F2F5F9;
+        }
+        .dropdown-item.danger {
+            color: #FF3B30;
+        }
+        .dropdown-item svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #F2F5F9;
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-menu-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #1E3A5F;
+            stroke-width: 2;
+            fill: none;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+        .sidebar-overlay.active {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main {
+                margin-left: 0;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .content {
+                padding: 16px;
+            }
+            .topbar {
+                padding: 16px;
+            }
+            .table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <div class="layout">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="logo">Tuswoi</span>
-                <span class="logo-sub">Właściciel</span>
+                <span class="logo-sub">Panel Wlasciciela</span>
             </div>
 
             <div class="venue-selector">
-                <button class="venue-card venue-dropdown-toggle">
+                <button class="venue-card" onclick="toggleVenueDropdown()">
                     <img src="../kuflo.png" alt="Kufloteka" class="venue-logo-img">
                     <div class="venue-info">
                         <div class="venue-name">Beer & Burger Kufloteka</div>
                         <div class="venue-address">ul. Jana Kazimierza 32</div>
                     </div>
-                    <span class="venue-dropdown-arrow">▼</span>
+                    <span class="venue-dropdown-arrow">&#9660;</span>
                 </button>
-                <div class="venue-dropdown">
+                <div class="venue-dropdown" id="venueDropdown">
                     <a href="#" class="venue-dropdown-item active">
                         <img src="../kuflo.png" alt="Kufloteka" class="venue-dropdown-logo">
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Beer & Burger Kufloteka</span>
                             <span class="venue-dropdown-address">ul. Jana Kazimierza 32</span>
                         </div>
-                        <span class="venue-check">✓</span>
+                        <span class="venue-check">&#10003;</span>
                     </a>
                     <a href="#" class="venue-dropdown-item">
                         <div class="venue-dropdown-logo-placeholder">P</div>
@@ -45,7 +625,7 @@
                         <div class="venue-dropdown-logo-placeholder">K</div>
                         <div class="venue-dropdown-info">
                             <span class="venue-dropdown-name">Kawiarnia u Kasi</span>
-                            <span class="venue-dropdown-address">ul. Płocka 8</span>
+                            <span class="venue-dropdown-address">ul. Plocka 8</span>
                         </div>
                     </a>
                 </div>
@@ -70,7 +650,7 @@
                 </a>
                 <a href="managers.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Managerowie
+                    Pracownicy
                 </a>
                 <a href="settings.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -81,7 +661,7 @@
             <div class="sidebar-footer">
                 <a href="../index.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    Wróć do mockupów
+                    Wroc do mockupow
                 </a>
             </div>
         </aside>
@@ -89,12 +669,23 @@
         <!-- Main Content -->
         <main class="main">
             <header class="topbar">
-                <h1 class="page-title">Moje oferty</h1>
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <h1 class="page-title">Moje oferty</h1>
+                </div>
                 <div class="topbar-actions">
+                    <button class="header-venue-btn">
+                        <img src="../kuflo.png" alt="">
+                        <span>Kufloteka</span>
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#6B7C93;stroke-width:2;fill:none"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
                     <a href="new-offer.html" class="btn btn-primary">
                         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         Nowa oferta
                     </a>
+                    <div class="avatar">JK</div>
                 </div>
             </header>
 
@@ -106,7 +697,7 @@
                             <option selected>Aktywne</option>
                             <option>Wstrzymane</option>
                             <option>Szkice</option>
-                            <option>Wygasłe</option>
+                            <option>Wygasle</option>
                         </select>
                     </div>
 
@@ -124,157 +715,247 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <strong>Piwo z kranu gratis do zestawu</strong>
-                                    <div class="text-muted" style="font-size:12px">Dowolne piwo z kranu gratis przy zakupie zestawu burger + frytki</div>
+                                    <div class="offer-title">Piwo z kranu gratis do zestawu</div>
+                                    <div class="offer-desc">Dowolne piwo z kranu gratis przy zakupie zestawu burger + frytki</div>
+                                </td>
+                                <td><span class="badge purple">Gratis</span></td>
+                                <td>
+                                    <div class="period-info">15.07 - 20.07</div>
+                                    <div class="period-remaining">Jeszcze 2 dni</div>
+                                </td>
+                                <td>
+                                    <div class="redemption-count">45</div>
+                                    <div class="redemption-today">+8 dzis</div>
+                                </td>
+                                <td><span class="badge green">Aktywna</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button class="btn btn-outline btn-sm">
+                                            <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                                            Wstrzymaj
+                                        </button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" onclick="toggleDropdown(this)">
+                                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                                    Edytuj
+                                                </button>
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                                    Duplikuj
+                                                </button>
+                                                <button class="dropdown-item danger">
+                                                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                                    Usun
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="offer-title">-30% na zeberka BBQ</div>
+                                    <div class="offer-desc">Nasze slynne zeberka w sosie BBQ, porcja 500g</div>
                                 </td>
                                 <td><span class="badge blue">-30%</span></td>
                                 <td>
-                                    <div>15.07 - 20.07</div>
-                                    <div class="text-muted" style="font-size:12px">Jeszcze 4 dni</div>
+                                    <div class="period-info">10.07 - 25.07</div>
+                                    <div class="period-remaining">Jeszcze 7 dni</div>
                                 </td>
                                 <td>
-                                    <strong>45</strong>
-                                    <div class="text-muted" style="font-size:12px">+8 dziś</div>
+                                    <div class="redemption-count">67</div>
+                                    <div class="redemption-today">+12 dzis</div>
                                 </td>
                                 <td><span class="badge green">Aktywna</span></td>
                                 <td>
-                                    <div style="display:flex;gap:8px">
-                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">
-                                            <svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                                    <div class="actions-cell">
+                                        <button class="btn btn-outline btn-sm">
+                                            <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
                                             Wstrzymaj
                                         </button>
-                                        <button class="action-btn">
-                                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" onclick="toggleDropdown(this)">
+                                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                                    Edytuj
+                                                </button>
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                                    Duplikuj
+                                                </button>
+                                                <button class="dropdown-item danger">
+                                                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                                    Usun
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>-30% na żeberka BBQ</strong>
-                                    <div class="text-muted" style="font-size:12px">Nasze słynne żeberka w sosie BBQ, porcja 500g</div>
+                                    <div class="offer-title">Psi Burger gratis</div>
+                                    <div class="offer-desc">Do 2 zestawow burger + frytki psi burger gratis dla pupila</div>
                                 </td>
                                 <td><span class="badge purple">Gratis</span></td>
                                 <td>
-                                    <div>10.07 - 25.07</div>
-                                    <div class="text-muted" style="font-size:12px">Jeszcze 9 dni</div>
+                                    <div class="period-info">01.07 - 31.08</div>
+                                    <div class="period-remaining">Jeszcze 44 dni</div>
                                 </td>
                                 <td>
-                                    <strong>67</strong>
-                                    <div class="text-muted" style="font-size:12px">+12 dziś</div>
+                                    <div class="redemption-count">28</div>
+                                    <div class="redemption-today">+3 dzis</div>
                                 </td>
                                 <td><span class="badge green">Aktywna</span></td>
                                 <td>
-                                    <div style="display:flex;gap:8px">
-                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">
-                                            <svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                                    <div class="actions-cell">
+                                        <button class="btn btn-outline btn-sm">
+                                            <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
                                             Wstrzymaj
                                         </button>
-                                        <button class="action-btn">
-                                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" onclick="toggleDropdown(this)">
+                                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                                    Edytuj
+                                                </button>
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                                    Duplikuj
+                                                </button>
+                                                <button class="dropdown-item danger">
+                                                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                                    Usun
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>Psi Burger gratis</strong>
-                                    <div class="text-muted" style="font-size:12px">Do 2 zestawów burger + frytki psi burger gratis dla pupila</div>
-                                </td>
-                                <td><span class="badge purple">Gratis</span></td>
-                                <td>
-                                    <div>01.07 - 31.08</div>
-                                    <div class="text-muted" style="font-size:12px">Jeszcze 46 dni</div>
-                                </td>
-                                <td>
-                                    <strong>28</strong>
-                                    <div class="text-muted" style="font-size:12px">+3 dziś</div>
-                                </td>
-                                <td><span class="badge green">Aktywna</span></td>
-                                <td>
-                                    <div style="display:flex;gap:8px">
-                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">
-                                            <svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                                            Wstrzymaj
-                                        </button>
-                                        <button class="action-btn">
-                                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>-15% na nachos</strong>
-                                    <div class="text-muted" style="font-size:12px">Nachos z serem i jalapeno, idealny dodatek do piwa</div>
+                                    <div class="offer-title">-15% na nachos</div>
+                                    <div class="offer-desc">Nachos z serem i jalapeno, idealny dodatek do piwa</div>
                                 </td>
                                 <td><span class="badge blue">-15%</span></td>
                                 <td>
-                                    <div>10.07 - 31.07</div>
-                                    <div class="text-muted" style="font-size:12px">Jeszcze 15 dni</div>
+                                    <div class="period-info">10.07 - 31.07</div>
+                                    <div class="period-remaining">Jeszcze 13 dni</div>
                                 </td>
                                 <td>
-                                    <strong>19</strong>
-                                    <div class="text-muted" style="font-size:12px">+2 dziś</div>
+                                    <div class="redemption-count">19</div>
+                                    <div class="redemption-today">+2 dzis</div>
                                 </td>
                                 <td><span class="badge green">Aktywna</span></td>
                                 <td>
-                                    <div style="display:flex;gap:8px">
-                                        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px">
-                                            <svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                                    <div class="actions-cell">
+                                        <button class="btn btn-outline btn-sm">
+                                            <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
                                             Wstrzymaj
                                         </button>
-                                        <button class="action-btn">
-                                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" onclick="toggleDropdown(this)">
+                                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                                    Edytuj
+                                                </button>
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                                    Duplikuj
+                                                </button>
+                                                <button class="dropdown-item danger">
+                                                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                                    Usun
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr style="opacity:0.7">
+                            <tr class="paused">
                                 <td>
-                                    <strong>Darmowa woda dla gości</strong>
-                                    <div class="text-muted" style="font-size:12px">Szklanka wody kranowej gratis dla każdego gościa</div>
+                                    <div class="offer-title">Darmowa woda dla gosci</div>
+                                    <div class="offer-desc">Szklanka wody kranowej gratis dla kazdego goscia</div>
                                 </td>
-                                <td><span class="badge blue">-20%</span></td>
+                                <td><span class="badge purple">Gratis</span></td>
                                 <td>
-                                    <div>01.07 - 31.07</div>
-                                    <div class="text-muted" style="font-size:12px">Jeszcze 15 dni</div>
+                                    <div class="period-info">01.07 - 31.07</div>
+                                    <div class="period-remaining">Jeszcze 13 dni</div>
                                 </td>
                                 <td>
-                                    <strong>12</strong>
-                                    <div class="text-muted" style="font-size:12px">-</div>
+                                    <div class="redemption-count">12</div>
+                                    <div class="text-muted">-</div>
                                 </td>
                                 <td><span class="badge orange">Wstrzymana</span></td>
                                 <td>
-                                    <div style="display:flex;gap:8px">
-                                        <button class="btn btn-primary" style="padding:6px 12px;font-size:12px">
-                                            <svg viewBox="0 0 24 24" style="width:14px;height:14px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                                            Wznów
+                                    <div class="actions-cell">
+                                        <button class="btn btn-primary btn-sm">
+                                            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                            Wznow
                                         </button>
-                                        <button class="action-btn">
-                                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="action-btn" onclick="toggleDropdown(this)">
+                                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                                    Edytuj
+                                                </button>
+                                                <button class="dropdown-item danger">
+                                                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                                    Usun
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr style="opacity:0.5">
+                            <tr class="expired">
                                 <td>
-                                    <strong>Happy hour -50%</strong>
-                                    <div class="text-muted" style="font-size:12px">Happy hour na piwa 15:00-17:00</div>
+                                    <div class="offer-title">Happy hour -50%</div>
+                                    <div class="offer-desc">Happy hour na piwa 15:00-17:00</div>
                                 </td>
                                 <td><span class="badge blue">-50%</span></td>
                                 <td>
-                                    <div>01.06 - 30.06</div>
-                                    <div class="text-muted" style="font-size:12px">Wygasła</div>
+                                    <div class="period-info">01.06 - 30.06</div>
+                                    <div class="text-muted">Wygasla</div>
                                 </td>
                                 <td>
-                                    <strong>234</strong>
+                                    <div class="redemption-count">234</div>
                                 </td>
-                                <td><span class="badge">Wygasła</span></td>
+                                <td><span class="badge">Wygasla</span></td>
                                 <td>
-                                    <button class="action-btn">
-                                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                    </button>
+                                    <div class="actions-cell">
+                                        <div class="dropdown">
+                                            <button class="action-btn" onclick="toggleDropdown(this)">
+                                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item">
+                                                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                                    Duplikuj
+                                                </button>
+                                                <button class="dropdown-item danger">
+                                                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                                    Usun
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -283,5 +964,30 @@
             </div>
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+        function toggleVenueDropdown() {
+            document.getElementById('venueDropdown').classList.toggle('active');
+        }
+        function toggleDropdown(btn) {
+            const menu = btn.nextElementSibling;
+            document.querySelectorAll('.dropdown-menu.active').forEach(m => {
+                if (m !== menu) m.classList.remove('active');
+            });
+            menu.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.venue-selector')) {
+                document.getElementById('venueDropdown').classList.remove('active');
+            }
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu.active').forEach(m => m.classList.remove('active'));
+            }
+        });
+    </script>
 </body>
 </html>

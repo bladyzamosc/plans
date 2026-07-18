@@ -1,16 +1,600 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Tuswoi</title>
+    <title>Dashboard - Tuswoi Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="admin-styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
+            line-height: 1.5;
+        }
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1E3A5F;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-sub {
+            font-size: 12px;
+            color: #A0AEC0;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #A0AEC0;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        .nav-badge {
+            margin-left: auto;
+            background: #FF3B30;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F2F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 8px 16px;
+            width: 280px;
+        }
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+            color: #1E3A5F;
+            width: 100%;
+        }
+        .search-box input::placeholder {
+            color: #A0AEC0;
+        }
+        .search-box svg {
+            width: 18px;
+            height: 18px;
+            stroke: #A0AEC0;
+            stroke-width: 2;
+            fill: none;
+        }
+        .search-shortcut {
+            font-size: 11px;
+            color: #A0AEC0;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 4px;
+            padding: 2px 6px;
+        }
+        .header-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #E2E8F0;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .header-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #6B7C93;
+            stroke-width: 2;
+            fill: none;
+        }
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: #FF3B30;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .user-dropdown:hover {
+            background: #F2F5F9;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .user-info {
+            text-align: left;
+        }
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .user-role {
+            font-size: 12px;
+            color: #6B7C93;
+        }
+
+        /* Content */
+        .content {
+            padding: 32px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .stat-icon.blue {
+            background: rgba(30, 58, 95, 0.1);
+        }
+        .stat-icon.blue svg {
+            stroke: #1E3A5F;
+        }
+        .stat-icon.green {
+            background: rgba(52, 199, 89, 0.1);
+        }
+        .stat-icon.green svg {
+            stroke: #34C759;
+        }
+        .stat-icon.purple {
+            background: rgba(44, 82, 130, 0.1);
+        }
+        .stat-icon.purple svg {
+            stroke: #2C5282;
+        }
+        .stat-icon.orange {
+            background: rgba(255, 149, 0, 0.1);
+        }
+        .stat-icon.orange svg {
+            stroke: #FF9500;
+        }
+        .stat-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+            fill: none;
+        }
+        .stat-content {
+            flex: 1;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1E3A5F;
+            display: block;
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #6B7C93;
+            margin-top: 4px;
+            display: block;
+        }
+        .stat-trend {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .stat-trend.positive {
+            background: rgba(52, 199, 89, 0.1);
+            color: #34C759;
+        }
+        .stat-trend.negative {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+
+        /* Charts Row */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Chart */
+        .chart-container {
+            height: 220px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 20px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .chart-bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: flex-end;
+        }
+        .chart-bar {
+            width: 32px;
+            min-height: 20px;
+            background: linear-gradient(180deg, #1E3A5F, #2C5282);
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
+        }
+        .chart-bar:hover {
+            opacity: 0.8;
+            transform: scaleY(1.02);
+        }
+        .chart-bar.active {
+            background: linear-gradient(180deg, #34C759, #2E8B57);
+        }
+        .chart-label {
+            font-size: 12px;
+            color: #6B7C93;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        .chart-value {
+            font-size: 11px;
+            color: #1E3A5F;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        /* Ranking */
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+            background: #F2F5F9;
+            border-radius: 8px;
+        }
+        .rank {
+            width: 28px;
+            height: 28px;
+            background: #1E3A5F;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .ranking-item .name {
+            flex: 1;
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .ranking-item .value {
+            font-size: 13px;
+            color: #6B7C93;
+        }
+
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table thead {
+            background: #F2F5F9;
+        }
+        .table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7C93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 14px;
+            color: #1E3A5F;
+        }
+        .table tbody tr:hover {
+            background: #F8FAFC;
+        }
+        .text-muted {
+            color: #6B7C93;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge.blue {
+            background: rgba(30, 58, 95, 0.1);
+            color: #1E3A5F;
+        }
+        .badge.green {
+            background: rgba(52, 199, 89, 0.1);
+            color: #34C759;
+        }
+        .badge.purple {
+            background: rgba(44, 82, 130, 0.1);
+            color: #2C5282;
+        }
+        .badge.orange {
+            background: rgba(255, 149, 0, 0.1);
+            color: #FF9500;
+        }
+        .badge.red {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+
+        /* Status Dot */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-dot.green {
+            background: #34C759;
+        }
+        .status-dot.orange {
+            background: #FF9500;
+        }
+        .status-dot.red {
+            background: #FF3B30;
+        }
+
+        /* Link */
+        .link {
+            color: #2C5282;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: #1E3A5F;
+            border: none;
+            cursor: pointer;
+        }
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .header {
+                padding-left: 72px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .search-box {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="layout">
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="logo">Tuswoi</span>
                 <span class="logo-sub">Admin</span>
@@ -35,7 +619,7 @@
                 </a>
                 <a href="users.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Użytkownicy
+                    Uzytkownicy
                 </a>
                 <a href="offers.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
@@ -55,18 +639,34 @@
             <div class="sidebar-footer">
                 <a href="../index.html" class="nav-item">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                    Wróć do mockupów
+                    Wroc do mockupow
                 </a>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main">
-            <header class="topbar">
+            <!-- Header -->
+            <header class="header">
                 <h1 class="page-title">Dashboard</h1>
-                <div class="topbar-actions">
-                    <span class="admin-badge">Administrator</span>
-                    <div class="avatar">JK</div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" placeholder="Szukaj...">
+                        <span class="search-shortcut">Cmd+K</span>
+                    </div>
+                    <button class="header-icon-btn">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <div class="user-dropdown">
+                        <div class="avatar">JK</div>
+                        <div class="user-info">
+                            <div class="user-name">Jan Kowalski</div>
+                            <div class="user-role">Administrator</div>
+                        </div>
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#6B7C93;stroke-width:2;fill:none"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
                 </div>
             </header>
 
@@ -79,9 +679,9 @@
                         </div>
                         <div class="stat-content">
                             <span class="stat-value">1,234</span>
-                            <span class="stat-label">Użytkowników</span>
+                            <span class="stat-label">Uzytkownikow</span>
                         </div>
-                        <span class="stat-change positive">+12%</span>
+                        <span class="stat-trend positive">+12%</span>
                     </div>
 
                     <div class="stat-card">
@@ -92,7 +692,7 @@
                             <span class="stat-value">48</span>
                             <span class="stat-label">Lokali</span>
                         </div>
-                        <span class="stat-change positive">+3</span>
+                        <span class="stat-trend positive">+3</span>
                     </div>
 
                     <div class="stat-card">
@@ -103,7 +703,7 @@
                             <span class="stat-value">127</span>
                             <span class="stat-label">Aktywnych ofert</span>
                         </div>
-                        <span class="stat-change positive">+8</span>
+                        <span class="stat-trend positive">+8</span>
                     </div>
 
                     <div class="stat-card">
@@ -112,55 +712,95 @@
                         </div>
                         <div class="stat-content">
                             <span class="stat-value">342</span>
-                            <span class="stat-label">Realizacji dziś</span>
+                            <span class="stat-label">Realizacji dzis</span>
                         </div>
-                        <span class="stat-change positive">+24%</span>
+                        <span class="stat-trend positive">+24%</span>
                     </div>
                 </div>
 
                 <!-- Charts Row -->
                 <div class="charts-row">
-                    <div class="card chart-card">
+                    <div class="card">
                         <div class="card-header">
                             <h3>Realizacje (ostatnie 7 dni)</h3>
                         </div>
-                        <div class="chart-placeholder">
-                            <div class="chart-bars">
-                                <div class="bar" style="height: 60%"><span>Pn</span></div>
-                                <div class="bar" style="height: 80%"><span>Wt</span></div>
-                                <div class="bar" style="height: 45%"><span>Śr</span></div>
-                                <div class="bar" style="height: 90%"><span>Cz</span></div>
-                                <div class="bar" style="height: 70%"><span>Pt</span></div>
-                                <div class="bar" style="height: 95%"><span>Sb</span></div>
-                                <div class="bar active" style="height: 75%"><span>Nd</span></div>
+                        <div class="card-body">
+                            <div class="chart-summary" style="display:flex;gap:24px;margin-bottom:20px;">
+                                <div>
+                                    <span style="font-size:24px;font-weight:700;color:#1E3A5F;">2,847</span>
+                                    <span style="font-size:13px;color:#6B7C93;margin-left:8px;">realizacji</span>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:4px;">
+                                    <span style="color:#34C759;font-weight:600;">+18%</span>
+                                    <span style="font-size:12px;color:#6B7C93;">vs poprzedni tydzien</span>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <div class="chart-bar-group">
+                                    <span class="chart-value">312</span>
+                                    <div class="chart-bar" style="height: 102px"></div>
+                                    <span class="chart-label">Pn</span>
+                                </div>
+                                <div class="chart-bar-group">
+                                    <span class="chart-value">428</span>
+                                    <div class="chart-bar" style="height: 140px"></div>
+                                    <span class="chart-label">Wt</span>
+                                </div>
+                                <div class="chart-bar-group">
+                                    <span class="chart-value">245</span>
+                                    <div class="chart-bar" style="height: 80px"></div>
+                                    <span class="chart-label">Sr</span>
+                                </div>
+                                <div class="chart-bar-group">
+                                    <span class="chart-value">489</span>
+                                    <div class="chart-bar" style="height: 160px"></div>
+                                    <span class="chart-label">Cz</span>
+                                </div>
+                                <div class="chart-bar-group">
+                                    <span class="chart-value">378</span>
+                                    <div class="chart-bar" style="height: 124px"></div>
+                                    <span class="chart-label">Pt</span>
+                                </div>
+                                <div class="chart-bar-group">
+                                    <span class="chart-value">512</span>
+                                    <div class="chart-bar" style="height: 168px"></div>
+                                    <span class="chart-label">Sb</span>
+                                </div>
+                                <div class="chart-bar-group">
+                                    <span class="chart-value">483</span>
+                                    <div class="chart-bar active" style="height: 158px"></div>
+                                    <span class="chart-label">Nd</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card chart-card">
+                    <div class="card">
                         <div class="card-header">
                             <h3>Top dzielnice</h3>
                         </div>
-                        <div class="ranking-list">
-                            <div class="ranking-item">
-                                <span class="rank">1</span>
-                                <span class="name">Jana Kazimierza</span>
-                                <span class="value">456 realizacji</span>
-                            </div>
-                            <div class="ranking-item">
-                                <span class="rank">2</span>
-                                <span class="name">Mokotów Stary</span>
-                                <span class="value">312 realizacji</span>
-                            </div>
-                            <div class="ranking-item">
-                                <span class="rank">3</span>
-                                <span class="name">Żoliborz</span>
-                                <span class="value">198 realizacji</span>
-                            </div>
-                            <div class="ranking-item">
-                                <span class="rank">4</span>
-                                <span class="name">Praga Północ</span>
-                                <span class="value">145 realizacji</span>
+                        <div class="card-body">
+                            <div class="ranking-list">
+                                <div class="ranking-item">
+                                    <span class="rank">1</span>
+                                    <span class="name">Jana Kazimierza</span>
+                                    <span class="value">456 realizacji</span>
+                                </div>
+                                <div class="ranking-item">
+                                    <span class="rank">2</span>
+                                    <span class="name">Mokotow Stary</span>
+                                    <span class="value">312 realizacji</span>
+                                </div>
+                                <div class="ranking-item">
+                                    <span class="rank">3</span>
+                                    <span class="name">Zoliborz</span>
+                                    <span class="value">198 realizacji</span>
+                                </div>
+                                <div class="ranking-item">
+                                    <span class="rank">4</span>
+                                    <span class="name">Praga Polnoc</span>
+                                    <span class="value">145 realizacji</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -169,15 +809,15 @@
                 <!-- Recent Activity -->
                 <div class="card">
                     <div class="card-header">
-                        <h3>Ostatnia aktywność</h3>
-                        <a href="#" class="link">Zobacz wszystko →</a>
+                        <h3>Ostatnia aktywnosc</h3>
+                        <a href="#" class="link">Zobacz wszystko</a>
                     </div>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Czas</th>
                                 <th>Typ</th>
-                                <th>Szczegóły</th>
+                                <th>Szczegoly</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -185,31 +825,31 @@
                             <tr>
                                 <td class="text-muted">2 min temu</td>
                                 <td><span class="badge blue">Realizacja</span></td>
-                                <td>Jan K. zrealizował rabat w <strong>Burger u Kazika</strong></td>
+                                <td>Jan K. zrealizowal rabat w <strong>Burger u Kazika</strong></td>
                                 <td><span class="status-dot green"></span> Sukces</td>
                             </tr>
                             <tr>
                                 <td class="text-muted">5 min temu</td>
                                 <td><span class="badge green">Nowy lokal</span></td>
-                                <td><strong>Piekarnia Słoneczna</strong> dodana do Jana Kazimierza</td>
+                                <td><strong>Piekarnia Sloneczna</strong> dodana do Jana Kazimierza</td>
                                 <td><span class="status-dot green"></span> Aktywny</td>
                             </tr>
                             <tr>
                                 <td class="text-muted">12 min temu</td>
                                 <td><span class="badge purple">Nowa oferta</span></td>
-                                <td><strong>Kawiarnia Cicha</strong> dodała -20% na torty</td>
+                                <td><strong>Kawiarnia Cicha</strong> dodala -20% na torty</td>
                                 <td><span class="status-dot green"></span> Aktywna</td>
                             </tr>
                             <tr>
                                 <td class="text-muted">18 min temu</td>
                                 <td><span class="badge orange">Rejestracja</span></td>
-                                <td>Nowy użytkownik: <strong>anna.nowak@email.com</strong></td>
+                                <td>Nowy uzytkownik: <strong>anna.nowak@email.com</strong></td>
                                 <td><span class="status-dot green"></span> Zweryfikowany</td>
                             </tr>
                             <tr>
                                 <td class="text-muted">25 min temu</td>
                                 <td><span class="badge blue">Realizacja</span></td>
-                                <td>Maria Z. zrealizowała rabat w <strong>Fryzjer Ela</strong></td>
+                                <td>Maria Z. zrealizowala rabat w <strong>Fryzjer Ela</strong></td>
                                 <td><span class="status-dot green"></span> Sukces</td>
                             </tr>
                         </tbody>
@@ -218,5 +858,12 @@
             </div>
         </main>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

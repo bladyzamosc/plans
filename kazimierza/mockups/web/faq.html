@@ -1,17 +1,25 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - Tuswoi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #fff;
-            color: #1a1a1a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
             line-height: 1.6;
         }
+
+        /* Navigation */
         .nav {
             display: flex;
             justify-content: space-between;
@@ -19,106 +27,194 @@
             padding: 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
-            border-bottom: 1px solid #f0f0f0;
+            background: #fff;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.08);
         }
+
         .nav-logo {
             font-size: 24px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #1E3A5F;
             text-decoration: none;
         }
+
         .nav-links {
             display: flex;
             gap: 32px;
             align-items: center;
         }
+
         .nav-links a {
-            color: #666;
+            color: #6B7C93;
             text-decoration: none;
             font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
         }
-        .nav-links a:hover { color: #1a1a1a; }
+
+        .nav-links a:hover {
+            color: #1E3A5F;
+        }
+
         .nav-btn {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             color: #fff;
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
         }
 
+        .lang-dropdown { position: relative; }
+        .lang-btn { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #F2F5F9; border: none; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #1E3A5F; }
+        .lang-btn:hover { background: #E8EDF4; }
+        .lang-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background: #fff; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: none; overflow: hidden; min-width: 120px; z-index: 100; }
+        .lang-dropdown:hover .lang-menu { display: block; }
+        .lang-option { display: flex; align-items: center; gap: 8px; padding: 12px 14px; text-decoration: none; color: #1E3A5F; font-size: 14px; transition: background 0.15s; }
+        .lang-option:hover { background: #F2F5F9; }
+        .lang-option.active { background: #F2F5F9; }
+
+        /* Page Header */
         .page-header {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 60px 40px 40px;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            padding: 80px 40px;
             text-align: center;
+            color: #fff;
         }
+
         .page-title {
-            font-size: 40px;
+            font-size: 48px;
             font-weight: 700;
             margin-bottom: 16px;
         }
+
         .page-subtitle {
             font-size: 18px;
-            color: #666;
+            color: rgba(255,255,255,0.8);
+            max-width: 500px;
+            margin: 0 auto;
         }
 
+        /* FAQ Container */
         .faq-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 40px 80px;
+            padding: 60px 40px 80px;
         }
 
         .faq-section {
             margin-bottom: 48px;
         }
+
         .faq-section-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #888;
+            color: #2C5282;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.1);
         }
 
         .faq-item {
-            margin-bottom: 24px;
+            background: #fff;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
         }
+
         .faq-question {
+            padding: 24px 32px;
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 8px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: #1E3A5F;
+            transition: background 0.2s;
         }
+
+        .faq-question:hover {
+            background: #F2F5F9;
+        }
+
         .faq-question::after {
             content: "+";
             font-size: 24px;
-            color: #888;
-        }
-        .faq-answer {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.7;
-            padding-left: 0;
+            color: #2C5282;
+            font-weight: 400;
+            transition: transform 0.3s;
         }
 
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 32px 24px;
+            color: #6B7C93;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* Footer */
         .footer {
-            background: #1a1a1a;
+            background: #1E3A5F;
             color: #fff;
             padding: 40px;
             text-align: center;
         }
-        .footer a {
+
+        .footer-links {
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
             margin: 0 16px;
+            font-size: 15px;
+            transition: color 0.2s;
         }
-        .footer a:hover { color: #fff; }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-copyright {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 32px;
+            }
+
+            .faq-question {
+                padding: 20px 24px;
+                font-size: 16px;
+            }
+
+            .faq-answer-content {
+                padding: 0 24px 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -128,139 +224,210 @@
             <a href="landing-extended.html#funkcje">Funkcje</a>
             <a href="landing-extended.html#dla-biznesu">Dla biznesu</a>
             <a href="faq.html">FAQ</a>
-            <a href="login.html" class="nav-btn">Zaloguj się</a>
+            <div class="lang-dropdown">
+                <button class="lang-btn">
+                    <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                    PL
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="lang-menu">
+                    <a href="#" class="lang-option active">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                        Polski
+                    </a>
+                    <a href="#" class="lang-option">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><clipPath id="gb"><rect width="20" height="14" rx="1"/></clipPath><g clip-path="url(#gb)"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.5"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.5"/></g></svg>
+                        English
+                    </a>
+                </div>
+            </div>
+            <a href="login.html" class="nav-btn">Zaloguj sie</a>
         </div>
     </nav>
 
     <header class="page-header">
-        <h1 class="page-title">Często zadawane pytania</h1>
-        <p class="page-subtitle">Znajdź odpowiedzi na najczęstsze pytania</p>
+        <h1 class="page-title">Czesto zadawane pytania</h1>
+        <p class="page-subtitle">Znajdz odpowiedzi na najczestsze pytania dotyczace Tuswoi</p>
     </header>
 
     <main class="faq-container">
         <section class="faq-section">
-            <h2 class="faq-section-title">Dla użytkowników</h2>
+            <h2 class="faq-section-title">Dla uzytkownikow</h2>
 
             <div class="faq-item">
-                <h3 class="faq-question">Czy aplikacja jest darmowa?</h3>
-                <p class="faq-answer">
-                    Tak, Tuswoi jest całkowicie darmowa dla użytkowników. Możesz przeglądać oferty,
-                    generować kody QR i korzystać z rabatów bez żadnych opłat.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Czy aplikacja jest darmowa?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Tak, Tuswoi jest calkowicie darmowa dla uzytkownikow. Mozesz przegladac oferty,
+                        generowac kody QR i korzystac z rabatow bez zadnych oplat.
+                    </div>
+                </div>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-question">Jak zrealizować rabat?</h3>
-                <p class="faq-answer">
-                    Wybierz interesującą Cię ofertę, kliknij "Pokaż kod" i pokaż wygenerowany kod QR
-                    pracownikowi lokalu. Pracownik potwierdzi realizację swoim kodem PIN.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Jak zrealizowac rabat?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Wybierz interesujaca Cie oferte, kliknij "Pokaz kod" i pokaz wygenerowany kod QR
+                        pracownikowi lokalu. Pracownik potwierdzi realizacje swoim kodem PIN.
+                    </div>
+                </div>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-question">Ile rabatów mogę wykorzystać dziennie?</h3>
-                <p class="faq-answer">
-                    Możesz wykorzystać jedną ofertę dziennie w każdym lokalu. Jeśli chcesz skorzystać
-                    z tej samej oferty ponownie, musisz poczekać do następnego dnia.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Ile rabatow moge wykorzystac dziennie?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Mozesz wykorzystac jedna oferte dziennie w kazdym lokalu. Jesli chcesz skorzystac
+                        z tej samej oferty ponownie, musisz poczekac do nastepnego dnia.
+                    </div>
+                </div>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-question">Jak długo ważny jest kod QR?</h3>
-                <p class="faq-answer">
-                    Czas ważności kodu zależy od ustawień oferty — zazwyczaj od 5 do 60 minut.
-                    Timer jest widoczny na ekranie z kodem QR.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Jak dlugo wazny jest kod QR?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Czas waznosci kodu zalezy od ustawien oferty - zazwyczaj od 5 do 60 minut.
+                        Timer jest widoczny na ekranie z kodem QR.
+                    </div>
+                </div>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-question">Czy mogę korzystać z ofert bez rejestracji?</h3>
-                <p class="faq-answer">
-                    Możesz przeglądać oferty bez rejestracji, ale do wygenerowania kodu QR
-                    i zrealizowania rabatu potrzebujesz konta.
-                </p>
-            </div>
-        </section>
-
-        <section class="faq-section">
-            <h2 class="faq-section-title">Dla właścicieli lokali</h2>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Jak dołączyć do Tuswoi?</h3>
-                <p class="faq-answer">
-                    Skontaktuj się z nami przez formularz kontaktowy. Nasz zespół skontaktuje się
-                    z Tobą, aby omówić szczegóły współpracy i założyć konto Twojego lokalu.
-                </p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Ile kosztuje korzystanie z platformy?</h3>
-                <p class="faq-answer">
-                    W fazie MVP korzystanie z Tuswoi jest całkowicie bezpłatne. Nie pobieramy
-                    prowizji od transakcji ani opłat abonamentowych.
-                </p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Jak działa walidacja rabatów?</h3>
-                <p class="faq-answer">
-                    Każdy lokal ma unikalny kod PIN. Gdy klient pokazuje kod QR, pracownik skanuje go
-                    aparatem telefonu i wpisuje PIN lokalu, aby potwierdzić realizację.
-                </p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Czy mogę dodać pracowników do zarządzania ofertami?</h3>
-                <p class="faq-answer">
-                    Tak, jako właściciel możesz zapraszać managerów, którzy będą mogli tworzyć
-                    i edytować oferty oraz przeglądać statystyki.
-                </p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-question">Jak szybko oferta zostanie opublikowana?</h3>
-                <p class="faq-answer">
-                    Oferty przechodzą przez moderację. Publikacja następuje automatycznie po 3 dniach
-                    lub wcześniej, jeśli nasz zespół zatwierdzi ofertę ręcznie.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Czy moge korzystac z ofert bez rejestracji?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Mozesz przegladac oferty bez rejestracji, ale do wygenerowania kodu QR
+                        i zrealizowania rabatu potrzebujesz konta.
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="faq-section">
-            <h2 class="faq-section-title">Bezpieczeństwo i prywatność</h2>
+            <h2 class="faq-section-title">Dla wlascicieli lokali</h2>
 
             <div class="faq-item">
-                <h3 class="faq-question">Jakie dane zbieracie?</h3>
-                <p class="faq-answer">
-                    Zbieramy tylko dane niezbędne do działania aplikacji: email, wybraną okolicę
-                    i historię realizacji. Szczegóły znajdziesz w naszej Polityce prywatności.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Jak dolaczyc do Tuswoi?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Skontaktuj sie z nami przez formularz kontaktowy. Nasz zespol skontaktuje sie
+                        z Toba, aby omowic szczegoly wspolpracy i zalozyc konto Twojego lokalu.
+                    </div>
+                </div>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-question">Czy moje dane są bezpieczne?</h3>
-                <p class="faq-answer">
-                    Tak, stosujemy szyfrowanie transmisji (HTTPS) i danych w spoczynku.
-                    Nie sprzedajemy danych osobom trzecim.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Ile kosztuje korzystanie z platformy?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        W fazie MVP korzystanie z Tuswoi jest calkowicie bezplatne. Nie pobieramy
+                        prowizji od transakcji ani oplat abonamentowych.
+                    </div>
+                </div>
             </div>
 
             <div class="faq-item">
-                <h3 class="faq-question">Jak usunąć konto?</h3>
-                <p class="faq-answer">
-                    Możesz usunąć konto w ustawieniach aplikacji lub kontaktując się z nami.
-                    Twoje dane zostaną usunięte zgodnie z Polityką prywatności.
-                </p>
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Jak dziala walidacja rabatow?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Kazdy lokal ma unikalny kod PIN. Gdy klient pokazuje kod QR, pracownik skanuje go
+                        aparatem telefonu i wpisuje PIN lokalu, aby potwierdzic realizacje.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Czy moge dodac pracownikow do zarzadzania ofertami?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Tak, jako wlasciciel mozesz zapraszac managerow, ktorzy beda mogli tworzyc
+                        i edytowac oferty oraz przegladac statystyki.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Jak szybko oferta zostanie opublikowana?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Oferty przechodza przez moderacje. Publikacja nastepuje automatycznie po 3 dniach
+                        lub wczesniej, jesli nasz zespol zatwierdzi oferte recznie.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="faq-section-title">Bezpieczenstwo i prywatnosc</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Jakie dane zbieracie?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Zbieramy tylko dane niezbedne do dzialania aplikacji: email, wybrana okolice
+                        i historie realizacji. Szczegoly znajdziesz w naszej Polityce prywatnosci.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Czy moje dane sa bezpieczne?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Tak, stosujemy szyfrowanie transmisji (HTTPS) i danych w spoczynku.
+                        Nie sprzedajemy danych osobom trzecim.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                    Jak usunac konto?
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Mozesz usunac konto w ustawieniach aplikacji lub kontaktujac sie z nami.
+                        Twoje dane zostana usuniete zgodnie z Polityka prywatnosci.
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <a href="regulamin.html">Regulamin</a>
-        <a href="prywatnosc.html">Prywatność</a>
-        <a href="kontakt.html">Kontakt</a>
-        <p style="margin-top: 24px; color: rgba(255,255,255,0.5); font-size: 14px;">
-            © 2026 Tuswoi. Wszystkie prawa zastrzeżone.
+        <div class="footer-links">
+            <a href="regulamin.html">Regulamin</a>
+            <a href="prywatnosc.html">Prywatnosc</a>
+            <a href="kontakt.html">Kontakt</a>
+        </div>
+        <p class="footer-copyright">
+            &copy; 2026 Tuswoi. Wszystkie prawa zastrzezone.
         </p>
     </footer>
 </body>

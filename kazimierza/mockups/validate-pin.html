@@ -1,35 +1,174 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Walidacja PIN - Tuswoi</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F2F5F9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1E3A5F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back-to-index:hover {
+            text-decoration: underline;
+        }
+        .phone {
+            width: 375px;
+            min-height: 700px;
+            background: #F2F5F9;
+            border-radius: 40px;
+            border: 8px solid #1E3A5F;
+            overflow: hidden;
+            position: relative;
+        }
+        .content {
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1E3A5F;
+            letter-spacing: -0.5px;
+        }
+        .text-muted {
+            color: #6B7C93;
+            font-size: 14px;
+        }
+        .mt-8 { margin-top: 8px; }
+        .mt-16 { margin-top: 16px; }
+        .mt-20 { margin-top: 20px; }
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #1E3A5F20, transparent);
+            margin: 16px 0;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1E3A5F;
+        }
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 20px;
+            width: 100%;
+            text-align: left;
+        }
+        .card .text-small {
+            font-size: 12px;
+            color: #6B7C93;
+            margin-bottom: 4px;
+        }
+        .card p {
+            margin: 0;
+        }
+        .card .value {
+            font-weight: 500;
+            color: #1E3A5F;
+        }
+        .card .code {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-weight: 500;
+            color: #2C5282;
+        }
+        .input-label {
+            font-size: 14px;
+            color: #6B7C93;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .pin-input {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .pin-digit {
+            width: 56px;
+            height: 64px;
+            border: 2px solid #1E3A5F30;
+            border-radius: 16px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            color: #1E3A5F;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .pin-digit:focus {
+            border-color: #1E3A5F;
+            box-shadow: 0 0 0 4px rgba(30, 58, 95, 0.1);
+        }
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #1E3A5F, #2C5282);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+        }
+    </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">← Wszystkie mockupy</a>
 
     <div class="phone">
-        <div class="content content-center">
-            <div class="logo logo-small">Tuswoi</div>
+        <div class="content">
+            <div class="logo">Tuswoi</div>
             <p class="text-muted mt-8">Pracownik</p>
 
             <div class="divider"></div>
 
-            <h2 style="font-size:20px">Potwierdź rabat</h2>
+            <h2>Potwierdz rabat</h2>
 
-            <div class="card mt-20" style="text-align:left;width:100%">
-                <p class="text-small text-muted">Klient</p>
-                <p style="font-weight:500">Jan K.</p>
+            <div class="card mt-20">
+                <p class="text-small">Klient</p>
+                <p class="value">Jan K.</p>
                 <div class="divider"></div>
-                <p class="text-small text-muted">Oferta</p>
-                <p style="font-weight:500">-30% pizza</p>
+                <p class="text-small">Oferta</p>
+                <p class="value">-30% pizza</p>
                 <div class="divider"></div>
-                <p class="text-small text-muted">Kod</p>
-                <p style="font-weight:500;font-family:monospace">RDM-A7X2K9</p>
+                <p class="text-small">Kod</p>
+                <p class="code">RDM-A7X2K9</p>
             </div>
 
-            <p class="input-label mt-20" style="text-align:center">PIN lokalu</p>
+            <p class="input-label mt-20">PIN lokalu</p>
             <div class="pin-input">
                 <input type="text" class="pin-digit" maxlength="1">
                 <input type="text" class="pin-digit" maxlength="1">
@@ -37,7 +176,7 @@
                 <input type="text" class="pin-digit" maxlength="1">
             </div>
 
-            <a href="validate-success.html" class="btn btn-primary mt-20">POTWIERDŹ</a>
+            <a href="validate-success.html" class="btn-primary mt-20">POTWIERDZ</a>
         </div>
     </div>
 </body>

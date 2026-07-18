@@ -1,17 +1,25 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regulamin - Tuswoi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #fff;
-            color: #1a1a1a;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F2F5F9;
+            color: #1E3A5F;
             line-height: 1.8;
         }
+
+        /* Navigation */
         .nav {
             display: flex;
             justify-content: space-between;
@@ -19,120 +27,211 @@
             padding: 20px 40px;
             max-width: 1200px;
             margin: 0 auto;
-            border-bottom: 1px solid #f0f0f0;
+            background: #fff;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.08);
         }
+
         .nav-logo {
             font-size: 24px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #1E3A5F;
             text-decoration: none;
         }
+
         .nav-links {
             display: flex;
             gap: 32px;
             align-items: center;
         }
+
         .nav-links a {
-            color: #666;
+            color: #6B7C93;
             text-decoration: none;
             font-size: 15px;
+            font-weight: 500;
+            transition: color 0.2s;
         }
-        .nav-links a:hover { color: #1a1a1a; }
+
+        .nav-links a:hover {
+            color: #1E3A5F;
+        }
+
         .nav-btn {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
             color: #fff;
             padding: 10px 20px;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
         }
 
+        .lang-dropdown { position: relative; }
+        .lang-btn { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #F2F5F9; border: none; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #1E3A5F; }
+        .lang-btn:hover { background: #E8EDF4; }
+        .lang-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background: #fff; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); display: none; overflow: hidden; min-width: 120px; z-index: 100; }
+        .lang-dropdown:hover .lang-menu { display: block; }
+        .lang-option { display: flex; align-items: center; gap: 8px; padding: 12px 14px; text-decoration: none; color: #1E3A5F; font-size: 14px; transition: background 0.15s; }
+        .lang-option:hover { background: #F2F5F9; }
+        .lang-option.active { background: #F2F5F9; }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2C5282 100%);
+            padding: 80px 40px;
+            color: #fff;
+        }
+
+        .page-header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .page-meta {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Legal Container */
         .legal-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 60px 40px 80px;
         }
 
-        .legal-header {
+        /* Table of Contents */
+        .legal-toc {
+            background: #fff;
+            padding: 32px;
+            border-radius: 16px;
             margin-bottom: 48px;
-        }
-        .legal-title {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .legal-meta {
-            font-size: 14px;
-            color: #888;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
         }
 
-        .legal-toc {
-            background: #f8f8f8;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 48px;
-        }
         .legal-toc-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #888;
-            margin-bottom: 16px;
-        }
-        .legal-toc ol {
-            padding-left: 20px;
-        }
-        .legal-toc li {
-            margin-bottom: 8px;
-        }
-        .legal-toc a {
-            color: #1a1a1a;
-            text-decoration: none;
-        }
-        .legal-toc a:hover {
-            text-decoration: underline;
+            letter-spacing: 1px;
+            color: #2C5282;
+            margin-bottom: 20px;
         }
 
-        .legal-section {
-            margin-bottom: 40px;
+        .legal-toc ol {
+            padding-left: 24px;
+            margin: 0;
         }
+
+        .legal-toc li {
+            margin-bottom: 12px;
+        }
+
+        .legal-toc a {
+            color: #1E3A5F;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .legal-toc a:hover {
+            color: #2C5282;
+        }
+
+        /* Legal Sections */
+        .legal-section {
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(30, 58, 95, 0.08);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.04);
+        }
+
         .legal-section h2 {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 16px;
-            padding-top: 16px;
+            margin-bottom: 24px;
+            color: #1E3A5F;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.1);
         }
+
         .legal-section h3 {
             font-size: 18px;
             font-weight: 600;
             margin: 24px 0 12px;
+            color: #1E3A5F;
         }
+
         .legal-section p {
-            color: #444;
+            color: #6B7C93;
             margin-bottom: 16px;
         }
-        .legal-section ul, .legal-section ol {
+
+        .legal-section ul,
+        .legal-section ol {
             padding-left: 24px;
             margin-bottom: 16px;
-            color: #444;
+            color: #6B7C93;
         }
+
         .legal-section li {
             margin-bottom: 8px;
         }
 
+        .legal-section strong {
+            color: #1E3A5F;
+        }
+
+        /* Footer */
         .footer {
-            background: #1a1a1a;
+            background: #1E3A5F;
             color: #fff;
             padding: 40px;
             text-align: center;
         }
-        .footer a {
+
+        .footer-links {
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
             margin: 0 16px;
+            font-size: 15px;
+            transition: color 0.2s;
         }
-        .footer a:hover { color: #fff; }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-copyright {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 32px;
+            }
+
+            .legal-section {
+                padding: 24px;
+            }
+
+            .legal-toc {
+                padding: 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -142,68 +241,87 @@
             <a href="landing-extended.html#funkcje">Funkcje</a>
             <a href="landing-extended.html#dla-biznesu">Dla biznesu</a>
             <a href="faq.html">FAQ</a>
-            <a href="login.html" class="nav-btn">Zaloguj się</a>
+            <div class="lang-dropdown">
+                <button class="lang-btn">
+                    <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                    PL
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="lang-menu">
+                    <a href="#" class="lang-option active">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><rect width="20" height="7" fill="#fff"/><rect y="7" width="20" height="7" fill="#DC143C"/></svg>
+                        Polski
+                    </a>
+                    <a href="#" class="lang-option">
+                        <svg width="20" height="14" viewBox="0 0 20 14"><clipPath id="gb"><rect width="20" height="14" rx="1"/></clipPath><g clip-path="url(#gb)"><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#C8102E" stroke-width="1.5"/><path d="M10 0V14M0 7H20" stroke="#fff" stroke-width="4"/><path d="M10 0V14M0 7H20" stroke="#C8102E" stroke-width="2.5"/></g></svg>
+                        English
+                    </a>
+                </div>
+            </div>
+            <a href="login.html" class="nav-btn">Zaloguj sie</a>
         </div>
     </nav>
 
-    <main class="legal-container">
-        <header class="legal-header">
-            <h1 class="legal-title">Regulamin platformy Tuswoi</h1>
-            <p class="legal-meta">Ostatnia aktualizacja: 18 lipca 2026</p>
-        </header>
+    <header class="page-header">
+        <div class="page-header-inner">
+            <h1 class="page-title">Regulamin platformy Tuswoi</h1>
+            <p class="page-meta">Ostatnia aktualizacja: 18 lipca 2026</p>
+        </div>
+    </header>
 
+    <main class="legal-container">
         <nav class="legal-toc">
-            <p class="legal-toc-title">Spis treści</p>
+            <p class="legal-toc-title">Spis tresci</p>
             <ol>
-                <li><a href="#postanowienia">Postanowienia ogólne</a></li>
+                <li><a href="#postanowienia">Postanowienia ogolne</a></li>
                 <li><a href="#definicje">Definicje</a></li>
                 <li><a href="#rejestracja">Rejestracja i konto</a></li>
                 <li><a href="#oferty">Zasady korzystania z ofert</a></li>
                 <li><a href="#oceny">Oceny i komentarze</a></li>
-                <li><a href="#odpowiedzialnosc">Odpowiedzialność</a></li>
+                <li><a href="#odpowiedzialnosc">Odpowiedzialnosc</a></li>
                 <li><a href="#reklamacje">Reklamacje</a></li>
                 <li><a href="#zmiany">Zmiany regulaminu</a></li>
             </ol>
         </nav>
 
         <section class="legal-section" id="postanowienia">
-            <h2>1. Postanowienia ogólne</h2>
+            <h2>1. Postanowienia ogolne</h2>
             <p>
-                Niniejszy Regulamin określa zasady korzystania z platformy „Tuswoi"
-                dostępnej pod adresem tuswoi.pl oraz jako aplikacja mobilna.
+                Niniejszy Regulamin okresla zasady korzystania z platformy "Tuswoi"
+                dostepnej pod adresem tuswoi.pl oraz jako aplikacja mobilna.
             </p>
             <p>
-                Operatorem Platformy jest [NAZWA SPÓŁKI], z siedzibą w Warszawie,
+                Operatorem Platformy jest [NAZWA SPOLKI], z siedziba w Warszawie,
                 NIP: [NIP], REGON: [REGON].
             </p>
             <p>
-                Platforma umożliwia użytkownikom przeglądanie i korzystanie z ofert
-                rabatowych udostępnianych przez lokalne przedsiębiorstwa.
+                Platforma umozliwia uzytkownikom przegladanie i korzystanie z ofert
+                rabatowych udostepnianych przez lokalne przedsiebiorstwa.
             </p>
         </section>
 
         <section class="legal-section" id="definicje">
             <h2>2. Definicje</h2>
             <ul>
-                <li><strong>Użytkownik</strong> — osoba fizyczna korzystająca z Platformy</li>
-                <li><strong>Konto</strong> — indywidualne konto Użytkownika na Platformie</li>
-                <li><strong>Oferta</strong> — rabat lub promocja udostępniona przez Lokal</li>
-                <li><strong>Okolica</strong> — obszar geograficzny (dzielnica, poddzielnica, miejscowość)</li>
-                <li><strong>Kod QR</strong> — jednorazowy kod służący do realizacji Oferty</li>
+                <li><strong>Uzytkownik</strong> - osoba fizyczna korzystajaca z Platformy</li>
+                <li><strong>Konto</strong> - indywidualne konto Uzytkownika na Platformie</li>
+                <li><strong>Oferta</strong> - rabat lub promocja udostepniona przez Lokal</li>
+                <li><strong>Okolica</strong> - obszar geograficzny (dzielnica, poddzielnica, miejscowosc)</li>
+                <li><strong>Kod QR</strong> - jednorazowy kod sluzacy do realizacji Oferty</li>
             </ul>
         </section>
 
         <section class="legal-section" id="rejestracja">
             <h2>3. Rejestracja i konto</h2>
-            <p>Rejestracja na Platformie jest dobrowolna i bezpłatna.</p>
-            <p>Rejestracja możliwa jest poprzez:</p>
+            <p>Rejestracja na Platformie jest dobrowolna i bezplatna.</p>
+            <p>Rejestracja mozliwa jest poprzez:</p>
             <ul>
                 <li>Konto Google</li>
                 <li>Konto Apple</li>
-                <li>Link aktywacyjny wysłany na adres e-mail (magic link)</li>
+                <li>Link aktywacyjny wyslany na adres e-mail (magic link)</li>
             </ul>
             <p>
-                Użytkownik może przeglądać Oferty bez rejestracji, jednak realizacja
+                Uzytkownik moze przegladac Oferty bez rejestracji, jednak realizacja
                 Ofert wymaga posiadania Konta.
             </p>
         </section>
@@ -211,62 +329,62 @@
         <section class="legal-section" id="oferty">
             <h2>4. Zasady korzystania z ofert</h2>
             <p>
-                Oferty są udostępniane przez Lokale i Operator nie jest ich stroną.
+                Oferty sa udostepniane przez Lokale i Operator nie jest ich strona.
             </p>
             <p>
-                Użytkownik może zrealizować maksymalnie jedną Ofertę danego Lokalu
-                na dzień kalendarzowy.
+                Uzytkownik moze zrealizowac maksymalnie jedna Oferte danego Lokalu
+                na dzien kalendarzowy.
             </p>
-            <p>Realizacja Oferty odbywa się poprzez:</p>
+            <p>Realizacja Oferty odbywa sie poprzez:</p>
             <ol>
                 <li>Wygenerowanie Kodu QR w aplikacji</li>
                 <li>Okazanie Kodu QR pracownikowi Lokalu</li>
                 <li>Potwierdzenie realizacji przez pracownika Lokalu</li>
             </ol>
             <p>
-                Kod QR jest ważny przez określony czas (od 5 do 60 minut,
-                w zależności od ustawień Oferty).
+                Kod QR jest wazny przez okreslony czas (od 5 do 60 minut,
+                w zaleznosci od ustawien Oferty).
             </p>
         </section>
 
         <section class="legal-section" id="oceny">
             <h2>5. Oceny i komentarze</h2>
             <p>
-                Użytkownik może ocenić zrealizowaną Ofertę (skala 1-5) oraz dodać komentarz.
+                Uzytkownik moze ocenic zrealizowana Oferte (skala 1-5) oraz dodac komentarz.
             </p>
-            <p>Komentarze podlegają moderacji. Zabrania się publikowania treści:</p>
+            <p>Komentarze podlegaja moderacji. Zabrania sie publikowania tresci:</p>
             <ul>
-                <li>Obraźliwych, wulgarnych lub niezgodnych z prawem</li>
-                <li>Zawierających dane osobowe osób trzecich</li>
-                <li>Stanowiących spam lub reklamę</li>
+                <li>Obrazliwych, wulgarnych lub niezgodnych z prawem</li>
+                <li>Zawierajacych dane osobowe osob trzecich</li>
+                <li>Stanowiacych spam lub reklame</li>
             </ul>
         </section>
 
         <section class="legal-section" id="odpowiedzialnosc">
-            <h2>6. Odpowiedzialność</h2>
+            <h2>6. Odpowiedzialnosc</h2>
             <p>
-                Operator dokłada starań, aby Platforma działała bez zakłóceń,
-                jednak nie gwarantuje jej nieprzerwanej dostępności.
+                Operator doklada staran, aby Platforma dzialala bez zaklocen,
+                jednak nie gwarantuje jej nieprzerwanej dostepnosci.
             </p>
-            <p>Operator nie ponosi odpowiedzialności za:</p>
+            <p>Operator nie ponosi odpowiedzialnosci za:</p>
             <ul>
-                <li>Treść i warunki Ofert publikowanych przez Lokale</li>
-                <li>Jakość towarów lub usług świadczonych przez Lokale</li>
-                <li>Odmowę realizacji Oferty przez Lokal</li>
+                <li>Tresc i warunki Ofert publikowanych przez Lokale</li>
+                <li>Jakosc towarow lub uslug swiadczonych przez Lokale</li>
+                <li>Odmowe realizacji Oferty przez Lokal</li>
             </ul>
         </section>
 
         <section class="legal-section" id="reklamacje">
             <h2>7. Reklamacje</h2>
             <p>
-                Reklamacje dotyczące działania Platformy można składać na adres:
+                Reklamacje dotyczace dzialania Platformy mozna skladac na adres:
                 reklamacje@tuswoi.pl
             </p>
-            <p>Reklamacja powinna zawierać:</p>
+            <p>Reklamacja powinna zawierac:</p>
             <ul>
-                <li>Dane kontaktowe Użytkownika</li>
+                <li>Dane kontaktowe Uzytkownika</li>
                 <li>Opis problemu</li>
-                <li>Datę wystąpienia problemu</li>
+                <li>Date wystapienia problemu</li>
             </ul>
             <p>Operator rozpatruje reklamacje w terminie 14 dni roboczych.</p>
         </section>
@@ -275,20 +393,22 @@
             <h2>8. Zmiany regulaminu</h2>
             <p>
                 Operator zastrzega sobie prawo do zmiany Regulaminu.
-                O zmianach Użytkownik zostanie poinformowany z 14-dniowym wyprzedzeniem.
+                O zmianach Uzytkownik zostanie poinformowany z 14-dniowym wyprzedzeniem.
             </p>
             <p>
-                Dalsze korzystanie z Platformy po wejściu zmian w życie oznacza ich akceptację.
+                Dalsze korzystanie z Platformy po wejsciu zmian w zycie oznacza ich akceptacje.
             </p>
         </section>
     </main>
 
     <footer class="footer">
-        <a href="regulamin.html">Regulamin</a>
-        <a href="prywatnosc.html">Prywatność</a>
-        <a href="kontakt.html">Kontakt</a>
-        <p style="margin-top: 24px; color: rgba(255,255,255,0.5); font-size: 14px;">
-            © 2026 Tuswoi. Wszystkie prawa zastrzeżone.
+        <div class="footer-links">
+            <a href="regulamin.html">Regulamin</a>
+            <a href="prywatnosc.html">Prywatnosc</a>
+            <a href="kontakt.html">Kontakt</a>
+        </div>
+        <p class="footer-copyright">
+            &copy; 2026 Tuswoi. Wszystkie prawa zastrzezone.
         </p>
     </footer>
 </body>
