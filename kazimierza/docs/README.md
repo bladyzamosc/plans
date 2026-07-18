@@ -136,14 +136,49 @@ Właściciel/manager to CLIENT który dodatkowo ma przypisanie do lokalu:
 4. Zgoda na regulamin (obowiązkowa)
 5. Zgoda na personalizację ofert (opcjonalna)
 
-### Zakładanie konta właściciela
-1. Admin tworzy lokal w panelu i wprowadza email właściciela
-2. System wysyła email z linkiem i jednorazowym hasłem
-3. Właściciel klika link i uzupełnia dane:
-   - Imię i nazwisko, telefon
-   - NIP, nazwa firmy, adres siedziby
-   - Zgody (regulamin, RODO, marketing opcjonalnie)
-4. Ustawia hasło → konto aktywne
+### Onboarding właściciela lokalu (MVP)
+
+**Założenie:** W MVP admin onboarduje lokale ręcznie. Właściciel NIE może sam zarejestrować lokalu.
+
+**Flow:**
+```
+[Właściciel]                    [Admin]                         [System]
+     |                              |                               |
+     |-- 1. Kontakt (email/tel) --->|                               |
+     |   "Chcę dołączyć z moim      |                               |
+     |    lokalem"                  |                               |
+     |                              |                               |
+     |                              |-- 2. Weryfikacja offline ---> |
+     |                              |   (sprawdza czy lokal         |
+     |                              |    istnieje, Google Maps,     |
+     |                              |    social media)              |
+     |                              |                               |
+     |                              |-- 3. Tworzy lokal ----------->|
+     |                              |   - nazwa, adres, kategoria   |
+     |                              |   - okolica                   |
+     |                              |   - email właściciela         |
+     |                              |   - PIN (4 cyfry)             |
+     |                              |                               |
+     |<-----------------------------+-- 4. Email z zaproszeniem ----|
+     |   Link + jednorazowy kod     |                               |
+     |                              |                               |
+     |-- 5. Klika link, uzupełnia ->|                               |
+     |   - Imię, nazwisko, telefon  |                               |
+     |   - NIP, nazwa firmy         |                               |
+     |   - Zgody (regulamin, RODO)  |                               |
+     |   - Ustawia hasło            |                               |
+     |                              |                               |
+     |<--------------------------------------------- 6. Konto aktywne
+     |   Może tworzyć oferty        |                               |
+```
+
+**Status zaproszenia:**
+- `PENDING` — wysłane, czeka na aktywację
+- `ACTIVATED` — właściciel aktywował konto
+- `EXPIRED` — link wygasł (7 dni), można ponowić
+- `CANCELLED` — admin anulował
+
+**Faza 2:** Właściciel sam tworzy lokal → wymaga akceptacji admina
 
 ### Typy rabatów
 

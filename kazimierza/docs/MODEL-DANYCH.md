@@ -340,7 +340,7 @@ OwnerInvitation
 ├── token_expires_at: TIMESTAMP   -- np. 7 dni
 ├── 
 ├── # Status
-├── status: ENUM('PENDING', 'ACCEPTED', 'EXPIRED')
+├── status: ENUM('PENDING', 'ACTIVATED', 'EXPIRED', 'CANCELLED')
 ├── 
 ├── # Admin
 ├── created_by: UUID FK           -- admin user_id
