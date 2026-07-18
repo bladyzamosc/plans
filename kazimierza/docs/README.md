@@ -25,7 +25,7 @@
 |--------|--------|-------|
 | Płatności (Faza 2) | ⏸️ | Odłożone |
 | Infrastruktura | ⏸️ | Odłożone (na razie gdziekolwiek) |
-| Monitoring/logi | ❌ | Do ustalenia |
+| Monitoring/logi | ✅ | Actuator + Sentry + UptimeRobot |
 | CI/CD | ❌ | Do ustalenia |
 | Testy (strategia) | ❌ | Do ustalenia |
 
@@ -129,6 +129,18 @@ swoi/
 | Pracownicy lokalu | Wspólny PIN (bez osobnych kont) |
 | Moderacja treści | Własny słownik + Perspective API (Google) |
 | Języki | Polski, angielski (i18n) |
+| Monitoring | Actuator + Sentry + UptimeRobot |
+| Push | Firebase FCM |
+| Email | SendGrid |
+
+### Monitoring (MVP)
+
+| Warstwa | Narzędzie | Koszt |
+|---------|-----------|-------|
+| Health checks | Spring Boot Actuator (/health, /info) | Wbudowane |
+| Śledzenie błędów | Sentry | Darmowe 5k events/mies |
+| Uptime | UptimeRobot (ping co 5 min) | Darmowe |
+| Logi | Plik (rozbudowa: Grafana Cloud) | 0 |
 
 ---
 
