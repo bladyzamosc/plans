@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witaj w Tuswoi!</title>
+</head>
+<body style="margin:0;padding:0;background:#F2F5F9;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#F2F5F9;padding:40px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(30,58,95,0.08);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background:linear-gradient(135deg,#1E3A5F,#2C5282);padding:40px;text-align:center;">
+                            <div style="width:60px;height:60px;background:rgba(255,255,255,0.15);border-radius:16px;display:inline-block;line-height:60px;color:#fff;font-size:24px;font-weight:700;">T</div>
+                            <h1 style="color:#fff;font-size:24px;font-weight:600;margin:20px 0 0;">Tuswoi</h1>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding:48px 40px;">
+                            <h2 style="color:#1E3A5F;font-size:22px;font-weight:600;margin:0 0 16px;">Konto aktywowane!</h2>
+                            <p style="color:#6B7C93;font-size:16px;line-height:1.6;margin:0 0 32px;">
+                                Twoje konto zostalo aktywowane. Mozesz teraz tworzyc oferty dla lokalnych mieszkancow
+                                i dotrzec do nowych klientow w Twojej okolicy.
+                            </p>
+                            <!-- What's next -->
+                            <p style="color:#1E3A5F;font-size:14px;font-weight:600;margin:0 0 16px;text-transform:uppercase;letter-spacing:0.5px;">Co dalej?</p>
+                            <!-- Step 1 -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
+                                <tr>
+                                    <td width="40" valign="top">
+                                        <div style="width:32px;height:32px;background:linear-gradient(135deg,#1E3A5F,#2C5282);border-radius:50%;text-align:center;line-height:32px;color:#fff;font-size:14px;font-weight:600;">1</div>
+                                    </td>
+                                    <td style="padding-left:12px;">
+                                        <p style="color:#1E3A5F;font-size:15px;font-weight:600;margin:0 0 4px;">Zaloguj sie do panelu</p>
+                                        <p style="color:#6B7C93;font-size:14px;margin:0;">Przejdz do panelu wlasciciela i uzupelnij dane lokalu.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- Step 2 -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
+                                <tr>
+                                    <td width="40" valign="top">
+                                        <div style="width:32px;height:32px;background:linear-gradient(135deg,#1E3A5F,#2C5282);border-radius:50%;text-align:center;line-height:32px;color:#fff;font-size:14px;font-weight:600;">2</div>
+                                    </td>
+                                    <td style="padding-left:12px;">
+                                        <p style="color:#1E3A5F;font-size:15px;font-weight:600;margin:0 0 4px;">Stworz pierwsza oferte</p>
+                                        <p style="color:#6B7C93;font-size:14px;margin:0;">Dodaj rabat lub promocje dla mieszkancow okolicy.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- Step 3 -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 32px;">
+                                <tr>
+                                    <td width="40" valign="top">
+                                        <div style="width:32px;height:32px;background:linear-gradient(135deg,#1E3A5F,#2C5282);border-radius:50%;text-align:center;line-height:32px;color:#fff;font-size:14px;font-weight:600;">3</div>
+                                    </td>
+                                    <td style="padding-left:12px;">
+                                        <p style="color:#1E3A5F;font-size:15px;font-weight:600;margin:0 0 4px;">Przekaz PIN pracownikom</p>
+                                        <p style="color:#6B7C93;font-size:14px;margin:0;">Twoj PIN lokalu: <strong style="color:#1E3A5F;">{{VENUE_PIN}}</strong>. Uzyja go do potwierdzania rabatow.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- Button -->
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center">
+                                        <a href="{{OWNER_PANEL_URL}}" style="display:inline-block;background:linear-gradient(135deg,#1E3A5F,#2C5282);color:#fff;font-size:16px;font-weight:600;text-decoration:none;padding:16px 48px;border-radius:12px;box-shadow:0 4px 14px rgba(30,58,95,0.3);">
+                                            Przejdz do panelu
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background:#F2F5F9;padding:24px 40px;border-top:1px solid #E8EDF4;">
+                            <p style="color:#6B7C93;font-size:13px;line-height:1.6;margin:0;text-align:center;">
+                                Masz pytania? Skontaktuj sie z nami: kontakt@tuswoi.pl
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <!-- Bottom text -->
+                <p style="color:#6B7C93;font-size:12px;margin:24px 0 0;text-align:center;">
+                    &copy; 2026 Tuswoi. Laczymy sie lokalnie!
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
