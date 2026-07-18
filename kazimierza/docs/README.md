@@ -90,7 +90,7 @@ swoi/
 | Panel właściciela | OWNER/MANAGER | Dashboard, oferty, realizacje, managerowie, ustawienia |
 | Panel admina | ADMIN | Dashboard, okolice, lokale, użytkownicy, moderacja |
 | Auth | Google, Apple + Magic link (fallback) + hasło (dla owner/manager) |
-| Sesja | JWT access (15 min) + refresh token (30 dni) |
+| Sesja | JWT access (1h) + refresh (90 dni) — silent refresh w tle |
 | Walidacja rabatu | QR deep link + PIN lokalu + timer |
 | Pracownicy lokalu | Wspólny PIN (bez osobnych kont) |
 | Moderacja treści | Własny słownik + Perspective API (Google) |
@@ -128,6 +128,28 @@ Właściciel/manager to CLIENT który dodatkowo ma przypisanie do lokalu:
 - User może subskrybować wiele okolic (N:M)
 - Wyszukiwanie okolic przez geolokalizację
 - Okolica = umowna jednostka (dzielnica, poddzielnica, małe miasto, wieś)
+
+### Autentykacja i sesja
+
+**Metody logowania:**
+- Google OAuth
+- Apple OAuth (wymagane na iOS)
+- Magic link (email) — fallback dla userów bez Google/Apple
+
+**Sesja użytkownika:**
+- Access token: 1h
+- Refresh token: 90 dni
+- Silent refresh w tle — user nie widzi odnawiania
+
+**Dla użytkownika:** Otwiera aplikację → jest zalogowany. Zawsze. Chyba że:
+- Nie używał aplikacji przez 90 dni
+- Sam kliknął "Wyloguj"
+- Admin dezaktywował konto
+
+**Biblioteki (Spring Boot):**
+- `spring-boot-starter-oauth2-client` — Google/Apple
+- `jjwt` — JWT tokeny
+- Własny serwis — magic link (token w DB + email)
 
 ### Rejestracja klienta
 1. OAuth (Google/Apple) lub Magic link
