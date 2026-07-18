@@ -132,14 +132,14 @@ test('user can redeem offer', async ({ page }) => {
 
 ## Rekomendacja MVP
 
-| Typ testu | Ilość | Priorytet |
-|-----------|-------|-----------|
-| **Unit** | ~20-30 | Krytyczne funkcje |
-| **Integration** | ~10 | Główne flow |
-| **E2E** | ~3-5 | Happy paths |
-| **Manualne (beta)** | Ciągłe | Główna walidacja |
+| Typ testu | Pokrycie | Priorytet |
+|-----------|----------|-----------|
+| **Unit** | Wszystko | Każda funkcja/serwis |
+| **Integration** | Główne flow | API endpoints |
+| **E2E** | Happy paths | Krytyczne ścieżki |
+| **Manualne (beta)** | Ciągłe | UX, edge cases |
 
-**Filozofia:** Na MVP lepiej mieć 20 dobrych unit testów niż 100 słabych. Resztę wyłapią beta testerzy.
+**Filozofia:** Unit testy do wszystkiego - tanie w utrzymaniu, szybkie, łapią regresje. Beta testerzy wyłapują problemy UX i edge cases których nie przewidzieliśmy.
 
 ### Co testować automatycznie (must have)
 - Walidacja QR (expiry, format, już użyty)
