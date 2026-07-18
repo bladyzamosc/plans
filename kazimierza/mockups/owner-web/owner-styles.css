@@ -114,6 +114,116 @@ body {
     color: rgba(255,255,255,0.6);
 }
 
+/* Venue Selector Dropdown */
+.venue-selector {
+    position: relative;
+    margin: 16px;
+}
+
+.venue-dropdown-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--primary-light);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    color: #fff;
+}
+
+.venue-dropdown-toggle:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.venue-dropdown-arrow {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    transition: transform 0.2s;
+}
+
+.venue-selector:hover .venue-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.venue-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    margin-top: 8px;
+    overflow: hidden;
+    z-index: 200;
+}
+
+.venue-selector:hover .venue-dropdown {
+    display: block;
+}
+
+.venue-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.15s;
+}
+
+.venue-dropdown-item:hover {
+    background: var(--bg);
+}
+
+.venue-dropdown-item.active {
+    background: #f0f9ff;
+}
+
+.venue-dropdown-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.venue-dropdown-logo-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.venue-dropdown-info {
+    flex: 1;
+}
+
+.venue-dropdown-name {
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.venue-dropdown-address {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.venue-check {
+    color: var(--success);
+    font-weight: 600;
+}
+
 .sidebar-nav {
     flex: 1;
     padding: 8px 12px;

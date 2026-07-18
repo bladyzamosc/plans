@@ -463,6 +463,12 @@ CREATE INDEX idx_invitation_token ON OwnerInvitation(token)
 | Wypowiedzenie umowy | ✅ | ❌ |
 | Podgląd statystyk | ✅ | ✅ |
 
+### Właściciel i lokale (1:N)
+
+- Jeden User może być OWNER w **wielu lokalach** (relacja przez VenueUser)
+- Jeden lokal może mieć **wielu użytkowników** (1 OWNER + wielu MANAGER-ów)
+- W panelu właściciela: dropdown do wyboru lokalu (jeśli ma więcej niż 1)
+
 ### Wypowiedzenie umowy
 
 1. OWNER składa wniosek → status = TERMINATING
