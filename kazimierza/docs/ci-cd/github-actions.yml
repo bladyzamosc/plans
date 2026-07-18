@@ -1,0 +1,248 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  JAVA_VERSION: '21'
+  NODE_VERSION: '20'
+
+jobs:
+  # ============================================
+  # BACKEND (Spring Boot)
+  # ============================================
+  backend-build:
+    name: Backend Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'maven'
+
+      - name: Build
+        run: mvn clean compile -DskipTests
+
+      - name: Unit Tests
+        run: mvn test
+
+      - name: Integration Tests
+        run: mvn verify -DskipUnitTests
+        env:
+          SPRING_PROFILES_ACTIVE: test
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: apps/backend/target/*.jar
+
+  # ============================================
+  # WEB (React)
+  # ============================================
+  web-build:
+    name: Web Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Test
+        run: pnpm test --coverage
+
+      - name: Build
+        run: pnpm build
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: apps/web/dist
+
+  # ============================================
+  # MOBILE (Expo)
+  # ============================================
+  mobile-build:
+    name: Mobile Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Test
+        run: pnpm test
+
+  # ============================================
+  # MOBILE RELEASE (EAS Build - na tag)
+  # ============================================
+  mobile-release:
+    name: Build & Submit Mobile Apps
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup Expo (EAS)
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build iOS
+        run: eas build --platform ios --non-interactive --profile production
+
+      - name: Build Android
+        run: eas build --platform android --non-interactive --profile production
+
+      # Auto-submit do sklepów (opcjonalne)
+      # - name: Submit to App Store
+      #   run: eas submit --platform ios --latest
+      #
+      # - name: Submit to Google Play
+      #   run: eas submit --platform android --latest
+
+  # ============================================
+  # DOCKER (tylko po uopdate main)
+  # ============================================
+  docker-build:
+    name: Build Docker Image
+    needs: [backend-build, web-build]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download backend JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-jar
+          path: apps/backend/target
+
+      - name: Download web build
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: apps/web/dist
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Push Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: apps/backend
+          push: true
+          tags: ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+
+      - name: Build & Push Web
+        uses: docker/build-push-action@v5
+        with:
+          context: apps/web
+          push: true
+          tags: ghcr.io/${{ github.repository }}/web:${{ github.sha }}
+
+  # ============================================
+  # DEPLOY STAGING (auto po merge do main)
+  # ============================================
+  deploy-staging:
+    name: Deploy to Staging
+    needs: [docker-build]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Deploy to staging
+        run: |
+          echo "Deploying to staging..."
+          # Tu: kubectl apply, docker-compose pull, SSH, etc.
+          # Zależy od wybranej infrastruktury
+
+  # ============================================
+  # DEPLOY PROD (manual - wymaga approval)
+  # ============================================
+  deploy-prod:
+    name: Deploy to Production
+    needs: [deploy-staging]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production  # <- wymaga manual approval w GitHub
+
+    steps:
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
+          # Tu: kubectl apply, docker-compose pull, SSH, etc.

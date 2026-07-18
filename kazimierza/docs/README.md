@@ -26,7 +26,7 @@
 | Płatności (Faza 2) | ⏸️ | Odłożone |
 | Infrastruktura | ⏸️ | Odłożone (na razie gdziekolwiek) |
 | Monitoring/logi | ✅ | Actuator + Sentry + UptimeRobot |
-| CI/CD | ❌ | Do ustalenia |
+| CI/CD | ✅ | GitHub Actions + EAS Build |
 | Testy (strategia) | ❌ | Do ustalenia |
 
 ### Następny krok
@@ -141,6 +141,23 @@ swoi/
 | Śledzenie błędów | Sentry | Darmowe 5k events/mies |
 | Uptime | UptimeRobot (ping co 5 min) | Darmowe |
 | Logi | Plik (rozbudowa: Grafana Cloud) | 0 |
+
+### CI/CD (MVP)
+
+| Co | Narzędzie | Trigger |
+|----|-----------|---------|
+| Build + Test | GitHub Actions | Każdy PR |
+| Docker images | GitHub Actions → ghcr.io | Merge do main |
+| Deploy staging | GitHub Actions | Auto po merge |
+| Deploy prod | GitHub Actions | Manual approval |
+| Mobile build | EAS Build (Expo) | Tag v*.*.* |
+| Submit do sklepów | EAS Submit | Ręcznie (auto później) |
+
+**Plik:** [ci-cd/github-actions.yml](ci-cd/github-actions.yml)
+
+**Wymagania sklepów:**
+- App Store: Apple Developer ($99/rok)
+- Google Play: Developer account ($25 jednorazowo)
 
 ---
 
