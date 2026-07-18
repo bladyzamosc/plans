@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - Tuswoi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .nav-links a:hover { color: #1a1a1a; }
+        .nav-btn {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 40px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-info h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .contact-info p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .contact-card {
+            background: #f8f8f8;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .contact-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .contact-card-value {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .contact-card-value a {
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+        .contact-card-value a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-form h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background: #333;
+        }
+
+        .recaptcha-placeholder {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 12px 16px;
+        }
+        .recaptcha-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .recaptcha-box input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        .recaptcha-box label {
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+        .recaptcha-logo {
+            font-size: 10px;
+            color: #888;
+            text-align: right;
+        }
+
+        .form-note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .form-note a {
+            color: #666;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+        }
+        .footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin: 0 16px;
+        }
+        .footer a:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="landing-extended.html" class="nav-logo">Tuswoi</a>
+        <div class="nav-links">
+            <a href="landing-extended.html#funkcje">Funkcje</a>
+            <a href="landing-extended.html#dla-biznesu">Dla biznesu</a>
+            <a href="faq.html">FAQ</a>
+            <a href="login.html" class="nav-btn">Zaloguj się</a>
+        </div>
+    </nav>
+
+    <main class="contact-container">
+        <div class="contact-info">
+            <h1>Skontaktuj się z nami</h1>
+            <p>
+                Masz pytanie? Chcesz dołączyć ze swoim lokalem?
+                Napisz do nas, a odpowiemy najszybciej jak to możliwe.
+            </p>
+
+            <div class="contact-card">
+                <div class="contact-card-title">Email</div>
+                <div class="contact-card-value">
+                    <a href="mailto:kontakt@tuswoi.pl">kontakt@tuswoi.pl</a>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-card-title">Dla właścicieli lokali</div>
+                <div class="contact-card-value">
+                    <a href="mailto:biznes@tuswoi.pl">biznes@tuswoi.pl</a>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-card-title">Adres</div>
+                <div class="contact-card-value">
+                    ul. Jana Kazimierza 1<br>
+                    01-248 Warszawa
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2>Wyślij wiadomość</h2>
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Temat</label>
+                    <select class="form-select">
+                        <option>Pytanie ogólne</option>
+                        <option>Chcę dołączyć z lokalem</option>
+                        <option>Problem techniczny</option>
+                        <option>Reklamacja</option>
+                        <option>Współpraca / Media</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Imię i nazwisko</label>
+                    <input type="text" class="form-input" placeholder="Jan Kowalski">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="jan@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Wiadomość</label>
+                    <textarea class="form-textarea" placeholder="Opisz swoje pytanie lub problem..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="recaptcha-placeholder">
+                        <div class="recaptcha-box">
+                            <input type="checkbox" id="recaptcha">
+                            <label for="recaptcha">Nie jestem robotem</label>
+                        </div>
+                        <div class="recaptcha-logo">reCAPTCHA</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Wyślij wiadomość</button>
+
+                <p class="form-note">
+                    Ta strona jest chroniona przez reCAPTCHA. Obowiązuje
+                    <a href="https://policies.google.com/privacy">Polityka prywatności</a> oraz
+                    <a href="https://policies.google.com/terms">Warunki korzystania</a> Google.
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <a href="regulamin.html">Regulamin</a>
+        <a href="prywatnosc.html">Prywatność</a>
+        <a href="kontakt.html">Kontakt</a>
+        <p style="margin-top: 24px; color: rgba(255,255,255,0.5); font-size: 14px;">
+            © 2026 Tuswoi. Wszystkie prawa zastrzeżone.
+        </p>
+    </footer>
+</body>
+</html>

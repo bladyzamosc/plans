@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockupy Web - Tuswoi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section h2 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            border: 1px solid #e8e8e8;
+        }
+
+        .card:hover {
+            border-color: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .badge-public { background: #e3f2fd; color: #1565c0; }
+        .badge-owner { background: #f3e5f5; color: #7b1fa2; }
+        .badge-admin { background: #fff3e0; color: #e65100; }
+        .badge-todo { background: #ffebee; color: #c62828; }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Wszystkie mockupy</a>
+
+        <h1>Web</h1>
+        <p class="subtitle">Landing page, panele admin/owner</p>
+
+        <div class="section">
+            <h2>Landing page</h2>
+            <div class="grid">
+                <a href="landing-extended.html" class="card">
+                    <div class="card-title">Landing page</div>
+                    <div class="card-desc">Full marketing, testimoniale</div>
+                    <span class="badge badge-public">Publiczny</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Strony statyczne</h2>
+            <div class="grid">
+                <a href="faq.html" class="card">
+                    <div class="card-title">FAQ</div>
+                    <div class="card-desc">Często zadawane pytania</div>
+                    <span class="badge badge-public">Publiczny</span>
+                </a>
+                <a href="kontakt.html" class="card">
+                    <div class="card-title">Kontakt</div>
+                    <div class="card-desc">Formularz + reCAPTCHA</div>
+                    <span class="badge badge-public">Publiczny</span>
+                </a>
+                <a href="regulamin.html" class="card">
+                    <div class="card-title">Regulamin</div>
+                    <div class="card-desc">Warunki korzystania</div>
+                    <span class="badge badge-public">Publiczny</span>
+                </a>
+                <a href="prywatnosc.html" class="card">
+                    <div class="card-title">Polityka prywatności</div>
+                    <div class="card-desc">RODO, cookies</div>
+                    <span class="badge badge-public">Publiczny</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Panel właściciela</h2>
+            <div class="grid">
+                <a href="../owner-web/index.html" class="card">
+                    <div class="card-title">Dashboard</div>
+                    <div class="card-desc">Statystyki, przegląd</div>
+                    <span class="badge badge-owner">Owner</span>
+                </a>
+                <a href="../owner-web/offers.html" class="card">
+                    <div class="card-title">Oferty</div>
+                    <div class="card-desc">Lista ofert lokalu</div>
+                    <span class="badge badge-owner">Owner</span>
+                </a>
+                <a href="../owner-web/new-offer.html" class="card">
+                    <div class="card-title">Nowa oferta</div>
+                    <div class="card-desc">Formularz tworzenia</div>
+                    <span class="badge badge-owner">Owner</span>
+                </a>
+                <a href="../owner-web/redemptions.html" class="card">
+                    <div class="card-title">Realizacje</div>
+                    <div class="card-desc">Historia wykorzystań</div>
+                    <span class="badge badge-owner">Owner</span>
+                </a>
+                <a href="../owner-web/managers.html" class="card">
+                    <div class="card-title">Managerowie</div>
+                    <div class="card-desc">Zarządzanie zespołem</div>
+                    <span class="badge badge-owner">Owner</span>
+                </a>
+                <a href="../owner-web/settings.html" class="card">
+                    <div class="card-title">Ustawienia</div>
+                    <div class="card-desc">Dane lokalu, PIN</div>
+                    <span class="badge badge-owner">Owner</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Panel admina</h2>
+            <div class="grid">
+                <a href="../admin-web/index.html" class="card">
+                    <div class="card-title">Dashboard</div>
+                    <div class="card-desc">Statystyki globalne</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+                <a href="../admin-web/districts.html" class="card">
+                    <div class="card-title">Okolice</div>
+                    <div class="card-desc">Zarządzanie okolicami</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+                <a href="../admin-web/venues.html" class="card">
+                    <div class="card-title">Lokale</div>
+                    <div class="card-desc">Zarządzanie lokalami</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+                <a href="../admin-web/users.html" class="card">
+                    <div class="card-title">Użytkownicy</div>
+                    <div class="card-desc">Lista użytkowników</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+                <a href="../admin-web/categories.html" class="card">
+                    <div class="card-title">Kategorie</div>
+                    <div class="card-desc">Kategorie lokali</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+                <a href="../admin-web/offers.html" class="card">
+                    <div class="card-title">Oferty</div>
+                    <div class="card-desc">Wszystkie oferty</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+                <a href="../admin-web/moderation.html" class="card">
+                    <div class="card-title">Moderacja</div>
+                    <div class="card-desc">Oferty do akceptacji</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+                <a href="../admin-web/invitations.html" class="card">
+                    <div class="card-title">Zaproszenia</div>
+                    <div class="card-desc">Zaproszenia właścicieli</div>
+                    <span class="badge badge-admin">Admin</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

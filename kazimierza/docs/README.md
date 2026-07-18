@@ -54,8 +54,41 @@ Aplikacja zrzeszająca lokalne biznesy (niesieciowe) — mieszkańcy otrzymują 
 
 | Obszar | Decyzja |
 |--------|---------|
-| Mobile | PWA (MVP) → React Native (później) |
-| Backend | Spring Boot + PostgreSQL |
+| Mobile (klient) | React Native (iOS + Android) |
+| Web | React — jedna aplikacja |
+| Backend | JHipster (--skip-client) + Spring Boot + PostgreSQL |
+
+### Architektura — Monorepo
+
+```
+swoi/
+├── apps/
+│   ├── mobile/          # Expo (iOS, Android, Web klienta)
+│   ├── web/             # React (landing, admin, owner)
+│   └── backend/         # JHipster Spring Boot (--skip-client)
+├── packages/
+│   ├── shared/          # Typy TypeScript, utils
+│   └── api-client/      # Wygenerowany klient z OpenAPI
+├── docs/                # Dokumentacja
+└── package.json         # pnpm workspaces
+```
+
+### Aplikacje
+
+| App | Technologia | Zawartość |
+|-----|-------------|-----------|
+| **mobile** | Expo (React Native Web) | Flow klienta: onboarding, oferty, QR, profil — iOS, Android + Web |
+| **web** | React | Landing page, QR do apki, FAQ, regulamin + panele admin/owner |
+| **backend** | JHipster + Spring Boot | API REST, PostgreSQL, JWT auth |
+
+### Struktura Web (React)
+
+| Sekcja | Dostęp | Zawartość |
+|--------|--------|-----------|
+| Landing page | Publiczny | Strona główna, o aplikacji, QR do pobrania apki |
+| Strony statyczne | Publiczny | FAQ, regulamin, polityka prywatności, kontakt |
+| Panel właściciela | OWNER/MANAGER | Dashboard, oferty, realizacje, managerowie, ustawienia |
+| Panel admina | ADMIN | Dashboard, okolice, lokale, użytkownicy, moderacja |
 | Auth | Google, Apple + Magic link (fallback) + hasło (dla owner/manager) |
 | Sesja | JWT access (15 min) + refresh token (30 dni) |
 | Walidacja rabatu | QR deep link + PIN lokalu + timer |
