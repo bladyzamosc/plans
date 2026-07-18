@@ -27,7 +27,7 @@
 | Infrastruktura | ⏸️ | Odłożone (na razie gdziekolwiek) |
 | Monitoring/logi | ✅ | Actuator + Sentry + UptimeRobot |
 | CI/CD | ✅ | GitHub Actions + EAS Build |
-| Testy (strategia) | ❌ | Do ustalenia |
+| Testy (strategia) | ✅ | Beta testing + unit/integration (TESTY.md) |
 
 ### Następny krok
 **MVP Backlog** — user stories do implementacji
