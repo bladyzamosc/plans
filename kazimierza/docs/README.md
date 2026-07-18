@@ -1,5 +1,39 @@
 # Swoi — Aplikacja Lokalnych Rabatów
 
+## Status projektu
+
+### Omówione (gotowe do implementacji)
+
+| Obszar | Status | Dokumentacja |
+|--------|--------|--------------|
+| Wizja i scope MVP | ✅ | README.md |
+| Model danych | ✅ | MODEL-DANYCH.md |
+| API (OpenAPI) | ✅ | api/openapi.yaml |
+| Role i uprawnienia | ✅ | api/ACCESS-CONTROL.md |
+| Mockupy UI (Apple Navy) | ✅ | mockups/ (~40 plików) |
+| Onboarding właściciela | ✅ | README.md (flow admin→owner) |
+| Auth (OAuth + Magic link) | ✅ | README.md (Google, Apple, email) |
+| Sesja (JWT) | ✅ | Access 1h, refresh 90 dni, silent refresh |
+| Moderacja treści | ✅ | Słownik + Perspective API |
+| Push notifications | ✅ | Firebase FCM, digest dzienny |
+| Email | ✅ | SendGrid, szablony: email-templates/ |
+| Dokumenty prawne | ✅ | legal/ (drafty do weryfikacji prawnej) |
+
+### Do omówienia przed backlogiem
+
+| Obszar | Status | Uwagi |
+|--------|--------|-------|
+| Płatności (Faza 2) | ⏸️ | Odłożone |
+| Infrastruktura | ⏸️ | Odłożone (na razie gdziekolwiek) |
+| Monitoring/logi | ❌ | Do ustalenia |
+| CI/CD | ❌ | Do ustalenia |
+| Testy (strategia) | ❌ | Do ustalenia |
+
+### Następny krok
+**MVP Backlog** — user stories do implementacji
+
+---
+
 ## Cel projektu
 
 Aplikacja zrzeszająca lokalne biznesy (niesieciowe) — mieszkańcy otrzymują powiadomienia o rabatach w swojej okolicy. Start na Odolanach, potem ekspansja na kolejne okolice.
