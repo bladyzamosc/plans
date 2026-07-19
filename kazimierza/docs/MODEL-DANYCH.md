@@ -78,6 +78,12 @@ User
 ├── district_id: UUID FK          -- główna dzielnica
 ├── street: VARCHAR(200)          -- wymagana ulica
 ├── 
+├── # Geolokalizacja (opcjonalna, za zgodą)
+├── location_lat: DECIMAL(10,8)   -- szerokość geograficzna
+├── location_lng: DECIMAL(11,8)   -- długość geograficzna
+├── location_updated_at: TIMESTAMP
+├── location_consent: BOOLEAN DEFAULT false  -- zgoda na zbieranie lokalizacji
+├── 
 ├── # Ustawienia push
 ├── push_enabled: BOOLEAN DEFAULT true
 ├── digest_time: TIME DEFAULT '10:00'
@@ -125,9 +131,13 @@ Venue
 ├── 
 ├── # Dane lokalu
 ├── name: VARCHAR(100)           -- "Beer & Burger Kufloteka"
-├── address: VARCHAR(200)
+├── address: VARCHAR(200)        -- adres tekstowy
 ├── description: TEXT
 ├── logo_url: VARCHAR(500)
+├── 
+├── # Geolokalizacja (wymagana)
+├── location_lat: DECIMAL(10,8)  -- szerokość geograficzna
+├── location_lng: DECIMAL(11,8)  -- długość geograficzna
 ├── 
 ├── # Walidacja
 ├── validation_pin: CHAR(4)      -- PIN do walidacji rabatów
@@ -394,6 +404,12 @@ CREATE INDEX idx_user_district_user ON UserDistrict(user_id);
 
 -- Geolokalizacja dzielnic
 CREATE INDEX idx_district_geo ON District(center_lat, center_lng) WHERE active = true;
+
+-- Geolokalizacja lokali (dla wyszukiwania w promieniu)
+CREATE INDEX idx_venue_geo ON Venue(location_lat, location_lng) WHERE status = 'ACTIVE';
+
+-- Geolokalizacja userów (opcjonalna)
+CREATE INDEX idx_user_geo ON "User"(location_lat, location_lng) WHERE location_consent = true;
 
 -- Push tokeny usera
 CREATE INDEX idx_push_token_user ON PushToken(user_id) WHERE active = true;

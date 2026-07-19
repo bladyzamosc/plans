@@ -24,6 +24,7 @@ Kontakt w sprawach ochrony danych: [EMAIL]
 | Nazwa użytkownika | Identyfikacja w aplikacji | Umowa | Do usunięcia konta |
 | Okolica | Personalizacja ofert | Umowa | Do usunięcia konta |
 | Ulica | Personalizacja ofert | Zgoda (art. 6.1.a RODO) | Do usunięcia konta |
+| Geolokalizacja (lat/lng) | Odległość do lokali | Zgoda (art. 6.1.a RODO) | Do wycofania zgody |
 | Historia realizacji | Funkcjonalność aplikacji | Umowa | 2 lata od realizacji |
 | Oceny i komentarze | Funkcjonalność aplikacji | Umowa | Do usunięcia konta |
 | Identyfikator urządzenia | Push notifications | Zgoda | Do wyłączenia powiadomień |
@@ -62,6 +63,13 @@ Kontakt w sprawach ochrony danych: [EMAIL]
 4.2. Personalizacja polega na:
 - wyświetlaniu ofert z najbliższych lokali
 - rekomendacjach na podstawie historii realizacji
+
+4.3. **Geolokalizacja:**
+- Za zgodą Użytkownika zbieramy jego lokalizację (współrzędne geograficzne)
+- Służy do wyświetlania odległości do lokali ("1.2 km od Ciebie")
+- Przechowujemy tylko ostatnią znaną lokalizację, nie historię
+- Użytkownik może wycofać zgodę w ustawieniach aplikacji
+- Bez zgody: oferty wyświetlane bez informacji o odległości
 - priorytetyzacji kategorii na podstawie zainteresowań
 
 4.3. Zgoda jest dobrowolna i może być wycofana w ustawieniach.

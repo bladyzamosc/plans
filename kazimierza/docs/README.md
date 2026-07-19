@@ -192,6 +192,29 @@ Właściciel/manager to CLIENT który dodatkowo ma przypisanie do lokalu:
 - Wyszukiwanie okolic przez geolokalizację
 - Okolica = umowna jednostka (dzielnica, poddzielnica, małe miasto, wieś)
 
+### Geolokalizacja
+
+**Lokal (wymagana):**
+- Admin podaje dokładne współrzędne przy tworzeniu lokalu (lat/lng)
+- Źródło: Google Maps, OpenStreetMap, ręczne wprowadzenie
+- Używane do: wyświetlania odległości od usera, sortowania "najbliższe"
+
+**User (opcjonalna, za zgodą):**
+- Pytamy o zgodę przy pierwszym użyciu lub w ustawieniach
+- Zapisujemy ostatnią znaną lokalizację (aktualizacja przy otwarciu app)
+- Używane do: sortowania ofert, wyświetlania "X km od Ciebie"
+- Bez zgody: pokazujemy oferty z subskrybowanych okolic bez odległości
+
+**Obliczanie odległości:**
+- Formuła Haversine (dokładność ~1m dla krótkich dystansów)
+- Wyświetlamy: "<1 km", "1.2 km", "2 km" (zaokrąglone)
+
+**RODO:**
+- Lokalizacja usera = dane osobowe
+- Wymagana osobna zgoda (location_consent)
+- User może wyłączyć w każdej chwili
+- Nie przechowujemy historii lokalizacji, tylko ostatnią
+
 ### Autentykacja i sesja
 
 **Metody logowania:**
