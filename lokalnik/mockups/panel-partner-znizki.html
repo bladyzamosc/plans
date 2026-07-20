@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje zniżki | Panel Partnera | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="desktop">
+        <div class="panel-layout">
+            <!-- Sidebar -->
+            <div class="panel-sidebar" style="background: #1e3a5f;">
+                <div class="panel-logo">Lokalnik.pl</div>
+                <nav class="panel-nav">
+                    <a href="panel-partner-dashboard.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="panel-partner-znizki.html" class="panel-nav-item active">
+                        <span class="panel-nav-icon">🏷️</span>
+                        Moje zniżki
+                    </a>
+                    <a href="#" class="panel-nav-item">
+                        <span class="panel-nav-icon">📈</span>
+                        Realizacje
+                    </a>
+                    <a href="panel-partner-ustawienia.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">⚙️</span>
+                        Ustawienia
+                    </a>
+                </nav>
+                <div class="panel-user">
+                    <div class="panel-user-name">Pizzeria Napoli</div>
+                    <div class="panel-user-email">kontakt@napoli.pl</div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="panel-content">
+                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div class="panel-title">Moje zniżki</div>
+                        <div class="panel-subtitle">Zarządzaj ofertami dla gości apartamentów</div>
+                    </div>
+                    <a href="panel-partner-znizka-nowa.html" class="btn btn-primary btn-sm" style="width: auto;">
+                        + Nowa zniżka
+                    </a>
+                </div>
+
+                <div class="panel-body">
+                    <!-- Limit info -->
+                    <div style="background: var(--primary-bg); border-radius: 12px; padding: 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 24px;">💡</span>
+                        <div>
+                            <div style="font-size: 14px; color: var(--primary-dark);">
+                                <strong>Limit:</strong> Możesz mieć maksymalnie 5 aktywnych zniżek jednocześnie (obecnie: 2/5)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discounts list -->
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Zniżka</th>
+                                    <th>Typ</th>
+                                    <th>Warunki</th>
+                                    <th>Realizacje (30 dni)</th>
+                                    <th>Status</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 500;">-20% na pizze</div>
+                                        <div style="font-size: 13px; color: var(--text-muted);">Na wszystkie pizze z menu</div>
+                                    </td>
+                                    <td><span class="badge">Procent</span></td>
+                                    <td style="font-size: 14px;">Min. zamówienie: 40 zł</td>
+                                    <td style="font-weight: 600; color: var(--primary);">31</td>
+                                    <td><span class="badge success">Aktywna</span></td>
+                                    <td>
+                                        <div style="display: flex; gap: 8px;">
+                                            <a href="#" class="btn btn-outline btn-sm" style="padding: 6px 10px; font-size: 12px;">Edytuj</a>
+                                            <a href="#" class="btn btn-outline btn-sm" style="padding: 6px 10px; font-size: 12px;">Pauza</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 500;">Gratis tiramisu</div>
+                                        <div style="font-size: 13px; color: var(--text-muted);">Do zamówienia powyżej 80 zł</div>
+                                    </td>
+                                    <td><span class="badge">Gratis</span></td>
+                                    <td style="font-size: 14px;">Min. zamówienie: 80 zł</td>
+                                    <td style="font-weight: 600; color: var(--primary);">12</td>
+                                    <td><span class="badge success">Aktywna</span></td>
+                                    <td>
+                                        <div style="display: flex; gap: 8px;">
+                                            <a href="#" class="btn btn-outline btn-sm" style="padding: 6px 10px; font-size: 12px;">Edytuj</a>
+                                            <a href="#" class="btn btn-outline btn-sm" style="padding: 6px 10px; font-size: 12px;">Pauza</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="opacity: 0.6;">
+                                    <td>
+                                        <div style="font-weight: 500;">-15 zł na makarony</div>
+                                        <div style="font-size: 13px; color: var(--text-muted);">Na wszystkie makarony</div>
+                                    </td>
+                                    <td><span class="badge">Kwota</span></td>
+                                    <td style="font-size: 14px;">Min. zamówienie: 50 zł</td>
+                                    <td style="font-weight: 600;">8</td>
+                                    <td><span class="badge warning">Wstrzymana</span></td>
+                                    <td>
+                                        <div style="display: flex; gap: 8px;">
+                                            <a href="#" class="btn btn-outline btn-sm" style="padding: 6px 10px; font-size: 12px;">Edytuj</a>
+                                            <a href="#" class="btn btn-primary btn-sm" style="padding: 6px 10px; font-size: 12px;">Wznów</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tips -->
+                    <div class="form-section" style="margin-top: 24px;">
+                        <div class="form-section-title">Wskazówki</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 14px; color: var(--text-muted);">
+                            <div>
+                                <strong style="color: var(--text);">Jakie zniżki działają najlepiej?</strong><br>
+                                Procentowe zniżki (15-25%) na popularne produkty mają najwyższą konwersję. Unikaj zbyt skomplikowanych warunków.
+                            </div>
+                            <div>
+                                <strong style="color: var(--text);">Kiedy wstrzymać zniżkę?</strong><br>
+                                Możesz tymczasowo wstrzymać zniżkę gdy masz duży ruch lub brakuje produktu. Goście zobaczą pozostałe oferty.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

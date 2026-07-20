@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja Zarządcy | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="phone">
+        <div class="header">
+            <a href="logowanie.html" class="header-back">←</a>
+            <span class="header-title">Rejestracja</span>
+            <span style="width: 40px;"></span>
+        </div>
+
+        <div class="content">
+            <!-- Progress -->
+            <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+                <div style="flex: 1; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                <div style="flex: 1; height: 4px; background: var(--border); border-radius: 2px;"></div>
+                <div style="flex: 1; height: 4px; background: var(--border); border-radius: 2px;"></div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Dołącz do Lokalnik.pl</h1>
+                <p style="color: var(--text-muted); font-size: 15px;">
+                    Zarejestruj się i daj swoim gościom dostęp do lokalnych zniżek.
+                </p>
+            </div>
+
+            <!-- Form -->
+            <div class="input-group">
+                <label class="input-label">Imię i nazwisko</label>
+                <input type="text" class="input" placeholder="np. Jan Kowalski">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Email</label>
+                <input type="email" class="input" placeholder="twoj@email.pl">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Telefon</label>
+                <input type="tel" class="input" placeholder="+48 600 000 000">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Hasło</label>
+                <input type="password" class="input" placeholder="Min. 8 znaków">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Nazwa firmy (opcjonalnie)</label>
+                <input type="text" class="input" placeholder="np. Apartamenty Morskie">
+            </div>
+
+            <!-- Location -->
+            <div class="input-group">
+                <label class="input-label">Lokalizacja mieszkań</label>
+                <select class="input">
+                    <option value="">Wybierz miejscowość...</option>
+                    <option value="jastrzebia-gora">Jastrzębia Góra (12 partnerów)</option>
+                    <option value="wladyslawowo">Władysławowo (8 partnerów)</option>
+                    <option value="zakopane">Zakopane (15 partnerów)</option>
+                    <option value="kazimierz">Kazimierz Dolny (6 partnerów)</option>
+                </select>
+                <div style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">
+                    Nie ma Twojej lokalizacji? <a href="#" style="color: var(--primary);">Daj nam znać</a>
+                </div>
+            </div>
+
+            <!-- Terms -->
+            <div style="display: flex; gap: 12px; margin: 24px 0;">
+                <input type="checkbox" id="terms" style="width: 20px; height: 20px; margin: 0;">
+                <label for="terms" style="font-size: 14px; color: var(--text-muted);">
+                    Akceptuję <a href="#" style="color: var(--primary);">Regulamin</a> i <a href="#" style="color: var(--primary);">Politykę prywatności</a>
+                </label>
+            </div>
+
+            <a href="rejestracja-zarzadca-2.html" class="btn btn-primary">
+                Dalej →
+            </a>
+
+            <!-- Login link -->
+            <div style="text-align: center; margin-top: 24px;">
+                <span style="font-size: 14px; color: var(--text-muted);">
+                    Masz już konto? <a href="logowanie.html" style="color: var(--primary);">Zaloguj się</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2 variant below -->
+    <div style="margin-top: 40px; text-align: center; color: #666; font-size: 14px;">
+        ↓ Krok 2: Dodaj pierwsze mieszkanie ↓
+    </div>
+
+    <div class="phone" style="margin-top: 20px;">
+        <div class="header">
+            <a href="#" class="header-back">←</a>
+            <span class="header-title">Dodaj mieszkanie</span>
+            <span style="width: 40px;"></span>
+        </div>
+
+        <div class="content">
+            <!-- Progress -->
+            <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+                <div style="flex: 1; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                <div style="flex: 1; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                <div style="flex: 1; height: 4px; background: var(--border); border-radius: 2px;"></div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Dodaj pierwsze mieszkanie</h1>
+                <p style="color: var(--text-muted); font-size: 15px;">
+                    Możesz dodać więcej później w panelu.
+                </p>
+            </div>
+
+            <!-- Form -->
+            <div class="input-group">
+                <label class="input-label">Nazwa mieszkania</label>
+                <input type="text" class="input" placeholder="np. Apartament Słoneczny" value="Apartament Słoneczny">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Adres</label>
+                <input type="text" class="input" placeholder="np. ul. Morska 15/3" value="ul. Morska 15/3, Jastrzębia Góra">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Opis (opcjonalnie)</label>
+                <textarea class="input" rows="3" placeholder="Krótki opis dla Twoich gości..."></textarea>
+            </div>
+
+            <!-- Generated reservation number -->
+            <div style="background: var(--primary-bg); border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Numer rezerwacji (wygenerowany automatycznie)</div>
+                <div style="font-family: monospace; font-size: 24px; font-weight: 600; color: var(--primary);">JG-2024-0742</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">
+                    Ten numer będzie widoczny na materiałach dla gości
+                </div>
+            </div>
+
+            <a href="#" class="btn btn-primary">
+                Zakończ rejestrację →
+            </a>
+
+            <a href="#" class="btn btn-secondary mt-12">
+                Pomiń, dodam później
+            </a>
+        </div>
+    </div>
+</body>
+</html>

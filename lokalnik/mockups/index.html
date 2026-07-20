@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Lokalnik.pl - Dokumentacja projektu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F1F5F9;
+            color: #334155;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #0d9488, #0f766e, #115e59);
+            padding: 40px 20px;
+            padding-top: calc(40px + env(safe-area-inset-top));
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .logo-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .logo span {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .logo .accent { opacity: 0.85; }
+
+        .tagline {
+            color: rgba(255,255,255,0.95);
+            font-size: 18px;
+            margin-bottom: 24px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.15s;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* ACCORDION */
+        .accordion {
+            background-color: #fff;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 20px 24px;
+            background-color: #fff;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: inherit;
+            transition: background-color 0.15s;
+        }
+
+        .accordion-header:hover { background-color: #F8FAFC; }
+
+        .accordion-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accordion-icon {
+            font-size: 24px;
+            color: #94A3B8;
+            transition: transform 0.3s;
+        }
+
+        .accordion.open .accordion-icon { transform: rotate(180deg); }
+
+        .accordion-content {
+            display: none;
+            padding: 0 24px 24px 24px;
+        }
+
+        .accordion.open .accordion-content { display: block; }
+
+        /* TYPOGRAPHY */
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1E293B;
+            margin: 28px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 15px;
+            color: #475569;
+            margin-bottom: 16px;
+        }
+
+        ul { margin-left: 24px; margin-bottom: 16px; }
+        li { font-size: 14px; color: #475569; margin-bottom: 6px; }
+        strong { color: #1E293B; }
+
+        /* VALUE GRID */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 20px 12px;
+            background: linear-gradient(135deg, rgba(13,148,136,0.08), rgba(20,184,166,0.08));
+            border-radius: 12px;
+        }
+
+        .value-icon { font-size: 32px; margin-bottom: 8px; }
+        .value-title { font-size: 14px; font-weight: 600; color: #0F172A; margin-bottom: 4px; }
+        .value-desc { font-size: 12px; color: #64748B; }
+
+        /* PROBLEM / SOLUTION */
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .problem-box {
+            background-color: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .problem-box h4 { color: #DC2626; margin-bottom: 12px; }
+        .problem-box li { color: #7F1D1D; }
+
+        .solution-box {
+            background-color: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .solution-box h4 { color: #16A34A; margin-bottom: 12px; }
+        .solution-box li { color: #166534; }
+
+        /* INFO GRID */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .info-box h4 { margin-bottom: 12px; }
+        .info-box ul { margin-bottom: 0; }
+
+        /* HIGHLIGHT BOX */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(13,148,136,0.08), rgba(20,184,166,0.08));
+            border: 1px solid rgba(13,148,136,0.2);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 { color: #0f766e; margin-bottom: 12px; }
+
+        /* PHASES */
+        .phases { margin: 20px 0; }
+
+        .phase {
+            position: relative;
+            padding-left: 32px;
+            padding-bottom: 24px;
+            border-left: 3px solid #E2E8F0;
+        }
+
+        .phase:last-child { border-left-color: transparent; padding-bottom: 0; }
+
+        .phase::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #E2E8F0;
+        }
+
+        .phase.done::before { background-color: #14b8a6; }
+        .phase.current::before { background-color: #0d9488; box-shadow: 0 0 0 4px rgba(13,148,136,0.2); }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .phase-title { font-size: 16px; font-weight: 600; color: #0F172A; }
+
+        .phase-badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .phase-badge.done { background-color: rgba(20,184,166,0.15); color: #0f766e; }
+        .phase-badge.current { background-color: rgba(13,148,136,0.15); color: #0d9488; }
+        .phase-badge.future { background-color: #F1F5F9; color: #64748B; }
+
+        .phase-desc { font-size: 14px; color: #64748B; margin-bottom: 8px; }
+
+        .phase-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .phase-tag { font-size: 12px; padding: 4px 10px; background-color: #F1F5F9; color: #475569; border-radius: 6px; }
+
+        /* PANEL SECTIONS */
+        .panel-box {
+            border-radius: 12px;
+            padding: 24px;
+            margin: 16px 0;
+        }
+
+        .panel-box.manager { background-color: #f0fdfa; border: 1px solid #99f6e4; }
+        .panel-box.manager h4 { color: #0f766e; }
+
+        .panel-box.partner { background-color: #fef3c7; border: 1px solid #fde68a; }
+        .panel-box.partner h4 { color: #b45309; }
+
+        .panel-box.guest { background-color: #F0F9FF; border: 1px solid #BAE6FD; }
+        .panel-box.guest h4 { color: #0369A1; }
+
+        .panel-box.admin { background-color: #FDF4FF; border: 1px solid #F5D0FE; }
+        .panel-box.admin h4 { color: #A21CAF; }
+
+        .panel-features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .panel-feature h5 { font-size: 14px; font-weight: 600; color: #1E293B; margin-bottom: 8px; }
+        .panel-feature ul { margin-left: 16px; margin-bottom: 0; }
+        .panel-feature li { font-size: 13px; margin-bottom: 4px; }
+
+        /* REVENUE */
+        .revenue-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .revenue-item {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .revenue-item.primary {
+            background: linear-gradient(135deg, rgba(13,148,136,0.1), rgba(20,184,166,0.1));
+            border-color: rgba(13,148,136,0.3);
+        }
+
+        .revenue-item .icon { font-size: 28px; margin-bottom: 8px; }
+        .revenue-item h5 { font-size: 14px; font-weight: 600; color: #0F172A; margin-bottom: 4px; }
+        .revenue-item p { font-size: 12px; color: #64748B; margin: 0; }
+
+        /* MOCKUPS */
+        .mockups-section { margin-bottom: 24px; }
+
+        .mockups-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .mockups-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .mockup-link {
+            display: inline-block;
+            padding: 10px 16px;
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .mockup-link:hover {
+            background: linear-gradient(135deg, rgba(13,148,136,0.1), rgba(20,184,166,0.1));
+            border-color: #0d9488;
+            color: #0d9488;
+            transform: translateY(-2px);
+        }
+
+        .mockup-link.primary {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #fff;
+            border: none;
+        }
+
+        .mockup-link.primary:hover { box-shadow: 0 6px 16px rgba(13,148,136,0.3); }
+
+        .badge-new {
+            display: inline-block;
+            background-color: #14b8a6;
+            color: #fff;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        /* ONBOARDING */
+        .onboarding-steps { margin: 20px 0; }
+
+        .onboarding-step {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .onboarding-step:last-child { border-bottom: none; }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content { flex: 1; }
+        .step-content h4 { font-size: 15px; color: #0F172A; margin-bottom: 6px; }
+        .step-content p { font-size: 13px; color: #64748B; margin-bottom: 8px; line-height: 1.5; }
+
+        .step-who {
+            display: inline-block;
+            font-size: 11px;
+            padding: 3px 10px;
+            background: #F1F5F9;
+            color: #64748B;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        /* BUSINESS */
+        .business-model {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .model-card {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .model-card.highlight {
+            background: linear-gradient(135deg, rgba(13,148,136,0.08), rgba(20,184,166,0.08));
+            border-color: rgba(13,148,136,0.3);
+        }
+
+        .model-card .icon { font-size: 32px; margin-bottom: 12px; }
+        .model-card h5 { font-size: 15px; font-weight: 600; color: #0F172A; margin-bottom: 8px; }
+        .model-card p { font-size: 13px; color: #64748B; margin: 0; }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: #94A3B8;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .panel-features { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 24px 16px; }
+            .logo span { font-size: 28px; }
+            .tagline { font-size: 15px; }
+            .container { padding: 16px; }
+            .accordion-header { padding: 16px 20px; }
+            .accordion-content { padding: 0 20px 20px 20px; }
+            .accordion-title { font-size: 17px; }
+            .value-grid { grid-template-columns: repeat(2, 1fr); }
+            .problem-solution { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+            .revenue-grid { grid-template-columns: repeat(2, 1fr); }
+            .panel-features { grid-template-columns: 1fr; }
+            .business-model { grid-template-columns: 1fr; }
+            .nav a { font-size: 12px; padding: 6px 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .value-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .revenue-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">
+        <div class="logo-icon">🏠</div>
+        <span>Lokalnik<span class="accent">.pl</span></span>
+    </div>
+    <p class="tagline">Portal łączący zarządców mieszkań wakacyjnych z lokalnymi punktami usługowymi</p>
+    <nav class="nav">
+        <a href="#o-projekcie">O projekcie</a>
+        <a href="#problemy">Problemy</a>
+        <a href="#fazy">Fazy</a>
+        <a href="#funkcjonalnosci">Funkcje</a>
+        <a href="#model-biznesowy">Model</a>
+        <a href="#onboarding">Onboarding</a>
+        <a href="#mockupy">Mockupy</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- O PROJEKCIE -->
+    <div id="o-projekcie" class="accordion open">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">📋 O projekcie</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <p style="font-size: 16px; color: #1E293B;">
+                <strong>Lokalnik.pl</strong> to portal łączący <strong>Zarządców mieszkań wakacyjnych</strong> (1-50 apartamentów)
+                z <strong>lokalnymi punktami usługowymi</strong> (restauracje, kawiarnie, sklepy, apteki).
+                Goście apartamentów otrzymują ekskluzywne zniżki u partnerów — win-win-win.
+            </p>
+
+            <div class="highlight-box" style="margin-bottom: 20px;">
+                <h4>🏠 Portal do prezentacji i wynajmu mieszkań</h4>
+                <p>
+                    Lokalnik.pl to nie tylko system zniżek — to <strong>pełnoprawny portal do prezentacji i wynajmu mieszkań wakacyjnych</strong>.
+                    Zarządcy mogą publikować swoje apartamenty z pełnym opisem, zdjęciami i cenami.
+                    Goście przeglądają mieszkania i widzą od razu, jakie zniżki dostaną w pakiecie.
+                </p>
+                <p style="margin-top: 8px;">
+                    <strong>Unikalna wartość:</strong> "Rezerwujesz apartament → dostajesz zniżki w 12 lokalach z okolicy w cenie".
+                    Wyróżnik vs Booking/Airbnb — te platformy nie oferują lokalnych benefitów.
+                </p>
+            </div>
+
+            <div class="value-grid">
+                <div class="value-item">
+                    <div class="value-icon">🏠</div>
+                    <div class="value-title">Zarządcy</div>
+                    <div class="value-desc">Wyróżniają swoją ofertę + prezentacja mieszkań</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🍕</div>
+                    <div class="value-title">Partnerzy</div>
+                    <div class="value-desc">Zyskują klientów (turystów)</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🎫</div>
+                    <div class="value-title">Goście</div>
+                    <div class="value-desc">Oszczędzają 30-50 zł + łatwe szukanie</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">📍</div>
+                    <div class="value-title">Lokalizacje</div>
+                    <div class="value-desc">Miejscowości turystyczne</div>
+                </div>
+            </div>
+
+            <h3>Jak to działa?</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>🖨️ Wydruk w mieszkaniu</h4>
+                    <ul>
+                        <li>Zarządca drukuje kartkę/pleksę z QR kodem</li>
+                        <li>Gość skanuje QR → strona z listą partnerów</li>
+                        <li>Wpisuje numer rezerwacji</li>
+                        <li>Generuje kod zniżkowy (ważny 1h)</li>
+                        <li>Pokazuje kelnerowi → zniżka!</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>📧 Email po zameldowaniu</h4>
+                    <ul>
+                        <li>Zarządca melduje gościa w systemie</li>
+                        <li>Gość otrzymuje email z linkiem</li>
+                        <li>Klika → od razu lista zniżek</li>
+                        <li>Bez wpisywania numeru rezerwacji</li>
+                        <li>Sesja zapamiętana</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🎯 Kluczowa różnica vs konkurencja</h4>
+                <p>
+                    <strong>Gość NIE zakłada konta</strong> — zero frikcji. Turysta jest na wakacjach 5-7 dni,
+                    nie chce kolejnej aplikacji. Kod jednorazowy + QR wystarczy.
+                </p>
+                <p>
+                    <strong>Partner ma UMOWĘ</strong> — nie wishful thinking. Każdy partner podpisuje umowę
+                    zobowiązującą do respektowania kodów. Admin pozyskuje partnerów, negocjuje, buduje sieć.
+                </p>
+            </div>
+
+            <h3>Lokalizacje MVP</h3>
+            <div class="value-grid">
+                <div class="value-item">
+                    <div class="value-icon">🌊</div>
+                    <div class="value-title">Jastrzębia Góra</div>
+                    <div class="value-desc">Morze, plaże, klif</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🚢</div>
+                    <div class="value-title">Władysławowo</div>
+                    <div class="value-desc">Port, plaże, molo</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">⚓</div>
+                    <div class="value-title">Hel</div>
+                    <div class="value-desc">Półwysep, foki, latarnia</div>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🏖️</div>
+                    <div class="value-title">Karwia</div>
+                    <div class="value-desc">Szerokie plaże, spokój</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROBLEMY -->
+    <div id="problemy" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">❓ Problemy i rozwiązania</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <h3>Problemy Zarządców mieszkań</h3>
+            <div class="problem-solution">
+                <div class="problem-box">
+                    <h4>❌ Problemy</h4>
+                    <ul>
+                        <li><strong>Konkurencja na Booking/Airbnb</strong> — setki podobnych ofert</li>
+                        <li><strong>Brak wyróżnika</strong> — "apartament nad morzem" jak każdy inny</li>
+                        <li><strong>Goście szukają wartości dodanej</strong> — co poza noclegiem?</li>
+                        <li><strong>Brak relacji z lokalnym biznesem</strong> — każdy osobno</li>
+                    </ul>
+                </div>
+                <div class="solution-box">
+                    <h4>✅ Lokalnik rozwiązuje</h4>
+                    <ul>
+                        <li><strong>Unikalna wartość</strong> — "zniżki w 12 lokalach"</li>
+                        <li><strong>Marketing w cenie</strong> — materiały gotowe do druku</li>
+                        <li><strong>Lepsze opinie</strong> — goście doceniają dodatki</li>
+                        <li><strong>Zero pracy</strong> — sieć partnerów gotowa</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Problemy Partnerów (restauracje, kawiarnie)</h3>
+            <div class="problem-solution">
+                <div class="problem-box">
+                    <h4>❌ Problemy</h4>
+                    <ul>
+                        <li><strong>Sezonowość</strong> — turyści tylko latem</li>
+                        <li><strong>Reklama droga</strong> — Facebook Ads, ulotki</li>
+                        <li><strong>Konkurencja</strong> — kto nas znajdzie?</li>
+                        <li><strong>Brak danych</strong> — skąd klienci?</li>
+                    </ul>
+                </div>
+                <div class="solution-box">
+                    <h4>✅ Lokalnik rozwiązuje</h4>
+                    <ul>
+                        <li><strong>Gwarantowany ruch</strong> — turyści z apartamentów</li>
+                        <li><strong>Zero kosztów reklamy</strong> — jesteś na liście</li>
+                        <li><strong>Wyróżnienie</strong> — "polecany przez apartamenty"</li>
+                        <li><strong>Statystyki</strong> — ile kodów zrealizowano</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Problemy Gości (turystów)</h3>
+            <div class="problem-solution">
+                <div class="problem-box">
+                    <h4>❌ Problemy</h4>
+                    <ul>
+                        <li><strong>Nie znają okolicy</strong> — gdzie zjeść?</li>
+                        <li><strong>Pułapki na turystów</strong> — drogie, słabe</li>
+                        <li><strong>Brak rekomendacji</strong> — TripAdvisor to spam</li>
+                        <li><strong>Każdy pobyt = od zera</strong></li>
+                    </ul>
+                </div>
+                <div class="solution-box">
+                    <h4>✅ Lokalnik rozwiązuje</h4>
+                    <ul>
+                        <li><strong>Zweryfikowane lokale</strong> — umowa z platformą</li>
+                        <li><strong>Oszczędność 30-50 zł</strong> — realne zniżki</li>
+                        <li><strong>Rekomendacja właściciela</strong> — zaufanie</li>
+                        <li><strong>Lista gotowa</strong> — QR → lista → idziesz</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 24px;">
+                <h4>🍕 Przykład z życia: Zmęczony turysta o 19:00</h4>
+                <p style="margin-bottom: 12px;">
+                    Gość przyjeżdża do apartamentu około 19:00 — skonany po podróży i głodny.
+                    Na stoliku leży nasza oferta z zaprzyjaźnioną pizzerią.
+                </p>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li><strong>Dzwoni do pizzerii</strong> — numer na kartce</li>
+                    <li><strong>Zamawia pizzę</strong> — dostawa 30 min</li>
+                    <li><strong>Skanuje QR z wydruku</strong> — wpisuje numer rezerwacji</li>
+                    <li><strong>Generuje kod zniżkowy</strong> — -20% na pizzę</li>
+                    <li><strong>Dostawca przyjeżdża</strong> — gość pokazuje kod, dostaje zniżkę</li>
+                </ol>
+                <p style="margin-top: 12px;">
+                    <strong>Zalety:</strong> Zniżka + wygoda (nie trzeba szukać ofert w Google) — cała informacja gotowa na miejscu.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAZY -->
+    <div id="fazy" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">🚀 Fazy rozwoju</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <div class="phases">
+                <div class="phase done">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 0: Planowanie</span>
+                        <span class="phase-badge done">Gotowe</span>
+                    </div>
+                    <p class="phase-desc">Wizja, model danych, mockupy kluczowych ekranów</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">WIZJA.md</span>
+                        <span class="phase-tag">MODEL-DANYCH.md</span>
+                        <span class="phase-tag">Mockupy PWA</span>
+                        <span class="phase-tag">Mockupy paneli</span>
+                    </div>
+                </div>
+
+                <div class="phase current">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 1: MVP</span>
+                        <span class="phase-badge current">W trakcie</span>
+                    </div>
+                    <p class="phase-desc">1 lokalizacja, 5 zarządców, 10 partnerów — walidacja modelu</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Panel Zarządcy</span>
+                        <span class="phase-tag">Panel Partnera</span>
+                        <span class="phase-tag">Strona gościa</span>
+                        <span class="phase-tag">Generowanie kodów</span>
+                        <span class="phase-tag">Walidacja PIN</span>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 2: Strony SEO</span>
+                        <span class="phase-badge future">Planowana</span>
+                    </div>
+                    <p class="phase-desc">Landing pages dla lokalizacji, pozycjonowanie</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">/jastrzebia-gora</span>
+                        <span class="phase-tag">/zakopane</span>
+                        <span class="phase-tag">Blog</span>
+                        <span class="phase-tag">FAQ</span>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 3: Skalowanie</span>
+                        <span class="phase-badge future">Planowana</span>
+                    </div>
+                    <p class="phase-desc">Więcej lokalizacji, onboarding self-service</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">5+ lokalizacji</span>
+                        <span class="phase-tag">Self-service zarządców</span>
+                        <span class="phase-tag">Email marketing</span>
+                    </div>
+                </div>
+
+                <div class="phase">
+                    <div class="phase-header">
+                        <span class="phase-title">Faza 4: Monetyzacja</span>
+                        <span class="phase-badge future">B2B</span>
+                    </div>
+                    <p class="phase-desc">Subskrypcje, premium, dodatkowe usługi</p>
+                    <div class="phase-tags">
+                        <span class="phase-tag">Subskrypcje zarządców</span>
+                        <span class="phase-tag">Prowizja od partnerów</span>
+                        <span class="phase-tag">Wyróżnienia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FUNKCJONALNOŚCI -->
+    <div id="funkcjonalnosci" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">⚙️ Funkcjonalności</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <div class="panel-box guest">
+                <h4>🎫 Strona Gościa (PWA)</h4>
+                <p>Lekka strona bez logowania — gość skanuje QR, wpisuje numer rezerwacji, korzysta ze zniżek</p>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Dostęp</h5>
+                        <ul>
+                            <li>QR kod → strona startowa</li>
+                            <li>Wpisanie numeru rezerwacji</li>
+                            <li>Link z emaila (token)</li>
+                            <li>Sesja zapamiętana</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Lista partnerów</h5>
+                        <ul>
+                            <li>Filtrowanie po kategorii</li>
+                            <li>Szczegóły zniżki</li>
+                            <li>Adres, godziny</li>
+                            <li>Warunki promocji</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Kod zniżkowy</h5>
+                        <ul>
+                            <li>Generowanie (1 klik)</li>
+                            <li>QR kod do zeskanowania</li>
+                            <li>Timer 1h</li>
+                            <li>Limit 1/dzień/zniżka</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>UX</h5>
+                        <ul>
+                            <li>Mobile-first</li>
+                            <li>Bez instalacji</li>
+                            <li>Bez rejestracji</li>
+                            <li>Działa offline (PWA)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box manager">
+                <h4>🏠 Panel Zarządcy</h4>
+                <p>Zarządzanie mieszkaniami, materiałami do druku, statystyki wykorzystania</p>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Mieszkania</h5>
+                        <ul>
+                            <li>CRUD mieszkań</li>
+                            <li>Numer rezerwacji (auto)</li>
+                            <li>Adres, opis</li>
+                            <li>Status aktywności</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Materiały</h5>
+                        <ul>
+                            <li>PDF do druku (A4, A5)</li>
+                            <li>QR kod do naklejenia</li>
+                            <li>Lista partnerów</li>
+                            <li>Instrukcja dla gości</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Statystyki</h5>
+                        <ul>
+                            <li>Kody wygenerowane</li>
+                            <li>Kody zrealizowane</li>
+                            <li>Top partnerzy</li>
+                            <li>Trendy tygodniowe</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Konto</h5>
+                        <ul>
+                            <li>Dane firmy</li>
+                            <li>Lokalizacja</li>
+                            <li>Ustawienia powiadomień</li>
+                            <li>Zmiana hasła</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box partner">
+                <h4>🍕 Panel Partnera</h4>
+                <p>Zarządzanie zniżkami, walidacja kodów, statystyki realizacji</p>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Zniżki</h5>
+                        <ul>
+                            <li>CRUD zniżek (max 5)</li>
+                            <li>Typ: %, kwota, gratis</li>
+                            <li>Warunki, limity</li>
+                            <li>Wstrzymywanie</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Walidacja</h5>
+                        <ul>
+                            <li>PIN lokalu (4 cyfry)</li>
+                            <li>Skanowanie QR kodu</li>
+                            <li>Potwierdzenie realizacji</li>
+                            <li>Historia</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Statystyki</h5>
+                        <ul>
+                            <li>Kody zrealizowane</li>
+                            <li>Konwersja</li>
+                            <li>Top zniżki</li>
+                            <li>Źródło (mieszkanie)</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Umowa</h5>
+                        <ul>
+                            <li>Status umowy</li>
+                            <li>Data ważności</li>
+                            <li>Dane firmy</li>
+                            <li>Zmiana PIN</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box admin">
+                <h4>⚙️ Panel Admina</h4>
+                <p>Zarządzanie platformą, onboarding, lokalizacje, monitoring</p>
+                <div class="panel-features">
+                    <div class="panel-feature">
+                        <h5>Lokalizacje</h5>
+                        <ul>
+                            <li>CRUD lokalizacji</li>
+                            <li>Aktywacja/dezaktywacja</li>
+                            <li>Przypisanie partnerów</li>
+                            <li>Statystyki</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Zarządcy</h5>
+                        <ul>
+                            <li>Lista zarządców</li>
+                            <li>Weryfikacja kont</li>
+                            <li>Przypisanie lokalizacji</li>
+                            <li>Statystyki</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Partnerzy</h5>
+                        <ul>
+                            <li>Onboarding (umowa)</li>
+                            <li>Status umowy</li>
+                            <li>Notatki</li>
+                            <li>Blokowanie</li>
+                        </ul>
+                    </div>
+                    <div class="panel-feature">
+                        <h5>Dashboard</h5>
+                        <ul>
+                            <li>Globalne statystyki</li>
+                            <li>Aktywność</li>
+                            <li>Alerty</li>
+                            <li>Raporty</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODEL BIZNESOWY -->
+    <div id="model-biznesowy" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">💰 Model biznesowy</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <h3>Faza MVP — darmowa walidacja</h3>
+            <p>W MVP wszystko darmowe — celem jest walidacja modelu i zbudowanie sieci.</p>
+
+            <div class="business-model">
+                <div class="model-card">
+                    <div class="icon">🏠</div>
+                    <h5>Zarządcy: DARMOWO</h5>
+                    <p>Budujemy bazę zarządców, testujemy UX, zbieramy feedback. Wartość = zniżki dla gości.</p>
+                </div>
+                <div class="model-card">
+                    <div class="icon">🍕</div>
+                    <h5>Partnerzy: DARMOWO</h5>
+                    <p>Pokazujemy ROI — ile klientów przychodźi z kodami. Zero ryzyka, potencjalny zysk.</p>
+                </div>
+            </div>
+
+            <h3>Faza monetyzacji — 3 źródła przychodu</h3>
+
+            <div class="revenue-grid">
+                <div class="revenue-item primary">
+                    <div class="icon">📦</div>
+                    <h5>Subskrypcja Zarządcy</h5>
+                    <p>49-149 zł/mies. zależnie od liczby mieszkań. Dostęp do platformy, materiałów, statystyk.</p>
+                </div>
+                <div class="revenue-item">
+                    <div class="icon">🏷️</div>
+                    <h5>Abonament Partnera</h5>
+                    <p>50-100 zł/mies. za bycie na liście. Alternatywa: prowizja od realizacji (5-10%).</p>
+                </div>
+                <div class="revenue-item">
+                    <div class="icon">⭐</div>
+                    <h5>Wyróżnienia Premium</h5>
+                    <p>Priorytet na liście, logo na materiałach, wyróżnienie w emailach.</p>
+                </div>
+            </div>
+
+            <h3>Przykładowe kalkulacje</h3>
+            <div class="info-grid">
+                <div class="info-box">
+                    <h4>📊 Przychód z 1 lokalizacji</h4>
+                    <ul>
+                        <li><strong>20 zarządców × 79 zł</strong> = 1 580 zł/mies.</li>
+                        <li><strong>30 partnerów × 75 zł</strong> = 2 250 zł/mies.</li>
+                        <li><strong>Razem:</strong> ~3 800 zł/mies.</li>
+                        <li><strong>5 lokalizacji:</strong> ~19 000 zł/mies.</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <h4>🎯 Metryki sukcesu MVP</h4>
+                    <ul>
+                        <li><strong>Zarządcy:</strong> 20 (w 3 miesiące)</li>
+                        <li><strong>Mieszkania:</strong> 100</li>
+                        <li><strong>Partnerzy:</strong> 30</li>
+                        <li><strong>Kody zrealizowane:</strong> 150/mies.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 B2B: Pakiety dla sieci apartamentów</h4>
+                <p>
+                    Dla zarządców z 10+ mieszkaniami lub sieci apartamentów — dedykowane pakiety,
+                    własne materiały brandingowe, integracja z PMS (property management system),
+                    raportowanie zbiorcze.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONBOARDING -->
+    <div id="onboarding" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">🚀 Onboarding</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <h3>Onboarding Partnera (restauracja, kawiarnia)</h3>
+            <div class="onboarding-steps">
+                <div class="onboarding-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Kontakt i prezentacja</h4>
+                        <p>Admin kontaktuje się z lokalnym biznesem. Prezentacja modelu — "goście apartamentów to Twoi potencjalni klienci".</p>
+                        <span class="step-who">👤 Admin</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Negocjacja zniżki</h4>
+                        <p>Partner proponuje co może zaoferować. Rekomendacja: 15-25% lub konkretna kwota. Ustalamy warunki (min. zamówienie, godziny).</p>
+                        <span class="step-who">👤 Admin + Partner</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Podpisanie umowy</h4>
+                        <p>Umowa zobowiązująca do respektowania kodów. Email/PDF lub fizycznie. Określa czas współpracy, warunki wypowiedzenia.</p>
+                        <span class="step-who">👤 Admin + Partner</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Konfiguracja konta</h4>
+                        <p>Admin tworzy konto Partnera w systemie. Partner ustawia PIN walidacyjny, definiuje zniżki w panelu.</p>
+                        <span class="step-who">👤 Admin → Partner</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Publikacja</h4>
+                        <p>Partner pojawia się na liście w lokalizacji. Zarządcy widzą go w materiałach. Goście mogą generować kody.</p>
+                        <span class="step-who">✅ Automatyczne</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Onboarding Zarządcy (właściciel apartamentów)</h3>
+            <div class="onboarding-steps">
+                <div class="onboarding-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Rejestracja</h4>
+                        <p>Zarządca rejestruje się w portalu. Email, hasło, podstawowe dane. Wybiera lokalizację swoich mieszkań.</p>
+                        <span class="step-who">👤 Zarządca</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Dodanie mieszkań</h4>
+                        <p>Zarządca dodaje swoje mieszkania. Nazwa, adres, opis. System generuje unikalny numer rezerwacji dla każdego.</p>
+                        <span class="step-who">👤 Zarządca</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Pobranie materiałów</h4>
+                        <p>Zarządca pobiera PDF z QR kodem i listą partnerów. Drukuje, laminuje, wiesza w mieszkaniu.</p>
+                        <span class="step-who">👤 Zarządca</span>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Goście korzystają</h4>
+                        <p>Goście skanują QR, wpisują numer rezerwacji, korzystają ze zniżek. Zarządca widzi statystyki w panelu.</p>
+                        <span class="step-who">✅ Automatyczne</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOCKUPY -->
+    <div id="mockupy" class="accordion">
+        <button class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="accordion-title">🎨 Mockupy</span>
+            <span class="accordion-icon">▼</span>
+        </button>
+        <div class="accordion-content">
+            <div class="mockups-section">
+                <div class="mockups-title">Strona Gościa (PWA)</div>
+                <div class="mockups-grid">
+                    <a href="gosc-start.html" class="mockup-link primary">🔑 Start - nr rezerwacji</a>
+                    <a href="gosc-lokalizacja.html" class="mockup-link">📍 Lista zniżek</a>
+                    <a href="gosc-partner.html" class="mockup-link">🍕 Szczegóły partnera</a>
+                    <a href="gosc-kod.html" class="mockup-link">🎫 Kod zniżkowy + QR</a>
+                    <a href="gosc-kod-wygasl.html" class="mockup-link">⏰ Kod wygasł</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Walidacja (dla kelnera/kasjera)</div>
+                <div class="mockups-grid">
+                    <a href="walidacja-pin.html" class="mockup-link">🔢 Wpisz PIN</a>
+                    <a href="walidacja-sukces.html" class="mockup-link">✅ Sukces</a>
+                    <a href="walidacja-blad.html" class="mockup-link">❌ Błąd</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Panel Zarządcy</div>
+                <div class="mockups-grid">
+                    <a href="panel-zarzadca-dashboard.html" class="mockup-link primary">📊 Dashboard</a>
+                    <a href="panel-zarzadca-mieszkania.html" class="mockup-link">🏠 Mieszkania</a>
+                    <a href="panel-zarzadca-mieszkanie-nowe.html" class="mockup-link">➕ Dodaj mieszkanie</a>
+                    <a href="panel-zarzadca-mieszkanie-sukces.html" class="mockup-link">✅ Mieszkanie dodane</a>
+                    <a href="panel-zarzadca-materialy.html" class="mockup-link">🖨️ Materiały do druku</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Panel Partnera</div>
+                <div class="mockups-grid">
+                    <a href="panel-partner-dashboard.html" class="mockup-link primary">📈 Dashboard</a>
+                    <a href="panel-partner-znizki.html" class="mockup-link">🏷️ Moje zniżki</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Onboarding</div>
+                <div class="mockups-grid">
+                    <a href="logowanie.html" class="mockup-link">🔑 Logowanie</a>
+                    <a href="rejestracja-zarzadca.html" class="mockup-link">📝 Rejestracja zarządcy</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Portal mieszkań (wyszukiwarka + prezentacja)</div>
+                <div class="mockups-grid">
+                    <a href="mieszkania.html" class="mockup-link primary">🔍 Wyszukiwarka mieszkań</a>
+                    <a href="mieszkanie-sloneczny.html" class="mockup-link">🏠 Szczegóły mieszkania</a>
+                </div>
+            </div>
+
+            <div class="mockups-section">
+                <div class="mockups-title">Strony publiczne</div>
+                <div class="mockups-grid">
+                    <a href="strona-glowna.html" class="mockup-link primary">🏠 Strona główna</a>
+                    <a href="lokalizacja-jastrzebia-gora.html" class="mockup-link">📍 Lokalizacja (SEO)</a>
+                    <a href="faq.html" class="mockup-link">❓ FAQ</a>
+                    <a href="kontakt.html" class="mockup-link">📞 Kontakt</a>
+                    <a href="regulamin.html" class="mockup-link">📜 Regulamin</a>
+                    <a href="polityka-prywatnosci.html" class="mockup-link">🔒 Polityka prywatności</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>Lokalnik.pl — dokumentacja projektu • 2026</p>
+</footer>
+
+<script>
+    function toggleAccordion(header) {
+        const accordion = header.parentElement;
+        accordion.classList.toggle('open');
+    }
+</script>
+</body>
+</html>

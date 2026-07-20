@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Błąd walidacji | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="phone">
+        <div class="header">
+            <span style="width: 40px;"></span>
+            <span class="header-title">Błąd</span>
+            <span style="width: 40px;"></span>
+        </div>
+
+        <div class="content content-center">
+            <!-- Error Icon -->
+            <div class="icon-circle error">
+                ✕
+            </div>
+
+            <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Nieprawidłowy PIN</h1>
+            <p style="color: var(--text-muted); margin-bottom: 32px;">
+                Wprowadzony PIN nie pasuje do tego lokalu. Spróbuj ponownie.
+            </p>
+
+            <!-- Code Info -->
+            <div style="background: var(--bg); border-radius: 12px; padding: 16px; width: 100%; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span style="color: var(--text-muted); font-size: 14px;">Kod:</span>
+                    <span style="font-family: monospace; font-weight: 500;">LNK-7X2K9</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted); font-size: 14px;">Partner:</span>
+                    <span style="font-weight: 500;">Pizzeria Napoli</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="btn-group">
+                <a href="walidacja-pin.html" class="btn btn-primary">
+                    Spróbuj ponownie
+                </a>
+            </div>
+
+            <!-- Help -->
+            <div style="margin-top: 24px; font-size: 13px; color: var(--text-muted); text-align: center;">
+                Nie znasz PIN-u? Zapytaj managera lokalu.<br>
+                Problem? <a href="#" style="color: var(--primary);">Kontakt z supportem</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alternative: Expired code version -->
+    <div style="margin-top: 40px; text-align: center; color: #666; font-size: 14px;">
+        ↓ Wariant: kod wygasł ↓
+    </div>
+
+    <div class="phone" style="margin-top: 20px;">
+        <div class="header">
+            <span style="width: 40px;"></span>
+            <span class="header-title">Błąd</span>
+            <span style="width: 40px;"></span>
+        </div>
+
+        <div class="content content-center">
+            <!-- Error Icon -->
+            <div class="icon-circle warning">
+                ⏰
+            </div>
+
+            <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Kod wygasł</h1>
+            <p style="color: var(--text-muted); margin-bottom: 32px;">
+                Ten kod stracił ważność. Gość musi wygenerować nowy kod w aplikacji.
+            </p>
+
+            <!-- Code Info -->
+            <div style="background: var(--bg); border-radius: 12px; padding: 16px; width: 100%; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span style="color: var(--text-muted); font-size: 14px;">Kod:</span>
+                    <span style="font-family: monospace; font-weight: 500; text-decoration: line-through; color: var(--text-light);">LNK-7X2K9</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted); font-size: 14px;">Wygasł:</span>
+                    <span style="font-weight: 500; color: var(--error);">15 minut temu</span>
+                </div>
+            </div>
+
+            <!-- Info for staff -->
+            <div style="padding: 16px; background: var(--warning-bg); border-radius: 12px; width: 100%;">
+                <div style="font-size: 14px; color: #b45309;">
+                    <strong>Co powiedzieć gościowi:</strong><br>
+                    "Przepraszam, kod wygasł. Proszę wygenerować nowy kod na stronie ze zniżkami — zajmie to tylko chwilę."
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

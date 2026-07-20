@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zniżki dla gości apartamentów w Jastrzębiej Górze | Lokalnik.pl</title>
+    <meta name="description" content="Ekskluzywne zniżki w restauracjach, kawiarniach i sklepach w Jastrzębiej Górze. Dla gości apartamentów wakacyjnych. 12 partnerów, oszczędność do 50 zł.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #0d9488, #14b8a6, #2dd4bf) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,23,42,0.9) 0%, rgba(15,23,42,0.4) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-breadcrumb {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-breadcrumb a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+        }
+
+        .hero-breadcrumb a:hover { color: #fff; }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+
+        .hero-stat i { width: 18px; height: 18px; color: #2dd4bf; }
+
+        /* MAIN */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* INTRO */
+        .intro {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .intro-text {
+            flex: 1;
+        }
+
+        .intro-text h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .intro-text p {
+            font-size: 0.95rem;
+            color: #64748B;
+        }
+
+        .intro-cta {
+            flex-shrink: 0;
+        }
+
+        .btn-primary {
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary i { width: 18px; height: 18px; }
+
+        /* CATEGORIES */
+        .categories {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .category-chip {
+            padding: 0.5rem 1rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .category-chip.active {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .category-chip:hover:not(.active) {
+            border-color: #0d9488;
+            color: #0d9488;
+        }
+
+        /* PARTNERS LIST */
+        .partners-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .partner-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .partner-card-header {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem;
+        }
+
+        .partner-logo {
+            width: 56px;
+            height: 56px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .partner-info {
+            flex: 1;
+        }
+
+        .partner-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.25rem;
+        }
+
+        .partner-category {
+            font-size: 0.8rem;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .partner-category i { width: 14px; height: 14px; }
+
+        .partner-discount {
+            background: linear-gradient(135deg, rgba(13,148,136,0.1), rgba(20,184,166,0.1));
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .discount-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #0f766e;
+        }
+
+        .discount-arrow {
+            color: #0d9488;
+        }
+
+        .discount-arrow i { width: 18px; height: 18px; }
+
+        /* SIDEBAR */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-card h3 i { width: 20px; height: 20px; color: #0d9488; }
+
+        .how-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .how-step {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .how-step-num {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .how-step-text {
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .sidebar-cta {
+            margin-top: 1rem;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: #0f766e;
+        }
+
+        .info-box strong { display: block; margin-bottom: 0.25rem; }
+
+        /* FOOTER */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover { color: #14b8a6; }
+
+        .footer-bottom {
+            font-size: 0.8rem;
+        }
+
+        /* RESPONSIVE */
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .hero { height: 350px; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+            }
+            .partners-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Back link */
+        .back-link {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1E293B;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Mockupy</a>
+
+<!-- HEADER -->
+<header>
+    <div class="nav-bar">
+        <a href="strona-glowna.html" class="logo">
+            <div class="logo-icon">🏠</div>
+            <span class="logo-text">Lokalnik<span class="accent">.pl</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="#">Jak to działa</a>
+            <a href="#">Lokalizacje</a>
+            <a href="#">Dla zarządców</a>
+            <a href="logowanie.html" class="btn-login">Zaloguj się</a>
+        </nav>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=400&fit=crop" alt="Jastrzębia Góra">
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <div class="hero-breadcrumb">
+                <a href="strona-glowna.html">Lokalnik.pl</a> / Lokalizacje / Jastrzębia Góra
+            </div>
+            <h1>Jastrzębia Góra</h1>
+            <div class="hero-stats">
+                <div class="hero-stat"><i data-lucide="store"></i> 12 partnerów</div>
+                <div class="hero-stat"><i data-lucide="percent"></i> Zniżki do 30%</div>
+                <div class="hero-stat"><i data-lucide="home"></i> 24 apartamenty</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN -->
+<main>
+    <!-- INTRO -->
+    <div class="intro">
+        <div class="intro-text">
+            <h2>Ekskluzywne zniżki dla gości apartamentów</h2>
+            <p>Jako gość apartamentu w Jastrzębiej Górze masz dostęp do specjalnych rabatów w 12 lokalach z okolicy — restauracjach, kawiarniach i sklepach. Oszczędź do 50 zł podczas pobytu!</p>
+        </div>
+        <div class="intro-cta">
+            <a href="gosc-start.html" class="btn-primary">
+                <i data-lucide="qr-code"></i>
+                Mam numer rezerwacji
+            </a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-content">
+            <!-- CATEGORIES -->
+            <div class="categories">
+                <a href="#" class="category-chip active">🍽️ Wszystkie</a>
+                <a href="#" class="category-chip">🍕 Pizzerie</a>
+                <a href="#" class="category-chip">☕ Kawiarnie</a>
+                <a href="#" class="category-chip">🍺 Puby</a>
+                <a href="#" class="category-chip">🛒 Sklepy</a>
+                <a href="#" class="category-chip">🍦 Lodziarnie</a>
+            </div>
+
+            <!-- PARTNERS LIST -->
+            <div class="partners-list">
+                <a href="gosc-partner.html" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">🍕</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Pizzeria Napoli</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Morska 12 • Pizzeria
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">-20% na wszystkie pizze</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="#" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">☕</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Café Bałtyk</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Klonowa 5 • Kawiarnia
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">Kawa gratis do śniadania</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="#" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">🍺</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Pub Marina</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Portowa 8 • Pub
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">-15 zł przy zamówieniu 50+ zł</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="#" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">🍦</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Lodziarnia Słodka</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Nadmorska 3 • Lodziarnia
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">Druga gałka gratis</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="#" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">🍔</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Burger Beach</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Plażowa 1 • Fast Food
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">-25% na wszystkie burgery</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="#" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">🛒</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Delikatesy Pod Klifem</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Klifowa 22 • Sklep
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">-10% na zakupy 100+ zł</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="#" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">💊</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Apteka Nadmorska</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Główna 15 • Apteka
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">-10% na kosmetyki</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+
+                <a href="#" class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-logo">🥐</div>
+                        <div class="partner-info">
+                            <div class="partner-name">Piekarnia Złoty Kłos</div>
+                            <div class="partner-category">
+                                <i data-lucide="map-pin"></i>
+                                ul. Główna 8 • Piekarnia
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-discount">
+                        <span class="discount-text">-15% na pieczywo</span>
+                        <span class="discount-arrow"><i data-lucide="chevron-right"></i></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <h3><i data-lucide="help-circle"></i> Jak skorzystać?</h3>
+                <div class="how-steps">
+                    <div class="how-step">
+                        <div class="how-step-num">1</div>
+                        <div class="how-step-text">Zeskanuj QR kod w apartamencie lub kliknij link z emaila</div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-num">2</div>
+                        <div class="how-step-text">Wpisz numer rezerwacji (znajdziesz go na kartce)</div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-num">3</div>
+                        <div class="how-step-text">Wybierz lokal i wygeneruj kod zniżkowy</div>
+                    </div>
+                    <div class="how-step">
+                        <div class="how-step-num">4</div>
+                        <div class="how-step-text">Pokaż kod kelnerowi — zeskanuje go i naliczy zniżkę</div>
+                    </div>
+                </div>
+                <div class="sidebar-cta">
+                    <a href="gosc-start.html" class="btn-primary btn-block">
+                        <i data-lucide="qr-code"></i>
+                        Mam numer rezerwacji
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3><i data-lucide="info"></i> Ważne</h3>
+                <div class="info-box">
+                    <strong>Kody ważne 1 godzinę</strong>
+                    Generuj kod tuż przed wejściem do lokalu. Jeśli wygaśnie — wygeneruj nowy.
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3><i data-lucide="home"></i> Dla zarządców</h3>
+                <p style="font-size: 0.85rem; color: #64748B; margin-bottom: 1rem;">
+                    Zarządzasz apartamentami w Jastrzębiej Górze? Dołącz do Lokalnik i daj gościom dostęp do zniżek.
+                </p>
+                <a href="rejestracja-zarzadca.html" style="color: #0d9488; font-size: 0.85rem; font-weight: 500;">
+                    Zarejestruj się →
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="strona-glowna.html">Strona główna</a>
+            <a href="faq.html">FAQ</a>
+            <a href="kontakt.html">Kontakt</a>
+            <a href="regulamin.html">Regulamin</a>
+            <a href="polityka-prywatnosci.html">Prywatność</a>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Lokalnik.pl. Wszystkie prawa zastrzeżone.
+        </div>
+    </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulamin | Lokalnik.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #0d9488, #14b8a6, #2dd4bf) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 0.9rem;
+            color: #64748B;
+        }
+
+        .legal-content {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .legal-content h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #0d9488;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .legal-content p {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-content ol, .legal-content ul {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-content strong {
+            color: #1E293B;
+        }
+
+        .toc {
+            background: #F8FAFC;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.75rem;
+        }
+
+        .toc ol {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-left: 1.25rem;
+        }
+
+        .toc a {
+            color: #0d9488;
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .update-info {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .update-info i {
+            width: 20px;
+            height: 20px;
+            color: #0d9488;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .update-info p {
+            font-size: 0.85rem;
+            color: #0f766e;
+            margin: 0;
+        }
+
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover { color: #14b8a6; }
+
+        .footer-bottom {
+            font-size: 0.8rem;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1E293B;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Mockupy</a>
+
+<header>
+    <div class="nav-bar">
+        <a href="strona-glowna.html" class="logo">
+            <div class="logo-icon">🏠</div>
+            <span class="logo-text">Lokalnik<span class="accent">.pl</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="#">Jak to działa</a>
+            <a href="#">Lokalizacje</a>
+            <a href="#">Dla zarządców</a>
+            <a href="logowanie.html" class="btn-login">Zaloguj się</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="page-header">
+        <h1>Regulamin serwisu</h1>
+        <p>Ostatnia aktualizacja: 20 lipca 2026</p>
+    </div>
+
+    <div class="legal-content">
+        <div class="toc">
+            <div class="toc-title">Spis treści</div>
+            <ol>
+                <li><a href="#postanowienia">Postanowienia ogólne</a></li>
+                <li><a href="#definicje">Definicje</a></li>
+                <li><a href="#korzystanie">Zasady korzystania z Serwisu</a></li>
+                <li><a href="#kody">Kody zniżkowe</a></li>
+                <li><a href="#zarzadcy">Zasady dla Zarządców</a></li>
+                <li><a href="#partnerzy">Zasady dla Partnerów</a></li>
+                <li><a href="#odpowiedzialnosc">Odpowiedzialność</a></li>
+                <li><a href="#reklamacje">Reklamacje</a></li>
+                <li><a href="#zmiany">Zmiany regulaminu</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+            </ol>
+        </div>
+
+        <h2 id="postanowienia">§1. Postanowienia ogólne</h2>
+        <p>1.1. Niniejszy Regulamin określa zasady korzystania z serwisu internetowego Lokalnik.pl, dostępnego pod adresem www.lokalnik.pl.</p>
+        <p>1.2. Właścicielem i operatorem Serwisu jest Lokalnik.pl Sp. z o.o. z siedzibą w Warszawie, ul. Przykładowa 123, 00-001 Warszawa, wpisana do rejestru przedsiębiorców KRS pod numerem 0000000000, NIP: 0000000000, REGON: 000000000.</p>
+        <p>1.3. Korzystanie z Serwisu oznacza akceptację niniejszego Regulaminu.</p>
+
+        <h2 id="definicje">§2. Definicje</h2>
+        <p>Użyte w Regulaminie pojęcia oznaczają:</p>
+        <ul>
+            <li><strong>Serwis</strong> – platforma internetowa Lokalnik.pl umożliwiająca generowanie i realizację kodów zniżkowych.</li>
+            <li><strong>Gość</strong> – osoba przebywająca w apartamencie uczestniczącym w programie, korzystająca z kodów zniżkowych.</li>
+            <li><strong>Zarządca</strong> – podmiot zarządzający apartamentami wakacyjnymi, zarejestrowany w Serwisie.</li>
+            <li><strong>Partner</strong> – punkt usługowy (restauracja, kawiarnia, sklep itp.) oferujący zniżki w ramach programu.</li>
+            <li><strong>Kod zniżkowy</strong> – unikalny kod generowany przez Serwis, uprawniający Gościa do otrzymania zniżki u Partnera.</li>
+        </ul>
+
+        <h2 id="korzystanie">§3. Zasady korzystania z Serwisu</h2>
+        <p>3.1. Korzystanie z Serwisu przez Gości jest bezpłatne i nie wymaga rejestracji.</p>
+        <p>3.2. Aby skorzystać ze zniżki, Gość musi:</p>
+        <ol>
+            <li>Posiadać aktywną rezerwację w apartamencie uczestniczącym w programie</li>
+            <li>Wygenerować kod zniżkowy za pomocą Serwisu</li>
+            <li>Przedstawić kod Partnerowi przed dokonaniem płatności</li>
+        </ol>
+        <p>3.3. Użytkownik zobowiązuje się do korzystania z Serwisu zgodnie z jego przeznaczeniem i obowiązującym prawem.</p>
+
+        <h2 id="kody">§4. Kody zniżkowe</h2>
+        <p>4.1. Kod zniżkowy jest ważny przez 1 (jedną) godzinę od momentu wygenerowania.</p>
+        <p>4.2. Każdy Gość może wygenerować maksymalnie 1 kod na daną zniżkę w ciągu doby.</p>
+        <p>4.3. Kod zniżkowy jest jednorazowy i może być wykorzystany tylko raz.</p>
+        <p>4.4. Zniżki nie łączą się z innymi promocjami, chyba że Partner wyraźnie na to zezwoli.</p>
+        <p>4.5. Partner ma prawo odmówić realizacji kodu w przypadku podejrzenia nadużycia.</p>
+
+        <h2 id="zarzadcy">§5. Zasady dla Zarządców</h2>
+        <p>5.1. Korzystanie z Serwisu przez Zarządców jest bezpłatne.</p>
+        <p>5.2. Zarządca zobowiązuje się do:</p>
+        <ul>
+            <li>Podania prawdziwych danych podczas rejestracji</li>
+            <li>Umieszczenia materiałów informacyjnych w apartamentach</li>
+            <li>Niezwłocznego aktualizowania danych w przypadku zmian</li>
+        </ul>
+        <p>5.3. Zarządca ponosi odpowiedzialność za prawidłowe przekazanie informacji o programie Gościom.</p>
+
+        <h2 id="partnerzy">§6. Zasady dla Partnerów</h2>
+        <p>6.1. Warunki współpracy z Partnerami określa odrębna umowa.</p>
+        <p>6.2. Partner zobowiązuje się do:</p>
+        <ul>
+            <li>Honorowania wszystkich ważnych kodów zniżkowych</li>
+            <li>Prawidłowej walidacji kodów w systemie</li>
+            <li>Profesjonalnej obsługi Gości korzystających z programu</li>
+        </ul>
+        <p>6.3. Partner może modyfikować oferowane zniżki za pośrednictwem panelu lub po kontakcie z operatorem Serwisu.</p>
+
+        <h2 id="odpowiedzialnosc">§7. Odpowiedzialność</h2>
+        <p>7.1. Operator Serwisu nie ponosi odpowiedzialności za:</p>
+        <ul>
+            <li>Jakość usług świadczonych przez Partnerów</li>
+            <li>Czasową niedostępność Serwisu spowodowaną czynnikami technicznymi</li>
+            <li>Szkody wynikłe z nieprawidłowego korzystania z Serwisu</li>
+        </ul>
+        <p>7.2. Operator dokłada wszelkich starań, aby Serwis działał prawidłowo i był dostępny 24/7.</p>
+
+        <h2 id="reklamacje">§8. Reklamacje</h2>
+        <p>8.1. Reklamacje można składać drogą elektroniczną na adres: reklamacje@lokalnik.pl</p>
+        <p>8.2. Reklamacja powinna zawierać:</p>
+        <ul>
+            <li>Dane kontaktowe zgłaszającego</li>
+            <li>Opis problemu</li>
+            <li>Kod zniżkowy, którego dotyczy reklamacja (jeśli dotyczy)</li>
+        </ul>
+        <p>8.3. Reklamacje rozpatrywane są w terminie 14 dni roboczych od otrzymania zgłoszenia.</p>
+
+        <h2 id="zmiany">§9. Zmiany regulaminu</h2>
+        <p>9.1. Operator zastrzega sobie prawo do zmiany Regulaminu.</p>
+        <p>9.2. O zmianach Regulaminu Użytkownicy będą informowani poprzez publikację nowej wersji na stronie Serwisu.</p>
+        <p>9.3. Zmiany wchodzą w życie w terminie 14 dni od daty publikacji, chyba że przepisy prawa wymagają innego terminu.</p>
+
+        <h2 id="kontakt">§10. Kontakt</h2>
+        <p>W sprawach związanych z funkcjonowaniem Serwisu można kontaktować się:</p>
+        <ul>
+            <li>Email: kontakt@lokalnik.pl</li>
+            <li>Telefon: +48 123 456 789 (pon-pt 9:00-17:00)</li>
+            <li>Adres: Lokalnik.pl Sp. z o.o., ul. Przykładowa 123, 00-001 Warszawa</li>
+        </ul>
+
+        <div class="update-info">
+            <i data-lucide="info"></i>
+            <p>Regulamin wchodzi w życie z dniem 20 lipca 2026 roku. Poprzednie wersje regulaminu dostępne są na życzenie.</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="strona-glowna.html">Strona główna</a>
+            <a href="faq.html">FAQ</a>
+            <a href="kontakt.html">Kontakt</a>
+            <a href="regulamin.html">Regulamin</a>
+            <a href="polityka-prywatnosci.html">Prywatność</a>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Lokalnik.pl. Wszystkie prawa zastrzeżone.
+        </div>
+    </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

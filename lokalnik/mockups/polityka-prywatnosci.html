@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polityka prywatności | Lokalnik.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #0d9488, #14b8a6, #2dd4bf) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 0.9rem;
+            color: #64748B;
+        }
+
+        .legal-content {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .legal-content h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #0d9488;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .legal-content p {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-content ol, .legal-content ul {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-content strong {
+            color: #1E293B;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #E2E8F0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .data-table td {
+            color: #475569;
+        }
+
+        .highlight-box {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: #0f766e;
+        }
+
+        .update-info {
+            background: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .update-info i {
+            width: 20px;
+            height: 20px;
+            color: #0d9488;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .update-info p {
+            font-size: 0.85rem;
+            color: #0f766e;
+            margin: 0;
+        }
+
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover { color: #14b8a6; }
+
+        .footer-bottom {
+            font-size: 0.8rem;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1E293B;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Mockupy</a>
+
+<header>
+    <div class="nav-bar">
+        <a href="strona-glowna.html" class="logo">
+            <div class="logo-icon">🏠</div>
+            <span class="logo-text">Lokalnik<span class="accent">.pl</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="#">Jak to działa</a>
+            <a href="#">Lokalizacje</a>
+            <a href="#">Dla zarządców</a>
+            <a href="logowanie.html" class="btn-login">Zaloguj się</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="page-header">
+        <h1>Polityka prywatności</h1>
+        <p>Ostatnia aktualizacja: 20 lipca 2026</p>
+    </div>
+
+    <div class="legal-content">
+        <div class="highlight-box">
+            <p><strong>W skrócie:</strong> Zbieramy minimum danych niezbędnych do działania serwisu. Goście nie muszą zakładać konta — przetwarzamy tylko numer rezerwacji i wygenerowane kody. Nie sprzedajemy danych trzecim stronom.</p>
+        </div>
+
+        <h2>1. Administrator danych</h2>
+        <p>Administratorem Twoich danych osobowych jest Lokalnik.pl Sp. z o.o. z siedzibą w Warszawie, ul. Przykładowa 123, 00-001 Warszawa, NIP: 0000000000.</p>
+        <p>Kontakt w sprawach ochrony danych: <strong>rodo@lokalnik.pl</strong></p>
+
+        <h2>2. Jakie dane zbieramy</h2>
+        <p>Zakres zbieranych danych zależy od Twojej roli w serwisie:</p>
+
+        <table class="data-table">
+            <tr>
+                <th>Kategoria użytkownika</th>
+                <th>Zbierane dane</th>
+                <th>Cel przetwarzania</th>
+            </tr>
+            <tr>
+                <td><strong>Goście apartamentów</strong></td>
+                <td>Numer rezerwacji, wygenerowane kody, data i godzina</td>
+                <td>Umożliwienie korzystania ze zniżek</td>
+            </tr>
+            <tr>
+                <td><strong>Zarządcy</strong></td>
+                <td>Imię, nazwisko, email, telefon, dane firmy, dane apartamentów</td>
+                <td>Świadczenie usług, kontakt, rozliczenia</td>
+            </tr>
+            <tr>
+                <td><strong>Partnerzy</strong></td>
+                <td>Dane firmy, dane kontaktowe, informacje o lokalu</td>
+                <td>Realizacja umowy, rozliczenia</td>
+            </tr>
+        </table>
+
+        <h2>3. Podstawy prawne przetwarzania</h2>
+        <p>Przetwarzamy Twoje dane na podstawie:</p>
+        <ul>
+            <li><strong>Art. 6 ust. 1 lit. b RODO</strong> — wykonanie umowy (dla Zarządców i Partnerów)</li>
+            <li><strong>Art. 6 ust. 1 lit. f RODO</strong> — prawnie uzasadniony interes (świadczenie usług Gościom)</li>
+            <li><strong>Art. 6 ust. 1 lit. a RODO</strong> — zgoda (marketing, jeśli wyrażona)</li>
+            <li><strong>Art. 6 ust. 1 lit. c RODO</strong> — obowiązek prawny (faktury, podatki)</li>
+        </ul>
+
+        <h2>4. Okres przechowywania danych</h2>
+        <ul>
+            <li><strong>Dane Gości</strong> — 30 dni od zakończenia pobytu</li>
+            <li><strong>Dane Zarządców i Partnerów</strong> — przez okres współpracy + 5 lat (wymogi podatkowe)</li>
+            <li><strong>Historia transakcji</strong> — 5 lat (wymogi podatkowe)</li>
+            <li><strong>Dane marketingowe</strong> — do wycofania zgody</li>
+        </ul>
+
+        <h2>5. Odbiorcy danych</h2>
+        <p>Twoje dane mogą być przekazywane:</p>
+        <ul>
+            <li>Partnerom — w zakresie niezbędnym do walidacji kodów zniżkowych</li>
+            <li>Dostawcom usług IT (hosting, backup) — na podstawie umów powierzenia</li>
+            <li>Biuro rachunkowe — w zakresie rozliczeń</li>
+            <li>Organom państwowym — gdy wymagają tego przepisy prawa</li>
+        </ul>
+        <p><strong>Nie sprzedajemy danych osobowych</strong> firmom marketingowym ani innym podmiotom trzecim.</p>
+
+        <h2>6. Twoje prawa</h2>
+        <p>Masz prawo do:</p>
+        <ul>
+            <li><strong>Dostępu</strong> — możesz poprosić o kopię swoich danych</li>
+            <li><strong>Sprostowania</strong> — możesz poprawić nieprawidłowe dane</li>
+            <li><strong>Usunięcia</strong> — możesz zażądać usunięcia danych ("prawo do bycia zapomnianym")</li>
+            <li><strong>Ograniczenia przetwarzania</strong> — w określonych sytuacjach</li>
+            <li><strong>Przenoszenia</strong> — możesz otrzymać dane w formacie maszynowym</li>
+            <li><strong>Sprzeciwu</strong> — wobec przetwarzania opartego na uzasadnionym interesie</li>
+            <li><strong>Wycofania zgody</strong> — w każdym momencie, bez wpływu na wcześniejsze przetwarzanie</li>
+        </ul>
+        <p>Aby skorzystać z tych praw, napisz na: <strong>rodo@lokalnik.pl</strong></p>
+
+        <h2>7. Pliki cookies</h2>
+        <p>Używamy plików cookies do:</p>
+        <ul>
+            <li><strong>Niezbędnych</strong> — działanie serwisu, sesja użytkownika</li>
+            <li><strong>Funkcjonalnych</strong> — zapamiętanie preferencji</li>
+            <li><strong>Analitycznych</strong> — statystyki odwiedzin (anonimowe)</li>
+        </ul>
+        <p>Możesz zarządzać cookies w ustawieniach przeglądarki. Wyłączenie cookies niezbędnych może uniemożliwić korzystanie z serwisu.</p>
+
+        <h2>8. Bezpieczeństwo danych</h2>
+        <p>Stosujemy odpowiednie środki techniczne i organizacyjne:</p>
+        <ul>
+            <li>Szyfrowanie połączeń (HTTPS/TLS)</li>
+            <li>Szyfrowanie danych w spoczynku</li>
+            <li>Kontrola dostępu (zasada minimalnych uprawnień)</li>
+            <li>Regularne kopie bezpieczeństwa</li>
+            <li>Monitoring i audyty bezpieczeństwa</li>
+        </ul>
+
+        <h2>9. Przekazywanie danych poza EOG</h2>
+        <p>Co do zasady nie przekazujemy danych poza Europejski Obszar Gospodarczy. Jeśli korzystamy z usług dostawców spoza EOG (np. hosting), zapewniamy odpowiednie zabezpieczenia zgodnie z RODO.</p>
+
+        <h2>10. Skargi</h2>
+        <p>Jeśli uważasz, że przetwarzamy Twoje dane niezgodnie z prawem, masz prawo wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).</p>
+
+        <h2>11. Zmiany polityki</h2>
+        <p>Zastrzegamy sobie prawo do aktualizacji niniejszej Polityki. O istotnych zmianach poinformujemy poprzez komunikat w serwisie.</p>
+
+        <div class="update-info">
+            <i data-lucide="shield-check"></i>
+            <p>Dokładamy wszelkich starań, aby Twoje dane były bezpieczne. Pytania? Napisz do nas: rodo@lokalnik.pl</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="strona-glowna.html">Strona główna</a>
+            <a href="faq.html">FAQ</a>
+            <a href="kontakt.html">Kontakt</a>
+            <a href="regulamin.html">Regulamin</a>
+            <a href="polityka-prywatnosci.html">Prywatność</a>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Lokalnik.pl. Wszystkie prawa zastrzeżone.
+        </div>
+    </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

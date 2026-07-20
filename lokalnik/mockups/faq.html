@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Często zadawane pytania | Lokalnik.pl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F1F5F9;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, #0d9488, #14b8a6, #2dd4bf) 1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .logo-text .accent {
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #64748B;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            color: #64748B;
+        }
+
+        /* FAQ Categories */
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .faq-category {
+            padding: 0.5rem 1rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748B;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .faq-category.active {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* FAQ Accordion */
+        .faq-section {
+            margin-bottom: 2rem;
+        }
+
+        .faq-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0d9488;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .faq-section-title i { width: 20px; height: 20px; }
+
+        .faq-item {
+            background: #FFFFFF;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #0F172A;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: #F8FAFC;
+        }
+
+        .faq-question i {
+            width: 20px;
+            height: 20px;
+            color: #94A3B8;
+            transition: transform 0.2s;
+        }
+
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 1.25rem 1rem;
+            font-size: 0.9rem;
+            color: #475569;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-cta h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-cta p {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary i { width: 18px; height: 18px; }
+
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover { color: #14b8a6; }
+
+        .footer-bottom {
+            font-size: 0.8rem;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1E293B;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Mockupy</a>
+
+<header>
+    <div class="nav-bar">
+        <a href="strona-glowna.html" class="logo">
+            <div class="logo-icon">🏠</div>
+            <span class="logo-text">Lokalnik<span class="accent">.pl</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="#">Jak to działa</a>
+            <a href="#">Lokalizacje</a>
+            <a href="#">Dla zarządców</a>
+            <a href="logowanie.html" class="btn-login">Zaloguj się</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="page-header">
+        <h1>Często zadawane pytania</h1>
+        <p>Znajdź odpowiedzi na najczęstsze pytania dotyczące Lokalnik.pl</p>
+    </div>
+
+    <div class="faq-categories">
+        <a href="#" class="faq-category active">Wszystkie</a>
+        <a href="#" class="faq-category">Dla gości</a>
+        <a href="#" class="faq-category">Dla zarządców</a>
+        <a href="#" class="faq-category">Dla partnerów</a>
+    </div>
+
+    <!-- FOR GUESTS -->
+    <div class="faq-section">
+        <div class="faq-section-title"><i data-lucide="users"></i> Dla gości</div>
+
+        <div class="faq-item open">
+            <div class="faq-question">
+                Jak skorzystać ze zniżek?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <ol style="padding-left: 1.25rem; margin-top: 0.5rem;">
+                    <li>Zeskanuj kod QR w apartamencie lub kliknij link z emaila od zarządcy</li>
+                    <li>Wpisz numer rezerwacji (znajdziesz go na kartce w apartamencie)</li>
+                    <li>Wybierz lokal i wygeneruj kod zniżkowy</li>
+                    <li>Pokaż kod kelnerowi — zeskanuje go i naliczy zniżkę</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Jak długo ważny jest kod zniżkowy?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Kod jest ważny przez <strong>1 godzinę</strong> od momentu wygenerowania. Jeśli kod wygaśnie, możesz wygenerować nowy. Zalecamy generować kod tuż przed wejściem do lokalu.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Czy muszę zakładać konto?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <strong>Nie!</strong> System Lokalnik.pl działa bez konta. Wystarczy numer rezerwacji. Chcemy, abyś mógł skorzystać ze zniżek bez zbędnych formalności.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Ile razy mogę skorzystać ze zniżki?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Możesz wygenerować <strong>1 kod na każdą zniżkę dziennie</strong>. Jeśli partner oferuje kilka różnych zniżek, możesz skorzystać z każdej z nich raz dziennie.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Co jeśli kelner nie wie o systemie Lokalnik?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Wszyscy partnerzy są przeszkoleni z obsługi systemu. Jeśli kelner ma wątpliwości, może zeskanować Twój kod QR — zostanie automatycznie przekierowany na stronę walidacji. W razie problemów skontaktuj się z nami.
+            </div>
+        </div>
+    </div>
+
+    <!-- FOR MANAGERS -->
+    <div class="faq-section">
+        <div class="faq-section-title"><i data-lucide="home"></i> Dla zarządców apartamentów</div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Ile kosztuje Lokalnik dla zarządców?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Lokalnik.pl jest <strong>bezpłatny dla zarządców</strong>. Nasz model biznesowy opiera się na prowizji od partnerów, nie od zarządców apartamentów. Dajemy Wam narzędzie, które zwiększa wartość Waszej oferty bez dodatkowych kosztów.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Jak dodać nowe mieszkanie do systemu?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                W panelu zarządcy przejdź do zakładki "Mieszkania" i kliknij "Dodaj mieszkanie". Wypełnij dane i system automatycznie wygeneruje materiały do druku z kodem QR.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Czy mogę wysłać link ze zniżkami do gości emailem?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Tak! W panelu zarządcy możesz wygenerować unikalny link dla każdej rezerwacji. Gość po kliknięciu linku od razu widzi dostępne zniżki — bez potrzeby wpisywania numeru rezerwacji.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Jak drukować materiały dla gości?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                W zakładce "Materiały" pobierz PDF z listą partnerów i kodem QR. Wydrukuj w kolorze (najlepiej zalaminować) i powieś w widocznym miejscu — przy drzwiach, na lodówce lub przy telewizorze.
+            </div>
+        </div>
+    </div>
+
+    <!-- FOR PARTNERS -->
+    <div class="faq-section">
+        <div class="faq-section-title"><i data-lucide="store"></i> Dla partnerów (lokali)</div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Jak zostać partnerem Lokalnik?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Skontaktuj się z nami przez formularz lub telefon. Nasz przedstawiciel przyjedzie, omówi warunki współpracy i pomoże skonfigurować system. Proces trwa zwykle 2-3 dni robocze.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Ile kosztuje bycie partnerem?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Pobieramy niewielką prowizję od każdej zrealizowanej transakcji ze zniżką. Dokładne warunki ustalamy indywidualnie. Brak opłat stałych — płacisz tylko za efekty.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Jak walidować kody zniżkowe?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Wystarczy zeskanować kod QR pokazany przez gościa telefonem (aparatem lub dedykowaną aplikacją). System przekieruje na stronę walidacji, gdzie wpisujesz 4-cyfrowy PIN. Po zatwierdzeniu zniżka jest zarejestrowana.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Czy mogę sam ustalać wysokość zniżek?
+                <i data-lucide="chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Tak! W panelu partnera możesz dodawać, edytować i dezaktywować swoje zniżki. Możesz ustawić procentowe rabaty, kwotowe zniżki lub gratisy (np. "kawa gratis do śniadania").
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-cta">
+        <h3>Nie znalazłeś odpowiedzi?</h3>
+        <p>Skontaktuj się z nami — chętnie pomożemy!</p>
+        <a href="kontakt.html" class="btn-primary">
+            <i data-lucide="mail"></i>
+            Napisz do nas
+        </a>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="strona-glowna.html">Strona główna</a>
+            <a href="faq.html">FAQ</a>
+            <a href="kontakt.html">Kontakt</a>
+            <a href="regulamin.html">Regulamin</a>
+            <a href="polityka-prywatnosci.html">Prywatność</a>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Lokalnik.pl. Wszystkie prawa zastrzeżone.
+        </div>
+    </div>
+</footer>
+
+<script>
+    lucide.createIcons();
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+            q.parentElement.classList.toggle('open');
+        });
+    });
+</script>
+</body>
+</html>

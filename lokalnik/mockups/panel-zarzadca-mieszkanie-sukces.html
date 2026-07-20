@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mieszkanie dodane! | Panel Zarządcy | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="desktop">
+        <div class="panel-layout">
+            <!-- Sidebar -->
+            <div class="panel-sidebar">
+                <div class="panel-logo">Lokalnik.pl</div>
+                <nav class="panel-nav">
+                    <a href="panel-zarzadca-dashboard.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="panel-zarzadca-mieszkania.html" class="panel-nav-item active">
+                        <span class="panel-nav-icon">🏠</span>
+                        Mieszkania
+                    </a>
+                    <a href="panel-zarzadca-materialy.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🖨️</span>
+                        Materiały
+                    </a>
+                    <a href="panel-zarzadca-partnerzy.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🤝</span>
+                        Partnerzy
+                    </a>
+                    <a href="#" class="panel-nav-item">
+                        <span class="panel-nav-icon">⚙️</span>
+                        Ustawienia
+                    </a>
+                </nav>
+                <div class="panel-user">
+                    <div class="panel-user-name">Jan Kowalski</div>
+                    <div class="panel-user-email">jan@apartamenty-morskie.pl</div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="panel-content">
+                <div class="panel-body" style="display: flex; align-items: center; justify-content: center; min-height: 100%;">
+                    <div style="text-align: center; max-width: 500px;">
+                        <!-- Success icon -->
+                        <div class="icon-circle success" style="width: 100px; height: 100px; font-size: 48px; margin: 0 auto 24px;">
+                            ✓
+                        </div>
+
+                        <h1 style="font-size: 28px; font-weight: 600; margin-bottom: 8px;">Mieszkanie dodane!</h1>
+                        <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 32px;">
+                            Apartament Plażowy jest teraz aktywny.<br>
+                            Twoi goście mogą korzystać ze zniżek!
+                        </p>
+
+                        <!-- Property summary -->
+                        <div style="background: var(--bg); border-radius: 12px; padding: 24px; text-align: left; margin-bottom: 32px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="color: var(--text-muted);">Nazwa:</span>
+                                <span style="font-weight: 500;">Apartament Plażowy</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="color: var(--text-muted);">Adres:</span>
+                                <span style="font-weight: 500;">ul. Bursztynowa 8/2</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="color: var(--text-muted);">Lokalizacja:</span>
+                                <span style="font-weight: 500;">Jastrzębia Góra</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border);">
+                                <span style="color: var(--text-muted);">Nr rezerwacji:</span>
+                                <span style="font-family: monospace; font-weight: 700; font-size: 18px; color: var(--primary);">JG-2024-0748</span>
+                            </div>
+                        </div>
+
+                        <!-- Next steps -->
+                        <div style="background: var(--primary-bg); border-radius: 12px; padding: 20px; margin-bottom: 32px; text-align: left;">
+                            <div style="font-weight: 600; margin-bottom: 12px; color: var(--primary-dark);">Co dalej?</div>
+                            <div style="font-size: 14px; color: var(--primary-dark); line-height: 1.6;">
+                                1. <strong>Pobierz materiały PDF</strong> z numerem rezerwacji<br>
+                                2. <strong>Wydrukuj</strong> i powieś w mieszkaniu<br>
+                                3. Goście skanują QR → wpisują numer → korzystają ze zniżek!
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div style="display: flex; gap: 12px; justify-content: center;">
+                            <a href="panel-zarzadca-materialy.html" class="btn btn-primary" style="width: auto;">
+                                🖨️ Pobierz materiały PDF
+                            </a>
+                            <a href="panel-zarzadca-mieszkania.html" class="btn btn-secondary" style="width: auto;">
+                                Lista mieszkań
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

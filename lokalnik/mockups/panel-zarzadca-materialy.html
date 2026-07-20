@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiały do druku | Panel Zarządcy | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="desktop">
+        <div class="panel-layout">
+            <!-- Sidebar -->
+            <div class="panel-sidebar">
+                <div class="panel-logo">Lokalnik.pl</div>
+                <nav class="panel-nav">
+                    <a href="panel-zarzadca-dashboard.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="panel-zarzadca-mieszkania.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🏠</span>
+                        Mieszkania
+                    </a>
+                    <a href="panel-zarzadca-materialy.html" class="panel-nav-item active">
+                        <span class="panel-nav-icon">🖨️</span>
+                        Materiały
+                    </a>
+                    <a href="panel-zarzadca-partnerzy.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🤝</span>
+                        Partnerzy
+                    </a>
+                    <a href="#" class="panel-nav-item">
+                        <span class="panel-nav-icon">⚙️</span>
+                        Ustawienia
+                    </a>
+                </nav>
+                <div class="panel-user">
+                    <div class="panel-user-name">Jan Kowalski</div>
+                    <div class="panel-user-email">jan@apartamenty-morskie.pl</div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="panel-content">
+                <div class="panel-header">
+                    <div class="panel-title">Materiały do druku</div>
+                    <div class="panel-subtitle">Pobierz i wydrukuj materiały dla gości</div>
+                </div>
+
+                <div class="panel-body">
+                    <!-- Select property -->
+                    <div class="form-section">
+                        <div class="form-section-title">Wybierz mieszkanie</div>
+                        <select class="input" style="max-width: 400px;">
+                            <option>Apartament Słoneczny (JG-2024-0742)</option>
+                            <option>Apartament Morski (JG-2024-0743)</option>
+                            <option>Apartament Klifowy (JG-2024-0744)</option>
+                            <option>Wszystkie mieszkania</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <!-- Preview -->
+                        <div class="form-section">
+                            <div class="form-section-title">Podgląd materiału</div>
+
+                            <div class="print-preview" style="background: #fafafa; max-height: 600px; overflow-y: auto;">
+                                <!-- A4 preview - materiał do druku -->
+                                <div style="background: white; border: 1px solid #ddd; padding: 32px; max-width: 380px; margin: 0 auto;">
+                                    <!-- Header -->
+                                    <div style="text-align: center; margin-bottom: 24px;">
+                                        <div style="font-size: 24px; font-weight: 700; color: var(--primary);">Lokalnik.pl</div>
+                                        <div style="font-size: 13px; color: var(--text); margin-top: 6px; font-weight: 500;">Ekskluzywne zniżki dla gości apartamentów</div>
+                                        <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Jastrzębia Góra</div>
+                                    </div>
+
+                                    <!-- Partners list - FIRST, as main attraction -->
+                                    <div style="margin-bottom: 20px;">
+                                        <div style="font-size: 12px; font-weight: 600; margin-bottom: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; text-align: center;">Partnerzy oferujący zniżki:</div>
+
+                                        <div style="font-size: 11px; line-height: 1.9;">
+                                            <div style="display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">
+                                                <span style="font-size: 16px;">🍕</span>
+                                                <div style="flex: 1;"><strong>Pizzeria Napoli</strong><br><span style="color: var(--text-muted);">ul. Morska 12</span></div>
+                                                <div style="color: var(--primary); font-weight: 600; text-align: right;">-20%</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">
+                                                <span style="font-size: 16px;">☕</span>
+                                                <div style="flex: 1;"><strong>Café Bałtyk</strong><br><span style="color: var(--text-muted);">ul. Klonowa 5</span></div>
+                                                <div style="color: var(--primary); font-weight: 600; text-align: right;">kawa gratis</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">
+                                                <span style="font-size: 16px;">🍺</span>
+                                                <div style="flex: 1;"><strong>Pub Marina</strong><br><span style="color: var(--text-muted);">ul. Portowa 8</span></div>
+                                                <div style="color: var(--primary); font-weight: 600; text-align: right;">-15 zł</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">
+                                                <span style="font-size: 16px;">🍦</span>
+                                                <div style="flex: 1;"><strong>Lodziarnia Słodka</strong><br><span style="color: var(--text-muted);">ul. Nadmorska 3</span></div>
+                                                <div style="color: var(--primary); font-weight: 600; text-align: right;">2. gałka gratis</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">
+                                                <span style="font-size: 16px;">🍔</span>
+                                                <div style="flex: 1;"><strong>Burger Beach</strong><br><span style="color: var(--text-muted);">ul. Plażowa 1</span></div>
+                                                <div style="color: var(--primary); font-weight: 600; text-align: right;">-25%</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">
+                                                <span style="font-size: 16px;">🛒</span>
+                                                <div style="flex: 1;"><strong>Delikatesy Pod Klifem</strong><br><span style="color: var(--text-muted);">ul. Klifowa 22</span></div>
+                                                <div style="color: var(--primary); font-weight: 600; text-align: right;">-10%</div>
+                                            </div>
+                                            <div style="display: flex; gap: 8px;">
+                                                <span style="font-size: 16px;">💊</span>
+                                                <div style="flex: 1;"><strong>Apteka Nadmorska</strong><br><span style="color: var(--text-muted);">ul. Główna 15</span></div>
+                                                <div style="color: var(--primary); font-weight: 600; text-align: right;">-10%</div>
+                                            </div>
+                                        </div>
+
+                                        <div style="text-align: center; margin-top: 12px; font-size: 10px; color: var(--text-light);">
+                                            ...i więcej partnerów online!
+                                        </div>
+                                    </div>
+
+                                    <!-- QR Code - call to action -->
+                                    <div style="background: var(--primary-bg); padding: 20px; border-radius: 12px; text-align: center;">
+                                        <div style="font-size: 13px; font-weight: 600; color: var(--primary-dark); margin-bottom: 12px;">Jak skorzystać ze zniżek?</div>
+                                        <div style="width: 100px; height: 100px; background: white; margin: 0 auto 12px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 8px;">
+                                            <svg viewBox="0 0 33 33" style="width: 100%; height: 100%;">
+                                                <rect fill="#0d9488" x="0" y="0" width="7" height="7"/>
+                                                <rect fill="white" x="1" y="1" width="5" height="5"/>
+                                                <rect fill="#0d9488" x="2" y="2" width="3" height="3"/>
+                                                <rect fill="#0d9488" x="26" y="0" width="7" height="7"/>
+                                                <rect fill="white" x="27" y="1" width="5" height="5"/>
+                                                <rect fill="#0d9488" x="28" y="2" width="3" height="3"/>
+                                                <rect fill="#0d9488" x="0" y="26" width="7" height="7"/>
+                                                <rect fill="white" x="1" y="27" width="5" height="5"/>
+                                                <rect fill="#0d9488" x="2" y="28" width="3" height="3"/>
+                                                <rect fill="#0d9488" x="8" y="0" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="10" y="0" width="2" height="1"/>
+                                                <rect fill="#0d9488" x="14" y="0" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="16" y="0" width="3" height="1"/>
+                                                <rect fill="#0d9488" x="8" y="2" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="11" y="2" width="2" height="1"/>
+                                                <rect fill="#0d9488" x="15" y="2" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="9" y="4" width="2" height="1"/>
+                                                <rect fill="#0d9488" x="13" y="4" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="16" y="4" width="3" height="1"/>
+                                                <rect fill="#0d9488" x="8" y="8" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="12" y="8" width="2" height="1"/>
+                                                <rect fill="#0d9488" x="17" y="8" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="10" y="10" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="14" y="10" width="2" height="1"/>
+                                                <rect fill="#0d9488" x="19" y="10" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="8" y="12" width="2" height="1"/>
+                                                <rect fill="#0d9488" x="13" y="12" width="1" height="1"/>
+                                                <rect fill="#0d9488" x="16" y="12" width="2" height="1"/>
+                                            </svg>
+                                        </div>
+                                        <div style="font-size: 12px; font-weight: 500; color: var(--primary-dark);">Zeskanuj kod</div>
+                                        <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Wygeneruj kod zniżkowy i pokaż go w lokalu</div>
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div style="margin-top: 16px; text-align: center;">
+                                        <div style="font-size: 9px; color: var(--text-light);">
+                                            lokalnik.pl • Zniżki ważne dla gości apartamentów
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Download options -->
+                        <div>
+                            <div class="form-section">
+                                <div class="form-section-title">Pobierz PDF</div>
+
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <a href="#" class="card card-clickable">
+                                        <div class="card-row">
+                                            <div class="card-icon">📄</div>
+                                            <div class="card-body">
+                                                <div class="card-title">Kartka A4</div>
+                                                <div class="card-desc">Do powieszenia na ścianie lub lodówce</div>
+                                            </div>
+                                            <span class="card-action">↓</span>
+                                        </div>
+                                    </a>
+
+                                    <a href="#" class="card card-clickable">
+                                        <div class="card-row">
+                                            <div class="card-icon">📋</div>
+                                            <div class="card-body">
+                                                <div class="card-title">Kartka A5</div>
+                                                <div class="card-desc">Mniejszy format, na stolik</div>
+                                            </div>
+                                            <span class="card-action">↓</span>
+                                        </div>
+                                    </a>
+
+                                    <a href="#" class="card card-clickable">
+                                        <div class="card-row">
+                                            <div class="card-icon">🏷️</div>
+                                            <div class="card-body">
+                                                <div class="card-title">Naklejka QR</div>
+                                                <div class="card-desc">Sam QR kod do naklejenia</div>
+                                            </div>
+                                            <span class="card-action">↓</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <div class="form-section-title">Wskazówki</div>
+                                <div style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+                                    <p style="margin-bottom: 12px;">
+                                        <strong>Gdzie powiesić?</strong><br>
+                                        Najlepiej w widocznym miejscu — przy drzwiach wejściowych, na lodówce lub przy telewizorze.
+                                    </p>
+                                    <p style="margin-bottom: 12px;">
+                                        <strong>Jak drukować?</strong><br>
+                                        Wydrukuj w kolorze dla najlepszego efektu. Możesz zalaminować dla trwałości.
+                                    </p>
+                                    <p>
+                                        <strong>Numer rezerwacji</strong><br>
+                                        Każde mieszkanie ma unikalny numer. Goście wpisują go aby uzyskać dostęp do zniżek.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

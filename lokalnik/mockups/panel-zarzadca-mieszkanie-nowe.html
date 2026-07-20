@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj mieszkanie | Panel Zarządcy | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="desktop">
+        <div class="panel-layout">
+            <!-- Sidebar -->
+            <div class="panel-sidebar">
+                <div class="panel-logo">Lokalnik.pl</div>
+                <nav class="panel-nav">
+                    <a href="panel-zarzadca-dashboard.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="panel-zarzadca-mieszkania.html" class="panel-nav-item active">
+                        <span class="panel-nav-icon">🏠</span>
+                        Mieszkania
+                    </a>
+                    <a href="panel-zarzadca-materialy.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🖨️</span>
+                        Materiały
+                    </a>
+                    <a href="panel-zarzadca-partnerzy.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🤝</span>
+                        Partnerzy
+                    </a>
+                    <a href="#" class="panel-nav-item">
+                        <span class="panel-nav-icon">⚙️</span>
+                        Ustawienia
+                    </a>
+                </nav>
+                <div class="panel-user">
+                    <div class="panel-user-name">Jan Kowalski</div>
+                    <div class="panel-user-email">jan@apartamenty-morskie.pl</div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="panel-content">
+                <div class="panel-header">
+                    <div class="panel-title">Dodaj nowe mieszkanie</div>
+                    <div class="panel-subtitle">Wypełnij dane apartamentu</div>
+                </div>
+
+                <div class="panel-body">
+                    <div style="max-width: 700px;">
+                        <!-- Basic info -->
+                        <div class="form-section">
+                            <div class="form-section-title">Dane podstawowe</div>
+
+                            <div class="input-group">
+                                <label class="input-label">Nazwa mieszkania *</label>
+                                <input type="text" class="input" placeholder="np. Apartament Słoneczny" value="Apartament Plażowy">
+                                <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+                                    Ta nazwa będzie widoczna dla gości i w statystykach
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label class="input-label">Ulica i numer *</label>
+                                    <input type="text" class="input" placeholder="np. ul. Morska 15/3" value="ul. Bursztynowa 8/2">
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">Miejscowość</label>
+                                    <input type="text" class="input" value="Jastrzębia Góra" disabled style="background: var(--bg);">
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label class="input-label">Opis (opcjonalnie)</label>
+                                <textarea class="input" rows="3" placeholder="Krótki opis dla Twoich gości, np. 'Apartament z widokiem na morze, 2 pokoje, balkon'"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Reservation number -->
+                        <div class="form-section">
+                            <div class="form-section-title">Numer rezerwacji</div>
+
+                            <div style="background: var(--primary-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 24px; text-align: center;">
+                                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Automatycznie wygenerowany numer</div>
+                                <div style="font-family: 'SF Mono', Monaco, monospace; font-size: 32px; font-weight: 700; color: var(--primary); letter-spacing: 2px;">
+                                    JG-2024-0748
+                                </div>
+                                <div style="font-size: 14px; color: var(--text-muted); margin-top: 12px;">
+                                    Ten numer będzie widoczny na materiałach.<br>
+                                    Gość wpisze go aby uzyskać dostęp do zniżek.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Photo (optional) -->
+                        <div class="form-section">
+                            <div class="form-section-title">Zdjęcie (opcjonalnie)</div>
+
+                            <div style="border: 2px dashed var(--border); border-radius: 12px; padding: 32px; text-align: center;">
+                                <div style="font-size: 48px; margin-bottom: 12px;">📷</div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">Przeciągnij zdjęcie lub kliknij</div>
+                                <div style="font-size: 14px; color: var(--text-muted);">JPG, PNG do 5MB</div>
+                                <input type="file" style="display: none;">
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">
+                                Zdjęcie może pojawić się na materiałach premium (opcjonalnie)
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="form-actions" style="border-top: none; padding-top: 0;">
+                            <a href="panel-zarzadca-mieszkania.html" class="btn btn-secondary" style="width: auto;">
+                                Anuluj
+                            </a>
+                            <a href="panel-zarzadca-mieszkanie-sukces.html" class="btn btn-primary" style="width: auto;">
+                                Dodaj mieszkanie →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

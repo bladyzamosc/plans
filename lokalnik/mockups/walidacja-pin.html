@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walidacja kodu | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="phone">
+        <div class="header">
+            <span style="width: 40px;"></span>
+            <span class="header-title">Walidacja kodu</span>
+            <span style="width: 40px;"></span>
+        </div>
+
+        <div class="content content-center">
+            <!-- Logo -->
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 24px; font-weight: 700; color: var(--primary);">Lokalnik.pl</div>
+            </div>
+
+            <!-- Code Info -->
+            <div style="background: var(--primary-bg); border-radius: 16px; padding: 20px; width: 100%; margin-bottom: 24px;">
+                <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Kod do zrealizowania</div>
+                <div style="font-family: monospace; font-size: 28px; font-weight: 700; color: var(--primary-dark); margin-bottom: 16px;">LNK-7X2K9</div>
+
+                <div style="border-top: 1px solid var(--primary-light); padding-top: 16px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted); font-size: 14px;">Partner:</span>
+                        <span style="font-weight: 500;">Pizzeria Napoli</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--text-muted); font-size: 14px;">Zniżka:</span>
+                        <span style="font-weight: 500; color: var(--primary);">-20% na pizze</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted); font-size: 14px;">Ważny do:</span>
+                        <span style="font-weight: 500;">18:45 (za 32 min)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIN Input -->
+            <div style="width: 100%; margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 500; margin-bottom: 16px; text-align: center;">
+                    Wprowadź PIN lokalu aby zrealizować
+                </div>
+
+                <div class="pin-input">
+                    <input type="text" class="pin-digit" maxlength="1" value="4">
+                    <input type="text" class="pin-digit" maxlength="1" value="7">
+                    <input type="text" class="pin-digit" maxlength="1" value="2">
+                    <input type="text" class="pin-digit" maxlength="1" value="">
+                </div>
+            </div>
+
+            <!-- Button -->
+            <a href="walidacja-sukces.html" class="btn btn-primary">
+                ✓ Potwierdź realizację
+            </a>
+
+            <!-- Help text -->
+            <div style="margin-top: 24px; font-size: 13px; color: var(--text-muted); text-align: center;">
+                Nie znasz PIN-u? Zapytaj managera lokalu.<br>
+                <a href="#" style="color: var(--primary);">Pomoc techniczna</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mieszkania | Panel Zarządcy | Lokalnik.pl</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="index.html" class="back-to-index">← Mockupy</a>
+
+    <div class="desktop">
+        <div class="panel-layout">
+            <!-- Sidebar -->
+            <div class="panel-sidebar">
+                <div class="panel-logo">Lokalnik.pl</div>
+                <nav class="panel-nav">
+                    <a href="panel-zarzadca-dashboard.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="panel-zarzadca-mieszkania.html" class="panel-nav-item active">
+                        <span class="panel-nav-icon">🏠</span>
+                        Mieszkania
+                    </a>
+                    <a href="panel-zarzadca-materialy.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🖨️</span>
+                        Materiały
+                    </a>
+                    <a href="panel-zarzadca-partnerzy.html" class="panel-nav-item">
+                        <span class="panel-nav-icon">🤝</span>
+                        Partnerzy
+                    </a>
+                    <a href="#" class="panel-nav-item">
+                        <span class="panel-nav-icon">⚙️</span>
+                        Ustawienia
+                    </a>
+                </nav>
+                <div class="panel-user">
+                    <div class="panel-user-name">Jan Kowalski</div>
+                    <div class="panel-user-email">jan@apartamenty-morskie.pl</div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="panel-content">
+                <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div class="panel-title">Mieszkania</div>
+                        <div class="panel-subtitle">Zarządzaj swoimi apartamentami</div>
+                    </div>
+                    <a href="panel-zarzadca-mieszkanie-nowe.html" class="btn btn-primary btn-sm" style="width: auto;">
+                        + Dodaj mieszkanie
+                    </a>
+                </div>
+
+                <div class="panel-body">
+                    <!-- Location info -->
+                    <div style="background: var(--primary-bg); border-radius: 12px; padding: 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 24px;">📍</span>
+                        <div>
+                            <div style="font-weight: 500;">Jastrzębia Góra</div>
+                            <div style="font-size: 14px; color: var(--text-muted);">12 partnerów ze zniżkami dostępnych dla Twoich gości</div>
+                        </div>
+                    </div>
+
+                    <!-- Properties list -->
+                    <div class="property-card">
+                        <div class="property-header">
+                            <div>
+                                <div class="property-name">Apartament Słoneczny</div>
+                                <div class="property-address">ul. Morska 15/3, Jastrzębia Góra</div>
+                            </div>
+                            <span class="badge success">Aktywny</span>
+                        </div>
+                        <div class="property-stats">
+                            <div class="property-stat">Nr rezerwacji: <strong>JG-2024-0742</strong></div>
+                            <div class="property-stat">Kody wygenerowane: <strong>12</strong></div>
+                            <div class="property-stat">Zrealizowane: <strong>8</strong></div>
+                        </div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px;">
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">Edytuj</a>
+                            <a href="panel-zarzadca-materialy.html" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">🖨️ Materiały</a>
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">📊 Statystyki</a>
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <div class="property-header">
+                            <div>
+                                <div class="property-name">Apartament Morski</div>
+                                <div class="property-address">ul. Klonowa 8/1, Jastrzębia Góra</div>
+                            </div>
+                            <span class="badge success">Aktywny</span>
+                        </div>
+                        <div class="property-stats">
+                            <div class="property-stat">Nr rezerwacji: <strong>JG-2024-0743</strong></div>
+                            <div class="property-stat">Kody wygenerowane: <strong>8</strong></div>
+                            <div class="property-stat">Zrealizowane: <strong>5</strong></div>
+                        </div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px;">
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">Edytuj</a>
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">🖨️ Materiały</a>
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">📊 Statystyki</a>
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <div class="property-header">
+                            <div>
+                                <div class="property-name">Apartament Klifowy</div>
+                                <div class="property-address">ul. Klifowa 22/5, Jastrzębia Góra</div>
+                            </div>
+                            <span class="badge success">Aktywny</span>
+                        </div>
+                        <div class="property-stats">
+                            <div class="property-stat">Nr rezerwacji: <strong>JG-2024-0744</strong></div>
+                            <div class="property-stat">Kody wygenerowane: <strong>15</strong></div>
+                            <div class="property-stat">Zrealizowane: <strong>11</strong></div>
+                        </div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px;">
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">Edytuj</a>
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">🖨️ Materiały</a>
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">📊 Statystyki</a>
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <div class="property-header">
+                            <div>
+                                <div class="property-name">Apartament Nadmorski</div>
+                                <div class="property-address">ul. Nadmorska 5/2, Jastrzębia Góra</div>
+                            </div>
+                            <span class="badge warning">Nieaktywny</span>
+                        </div>
+                        <div class="property-stats">
+                            <div class="property-stat">Nr rezerwacji: <strong>JG-2024-0745</strong></div>
+                            <div class="property-stat">Kody wygenerowane: <strong>0</strong></div>
+                            <div class="property-stat">Zrealizowane: <strong>0</strong></div>
+                        </div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px;">
+                            <a href="#" class="btn btn-outline btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">Edytuj</a>
+                            <a href="#" class="btn btn-primary btn-sm" style="width: auto; padding: 8px 12px; font-size: 13px;">Aktywuj</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
