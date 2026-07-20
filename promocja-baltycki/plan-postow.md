@@ -244,3 +244,44 @@ Jedno z najpiękniejszych miejsc na naszej plaży.
 ---
 
 *Materiały zebrane: 2026-07-15*
+
+---
+
+## Rejestr publikacji
+
+### Grupy Facebook
+
+| Data | Grupa | Termin w poście |
+|------|-------|-----------------|
+| 17.07 | Wakacje z psem... | 19-22.07 |
+| 17.07 | Władysławowo jedzenie, noclegi... | 19-22.07 |
+| 17.07 | WŁADYSŁAWOWO - noclegi, wolne pokoje... | 19-22.07 |
+| 18.07 | Wakacje Morze Bałtyckie | 19-22.07 |
+| 18.07 | NOCLEGI NAD MORZEM \| Tanie Domki... | 19-22.07 |
+| 18.07 | Wakacje nad morzem | 19-22.07 |
+| 19.07 | Nasze Morze Bałtyckie | 19-22.07 |
+| 19.07 | Najlepsze Noclegi nad Morzem - 2026 | 19-22.07 |
+| 19.07 | Noclegi Kaszuby | 19-23.07 |
+| 19.07 | NOCLEGI NAD MORZEM - last minute | 19-23.07 + od 6.08 |
+| 19.07 | Noclegi - Władysławowo, Karwia, Dębki, Jastrzębia Góra | 19-23.07 + od 6.08 |
+| 19.07 | Wakacje nad Bałtykiem / oferty / last minute | 19-23.07 + od 6.08 |
+| 19.07 | Noclegi nad Morzem > Wolne pokoje... | 19-23.07 + od 6.08 |
+| 19.07 | URLOP NAD MORZEM - NOCLEGI - HOTELE... | 19-23.07 + od 6.08 |
+| 19.07 | Twoje wakacje nad morzem | 19-23.07 + od 6.08 |
+| 20.07 | Workation - Polska / Cyfrowi Nomadzi | od 23.07 |
+| 20.07 | Noclegi nad Morzem Bałtyckim | od 23.07 |
+| 20.07 | BAŁTYK NA URLOP | od 23.07 |
+
+### Profil Instagram/Facebook
+
+| Data | Post | Zdjęcie |
+|------|------|---------|
+| 15.07 | POST 1 - Powitalny | Karuzela |
+| 15.07 | POST 3 - Łoś | 09-22-48(1) |
+| 19.07 | POST 2 - Zachód słońca | 09-22-46(1) |
+
+### OLX
+
+| Data | Tytuł | Termin |
+|------|-------|--------|
+| 19.07 | Apartament Jastrzebia Gora 19-22.07 | 19-22.07 |
