@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekty | bladyzamosc</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            color: #fff;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .project {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .project:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .project-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 1rem;
+        }
+        .project.lokalnik .project-icon {
+            background: linear-gradient(135deg, rgba(13,148,136,0.15), rgba(20,184,166,0.15));
+        }
+        .project.workacje .project-icon {
+            background: linear-gradient(135deg, rgba(26,115,232,0.15), rgba(0,172,193,0.15));
+        }
+        .project h2 {
+            font-size: 1.25rem;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+        .project p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .project.lokalnik .project-link { color: #0d9488; }
+        .project.workacje .project-link { color: #1a73e8; }
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        .footer a { color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Projekty</h1>
+        <p class="subtitle">Mockupy i dokumentacja</p>
+
+        <div class="projects">
+            <a href="lokalnik/mockups/index.html" class="project lokalnik">
+                <div class="project-icon">🏠</div>
+                <h2>Lokalnik.pl</h2>
+                <p>Portal mieszkan wakacyjnych ze zniżkami w lokalnych punktach. Wyszukiwarka, panele zarządcy i partnera, system kodów QR.</p>
+                <span class="project-link">Zobacz mockupy →</span>
+            </a>
+
+            <a href="workacje/mockups/index.html" class="project workacje">
+                <div class="project-icon">🌊</div>
+                <h2>Workacje.pl</h2>
+                <p>Portal workation - apartamenty do pracy zdalnej nad morzem. Wyszukiwarka, szczegóły mieszkań, system rezerwacji.</p>
+                <span class="project-link">Zobacz mockupy →</span>
+            </a>
+        </div>
+
+        <div class="footer">
+            <a href="https://github.com/bladyzamosc/plans">github.com/bladyzamosc/plans</a>
+        </div>
+    </div>
+</body>
+</html>
