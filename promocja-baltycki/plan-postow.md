@@ -273,6 +273,9 @@ Jedno z najpiękniejszych miejsc na naszej plaży.
 | 20.07 | BAŁTYK NA URLOP | od 23.07 |
 | 21.07 | Noclegi nad morzem-wakacje-oferty... | od 6.08 |
 | 21.07 | Noclegi Kaszuby | od 6.08 |
+| 22.07 | Wakacje z psem, nad morzem... | od 6.08 |
+| 22.07 | WAKACJE Z PSEM - noclegi... | od 6.08 |
+| 22.07 | Władysławowo i okolice - ogłoszenia, noclegi | od 6.08 |
 
 ### Profil Instagram/Facebook
 
