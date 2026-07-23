@@ -276,6 +276,9 @@ Jedno z najpiękniejszych miejsc na naszej plaży.
 | 22.07 | Wakacje z psem, nad morzem... | od 6.08 |
 | 22.07 | WAKACJE Z PSEM - noclegi... | od 6.08 |
 | 22.07 | Władysławowo i okolice - ogłoszenia, noclegi | od 6.08 |
+| 22.07 | Wakacje nad Bałtykiem / oferty / last minute | od 6.08 |
+| 22.07 | NOCLEGI NAD MORZEM \| Tanie Domki Pokoje... | od 6.08 |
+| 22.07 | URLOP NAD MORZEM - NOCLEGI - HOTELE... | od 6.08 |
 
 ### Profil Instagram/Facebook
 
